@@ -1,7 +1,6 @@
-// components/Footer.jsx
-
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import {
   FaEnvelope,
@@ -12,34 +11,40 @@ import {
   FaPhoneAlt,
   FaTwitter,
 } from "react-icons/fa";
+import main_logo from "../../assets/main_logo.svg";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 text-gray-700 py-8">
+    <footer className="bg-secondary text-gray-700 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Section */}
         <div className="flex flex-col md:flex-row justify-between">
           {/* Logo and Description */}
           <div className="mb-6 md:mb-0">
-            <Link href="/" className="text-2xl font-bold text-gray-800">
-              MyLogo
+            <Link href="/" className="text-xl font-bold text-gray-800">
+              <Image width={70} height={70} src={main_logo} alt="main_logo" />
             </Link>
             <p className="mt-2 text-sm">
-              We are a company committed to providing the best services in the
-              industry.
+              Peared connects customers with trusted local service providers,{" "}
+              <br />
+              ensuring fair pricing and secure transactions. Service providers{" "}
+              <br />
+              easily find projects, and all communication stays within our{" "}
+              <br />
+              platform for safety and simplicity.
             </p>
           </div>
 
           {/* Navigation Links */}
           <div className="flex flex-col sm:flex-row">
             <div className="mr-6">
-              <h3 className="text-sm font-semibold text-gray-800 mb-2">
-                Company
+              <h3 className="font-semibold text-primary text-xl mb-2">
+                Explore
               </h3>
               <ul>
                 <li className="mb-1">
                   <Link href="/about" className="text-sm hover:text-gray-900">
-                    About Us
+                    Home
                   </Link>
                 </li>
                 <li className="mb-1">
@@ -47,35 +52,54 @@ const Footer = () => {
                     href="/services"
                     className="text-sm hover:text-gray-900"
                   >
-                    Services
+                    About Us
                   </Link>
                 </li>
                 <li className="mb-1">
                   <Link href="/contact" className="text-sm hover:text-gray-900">
-                    Contact
+                    Contact us
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div className="mr-6">
+              <h3 className="font-semibold text-primary text-xl mb-2">
+                Utility Pages
+              </h3>
+              <ul>
+                <li className="mb-1">
+                  <Link
+                    href="/privacy-policy"
+                    className="text-sm hover:text-gray-900"
+                  >
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li className="mb-1">
+                  <Link
+                    href="/terms-use"
+                    className="text-sm hover:text-gray-900"
+                  >
+                    Terms of Use
                   </Link>
                 </li>
               </ul>
             </div>
 
             <div>
-              <h3 className="text-sm font-semibold text-gray-800 mb-2">
-                Resources
+              <h3 className="font-semibold text-primary text-xl mb-2">
+                Get In Touch
               </h3>
               <ul>
                 <li className="mb-1">
-                  <Link href="/blog" className="text-sm hover:text-gray-900">
-                    Blog
-                  </Link>
-                </li>
-                <li className="mb-1">
                   <Link href="/faq" className="text-sm hover:text-gray-900">
-                    FAQ
+                    peardup@gmail.com
                   </Link>
                 </li>
                 <li className="mb-1">
                   <Link href="/support" className="text-sm hover:text-gray-900">
-                    Support
+                    (009)56567890g
                   </Link>
                 </li>
               </ul>
