@@ -34,7 +34,7 @@ const Navbar = () => {
     pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <nav className="bg-secondary shadow-md fixed w-full p-2 z-20">
+    <nav className="bg-secondary shadow-md fixed w-full p-2 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           {/* Logo Section */}
