@@ -7,11 +7,11 @@ function ServiceSearchBar() {
   const [postcode, setPostcode] = useState(""); // Track the postcode input
   const [isFocused, setIsFocused] = useState(false); // Track if the search bar is focused
   const [suggestions] = useState([
-    "residential cleaning",
-    "commercial cleaning",
-    "painting",
-    "landscaping",
-    "carpentry",
+    "Residential Cleaning",
+    "Commercial Cleaning",
+    "Painting",
+    "Landscaping",
+    "Carpentry",
   ]);
 
   // Handle search logic
