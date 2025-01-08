@@ -20,6 +20,9 @@ module.exports = {
         secondary: {
           DEFAULT: "#EFF5EA",
         },
+        hash: {
+          DEFAULT: "#93BB72",
+        },
       },
     },
   },

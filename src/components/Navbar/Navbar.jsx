@@ -70,7 +70,7 @@ const Navbar = () => {
             {/* Action Buttons */}
             <div className="flex items-center space-x-4 ml-6">
               <Link href="/join-contractor" className=" text-black underline ">
-                Join as Contactor
+                Join as Contractor
               </Link>
               <Link
                 href="/login"
