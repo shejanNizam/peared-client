@@ -31,14 +31,14 @@ export default function WhatPeared() {
               backgroundImage: `url(${right_img.src})`,
             }}
           >
-            <Image className="" src={right_img1} alt="right_img" />
+            <Image className="lg:ml-4" src={right_img1} alt="right_img" />
             <Image
-              className="absolute top-52 -right-12 lg:top-52 lg:right-16 z-10"
+              className="absolute top-52 -right-12 lg:top-52 lg:right-8 z-10"
               src={right_img2}
               alt="right_img"
             />
             <Image
-              className="absolute top-12 -right-8 lg:top-16 lg:right-24 z-20"
+              className="absolute top-12 -right-8 lg:top-16 lg:right-16 z-20"
               src={right_img3}
               alt="right_img"
             />

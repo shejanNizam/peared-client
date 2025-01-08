@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import CustomButton from "../utils/CustomButton";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -69,7 +70,10 @@ const Navbar = () => {
 
             {/* Action Buttons */}
             <div className="flex items-center space-x-4 ml-6">
-              <Link href="/join-contractor" className=" text-black underline ">
+              <Link
+                href="/join-contractor"
+                className=" text-black underline hover:text-primary transition duration-200"
+              >
                 Join as Contractor
               </Link>
               <Link
@@ -78,11 +82,8 @@ const Navbar = () => {
               >
                 Login
               </Link>
-              <Link
-                href="/signup"
-                className="px-4 py-2 bg-primary text-white rounded-md text-sm font-medium hover:border hover:border-primary hover:text-primary hover:bg-white transition duration-200"
-              >
-                Signup
+              <Link href="/signup">
+                <CustomButton>Signup</CustomButton>
               </Link>
             </div>
           </div>
