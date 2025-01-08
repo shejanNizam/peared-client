@@ -10,8 +10,8 @@ export default function Banner() {
           backgroundImage: `url(${BANNER_BG_IMAGE.src})`,
         }}
       >
-        <div className="flex justify-start lg:items-center h-full p-4 lg:pl-72">
-          <div className="w-full lg:w-[800px] border border-primary/30 bg-secondary/50 rounded-lg p-6 lg:p-8">
+        <div className="flex justify-start lg:items-center h-full p-4 lg:pl-64">
+          <div className="w-full lg:w-[800px] border border-primary/30 bg-secondary/50 rounded-lg p-4 lg:p-6">
             <h1 className="text-2xl lg:text-4xl font-semibold text-primary mb-4 text-center ">
               Search for pros in your area
             </h1>
