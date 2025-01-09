@@ -136,14 +136,14 @@ const Feedback = () => {
           </div>
 
           {/* Right Side */}
-          <div className="rounded rounded-t-2xl rounded-r-2xl border border-t-primary">
+          <div className="rounded rounded-t-2xl rounded-r-2xl bg-white shadow-lg  border border-t-primary border-t-8 border-r-primary border-r-8">
             {Feedback.map((testimonial, index) => (
               <div
                 className={index === current ? "opacity-100" : "opacity-0"}
                 key={testimonial._id}
               >
                 {index === current && (
-                  <div className="p-6 rounded-lg shadow-lg relative">
+                  <div className="p-6 rounded-lg  relative">
                     {/* Logo */}
                     <Image
                       className="absolute top-4 right-4 w-16 h-16 object-contain"
