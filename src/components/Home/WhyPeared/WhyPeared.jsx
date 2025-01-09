@@ -114,19 +114,19 @@ export default function WhyPeared() {
 
   return (
     <section className="py-12">
-      <div className="container mx-auto shadow-sm p-20">
+      <div className="container mx-auto shadow-sm py-20">
         <div className=" text-center my-12">
           <CustomHeading>Why Choose Us</CustomHeading>
         </div>
 
         {/* Tablist */}
-        <div className="grid grid-cols-1 md:grid-cols-2 justify-around items-center px-32">
+        <div className="grid grid-cols-1 md:grid-cols-2 justify-around items-center gap-8 md:gap-0 md:px-32">
           {/* Left Sidebar */}
           <div className="">
             <div className="flex flex-col items-start">
               {/* Tabs */}
               <ul
-                className="space-y-2 mt-4 md:mt-0"
+                className="space-y-8 mt-4 md:mt-0"
                 role="tablist"
                 aria-orientation="vertical"
               >
@@ -144,15 +144,17 @@ export default function WhyPeared() {
                       onClick={() => handleOptionClick(index)}
                       onKeyDown={(e) => handleKeyDown(e, index)}
                       ref={(el) => (tabsRef.current[index] = el)}
-                      className={`flex items-center p-4 rounded-md cursor-pointer ${
+                      className={`flex justify-start items-center rounded-md cursor-pointer hover:text-primary ${
                         isActive
-                          ? "text-blue-500"
-                          : "text-gray-700 hover:text-blue-500"
+                          ? "text-primary bg-primary-light"
+                          : "text-gray-700"
                       } transition-colors duration-200`}
                     >
                       <Icon
                         className={`w-6 h-6 mx-2 flex-shrink-0 ${
-                          isActive ? "text-blue-500" : "text-black"
+                          isActive
+                            ? "text-primary bg-primary-light"
+                            : "text-gray-700"
                         }`}
                         aria-hidden="true"
                       />
