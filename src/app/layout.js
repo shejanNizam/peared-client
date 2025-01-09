@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={` ${poppins.className} antialiased bg-white `}>
         <Navbar />
-        <div className="min-h-screen py-20">{children}</div>
+        <div className=" py-20">{children}</div>
         <Footer />
       </body>
     </html>
