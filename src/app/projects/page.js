@@ -112,7 +112,7 @@ const modalVariants = {
   exit: { scale: 0.8, opacity: 0 },
 };
 
-export default function Project() {
+export default function Projects() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [isImageLoaded, setIsImageLoaded] = useState(false);

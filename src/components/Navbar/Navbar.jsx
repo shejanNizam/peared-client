@@ -9,7 +9,9 @@ import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import CustomButton from "../utils/CustomButton";
 
-const Navbar = () => {
+export default function Navbar() {
+  const user = true;
+
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
@@ -26,7 +28,7 @@ const Navbar = () => {
   // Navigation links data
   const navigation = [
     { name: "Home", href: "/" },
-    { name: "Project", href: "/project" },
+    { name: "Projects", href: "/projects" },
     { name: "Contact", href: "/contact" },
   ];
 
@@ -52,7 +54,7 @@ const Navbar = () => {
           {/* Desktop Menu */}
           <div className="hidden md:flex md:items-center space-x-4">
             {/* Navigation Links */}
-            <div className="flex space-x-4">
+            <div className={`flex space-x-4 ${user ? " text-center " : <></>}`}>
               {navigation.map((item) => (
                 <Link
                   key={item.name}
@@ -69,23 +71,33 @@ const Navbar = () => {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex items-center space-x-4 ml-6">
-              <Link
-                href="/join-contractor"
-                className=" text-black underline hover:text-primary transition duration-200"
-              >
-                Join as Contractor
-              </Link>
-              <Link
-                href="/login"
-                className="px-4 py-2 bg-white text-primary border border-primary rounded-md text-sm font-medium hover:text-white hover:bg-primary transition duration-200"
-              >
-                Login
-              </Link>
-              <Link href="/signup">
-                <CustomButton>Signup</CustomButton>
-              </Link>
-            </div>
+            {user ? (
+              <>
+                <Link href={`/profile/my-profile`}>
+                  <h3>user</h3>{" "}
+                </Link>
+              </>
+            ) : (
+              <>
+                <div className="flex items-center space-x-4 ml-6">
+                  <Link
+                    href="/join-contractor"
+                    className=" text-black underline hover:text-primary transition duration-200"
+                  >
+                    Join as Contractor
+                  </Link>
+                  <Link
+                    href="/login"
+                    className="px-4 py-2 bg-white text-primary border border-primary rounded-md text-sm font-medium hover:text-white hover:bg-primary transition duration-200"
+                  >
+                    Login
+                  </Link>
+                  <Link href="/signup">
+                    <CustomButton>Signup</CustomButton>
+                  </Link>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -93,7 +105,7 @@ const Navbar = () => {
             <button
               onClick={toggleMenu}
               type="button"
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 transition duration-200"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary transition duration-200"
               aria-controls="mobile-menu"
               aria-expanded={isOpen}
               aria-label="Toggle navigation menu"
@@ -122,10 +134,10 @@ const Navbar = () => {
             <Link
               key={item.name}
               href={item.href}
-              className={`block px-3 py-2 rounded-md text-base font-medium ${
+              className={`block px-4 py-2 rounded-md text-base font-medium ${
                 isActive(item.href)
-                  ? "text-indigo-600"
-                  : "text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                  ? "text-primary underline"
+                  : "text-gray-700 hover:text-gray-900 hover:bg-secondary"
               }`}
               onClick={closeMenu}
             >
@@ -137,31 +149,44 @@ const Navbar = () => {
           <hr className="my-2 border-gray-200" />
 
           {/* Action Links */}
-          <Link
-            href="/join-contractor"
-            className="block px-3 py-2 text-black underline "
-            onClick={closeMenu}
-          >
-            Join as Contractor
-          </Link>
-          <Link
-            href="/login"
-            className="block px-4 py-2 bg-indigo-600 text-white rounded-md text-base font-medium hover:bg-indigo-700 transition duration-200"
-            onClick={closeMenu}
-          >
-            Login
-          </Link>
-          <Link
-            href="/signup"
-            className="block px-4 py-2 bg-indigo-600 text-white rounded-md text-base font-medium hover:bg-indigo-700 transition duration-200"
-            onClick={closeMenu}
-          >
-            Signup
-          </Link>
+          {user ? (
+            <>
+              <div className="px-4 py-2 space-y-1 sm:px-4">
+                <Link href={`/profile/my-profile`}>
+                  <h3>user</h3>{" "}
+                </Link>
+              </div>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/join-contractor"
+                // className="block px-3 py-2 text-black underline "
+                className="block text-black underline hover:text-primary transition duration-200"
+                onClick={closeMenu}
+              >
+                Join as Contractor
+              </Link>
+              <Link
+                href="/login"
+                // className="block px-4 py-2 bg-indigo-600 text-white rounded-md text-base font-medium hover:bg-indigo-700 transition duration-200"
+                className="block px-4 py-2 bg-white text-primary border border-primary rounded-md text-sm font-medium hover:text-white hover:bg-primary transition duration-200"
+                onClick={closeMenu}
+              >
+                Login
+              </Link>
+              <Link
+                href="/signup"
+                // className="block px-4 py-2 bg-indigo-600 text-white rounded-md text-base font-medium hover:bg-indigo-700 transition duration-200"
+                className=" block px-4 py-2 bg-primary text-white rounded-md text-sm font-medium hover:border hover:border-primary hover:text-primary hover:bg-white"
+                onClick={closeMenu}
+              >
+                Signup
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>
   );
-};
-
-export default Navbar;
+}
