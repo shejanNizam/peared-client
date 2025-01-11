@@ -14,12 +14,7 @@ import {
   FaWallet,
 } from "react-icons/fa";
 
-export default function Sidebar({
-  isOpen,
-  toggleSidebarOpen,
-  isCollapsed,
-  toggleSidebarCollapsed,
-}) {
+export default function Sidebar({ isCollapsed, toggleSidebarCollapsed }) {
   const pathname = usePathname();
   const firstLinkRef = useRef(null);
 
@@ -34,24 +29,22 @@ export default function Sidebar({
     { name: "Notifications", icon: <FaBell />, path: "/profile/notifications" },
   ];
 
-  // Focus on the first link when sidebar opens on mobile
+  // Focus on the first link when sidebar is expanded
   useEffect(() => {
-    if (isOpen && firstLinkRef.current) {
+    if (!isCollapsed && firstLinkRef.current) {
       firstLinkRef.current.focus();
     }
-  }, [isOpen]);
+  }, [isCollapsed]);
 
   return (
     <>
       {/* Sidebar Container */}
       <div
         className={`
-           min-h-screen fixed inset-y-0 left-0 z-50 md:z-20 transform 
-          ${isOpen ? "translate-x-0" : "-translate-x-full"}
-          md:translate-x-0 md:static md:inset-auto
+          min-h-screen fixed top-20 inset-y-0 left-0 z-20 transform translate-x-0
           transition-transform duration-200 ease-in-out 
           bg-gray-800 text-white 
-          ${isCollapsed ? "w-16 md:w-16 " : "w-64 md:w-64"}           
+          ${isCollapsed ? "w-16" : "w-64"}
         `}
       >
         {/* Sidebar Content */}
@@ -59,18 +52,7 @@ export default function Sidebar({
           {/* Header */}
           <div className="flex justify-between items-center p-4">
             {/* Logo */}
-            <Link href="/">
-              <span
-                className={`text-2xl font-bold flex items-center relative group cursor-pointer ${
-                  isCollapsed ? "justify-center" : ""
-                }`}
-                aria-label=""
-                onClick={isOpen ? toggleSidebarOpen : undefined} // Close sidebar on mobile logo click
-                title={isCollapsed ? "MyApp" : undefined} // Show tooltip when collapsed
-              >
-                {/* Replace with your logo if needed */}
-              </span>
-            </Link>
+            <div></div>
 
             {/* Toggle Button */}
             <button
@@ -92,26 +74,31 @@ export default function Sidebar({
               <Link
                 href={item.path}
                 key={item.name}
-                onClick={isOpen ? toggleSidebarOpen : undefined} // Close sidebar on link click (mobile)
+                onClick={() => {}} // No action needed on link click
                 className={`
-                    flex items-center px-4 py-3 mt-2 
-                    ${
-                      pathname === item.path
-                        ? "bg-gray-700 text-primary font-semibold border-l-4 border-primary"
-                        : "hover:bg-gray-700 transition-colors duration-200"
-                    }
-                    ${
-                      isCollapsed
-                        ? "justify-center relative group cursor-pointer"
-                        : ""
-                    }
-                  `}
-                ref={index === 0 ? firstLinkRef : null} // Focus on the first link
+                  flex items-center px-4 py-3 mt-2 
+                  ${
+                    pathname === item.path
+                      ? "bg-gray-700 text-primary font-semibold border-l-4 border-primary"
+                      : "hover:bg-gray-700 transition-colors duration-200"
+                  }
+                  ${
+                    isCollapsed
+                      ? "justify-center relative group cursor-pointer"
+                      : ""
+                  }
+                `}
+                ref={index === 0 ? firstLinkRef : null} // Focus on the first link when expanded
                 aria-current={pathname === item.path ? "page" : undefined}
                 title={isCollapsed ? item.name : undefined} // Show tooltip when collapsed
               >
                 <span className="text-lg">{item.icon}</span>
                 {!isCollapsed && <span className="mx-3">{item.name}</span>}
+                {isCollapsed && (
+                  <span className="absolute left-full ml-2 w-max bg-gray-700 text-white text-sm rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    {item.name}
+                  </span>
+                )}
               </Link>
             ))}
           </nav>
