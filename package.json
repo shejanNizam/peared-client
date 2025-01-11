@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "antd": "^5.23.0",
+    "focus-trap-react": "^11.0.2",
     "framer-motion": "^11.16.2",
     "next": "14.2.22",
     "react": "^18",
     "react-dom": "^18",
-    "react-icons": "^5.4.0"
+    "react-icons": "^5.4.0",
+    "react-tooltip": "^5.28.0"
   },
   "devDependencies": {
     "eslint": "^8",

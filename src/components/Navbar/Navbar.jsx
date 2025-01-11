@@ -1,3 +1,5 @@
+// components/Navbar.jsx
+
 "use client";
 
 import Image from "next/image";
@@ -54,7 +56,7 @@ export default function Navbar() {
           {/* Desktop Menu */}
           <div className="hidden md:flex md:items-center space-x-4">
             {/* Navigation Links */}
-            <div className={`flex space-x-4 ${user ? " text-center " : <></>}`}>
+            <div className={`flex space-x-4 ${user ? " text-center " : ""}`}>
               {navigation.map((item) => (
                 <Link
                   key={item.name}
@@ -122,69 +124,107 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Menu */}
+      {/* Slide-in Sidebar for Mobile */}
       <div
-        className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${
-          isOpen ? "max-h-screen" : "max-h-0"
+        className={`fixed inset-0 z-40 md:hidden transition-transform duration-300 ease-in-out ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
-        id="mobile-menu"
+        aria-hidden={!isOpen}
       >
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          {/* Navigation Links */}
-          {navigation.map((item) => (
+        {/* Overlay */}
+        <div
+          className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${
+            isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
+          onClick={closeMenu}
+          aria-hidden="true"
+        ></div>
+
+        {/* Sidebar */}
+        <div
+          className={`absolute left-0 top-0 bottom-0 w-64 bg-secondary shadow-lg transform ${
+            isOpen ? "translate-x-0" : "-translate-x-full"
+          } transition-transform duration-300 ease-in-out`}
+        >
+          {/* Logo and Close Button */}
+          <div className="flex items-center justify-between p-4 border-b border-gray-700">
             <Link
-              key={item.name}
-              href={item.href}
-              className={`block px-4 py-2 rounded-md text-base font-medium ${
-                isActive(item.href)
-                  ? "text-primary underline"
-                  : "text-gray-700 hover:text-gray-900 hover:bg-secondary"
-              }`}
+              href="/"
+              className="text-xl font-bold text-gray-800"
               onClick={closeMenu}
             >
-              {item.name}
+              <Image width={70} height={70} src={main_logo} alt="main_logo" />
             </Link>
-          ))}
+            <button
+              onClick={closeMenu}
+              className="text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+              aria-label="Close menu"
+            >
+              <FaTimes size={24} />
+            </button>
+          </div>
 
-          {/* Divider */}
-          <hr className="my-2 border-gray-200" />
+          {/* Navigation Links */}
+          <nav className="mt-4">
+            {navigation.map((item) => (
+              <Link
+                href={item.href}
+                key={item.name}
+                onClick={closeMenu}
+                className={`flex items-center px-6 py-3 mt-2 ${
+                  isActive(item.href)
+                    ? "text-primary underline font-semibold"
+                    : "text-gray-700 hover:text-gray-900"
+                }`}
+              >
+                {item.name}
+              </Link>
+            ))}
 
-          {/* Action Links */}
-          {user ? (
-            <>
-              <div className="px-4 py-2 space-y-1 sm:px-4">
-                <Link href={`/profile/my-profile`}>
-                  <h3>user</h3>{" "}
+            {/* Divider */}
+            <hr className="my-4 border-gray-300" />
+
+            {/* Action Links */}
+            {user ? (
+              <>
+                <Link
+                  href={`/profile/my-profile`}
+                  onClick={closeMenu}
+                  className={`flex items-center px-6 py-3 mt-2 ${
+                    pathname === "/profile/my-profile"
+                      ? "text-primary underline font-semibold"
+                      : "text-gray-700 hover:text-gray-900"
+                  }`}
+                >
+                  user
                 </Link>
-              </div>
-            </>
-          ) : (
-            <>
-              <Link
-                href="/join-contractor"
-                // className="block px-3 py-2 text-black underline "
-                className="block text-black underline hover:text-primary transition duration-200"
-                onClick={closeMenu}
-              >
-                Join as Contractor
-              </Link>
-              <Link
-                href="/login"
-                // className="block px-4 py-2 bg-indigo-600 text-white rounded-md text-base font-medium hover:bg-indigo-700 transition duration-200"
-                className="block px-4 py-2 bg-white text-primary border border-primary rounded-md text-sm font-medium hover:text-white hover:bg-primary transition duration-200"
-                onClick={closeMenu}
-              >
-                Login
-              </Link>
-              <Link
-                href="/signup"
-                // className="block px-4 py-2 bg-indigo-600 text-white rounded-md text-base font-medium hover:bg-indigo-700 transition duration-200"
-                className=" block px-4 py-2 bg-primary text-white rounded-md text-sm font-medium hover:border hover:border-primary hover:text-primary hover:bg-white"
-                onClick={closeMenu}
-              >
-                Signup
-              </Link>
-            </>
-          )}
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/join-contractor"
+                  onClick={closeMenu}
+                  className="block px-6 py-3 mt-2 text-black underline hover:text-primary transition duration-200"
+                >
+                  Join as Contractor
+                </Link>
+                <Link
+                  href="/login"
+                  onClick={closeMenu}
+                  className="block px-6 py-3 mt-2 bg-white text-primary border border-primary rounded-md text-sm font-medium hover:text-white hover:bg-primary transition duration-200"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/signup"
+                  onClick={closeMenu}
+                  className="block px-6 py-3 mt-2 bg-primary text-white rounded-md text-sm font-medium hover:bg-white hover:text-primary border border-primary transition duration-200"
+                >
+                  Signup
+                </Link>
+              </>
+            )}
+          </nav>
         </div>
       </div>
     </nav>
