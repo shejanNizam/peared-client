@@ -144,7 +144,7 @@ const VerifyEmail = () => {
 
           {/* Didn't Receive Code & Resend Button */}
           <div className="flex justify-between items-center">
-            <span className="text-gray-600">Didn't receive the code?</span>
+            <span className="text-gray-600">Didnt receive the code?</span>
             <Button
               type="link"
               onClick={handleResend}

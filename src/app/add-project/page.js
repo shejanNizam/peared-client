@@ -3,6 +3,7 @@
 "use client"; // Enables client-side rendering for hooks and interactivity
 
 import { Button, Form, Input, Select, Upload, message } from "antd";
+import Image from "next/image";
 import { useRouter } from "next/navigation"; // For Next.js App Router
 import { useState } from "react";
 import { FaArrowLeft, FaUpload } from "react-icons/fa"; // Importing back and upload icons
@@ -217,7 +218,7 @@ const AddProject = () => {
                   <Button icon={<FaUpload />}>Click to Upload</Button>
                 </Upload>
                 {imageUrl && (
-                  <img
+                  <Image
                     src={imageUrl}
                     alt="Project Image"
                     className="mt-4 h-40 w-full object-cover rounded"

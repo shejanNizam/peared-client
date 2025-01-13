@@ -60,7 +60,7 @@ const ForgotPassword = () => {
         <div className="flex flex-col items-center mb-6">
           <h2 className="text-2xl font-semibold mt-4">Forgot Password</h2>
           <p className="text-center text-gray-600 mt-2">
-            Enter your email address below and we'll send you an OTP to reset
+            Enter your email address below and well send you an OTP to reset
             your password.
           </p>
         </div>
