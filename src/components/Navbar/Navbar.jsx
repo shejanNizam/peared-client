@@ -9,10 +9,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { IoIosArrowDown } from "react-icons/io";
+import profile_image from "../../assets/home/feedback/image4.png";
 import CustomButton from "../utils/CustomButton";
 
 export default function Navbar() {
-  const user = false;
+  const user = true;
 
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
@@ -76,8 +78,24 @@ export default function Navbar() {
             {/* Action Buttons */}
             {user ? (
               <>
-                <Link href={`/profile/my-profile`}>
-                  <h3>user</h3>{" "}
+                <Link
+                  className="flex justify-center items-center gap-2"
+                  href={`/profile/my-profile`}
+                >
+                  <Image
+                    width={1000}
+                    height={1000}
+                    className="w-16 h-16 rounded-full border-4 border-primary"
+                    src={profile_image}
+                    alt="profile_image"
+                  />
+                  <div>
+                    <div className=" flex justify-start items-center gap-2 ">
+                      <h3 className="font-bold">Linder</h3>
+                      <IoIosArrowDown />
+                    </div>
+                    <p className="text-sm">User/Contractor</p>
+                  </div>
                 </Link>
               </>
             ) : (
@@ -191,13 +209,26 @@ export default function Navbar() {
                 <Link
                   href={`/profile/my-profile`}
                   onClick={closeMenu}
-                  className={`flex items-center px-6 py-3 mt-2 ${
+                  className={`flex justify-start items-center gap-2 px-4 py-2 ${
                     pathname === "/profile/my-profile"
                       ? "text-primary underline font-semibold"
                       : "text-gray-700 hover:text-gray-900"
                   }`}
                 >
-                  user
+                  <Image
+                    width={1000}
+                    height={1000}
+                    className="w-16 h-16 rounded-full border-4 border-primary"
+                    src={profile_image}
+                    alt="profile_image"
+                  />
+                  <div>
+                    <div className=" flex justify-start items-center gap-2 ">
+                      <h3 className="font-bold">Linder</h3>
+                      <IoIosArrowDown />
+                    </div>
+                    <p className="text-sm">User/Contractor</p>
+                  </div>
                 </Link>
               </>
             ) : (
