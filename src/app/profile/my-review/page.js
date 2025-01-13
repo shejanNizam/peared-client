@@ -76,7 +76,7 @@ export default function MyReview() {
     );
   };
 
-  throw new Error("Required");
+  //   throw new Error("Required");
 
   return (
     <div style={{ padding: "2rem", maxWidth: "800px", margin: "auto" }}>
