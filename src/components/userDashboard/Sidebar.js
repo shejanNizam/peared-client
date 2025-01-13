@@ -25,8 +25,11 @@ export default function Sidebar({ isCollapsed, toggleSidebarCollapsed }) {
       icon: <FaProjectDiagram />,
       path: "/profile/my-projects",
     },
+    // { name: "Current Projects",icon: <FaProjectDiagram />,path: "/profile/current-projects"}, // for contractor role
+    // { name: "My Bids", icon: <FaUser />, path: "/profile/my-bids" }, // for contractor role
     { name: "Wallet", icon: <FaWallet />, path: "/profile/wallet" },
     { name: "Notifications", icon: <FaBell />, path: "/profile/notifications" },
+    // { name: "My Review", icon: <FaBell />, path: "/profile/my-review" }, // for contractor role
   ];
 
   // Focus on the first link when sidebar is expanded

@@ -15,7 +15,7 @@ import main_logo from "../../assets/main_logo.svg";
 
 const Footer = () => {
   return (
-    <footer className="bg-secondary z-40 text-gray-700 py-8">
+    <footer className="bg-secondary z-40 text-gray-700 py-8 pl-16 md:pl-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Section */}
         <div className="flex flex-col md:flex-row justify-between">

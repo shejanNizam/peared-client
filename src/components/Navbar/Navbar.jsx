@@ -14,7 +14,8 @@ import profile_image from "../../assets/home/feedback/image4.png";
 import CustomButton from "../utils/CustomButton";
 
 export default function Navbar() {
-  const user = true;
+  // const user = true;
+  const user = false;
 
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
@@ -49,7 +50,7 @@ export default function Navbar() {
           <div className="flex-shrink-0 flex items-center">
             <Link
               href="/"
-              className="text-xl font-bold text-gray-800"
+              className="text-xl font-bold text-gray-800 pl-16 md:pl-0"
               onClick={closeMenu}
             >
               <Image width={70} height={70} src={main_logo} alt="main_logo" />
