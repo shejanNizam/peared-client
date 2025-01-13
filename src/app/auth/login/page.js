@@ -108,7 +108,7 @@ const Login = () => {
 
           {/* Navigation Link to Signup Page */}
           <p className="text-center">
-            Dont have an account?{" "}
+            {"Don't have an account?"}
             <Link href="/auth/signup" className="text-blue-500 underline">
               Create Account
             </Link>
