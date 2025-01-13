@@ -12,7 +12,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import CustomButton from "../utils/CustomButton";
 
 export default function Navbar() {
-  const user = true;
+  const user = false;
 
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
@@ -89,12 +89,12 @@ export default function Navbar() {
                     Join as Contractor
                   </Link>
                   <Link
-                    href="/login"
+                    href="/auth/login"
                     className="px-4 py-2 bg-white text-primary border border-primary rounded-md text-sm font-medium hover:text-white hover:bg-primary transition duration-200"
                   >
                     Login
                   </Link>
-                  <Link href="/signup">
+                  <Link href="/auth/signup">
                     <CustomButton>Signup</CustomButton>
                   </Link>
                 </div>
@@ -209,14 +209,14 @@ export default function Navbar() {
                   Join as Contractor
                 </Link>
                 <Link
-                  href="/login"
+                  href="/auth/login"
                   onClick={closeMenu}
                   className="block px-6 py-3 mt-2 bg-white text-primary border border-primary rounded-md text-sm font-medium hover:text-white hover:bg-primary transition duration-200"
                 >
                   Login
                 </Link>
                 <Link
-                  href="/signup"
+                  href="/auth/signup"
                   onClick={closeMenu}
                   className="block px-6 py-3 mt-2 bg-primary text-white rounded-md text-sm font-medium hover:bg-white hover:text-primary border border-primary transition duration-200"
                 >

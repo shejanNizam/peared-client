@@ -28,7 +28,7 @@ const Login = () => {
       // Mock response for demonstration
       await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate network delay
       message.success("Login successful! Redirecting...");
-      router.push("/dashboard"); // Navigate to dashboard or desired page after successful login
+      router.push("/"); // Navigate to dashboard or desired page after successful login
     } catch (error) {
       console.error("Login error:", error);
       message.error(
