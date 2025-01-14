@@ -14,8 +14,8 @@ import profile_image from "../../assets/home/feedback/image4.png";
 import CustomButton from "../utils/CustomButton";
 
 export default function Navbar() {
-  // const user = true;
-  const user = false;
+  const user = true;
+  // const user = false;
 
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
@@ -28,6 +28,10 @@ export default function Navbar() {
   // Close mobile menu
   const closeMenu = () => {
     setIsOpen(false);
+  };
+
+  const handleLogout = () => {
+    console.log("Logout");
   };
 
   // Navigation links data

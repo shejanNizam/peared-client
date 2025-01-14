@@ -44,7 +44,7 @@ const AddProject = () => {
       message.success("Project added successfully!");
       form.resetFields(); // Reset form fields after successful submission
       setImageUrl(null); // Reset image
-      router.push("/projects"); // Navigate to dashboard or desired page
+      router.push("/profile/my-projects"); // Navigate to dashboard or desired page
     } catch (error) {
       console.error("Add Project error:", error);
       message.error("Failed to add project. Please try again.");

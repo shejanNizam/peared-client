@@ -43,13 +43,13 @@ const Footer = () => {
               </h3>
               <ul>
                 <li className="mb-1">
-                  <Link href="/about" className="text-sm hover:text-gray-900">
+                  <Link href="/" className="text-sm hover:text-gray-900">
                     Home
                   </Link>
                 </li>
                 <li className="mb-1">
                   <Link
-                    href="/services"
+                    href="/about-us"
                     className="text-sm hover:text-gray-900"
                   >
                     About Us
@@ -78,7 +78,7 @@ const Footer = () => {
                 </li>
                 <li className="mb-1">
                   <Link
-                    href="/terms-use"
+                    href="/terms-of-use"
                     className="text-sm hover:text-gray-900"
                   >
                     Terms of Use
