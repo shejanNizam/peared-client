@@ -34,17 +34,47 @@ const myProject = [
     price: "$80-$100",
     urgency: "Standard (3 - 5 days)",
   },
+  {
+    _id: "3",
+    image: image, // Imported static image
+    title: "Luxury Villa",
+    postCode: "67890",
+    time: "1 month",
+    description:
+      "A stunning luxury villa with spacious rooms and a large garden.",
+    category: "Plumber",
+    street: "Elm Street",
+    city: "Manchester",
+    price: "$80-$100",
+    urgency: "Standard (3 - 5 days)",
+  },
+  {
+    _id: "4",
+    image: image2, // Imported static image
+    title: "Luxury Villa",
+    postCode: "67890",
+    time: "1 month",
+    description:
+      "A stunning luxury villa with spacious rooms and a large garden.",
+    category: "Plumber",
+    street: "Elm Street",
+    city: "Manchester",
+    price: "$80-$100",
+    urgency: "Standard (3 - 5 days)",
+  },
 ];
 
 export default function MyProjects() {
   const router = useRouter();
 
   const handleOpenProject = (project) => {
-    router.push({
-      pathname: "/bid-lists",
-      query: { projectId: project._id },
-    });
+    router.push(`/profile/my-projects/bid-lists?projectid=${project._id}`);
   };
+
+  // {
+  //   pathname: "/profile/my-projects/bid-lists",
+  //   query: { projectId: project._id },
+  // }
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">

@@ -2,11 +2,11 @@
 
 "use client"; // Ensures client-side rendering for hooks
 
-import Image from "next/image";
-import { useState, useRef, useEffect } from "react";
-import { FaTimes } from "react-icons/fa"; // Importing the FaTimes icon
-import { Form, Input, Button, Upload, Checkbox, Modal, message } from "antd"; // Import Ant Design components
 import { UploadOutlined } from "@ant-design/icons"; // Import Ant Design icons
+import { Button, Checkbox, Form, Input, Modal, Upload, message } from "antd"; // Import Ant Design components
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import { FaTimes } from "react-icons/fa"; // Importing the FaTimes icon
 import image from "../../../assets/home/feedback/image1.png";
 
 export default function MyProfile() {
@@ -462,18 +462,6 @@ export default function MyProfile() {
           onFinish={handleChangePassword}
           className="flex flex-col gap-4"
         >
-          {/* Email Field */}
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[
-              { required: true, message: "Please enter your email" },
-              { type: "email", message: "Please enter a valid email address" },
-            ]}
-          >
-            <Input placeholder="Enter your email" size="middle" />
-          </Form.Item>
-
           {/* Old Password Field */}
           <Form.Item
             label="Old Password"

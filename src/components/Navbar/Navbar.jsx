@@ -31,7 +31,7 @@ const ProfileMenu = ({ router, handleLogout }) => (
       </Link>
     </Menu.Item>
     <Menu.Item key="2">
-      <Link className="font-bold text-primary" href="/profile/change-password">
+      <Link className="font-bold text-primary" href="/change-password">
         Change Password
       </Link>
     </Menu.Item>
@@ -146,7 +146,7 @@ export default function Navbar() {
                     trigger={["click"]}
                     placement="bottomRight"
                   >
-                    <div className="flex justify-center items-center gap-2 cursor-pointer">
+                    <div className=" flex justify-start items-center gap-2 cursor-pointer">
                       <Image
                         width={1000}
                         height={1000}
@@ -154,13 +154,13 @@ export default function Navbar() {
                         src={profile_image}
                         alt="profile_image"
                       />
-                      <div className="">
+                      {/* <div className="">
                         <div className="flex justify-start items-center gap-2">
                           <h3 className="font-bold">Linder</h3>
                           <IoIosArrowDown />
                         </div>
                         <p className="text-sm">User/Contractor</p>
-                      </div>
+                      </div> */}
                     </div>
                   </Dropdown>
                 </>
