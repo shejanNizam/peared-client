@@ -90,18 +90,17 @@ const AddProject = () => {
 
   return (
     <>
-      <div className="min-h-screen w-full flex flex-col justify-center items-center bg-gray-100 p-4 relative">
-        {/* Back Button */}
-        <button
-          onClick={handleBack}
-          className="absolute top-4 right-4 text-gray-600 hover:text-gray-800 focus:outline-none z-50"
-          aria-label="Go Back"
-        >
-          <FaArrowLeft size={24} />
-        </button>
-
+      <div className="min-h-screen w-full flex flex-col justify-center items-center bg-gray-100 p-4 ">
         {/* Add Project Container */}
-        <div className="bg-white shadow-lg rounded-lg w-full max-w-4xl p-8">
+        <div className="bg-white shadow-lg rounded-lg w-full max-w-4xl p-8 relative">
+          {/* Back Button */}
+          <button
+            onClick={handleBack}
+            className="absolute top-4 left-4 text-gray-600 hover:text-gray-800 focus:outline-none z-50"
+            aria-label="Go Back"
+          >
+            <FaArrowLeft size={24} />
+          </button>
           {/* Heading and Description */}
           <div className="mb-8">
             <h2 className="text-3xl font-semibold text-center">
