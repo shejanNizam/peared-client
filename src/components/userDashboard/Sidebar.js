@@ -153,7 +153,6 @@ export default function Sidebar({ isCollapsed, toggleSidebarCollapsed }) {
                 ))}
               </>
             )}
-            <p>xyz</p>
           </nav>
         </div>
       </div>

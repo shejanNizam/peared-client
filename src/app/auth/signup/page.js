@@ -256,7 +256,7 @@ const Signup = () => {
               htmlType="submit"
               size="large"
               loading={isSubmitting}
-              className="w-full bg-green-500 hover:bg-green-600 transition-colors"
+              className="w-full transition-colors"
             >
               Sign Up
             </Button>

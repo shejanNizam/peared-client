@@ -3,6 +3,8 @@
 "use client"; // Necessary for client-side hooks like useState
 
 import Sidebar from "@/components/userDashboard/Sidebar";
+import ThemeProvider from "@/lib/ThemeProvider";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { useState } from "react";
 
 export default function ProfileLayout({ children }) {
@@ -28,7 +30,11 @@ export default function ProfileLayout({ children }) {
         }`}
       >
         {/* Content */}
-        <main className="p-10">{children}</main>
+        <main className="p-10">
+          <AntdRegistry>
+            <ThemeProvider>{children}</ThemeProvider>
+          </AntdRegistry>
+        </main>
       </div>
     </div>
   );
