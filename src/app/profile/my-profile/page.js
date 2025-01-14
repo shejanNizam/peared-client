@@ -212,7 +212,7 @@ export default function MyProfile() {
       <h3 className="text-2xl font-semibold">My Profile</h3>
 
       {/* Bordered Container */}
-      <div className="flex flex-col md:flex-row justify-start items-start gap-8 shadow-2xl border border-secondary rounded w-full max-w-4xl h-auto relative p-6">
+      <div className="flex flex-col md:flex-row justify-start items-start gap-8 shadow-2xl border border-secondary rounded w-full max-w-4xl h-auto relative p-12">
         {/* Edit Button Positioned Absolutely */}
         <button
           ref={editButtonRef}
