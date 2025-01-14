@@ -19,7 +19,7 @@ function ServiceSearchBar() {
 
   // Handle search logic
   const handleSearch = () => {
-    router.push(`/auth/signup`);
+    router.push(`/add-project`);
 
     // Clear the form inputs after search
     setSearchTerm("");

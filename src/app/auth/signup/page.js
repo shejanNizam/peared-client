@@ -202,14 +202,10 @@ const Signup = () => {
               label="Expiry Date"
               name="expiryDate"
               rules={[
-                { required: true, message: "Please enter the expiry date" },
-                {
-                  pattern: /^(0[1-9]|1[0-2])\/?([0-9]{2})$/,
-                  message: "Expiry date must be in MM/YY format",
-                },
+                { required: true, message: "Please select the expiry date" },
               ]}
             >
-              <Input placeholder="MM/YY" size="large" />
+              <Input type="month" />
             </Form.Item>
 
             {/* CCV */}
