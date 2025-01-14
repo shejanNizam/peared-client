@@ -1,8 +1,11 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 function ServiceSearchBar() {
+  const router = useRouter();
+
   const [searchTerm, setSearchTerm] = useState(""); // Track the service input
   const [postcode, setPostcode] = useState(""); // Track the postcode input
   const [isFocused, setIsFocused] = useState(false); // Track if the search bar is focused
@@ -16,7 +19,7 @@ function ServiceSearchBar() {
 
   // Handle search logic
   const handleSearch = () => {
-    alert(`Searching for "${searchTerm}" in postcode "${postcode}"`);
+    router.push(`/auth/signup`);
 
     // Clear the form inputs after search
     setSearchTerm("");
