@@ -64,13 +64,11 @@ const myProject = [
   },
 ];
 
-export default function MyBids() {
+export default function CurrentProjects() {
   const router = useRouter();
 
   const handleOpenProject = (project) => {
-    router.push(
-      `/profile/current-projects/current-project-details?projectid=${project._id}`
-    );
+    router.push(`/profile/project-details?projectid=${project._id}`);
   };
 
   // {
@@ -79,41 +77,42 @@ export default function MyBids() {
   // }
 
   return (
-    <>
-      <h3 className=" text-4xl mb-8 text-primary font-bold text-center  ">
-        {" "}
-        My Bid{" "}
-      </h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {myProject.map((project) => (
-          <div
-            key={project._id}
-            className="bg-secondary p-4 rounded-lg overflow-hidden shadow-md flex flex-col hover:shadow-xl transition-shadow duration-300"
-          >
-            <div className="relative w-full h-48 mb-4 rounded-t-lg overflow-hidden">
-              <Image
-                src={project.image} // Use imported image directly
-                alt={project.title}
-                fill // For dynamic image dimensions
-                className="rounded-t-lg object-cover"
-              />
-            </div>
-            <div className="p-6 flex flex-col flex-grow">
-              <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-              <p className="text-gray-500 mb-1">
-                <span className="font-medium">Post Code:</span>{" "}
-                {project.postCode}
-              </p>
-              <p className="text-gray-500 mb-4">
-                <span className="font-medium">Time:</span> {project.time}
-              </p>
-              <p className="text-gray-700 mb-6 flex-grow">
-                {project.description}
-              </p>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {myProject.map((project) => (
+        <div
+          key={project._id}
+          className="bg-secondary p-4 rounded-lg overflow-hidden shadow-md flex flex-col hover:shadow-xl transition-shadow duration-300"
+        >
+          <div className="relative w-full h-48 mb-4 rounded-t-lg overflow-hidden">
+            <Image
+              src={project.image} // Use imported image directly
+              alt={project.title}
+              fill // For dynamic image dimensions
+              className="rounded-t-lg object-cover"
+            />
+          </div>
+          <div className="p-6 flex flex-col flex-grow">
+            <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
+            <p className="text-gray-500 mb-1">
+              <span className="font-medium">Post Code:</span> {project.postCode}
+            </p>
+            <p className="text-gray-500 mb-4">
+              <span className="font-medium">Time:</span> {project.time}
+            </p>
+            <p className="text-gray-700 mb-6 flex-grow">
+              {project.description}
+            </p>
+            <div className="flex justify-center">
+              <button
+                onClick={() => handleOpenProject(project)}
+                className="bg-primary/80 text-white px-4 py-2 rounded hover:bg-primary transition-colors duration-300"
+              >
+                Open
+              </button>
             </div>
           </div>
-        ))}
-      </div>
-    </>
+        </div>
+      ))}
+    </div>
   );
 }

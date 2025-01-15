@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 export default function Payment() {
   const router = useRouter();
 
-  //   const handlePayment = () => {
-  //     router.push(`https://stripe.com/`);
-  //   };
+  const handlePayment = () => {
+    router.push(`/profile/project-details`);
+  };
 
   return (
     <div className=" flex flex-col justify-center items-center">
@@ -38,7 +38,7 @@ export default function Payment() {
         </div>
         {/* Pay Now Button */}
         <button
-          //   onClick={handlePayment}
+          onClick={handlePayment}
           formTarget=""
           className="bg-primary text-white w-full py-2 rounded-lg font-semibold hover:bg-primary/90 transition"
         >
