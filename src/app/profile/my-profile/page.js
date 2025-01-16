@@ -21,14 +21,11 @@ export default function MyProfile() {
   });
 
   // State to control Edit Profile modal visibility
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   // State to control Change Password modal visibility
   const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
     useState(false);
-
-  // State to manage closing animation
-  const [isClosing, setIsClosing] = useState(false);
 
   // Ref for the Edit button to return focus after closing modal
   const editButtonRef = useRef(null);
@@ -37,7 +34,8 @@ export default function MyProfile() {
   const changePasswordButtonRef = useRef(null);
 
   // Ref for the Ant Design Form instance
-  const [form] = Form.useForm();
+  const [editForm] = Form.useForm();
+  const [passwordForm] = Form.useForm();
 
   // State to manage form inputs within the Edit Profile modal
   const [formData, setFormData] = useState({ ...userData });
@@ -94,21 +92,17 @@ export default function MyProfile() {
   };
 
   // Handle form submission in the Edit Profile modal
-  const handleFormSubmit = (values) => {
+  const handleEditFormSubmit = (values) => {
     // Update user data with form values, including the new image
     setUserData({ ...values, image: formData.image });
     // Update the profile image state to reflect changes in the main view
     setProfileImage(formData.image);
-    // Initiate closing animation
-    setIsClosing(true);
     // Show success message
     message.success("Profile updated successfully!");
-    // Close the modal after animation
-    setTimeout(() => {
-      setIsModalOpen(false);
-      setIsClosing(false);
-      // Optionally, reset the form fields if needed
-    }, 300); // Duration should match the Tailwind transition duration
+    // Close the modal
+    setIsEditModalOpen(false);
+    // Optionally, reset the form fields if needed
+    editForm.resetFields();
   };
 
   // Handle form submission in the Change Password modal
@@ -125,25 +119,16 @@ export default function MyProfile() {
     message.success("Password changed successfully!");
 
     // Close the Change Password modal
-    closeChangePasswordModal();
+    setIsChangePasswordModalOpen(false);
 
     // Optionally, reset the form fields
-    // form.resetFields();
+    passwordForm.resetFields();
   };
 
   // Handle opening the Edit Profile modal and initializing form data
-  const openModal = () => {
+  const openEditModal = () => {
     setFormData({ ...userData }); // Reset form data to current user data
-    setIsModalOpen(true);
-  };
-
-  // Handle closing the Edit Profile modal without saving
-  const closeModal = () => {
-    setIsClosing(true);
-    setTimeout(() => {
-      setIsModalOpen(false);
-      setIsClosing(false);
-    }, 300); // Duration should match the Tailwind transition duration
+    setIsEditModalOpen(true);
   };
 
   // Handle opening the Change Password modal
@@ -151,14 +136,9 @@ export default function MyProfile() {
     setIsChangePasswordModalOpen(true);
   };
 
-  // Handle closing the Change Password modal
-  const closeChangePasswordModal = () => {
-    setIsChangePasswordModalOpen(false);
-  };
-
   // Focus management: Focus first input when modal opens and return focus when it closes
   useEffect(() => {
-    if (isModalOpen) {
+    if (isEditModalOpen) {
       // Delay to ensure the modal is rendered
       setTimeout(() => {
         const nameInput = document.querySelector('input[name="name"]');
@@ -171,7 +151,7 @@ export default function MyProfile() {
         editButtonRef.current.focus();
       }
     }
-  }, [isModalOpen]);
+  }, [isEditModalOpen]);
 
   useEffect(() => {
     if (isChangePasswordModalOpen) {
@@ -193,11 +173,11 @@ export default function MyProfile() {
   useEffect(() => {
     const handleEsc = (event) => {
       if (event.key === "Escape") {
-        if (isModalOpen) {
-          closeModal();
+        if (isEditModalOpen) {
+          setIsEditModalOpen(false);
         }
         if (isChangePasswordModalOpen) {
-          closeChangePasswordModal();
+          setIsChangePasswordModalOpen(false);
         }
       }
     };
@@ -205,7 +185,7 @@ export default function MyProfile() {
     return () => {
       window.removeEventListener("keydown", handleEsc);
     };
-  }, [isModalOpen, isChangePasswordModalOpen]);
+  }, [isEditModalOpen, isChangePasswordModalOpen]);
 
   return (
     <div className="flex flex-col justify-center items-center gap-6 p-4">
@@ -216,7 +196,7 @@ export default function MyProfile() {
         {/* Edit Button Positioned Absolutely */}
         <button
           ref={editButtonRef}
-          onClick={openModal}
+          onClick={openEditModal}
           className="absolute top-4 right-4 bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark transition focus:outline-none focus:ring-2 focus:ring-primary text-sm md:text-base"
         >
           Edit
@@ -312,159 +292,140 @@ export default function MyProfile() {
         Change Password
       </button>
 
-      {/* Success Message */}
-      {/* Optional: If you prefer using Ant Design's message component, this can be omitted */}
-      {/* {isSuccess && (
-        <div className="fixed top-4 right-4 sm:top-6 sm:right-6 bg-green-500 text-white px-4 py-2 rounded shadow-lg text-sm md:text-base">
-          Profile updated successfully!
-        </div>
-      )} */}
-
-      {/* Edit Profile Modal */}
-      {isModalOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300"
-          onClick={closeModal} // Close modal when clicking on the overlay
+      {/* Edit Profile Modal using Ant Design's Modal */}
+      <Modal
+        title="Edit Profile"
+        visible={isEditModalOpen}
+        onCancel={() => setIsEditModalOpen(false)}
+        footer={null} // We'll handle the footer with the form's submit button
+        centered
+        destroyOnClose
+        maskClosable
+        closeIcon={<FaTimes size={20} />}
+        width={600} // Adjust width as needed for responsiveness
+        className="custom-edit-modal" // Optional: For additional styling
+      >
+        {/* Ant Design Form */}
+        <Form
+          layout="vertical"
+          initialValues={userData}
+          onFinish={handleEditFormSubmit}
+          className="flex flex-col gap-4"
+          form={editForm}
         >
-          {/* Modal Content */}
-          <div
-            className={`bg-white rounded-lg shadow-lg w-11/12 sm:w-10/12 md:w-8/12 lg:w-6/12 p-6 relative transform transition-transform duration-300 ${
-              isClosing ? "opacity-0 scale-95" : "opacity-100 scale-100"
-            }`}
-            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
+          {/* Image Upload Field */}
+          <Form.Item label="Profile Photo">
+            <Upload
+              name="profile"
+              listType="picture"
+              showUploadList={false}
+              beforeUpload={() => false} // Prevent automatic upload
+              onChange={handleImageChange}
+              maxCount={1} // Limit to single image upload
+            >
+              <Button icon={<UploadOutlined />}>Click to Upload</Button>
+            </Upload>
+          </Form.Item>
+
+          {/* Display Image Preview */}
+          {formData.image && (
+            <div className="flex justify-center">
+              <Image
+                src={formData.image}
+                alt="Profile Preview"
+                width={100}
+                height={100}
+                className="object-cover rounded-full"
+              />
+            </div>
+          )}
+
+          {/* Name Field */}
+          <Form.Item
+            label="Name"
+            name="name"
+            rules={[
+              { required: true, message: "Please enter your name" },
+              { min: 2, message: "Name must be at least 2 characters" },
+            ]}
           >
-            {/* Close Button with React Icon */}
-            <button
-              onClick={closeModal}
-              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary rounded"
-              aria-label="Close Modal"
+            <Input placeholder="Enter your name" size="middle" />
+          </Form.Item>
+
+          {/* Street Address Field */}
+          <Form.Item
+            label="Street Address"
+            name="streetAddress"
+            rules={[
+              {
+                required: true,
+                message: "Please enter your street address",
+              },
+            ]}
+          >
+            <Input placeholder="Enter your street address" size="middle" />
+          </Form.Item>
+
+          {/* City Field */}
+          <Form.Item
+            label="City"
+            name="city"
+            rules={[{ required: true, message: "Please enter your city" }]}
+          >
+            <Input placeholder="Enter your city" size="middle" />
+          </Form.Item>
+
+          {/* Postal Code Field */}
+          <Form.Item
+            label="Postal Code"
+            name="postalCode"
+            rules={[
+              { required: true, message: "Please enter your postal code" },
+              {
+                pattern: /^\d{5}(-\d{4})?$/,
+                message: "Please enter a valid postal code",
+              },
+            ]}
+          >
+            <Input placeholder="Enter your postal code" size="middle" />
+          </Form.Item>
+
+          {/* Save Changes Button */}
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="w-full bg-primary hover:bg-secondary-dark transition text-sm md:text-base"
             >
-              <FaTimes size={20} />
-            </button>
-
-            <h2 className="text-xl font-semibold mb-4">Edit Profile</h2>
-
-            {/* Ant Design Form */}
-            <Form
-              layout="vertical"
-              initialValues={userData}
-              onFinish={handleFormSubmit}
-              className="flex flex-col gap-4"
-              form={form}
-            >
-              {/* Image Upload Field */}
-              <Form.Item label="Profile Photo">
-                <Upload
-                  name="profile"
-                  listType="picture"
-                  showUploadList={false}
-                  beforeUpload={() => false} // Prevent automatic upload
-                  onChange={handleImageChange}
-                  maxCount={1} // Limit to single image upload
-                >
-                  <Button icon={<UploadOutlined />}>Click to Upload</Button>
-                </Upload>
-              </Form.Item>
-
-              {/* Display Image Preview */}
-              {formData.image && (
-                <div className="flex justify-center">
-                  <Image
-                    src={formData.image}
-                    alt="Profile Preview"
-                    width={100}
-                    height={100}
-                    className="object-cover rounded-full"
-                  />
-                </div>
-              )}
-
-              {/* Name Field */}
-              <Form.Item
-                label="Name"
-                name="name"
-                rules={[
-                  { required: true, message: "Please enter your name" },
-                  { min: 2, message: "Name must be at least 2 characters" },
-                ]}
-              >
-                <Input placeholder="Enter your name" size="middle" />
-              </Form.Item>
-
-              {/* Street Address Field */}
-              <Form.Item
-                label="Street Address"
-                name="streetAddress"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please enter your street address",
-                  },
-                ]}
-              >
-                <Input placeholder="Enter your street address" size="middle" />
-              </Form.Item>
-
-              {/* City Field */}
-              <Form.Item
-                label="City"
-                name="city"
-                rules={[{ required: true, message: "Please enter your city" }]}
-              >
-                <Input placeholder="Enter your city" size="middle" />
-              </Form.Item>
-
-              {/* Postal Code Field */}
-              <Form.Item
-                label="Postal Code"
-                name="postalCode"
-                rules={[
-                  { required: true, message: "Please enter your postal code" },
-                  {
-                    pattern: /^\d{5}(-\d{4})?$/,
-                    message: "Please enter a valid postal code",
-                  },
-                ]}
-              >
-                <Input placeholder="Enter your postal code" size="middle" />
-              </Form.Item>
-
-              {/* Save Changes Button */}
-              <Form.Item>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  className="w-full bg-primary hover:bg-secondary-dark transition text-sm md:text-base"
-                >
-                  Save Changes
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-        </div>
-      )}
+              Save Changes
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
 
       {/* Change Password Modal */}
       <Modal
         title="Change Password"
         visible={isChangePasswordModalOpen}
-        onCancel={closeChangePasswordModal}
+        onCancel={() => setIsChangePasswordModalOpen(false)}
         footer={null} // We'll handle the footer with the form's submit button
         centered
         destroyOnClose
         maskClosable
         closeIcon={<FaTimes size={20} />}
         className="custom-modal" // Optional: For additional styling
+        width={600} // Adjust width as needed for responsiveness
       >
         {/* Ant Design Form */}
         <Form
           layout="vertical"
           onFinish={handleChangePassword}
           className="flex flex-col gap-4"
+          form={passwordForm}
         >
           {/* Old Password Field */}
           <Form.Item
-            label="Old Password"
+            label={<span className="text-black"> Old Password </span>}
             name="oldPassword"
             rules={[
               { required: true, message: "Please enter your old password" },
@@ -478,7 +439,7 @@ export default function MyProfile() {
 
           {/* New Password Field */}
           <Form.Item
-            label="New Password"
+            label={<span className="text-black"> New Password </span>}
             name="newPassword"
             rules={[
               { required: true, message: "Please enter your new password" },

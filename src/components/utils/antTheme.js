@@ -55,7 +55,7 @@ export const mainTheme = {
       colorBorder: "#5E9A2D",
       borderRadius: 8,
       height: 56,
-      colorTextPlaceholder: "#5E9A2D",
+      colorTextPlaceholder: "#ffffff",
       // Add other InputPassword tokens as needed
     },
     InputNumber: {

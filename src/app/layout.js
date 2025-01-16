@@ -3,6 +3,9 @@ import Navbar from "@/components/Navbar/Navbar";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 
+import ThemeProvider from "@/lib/ThemeProvider";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
+
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
@@ -19,7 +22,13 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={` ${poppins.className} antialiased bg-white `}>
         <Navbar />
-        <div className=" py-20">{children}</div>
+
+        <AntdRegistry>
+          <ThemeProvider>
+            <div className=" py-20">{children}</div>
+          </ThemeProvider>
+        </AntdRegistry>
+
         <Footer />
       </body>
     </html>

@@ -87,7 +87,7 @@ const Login = () => {
             </Form.Item>
             <Link
               href="/auth/forgot-password"
-              className="text-blue-500 underline"
+              className="text-primary underline"
             >
               Forgot password?
             </Link>
@@ -100,7 +100,7 @@ const Login = () => {
               htmlType="submit"
               size="large"
               loading={isSubmitting}
-              className="w-full bg-green-500 hover:bg-green-600 transition-colors"
+              className="w-full hover:bg-primary transition-colors"
             >
               Login
             </Button>
@@ -109,7 +109,7 @@ const Login = () => {
           {/* Navigation Link to Signup Page */}
           <p className="text-center">
             {"Don't have an account?"}
-            <Link href="/auth/signup" className="text-blue-500 underline">
+            <Link href="/auth/signup" className="text-primary underline">
               Create Account
             </Link>
           </p>
