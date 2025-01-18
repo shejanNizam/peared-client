@@ -25,11 +25,11 @@ export const mainTheme = {
     },
     Button: {
       colorPrimary: "#5E9A2D",
-      colorPrimaryHover: "#6ea330",
+      colorPrimaryHover: "#5c8a37",
       colorPrimaryActive: "#5E9A2D",
-      borderRadius: 8,
-      fontSize: "18px",
-      height: 56,
+      borderRadius: 4,
+      fontSize: "1rem",
+      height: 60,
       boxShadow: "0 0px 0 rgba(5, 145, 255, 0.1)",
       // Add other Button tokens as needed
     },
@@ -39,9 +39,9 @@ export const mainTheme = {
     },
     Input: {
       colorBorder: "#5E9A2D",
-      colorTextPlaceholder: "#5E9A2D",
-      borderRadius: 8,
-      height: 56,
+      colorTextPlaceholder: "#666666",
+      borderRadius: 4,
+      height: 60,
       // Add other Input tokens as needed
     },
     DatePicker: {
@@ -53,20 +53,20 @@ export const mainTheme = {
     },
     InputPassword: {
       colorBorder: "#5E9A2D",
-      borderRadius: 8,
-      height: 56,
-      colorTextPlaceholder: "#ffffff",
+      borderRadius: 4,
+      height: 60,
+      colorTextPlaceholder: "#666666",
       // Add other InputPassword tokens as needed
     },
     InputNumber: {
-      colorBorder: "#5E9A2D",
+      colorBorder: "#666666",
       // Add other InputNumber tokens as needed
     },
     Select: {
       colorBorder: "#5E9A2D",
       borderRadius: 8,
       height: 56,
-      colorTextPlaceholder: "#5E9A2D",
+      colorTextPlaceholder: "#666666",
       // Add other Select tokens as needed
     },
     Modal: {

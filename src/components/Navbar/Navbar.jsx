@@ -1,5 +1,3 @@
-// components/Navbar.jsx
-
 "use client";
 
 import Image from "next/image";
@@ -19,10 +17,8 @@ import withReactContent from "sweetalert2-react-content";
 
 const { Title, Text } = Typography;
 
-// Initialize SweetAlert2 with React content
 const MySwal = withReactContent(Swal);
 
-// Define the menu items for the profile dropdown
 const ProfileMenu = ({ router, handleLogout }) => (
   <Menu>
     <Menu.Item key="1">
@@ -30,11 +26,6 @@ const ProfileMenu = ({ router, handleLogout }) => (
         My Profile
       </Link>
     </Menu.Item>
-    {/* <Menu.Item key="2">
-      <Link className="font-bold text-primary" href="/change-password">
-        Change Password
-      </Link>
-    </Menu.Item> */}
     <Menu.Item key="3">
       <div
         className="font-bold text-primary"
@@ -48,8 +39,8 @@ const ProfileMenu = ({ router, handleLogout }) => (
 );
 
 export default function Navbar() {
-  const user = true;
-  // const user = false;
+  // const user = true;
+  const user = false;
 
   const [isOpen, setIsOpen] = useState(false);
 

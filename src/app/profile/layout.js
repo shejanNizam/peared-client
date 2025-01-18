@@ -1,16 +1,11 @@
-// app/profile/layout.jsx
-
-"use client"; // Necessary for client-side hooks like useState
+"use client";
 
 import Sidebar from "@/components/userDashboard/Sidebar";
-// import ThemeProvider from "@/lib/ThemeProvider";
-// import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { useState } from "react";
 
 export default function ProfileLayout({ children }) {
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false); // Initially expanded
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
-  // Toggle sidebar collapse (applies to both desktop and mobile)
   const toggleSidebarCollapsed = () => {
     setIsSidebarCollapsed(!isSidebarCollapsed);
   };
@@ -30,12 +25,7 @@ export default function ProfileLayout({ children }) {
         }`}
       >
         {/* Content */}
-        <main className="p-10">
-          {children}
-          {/* <AntdRegistry>
-            <ThemeProvider></ThemeProvider>
-          </AntdRegistry> */}
-        </main>
+        <main className="p-10">{children}</main>
       </div>
     </div>
   );

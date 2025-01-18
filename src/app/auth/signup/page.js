@@ -1,16 +1,14 @@
-// app/signup/page.jsx
-
-"use client"; // Enables client-side rendering for hooks and interactivity
+"use client";
 
 import { Button, Checkbox, Form, Input, message } from "antd";
-import Link from "next/link"; // Next.js Link component
-import { useRouter } from "next/navigation"; // For Next.js App Router
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const Signup = () => {
-  const router = useRouter(); // Initialize Next.js router
-  const [form] = Form.useForm(); // Initialize Ant Design form instance
-  const [isSubmitting, setIsSubmitting] = useState(false); // Loading state for form submission
+  const router = useRouter();
+  const [form] = Form.useForm();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onFinish = async (values) => {
     setIsSubmitting(true);
@@ -25,12 +23,10 @@ const Signup = () => {
       //   body: JSON.stringify(values),
       // });
 
-      // Mock response for demonstration
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate network delay
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       message.success("Signup successful! Redirecting to login...");
-      router.push("/auth/login"); // Navigate to login page after successful signup
+      router.push("/auth/login");
     } catch (error) {
-      console.error("Signup error:", error);
       message.error("Signup failed. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -38,12 +34,12 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col justify-center items-center bg-gray-100 p-4">
-      {/* Signup Container */}
-      <div className="bg-white shadow-lg rounded-lg w-full max-w-2xl p-6">
-        {/* Logo and Static Heading */}
-        <div className="flex flex-col items-center mb-6">
-          <h2 className="text-2xl font-semibold mt-4">Sign Up</h2>
+    <div className="min-h-screen w-full flex flex-col justify-center items-center bg-secondary">
+      <div className="bg-white shadow-2xl rounded-2xl rounded-tl-[8rem] md:rounded-tl-[10rem] rounded-br-[8rem] md:rounded-br-[10rem] w-full max-w-xl p-8 md:p-16">
+        <div className="flex flex-col items-center">
+          <h2 className="text-2xl md:text-4xl font-semibold mb-8 border-b-2 border-b-secondary">
+            Create Your Account
+          </h2>
         </div>
 
         {/* Signup Form */}
@@ -51,13 +47,13 @@ const Signup = () => {
           form={form}
           layout="vertical"
           onFinish={onFinish}
-          className="space-y-4"
+          className="space-y-2"
         >
           {/* User Information Fields */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1">
             {/* Name */}
             <Form.Item
-              label="Name"
+              label={<span className="text-black font-semibold"> Name </span>}
               name="name"
               rules={[
                 { required: true, message: "Please enter your name" },
@@ -69,24 +65,24 @@ const Signup = () => {
 
             {/* Email */}
             <Form.Item
-              label="Email"
+              label={<span className="text-black font-semibold"> Email </span>}
               name="email"
               rules={[
                 {
                   type: "email",
                   message: "Please enter a valid email address",
                 },
-                { required: true, message: "Email is required" },
+                { required: true, message: "Please enter your valid email" },
               ]}
             >
               <Input placeholder="Enter your email" size="large" />
             </Form.Item>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Password */}
             <Form.Item
-              label="Password"
+              label={
+                <span className="text-black font-semibold"> Password </span>
+              }
               name="password"
               rules={[
                 { required: true, message: "Please enter your password" },
@@ -99,7 +95,12 @@ const Signup = () => {
 
             {/* Confirm Password */}
             <Form.Item
-              label="Confirm Password"
+              label={
+                <span className="text-black font-semibold">
+                  {" "}
+                  Confirm Password{" "}
+                </span>
+              }
               name="confirmPassword"
               dependencies={["password"]}
               hasFeedback
@@ -122,9 +123,12 @@ const Signup = () => {
             </Form.Item>
           </div>
 
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+          </div> */}
+
           {/* Address Fields */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Street Address */}
+          {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Form.Item
               label="Street Address"
               name="streetAddress"
@@ -135,7 +139,6 @@ const Signup = () => {
               <Input placeholder="Enter your street address" size="large" />
             </Form.Item>
 
-            {/* City */}
             <Form.Item
               label="City"
               name="city"
@@ -144,7 +147,6 @@ const Signup = () => {
               <Input placeholder="Enter your city" size="large" />
             </Form.Item>
 
-            {/* Postal Code */}
             <Form.Item
               label="Postal Code"
               name="postalCode"
@@ -158,14 +160,13 @@ const Signup = () => {
             >
               <Input placeholder="Enter your postal code" size="large" />
             </Form.Item>
-          </div>
+          </div> */}
 
           {/* Add Card Heading */}
-          <h2 className="text-xl font-semibold mt-6 mb-4">Add Card</h2>
+          {/* <h2 className="text-xl font-semibold mt-6 mb-4">Add Card</h2> */}
 
           {/* Payment Information Fields */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Card Name */}
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Form.Item
               label="Card Name"
               name="cardName"
@@ -180,7 +181,6 @@ const Signup = () => {
               <Input placeholder="Enter cardholder's name" size="large" />
             </Form.Item>
 
-            {/* Card Number */}
             <Form.Item
               label="Card Number"
               name="cardNumber"
@@ -194,10 +194,9 @@ const Signup = () => {
             >
               <Input placeholder="Enter your card number" size="large" />
             </Form.Item>
-          </div>
+          </div> */}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Expiry Date */}
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Form.Item
               label="Expiry Date"
               name="expiryDate"
@@ -207,8 +206,6 @@ const Signup = () => {
             >
               <Input type="month" />
             </Form.Item>
-
-            {/* CCV */}
             <Form.Item
               label="CCV"
               name="ccv"
@@ -222,7 +219,7 @@ const Signup = () => {
             >
               <Input placeholder="Enter CCV" size="large" />
             </Form.Item>
-          </div>
+          </div> */}
 
           {/* I Agree Checkbox */}
           <Form.Item
@@ -237,11 +234,15 @@ const Signup = () => {
               },
             ]}
           >
-            <Checkbox className="text-green-500">
-              I agree to the{" "}
-              <a href="#" className="text-blue-500 underline">
-                terms and conditions
-              </a>
+            <Checkbox>
+              I have read & agreed to Peared{" "}
+              <Link href="/terms-of-use">
+                <span className="text-primary">Terms of Use</span>
+              </Link>{" "}
+              and{" "}
+              <Link href="/privacy-policy">
+                <span className="text-primary">Privacy Policy</span>
+              </Link>
             </Checkbox>
           </Form.Item>
 
@@ -254,14 +255,13 @@ const Signup = () => {
               loading={isSubmitting}
               className="w-full transition-colors"
             >
-              Sign Up
+              Create Account
             </Button>
           </Form.Item>
 
-          {/* Navigation Link to Login Page */}
           <p className="text-center">
             Already have an account?{" "}
-            <Link href="/auth/login" className="text-blue-500 underline">
+            <Link href="/auth/login" className="text-primary">
               Log In
             </Link>
           </p>

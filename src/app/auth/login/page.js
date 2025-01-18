@@ -1,16 +1,14 @@
-// app/login/page.jsx
-
-"use client"; // Enables client-side rendering for hooks and interactivity
+"use client";
 
 import { Button, Checkbox, Form, Input, message } from "antd";
-import Link from "next/link"; // Next.js Link component
-import { useRouter } from "next/navigation"; // For Next.js App Router
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const Login = () => {
-  const router = useRouter(); // Initialize Next.js router
-  const [form] = Form.useForm(); // Initialize Ant Design form instance
-  const [isSubmitting, setIsSubmitting] = useState(false); // Loading state for form submission
+  const router = useRouter();
+  const [form] = Form.useForm();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onFinish = async (values) => {
     setIsSubmitting(true);
@@ -25,10 +23,9 @@ const Login = () => {
       //   body: JSON.stringify(values),
       // });
 
-      // Mock response for demonstration
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate network delay
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       message.success("Login successful! Redirecting...");
-      router.push("/profile/my-profile"); // Navigate to dashboard or desired page after successful login
+      router.push("/profile/my-profile");
     } catch (error) {
       console.error("Login error:", error);
       message.error(
@@ -40,12 +37,12 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col justify-center items-center bg-gray-100 p-4">
-      {/* Login Container */}
-      <div className="bg-white shadow-lg rounded-lg w-full max-w-md p-6">
-        {/* Logo and Static Heading */}
-        <div className="flex flex-col items-center mb-6">
-          <h2 className="text-2xl font-semibold mt-4">Login</h2>
+    <div className="min-h-screen w-full flex flex-col justify-center items-center bg-secondary">
+      <div className="bg-white shadow-2xl rounded-2xl rounded-tl-[8rem] md:rounded-tl-[10rem] rounded-br-[8rem] md:rounded-br-[10rem] w-full max-w-xl p-8 md:p-16">
+        <div className="flex flex-col items-center">
+          <h2 className="text-2xl md:text-4xl font-semibold mb-8 border-b-2 border-b-secondary">
+            Login
+          </h2>
         </div>
 
         {/* Login Form */}
@@ -53,42 +50,45 @@ const Login = () => {
           form={form}
           layout="vertical"
           onFinish={onFinish}
-          className="space-y-4"
+          className="space-y-2"
         >
-          {/* Email Field */}
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[
-              { type: "email", message: "Please enter a valid email address" },
-              { required: true, message: "Email is required" },
-            ]}
-          >
-            <Input placeholder="Enter your email" size="large" />
-          </Form.Item>
+          <div className="grid grid-cols-1">
+            {/* Email Field */}
+            <Form.Item
+              label={<span className="text-black font-semibold"> Email </span>}
+              name="email"
+              rules={[
+                {
+                  type: "email",
+                  message: "Please enter a valid email address",
+                },
+                { required: true, message: "Please enter your valid email" },
+              ]}
+            >
+              <Input placeholder="Enter your email" size="large" />
+            </Form.Item>
 
-          {/* Password Field */}
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[
-              { required: true, message: "Please enter your password" },
-              { min: 6, message: "Password must be at least 6 characters" },
-            ]}
-            hasFeedback
-          >
-            <Input.Password placeholder="Enter your password" size="large" />
-          </Form.Item>
-
+            {/* Password Field */}
+            <Form.Item
+              label={
+                <span className="text-black font-semibold"> Password </span>
+              }
+              name="password"
+              rules={[
+                { required: true, message: "Please enter your password" },
+                { min: 6, message: "Password must be at least 6 characters" },
+              ]}
+              hasFeedback
+            >
+              <Input.Password placeholder="Enter your password" size="large" />
+            </Form.Item>
+          </div>
           {/* Remember Me and Forgot Password */}
           <div className="flex justify-between items-center">
             <Form.Item name="remember" valuePropName="checked" className="mb-0">
               <Checkbox className="text-green-500">Remember me</Checkbox>
             </Form.Item>
-            <Link
-              href="/auth/forgot-password"
-              className="text-primary underline"
-            >
+            <Link href="/auth/forgot-password" className="text-primary">
               Forgot password?
             </Link>
           </div>
@@ -109,7 +109,8 @@ const Login = () => {
           {/* Navigation Link to Signup Page */}
           <p className="text-center">
             {"Don't have an account?"}
-            <Link href="/auth/signup" className="text-primary underline">
+            <Link href="/auth/signup" className="text-primary">
+              {" "}
               Create Account
             </Link>
           </p>
