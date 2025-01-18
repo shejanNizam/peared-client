@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
 
         <AntdRegistry>
           <ThemeProvider>
-            <div className="py-2 md:py-12">{children}</div>
+            <div className="py-20">{children}</div>
           </ThemeProvider>
         </AntdRegistry>
 
