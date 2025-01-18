@@ -1,13 +1,11 @@
-// app/add-project/page.jsx
-
-"use client"; // Enables client-side rendering for hooks and interactivity
+"use client";
 
 import { Button, Form, Input, Modal, Select, Upload, message } from "antd";
 import Image from "next/image";
-import { useRouter } from "next/navigation"; // For Next.js App Router
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FaArrowLeft, FaUpload } from "react-icons/fa"; // Importing back and upload icons
-import payment_img from "../../assets/payment/payment_img.png"; // Importing back and upload icons
+import { FaArrowLeft, FaUpload } from "react-icons/fa";
+import payment_img from "../../assets/payment/payment_img.png";
 
 const { Option } = Select;
 
@@ -21,10 +19,10 @@ const getBase64 = (file) =>
   });
 
 const AddProject = () => {
-  const router = useRouter(); // Initialize Next.js router
-  const [isSubmitting, setIsSubmitting] = useState(false); // Loading state for form submission
-  const [imageUrl, setImageUrl] = useState(null); // State to hold uploaded image URL
-  const [form] = Form.useForm(); // Initialize Ant Design form instance
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [imageUrl, setImageUrl] = useState(null);
+  const [form] = Form.useForm();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -90,8 +88,7 @@ const AddProject = () => {
 
   return (
     <>
-      <div className="min-h-screen w-full flex flex-col justify-center items-center bg-gray-100 p-4 ">
-        {/* Add Project Container */}
+      <div className="min-h-screen w-full flex flex-col justify-center items-center bg-secondary p-4 ">
         <div className="bg-white shadow-lg rounded-lg w-full max-w-4xl p-8 relative">
           {/* Back Button */}
           <button
@@ -126,7 +123,9 @@ const AddProject = () => {
 
                 {/* Street */}
                 <Form.Item
-                  label="Street"
+                  label={
+                    <span className="text-black font-semibold"> Street </span>
+                  }
                   name="street"
                   rules={[
                     { required: true, message: "Please enter the street." },
@@ -137,7 +136,9 @@ const AddProject = () => {
 
                 {/* City */}
                 <Form.Item
-                  label="City"
+                  label={
+                    <span className="text-black font-semibold"> City </span>
+                  }
                   name="city"
                   rules={[
                     { required: true, message: "Please enter the city." },
@@ -148,7 +149,12 @@ const AddProject = () => {
 
                 {/* Post Code */}
                 <Form.Item
-                  label="Post Code"
+                  label={
+                    <span className="text-black font-semibold">
+                      {" "}
+                      Post Code{" "}
+                    </span>
+                  }
                   name="postCode"
                   rules={[
                     { required: true, message: "Please enter the post code." },
@@ -163,7 +169,12 @@ const AddProject = () => {
 
                 {/* Location Type Dropdown */}
                 <Form.Item
-                  label="Location Type"
+                  label={
+                    <span className="text-black font-semibold">
+                      {" "}
+                      Location Type{" "}
+                    </span>
+                  }
                   name="locationType"
                   rules={[
                     {
@@ -181,7 +192,9 @@ const AddProject = () => {
 
                 {/* Time Dropdown */}
                 <Form.Item
-                  label="Time"
+                  label={
+                    <span className="text-black font-semibold"> Time </span>
+                  }
                   name="time"
                   rules={[
                     { required: true, message: "Please select the time." },
@@ -196,7 +209,12 @@ const AddProject = () => {
 
                 {/* Price Range Dropdown */}
                 <Form.Item
-                  label="Price Range"
+                  label={
+                    <span className="text-black font-semibold">
+                      {" "}
+                      Price Range{" "}
+                    </span>
+                  }
                   name="priceRange"
                   rules={[
                     {
@@ -215,7 +233,12 @@ const AddProject = () => {
 
                 {/* Image Upload */}
                 <Form.Item
-                  label="Project Image"
+                  label={
+                    <span className="text-black font-semibold">
+                      {" "}
+                      Project Image{" "}
+                    </span>
+                  }
                   name="projectImage"
                   valuePropName="fileList"
                   getValueFromEvent={(e) => {
@@ -234,7 +257,8 @@ const AddProject = () => {
                   <Upload
                     name="logo"
                     listType="picture"
-                    showUploadList={false}
+                    maxCount={1}
+                    showUploadList={true}
                     beforeUpload={() => false} // Prevent automatic upload
                     onChange={handleChange}
                   >
@@ -256,7 +280,12 @@ const AddProject = () => {
 
                 {/* Add Your Project/Work */}
                 <Form.Item
-                  label="Add Your Project/Work"
+                  label={
+                    <span className="text-black font-semibold">
+                      {" "}
+                      Add Your Project{" "}
+                    </span>
+                  }
                   name="projectWork"
                   rules={[
                     {
@@ -270,7 +299,12 @@ const AddProject = () => {
 
                 {/* Project Category Dropdown */}
                 <Form.Item
-                  label="Project Category"
+                  label={
+                    <span className="text-black font-semibold">
+                      {" "}
+                      Project Category{" "}
+                    </span>
+                  }
                   name="projectCategory"
                   rules={[
                     {
@@ -280,19 +314,26 @@ const AddProject = () => {
                   ]}
                 >
                   <Select placeholder="Select project category">
-                    <Option value="web-development">Web Development</Option>
-                    <Option value="mobile-development">
-                      Mobile Development
+                    <Option value="residential-cleaning">
+                      Residential Cleaning
                     </Option>
-                    <Option value="design">Design</Option>
-                    <Option value="marketing">Marketing</Option>
-                    <Option value="other">Other</Option>
+                    <Option value="commercial-cleaning">
+                      Commercial Cleaning
+                    </Option>
+                    <Option value="painting">Painting</Option>
+                    <Option value="landscaping">Landscaping</Option>
+                    <Option value="carpentry">Carpentry</Option>
                   </Select>
                 </Form.Item>
 
                 {/* Work Details Textarea */}
                 <Form.Item
-                  label="Work Details"
+                  label={
+                    <span className="text-black font-semibold">
+                      {" "}
+                      Work Details{" "}
+                    </span>
+                  }
                   name="workDetails"
                   rules={[
                     { required: true, message: "Please provide work details." },
@@ -304,7 +345,7 @@ const AddProject = () => {
                 >
                   <Input.TextArea
                     placeholder="Provide detailed information about the work."
-                    rows={6}
+                    rows={13}
                   />
                 </Form.Item>
               </div>

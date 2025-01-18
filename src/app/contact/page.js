@@ -7,14 +7,12 @@ import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
 export default function Contact() {
   // Handle form submission
   const onFinish = (values) => {
-    console.log("Form Data:", values);
     message.success("Message Sent!");
     // Here, you can integrate with your backend or email service
   };
 
   // Handle form submission failure
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
     message.error("Please check the form and try again.");
   };
 
@@ -64,6 +62,7 @@ export default function Contact() {
               autoComplete="off"
             >
               <Form.Item
+                label={<span className="text-black font-semibold"> Name </span>}
                 name="name"
                 rules={[{ required: true, message: "Please enter your name!" }]}
               >
@@ -71,6 +70,9 @@ export default function Contact() {
               </Form.Item>
 
               <Form.Item
+                label={
+                  <span className="text-black font-semibold"> Email </span>
+                }
                 name="email"
                 rules={[
                   { required: true, message: "Please enter your email!" },
@@ -81,16 +83,20 @@ export default function Contact() {
               </Form.Item>
 
               <Form.Item
+                label={
+                  <span className="text-black font-semibold"> Message </span>
+                }
                 name="message"
                 rules={[
                   { required: true, message: "Please enter your message!" },
                 ]}
               >
-                <Input.TextArea rows={5} placeholder="Your Message" />
+                <Input.TextArea rows={3} placeholder="Your Message" />
               </Form.Item>
 
               <Form.Item>
                 <Button
+                  type="primary"
                   htmlType="submit"
                   className="w-full bg-primary text-white hover:bg-white hover:text-primary"
                 >
