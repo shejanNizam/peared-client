@@ -159,7 +159,7 @@ export default function Navbar() {
                 <>
                   <div className="flex items-center space-x-4 ml-6">
                     <Link
-                      href="/join-contractor"
+                      href="/auth/join-contractor"
                       className="text-black underline hover:text-primary transition duration-200"
                     >
                       Join as Contractor
@@ -299,7 +299,7 @@ export default function Navbar() {
               ) : (
                 <>
                   <Link
-                    href="/join-contractor"
+                    href="/auth/join-contractor"
                     onClick={closeMenu}
                     className="block px-6 py-3 mt-2 text-black underline hover:text-primary transition duration-200"
                   >

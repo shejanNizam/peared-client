@@ -41,7 +41,7 @@ export const mainTheme = {
       colorBorder: "#5E9A2D",
       colorTextPlaceholder: "#666666",
       borderRadius: 4,
-      height: 60,
+      height: 40,
       // Add other Input tokens as needed
     },
     DatePicker: {
