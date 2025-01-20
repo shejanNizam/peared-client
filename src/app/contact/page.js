@@ -25,22 +25,22 @@ export default function Contact() {
         <div className="grid grid-col-1 md:grid-cols-2 gap-4 justify-center items-center md:py-4 md:px-40">
           {/* Left Side - Contact Information */}
 
-          <div className=" p-8">
-            <div className="flex items-start mb-6 p-3 bg-secondary border border-primary rounded ">
+          <div className="p-8">
+            <div className="flex items-start mb-6 p-2 bg-secondary border border-primary rounded ">
               <FaPhoneAlt className="text-primary text-2xl mr-4 mt-1" />
               <div>
                 <h3 className="text-xl font-medium">Call Us</h3>
                 <p className="text-gray-600">+(08) 255 201 888</p>
               </div>
             </div>
-            <div className="flex items-start mb-6 p-3 bg-secondary border border-primary rounded ">
+            <div className="flex items-start mb-6 p-2 bg-secondary border border-primary rounded ">
               <FaEnvelope className="text-primary text-2xl mr-4 mt-1" />
               <div>
                 <h3 className="text-xl font-medium">Email Now</h3>
                 <p className="text-gray-600">Hello@procleaning.com</p>
               </div>
             </div>
-            <div className="flex items-start mb-6 p-3 bg-secondary border border-primary rounded ">
+            <div className="flex items-start mb-6 p-2 bg-secondary border border-primary rounded ">
               <FaMapMarkerAlt className="text-primary text-2xl mr-4 mt-1" />
               <div>
                 <h3 className="text-xl font-medium">Address</h3>
