@@ -405,7 +405,12 @@ export default function MyProfile() {
 
       {/* Change Password Modal */}
       <Modal
-        title="Change Password"
+        title={
+          <span className="text-2xl text-primary font-bold">
+            {" "}
+            Change Password{" "}
+          </span>
+        }
         visible={isChangePasswordModalOpen}
         onCancel={() => setIsChangePasswordModalOpen(false)}
         footer={null} // We'll handle the footer with the form's submit button
@@ -425,7 +430,9 @@ export default function MyProfile() {
         >
           {/* Old Password Field */}
           <Form.Item
-            label={<span className="text-black"> Old Password </span>}
+            label={
+              <span className="text-black font-semibold"> Old Password </span>
+            }
             name="oldPassword"
             rules={[
               { required: true, message: "Please enter your old password" },
@@ -439,7 +446,9 @@ export default function MyProfile() {
 
           {/* New Password Field */}
           <Form.Item
-            label={<span className="text-black"> New Password </span>}
+            label={
+              <span className="text-black font-semibold"> New Password </span>
+            }
             name="newPassword"
             rules={[
               { required: true, message: "Please enter your new password" },
@@ -455,7 +464,12 @@ export default function MyProfile() {
 
           {/* Confirm New Password Field */}
           <Form.Item
-            label="Confirm New Password"
+            label={
+              <span className="text-black font-semibold">
+                {" "}
+                Confirm New Password{" "}
+              </span>
+            }
             name="confirmPassword"
             dependencies={["newPassword"]}
             hasFeedback

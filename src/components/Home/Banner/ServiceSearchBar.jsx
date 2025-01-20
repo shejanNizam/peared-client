@@ -1,100 +1,89 @@
 "use client";
 
+import { AutoComplete, Button, Form, Input } from "antd"; // Import Ant Design components
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { MdArrowDropDown } from "react-icons/md"; // Import React Icon for the down arrow
 
 function ServiceSearchBar() {
   const router = useRouter();
 
   const [searchTerm, setSearchTerm] = useState(""); // Track the service input
-  const [postcode, setPostcode] = useState(""); // Track the postcode input
   const [isFocused, setIsFocused] = useState(false); // Track if the search bar is focused
-  const [suggestions] = useState([
+
+  const suggestions = [
     "Residential Cleaning",
     "Commercial Cleaning",
     "Painting",
     "Landscaping",
     "Carpentry",
-  ]);
+  ];
 
   // Handle search logic
   const handleSearch = () => {
+    if (searchTerm) {
+      // Save the selected service to localStorage before navigation
+      localStorage.setItem("selectedCategory", searchTerm);
+      console.log(searchTerm);
+    }
     router.push(`/add-project`);
 
     // Clear the form inputs after search
     setSearchTerm("");
-    setPostcode("");
     setIsFocused(false); // Hide suggestions after searching
   };
 
   // Close suggestions when clicking outside the search bar
   const handleBlur = () => {
-    // Small timeout to allow clicks on suggestions before hiding
     setTimeout(() => setIsFocused(false), 200);
   };
 
   return (
     <div className="flex justify-center mt-6 sm:mt-10">
-      <div className="flex flex-wrap sm:flex-nowrap items-center shadow-sm w-full max-w-lg sm:max-w-2xl lg:max-w-3xl p-4 space-y-4 sm:space-y-0 sm:space-x-4">
-        {/* Search Input */}
-        <div className="relative w-full flex-grow">
-          <input
-            type="text"
-            placeholder="What type services are you looking for"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onFocus={() => setIsFocused(true)} // Show suggestions on focus
-            onBlur={handleBlur} // Hide suggestions on blur
-            className="w-full border border-primary  px-4 py-2 focus:outline-none"
-          />
-          {/* Dropdown Suggestions */}
-          {isFocused && (
-            <ul className="absolute top-full left-0 w-full bg-white border border-gray-300 rounded-lg shadow-md mt-1 z-10 max-h-40 overflow-y-auto">
-              {suggestions
-                .filter(
-                  (suggestion) =>
-                    searchTerm
-                      ? suggestion
-                          .toLowerCase()
-                          .includes(searchTerm.toLowerCase())
-                      : true // Show all suggestions if searchTerm is empty
-                )
-                .map((suggestion, index) => (
-                  <li
-                    key={index}
-                    onClick={() => {
-                      setSearchTerm(suggestion);
-                      setIsFocused(false); // Close suggestions after selection
-                    }}
-                    className="px-4 py-2 hover:bg-primary hover:text-white cursor-pointer"
-                  >
-                    {suggestion}
-                  </li>
-                ))}
-            </ul>
-          )}
-        </div>
-
-        {/* Postcode Input */}
-        <div className="w-full sm:w-auto">
-          <input
-            type="text"
-            placeholder="Post Code"
-            value={postcode}
-            onChange={(e) => setPostcode(e.target.value)}
-            className="w-full sm:w-auto border border-primary px-4 py-2 focus:outline-none"
-          />
-        </div>
-
-        {/* Search Button */}
-        <div className="w-full sm:w-auto">
-          <button
-            onClick={handleSearch}
-            className="w-full sm:w-auto bg-primary text-white px-6 py-2 hover:bg-white hover:text-primary hover:border hover:border-primary transition duration-300"
+      <div className="flex w-full max-w-4xl sm:max-w-5xl lg:max-w-6xl p-4 h-auto">
+        {/* Ant Design Form */}
+        <Form
+          layout="inline"
+          className="flex w-full items-center justify-center flex-wrap gap-4" // Added gap here for small devices
+          onFinish={handleSearch}
+        >
+          <Form.Item
+            name="serviceSearch"
+            initialValue={searchTerm}
+            rules={[{ required: true, message: "Please enter a service!" }]}
+            className="w-full sm:w-2/3 lg:w-3/4 xl:w-1/2"
           >
-            Search
-          </button>
-        </div>
+            <AutoComplete
+              options={suggestions.map((suggestion) => ({
+                value: suggestion,
+              }))}
+              onSelect={(value) => setSearchTerm(value)}
+              onSearch={(value) => setSearchTerm(value)}
+              style={{ width: "100%" }} // Full width for AutoComplete
+            >
+              <Input
+                placeholder="What type of services are you looking for?"
+                value={searchTerm}
+                onFocus={() => setIsFocused(true)} // Show suggestions on focus
+                onBlur={handleBlur} // Hide suggestions on blur
+                style={{ width: "100%" }} // Full width for the input
+                className="border border-primary px-4 py-2 focus:outline-none"
+                suffix={<MdArrowDropDown />} // Set down arrow icon inside the search input
+              />
+            </AutoComplete>
+          </Form.Item>
+
+          {/* Search Button */}
+          <Form.Item className="w-full sm:w-auto sm:ml-4 mt-4 sm:mt-0">
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="bg-primary text-white hover:bg-white hover:text-primary hover:border hover:border-primary transition duration-300 w-full sm:w-auto"
+            >
+              Search/Add
+            </Button>
+          </Form.Item>
+        </Form>
       </div>
     </div>
   );

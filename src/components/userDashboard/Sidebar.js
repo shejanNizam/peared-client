@@ -15,8 +15,8 @@ import {
 } from "react-icons/fa";
 
 export default function Sidebar({ isCollapsed, toggleSidebarCollapsed }) {
-  // const user = "";
-  const user = "contratcor";
+  const user = "";
+  // const user = "contratcor";
 
   const pathname = usePathname();
   const firstLinkRef = useRef(null);

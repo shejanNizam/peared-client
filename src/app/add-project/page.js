@@ -1,13 +1,14 @@
 "use client";
 
-import { Button, Form, Input, Modal, Select, Upload, message } from "antd";
+import { Button, Form, Input, message, Modal, Select, Upload } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowLeft, FaUpload } from "react-icons/fa";
 import payment_img from "../../assets/payment/payment_img.png";
 
 const { Option } = Select;
+const { TextArea } = Input;
 
 // Function to handle image upload before sending to server
 const getBase64 = (file) =>
@@ -25,6 +26,15 @@ const AddProject = () => {
   const [form] = Form.useForm();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(""); // To hold the category from search bar
+
+  useEffect(() => {
+    // Get the selected category from localStorage and set it as the default category
+    const category = localStorage.getItem("selectedCategory");
+    if (category) {
+      setSelectedCategory(category);
+    }
+  }, []);
 
   // Show Modal
   const showModal = () => {
@@ -38,6 +48,7 @@ const AddProject = () => {
 
   // Handle form submission
   const onFinish = async (values) => {
+    console.log(values);
     setIsSubmitting(true);
     try {
       // TODO: Replace with actual API call to add the project
@@ -55,7 +66,7 @@ const AddProject = () => {
       message.success("Project added successfully!");
       form.resetFields(); // Reset form fields after successful submission
       setImageUrl(null); // Reset image
-      router.push("/profile/my-projects"); // Navigate to dashboard or desired page
+      router.push("/profile/my-projects");
     } catch (error) {
       console.error("Add Project error:", error);
       message.error("Failed to add project. Please try again.");
@@ -88,7 +99,7 @@ const AddProject = () => {
 
   return (
     <>
-      <div className="min-h-screen w-full flex flex-col justify-center items-center bg-secondary p-4 ">
+      <div className="min-h-screen w-full flex flex-col justify-center items-center bg-secondary p-4">
         <div className="bg-white shadow-lg rounded-lg w-full max-w-4xl p-8 relative">
           {/* Back Button */}
           <button
@@ -124,7 +135,7 @@ const AddProject = () => {
                 {/* Street */}
                 <Form.Item
                   label={
-                    <span className="text-black font-semibold"> Street </span>
+                    <span className="text-black font-semibold">Street</span>
                   }
                   name="street"
                   rules={[
@@ -136,9 +147,7 @@ const AddProject = () => {
 
                 {/* City */}
                 <Form.Item
-                  label={
-                    <span className="text-black font-semibold"> City </span>
-                  }
+                  label={<span className="text-black font-semibold">City</span>}
                   name="city"
                   rules={[
                     { required: true, message: "Please enter the city." },
@@ -150,10 +159,7 @@ const AddProject = () => {
                 {/* Post Code */}
                 <Form.Item
                   label={
-                    <span className="text-black font-semibold">
-                      {" "}
-                      Post Code{" "}
-                    </span>
+                    <span className="text-black font-semibold">Post Code</span>
                   }
                   name="postCode"
                   rules={[
@@ -171,8 +177,7 @@ const AddProject = () => {
                 <Form.Item
                   label={
                     <span className="text-black font-semibold">
-                      {" "}
-                      Location Type{" "}
+                      Location Type
                     </span>
                   }
                   name="locationType"
@@ -192,9 +197,7 @@ const AddProject = () => {
 
                 {/* Time Dropdown */}
                 <Form.Item
-                  label={
-                    <span className="text-black font-semibold"> Time </span>
-                  }
+                  label={<span className="text-black font-semibold">Time</span>}
                   name="time"
                   rules={[
                     { required: true, message: "Please select the time." },
@@ -211,8 +214,7 @@ const AddProject = () => {
                 <Form.Item
                   label={
                     <span className="text-black font-semibold">
-                      {" "}
-                      Price Range{" "}
+                      Price Range
                     </span>
                   }
                   name="priceRange"
@@ -235,8 +237,7 @@ const AddProject = () => {
                 <Form.Item
                   label={
                     <span className="text-black font-semibold">
-                      {" "}
-                      Project Image{" "}
+                      Project Image
                     </span>
                   }
                   name="projectImage"
@@ -282,8 +283,7 @@ const AddProject = () => {
                 <Form.Item
                   label={
                     <span className="text-black font-semibold">
-                      {" "}
-                      Add Your Project{" "}
+                      Add Your Project
                     </span>
                   }
                   name="projectWork"
@@ -296,6 +296,22 @@ const AddProject = () => {
                 >
                   <Input placeholder="Describe your project or work" />
                 </Form.Item>
+
+                {/* Category (Readonly, set from searchbar selection) */}
+                {/* <Form.Item
+                  label={
+                    <span className="text-black font-semibold">
+                      Project Category
+                    </span>
+                  }
+                  name="projectCategory"
+                >
+                  <Input
+                    value={selectedCategory}
+                    readOnly
+                    className="bg-gray-100 text-gray-600 font-semibold"
+                  />
+                </Form.Item> */}
 
                 {/* Project Category Dropdown */}
                 <Form.Item
@@ -330,8 +346,7 @@ const AddProject = () => {
                 <Form.Item
                   label={
                     <span className="text-black font-semibold">
-                      {" "}
-                      Work Details{" "}
+                      Work Details
                     </span>
                   }
                   name="workDetails"
@@ -343,7 +358,7 @@ const AddProject = () => {
                     },
                   ]}
                 >
-                  <Input.TextArea
+                  <TextArea
                     placeholder="Provide detailed information about the work."
                     rows={13}
                   />
