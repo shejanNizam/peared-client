@@ -31,8 +31,10 @@ const AddProject = () => {
   useEffect(() => {
     // Get the selected category from localStorage and set it as the default category
     const category = localStorage.getItem("selectedCategory");
+    console.log(category);
     if (category) {
-      setSelectedCategory(category);
+      // form.setFields({ projectCategory: category });
+      form.setFields([{ name: "projectCategory", value: category }]);
     }
   }, []);
 
@@ -66,7 +68,7 @@ const AddProject = () => {
       message.success("Project added successfully!");
       form.resetFields(); // Reset form fields after successful submission
       setImageUrl(null); // Reset image
-      router.push("/profile/my-projects");
+      // router.push("/profile/my-projects");
     } catch (error) {
       console.error("Add Project error:", error);
       message.error("Failed to add project. Please try again.");
@@ -91,7 +93,7 @@ const AddProject = () => {
         const base64 = await getBase64(info.file.originFileObj);
         setImageUrl(base64);
       } catch (error) {
-        console.error("Image Upload Error:", error);
+        // console.error("Image Upload Error:", error);
         message.error("Failed to upload image.");
       }
     }
@@ -104,7 +106,7 @@ const AddProject = () => {
           {/* Back Button */}
           <button
             onClick={handleBack}
-            className="absolute top-4 left-4 text-gray-600 hover:text-gray-800 focus:outline-none z-50"
+            className="absolute top-4 left-4 text-gray-600 hover:text-gray-800 focus:outline-none z-30"
             aria-label="Go Back"
           >
             <FaArrowLeft size={24} />
@@ -121,6 +123,7 @@ const AddProject = () => {
 
           {/* Form */}
           <Form
+            // initialValues={{ projectCategory: "hafvbhv" }}
             form={form}
             layout="vertical"
             onFinish={onFinish}
@@ -298,7 +301,7 @@ const AddProject = () => {
                 </Form.Item>
 
                 {/* Category (Readonly, set from searchbar selection) */}
-                {/* <Form.Item
+                <Form.Item
                   label={
                     <span className="text-black font-semibold">
                       Project Category
@@ -307,39 +310,10 @@ const AddProject = () => {
                   name="projectCategory"
                 >
                   <Input
-                    value={selectedCategory}
+                    // value={selectedCategory}
                     readOnly
-                    className="bg-gray-100 text-gray-600 font-semibold"
+                    className="bg-gray-100 text-gray-700 font-semibold"
                   />
-                </Form.Item> */}
-
-                {/* Project Category Dropdown */}
-                <Form.Item
-                  label={
-                    <span className="text-black font-semibold">
-                      {" "}
-                      Project Category{" "}
-                    </span>
-                  }
-                  name="projectCategory"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please select the project category.",
-                    },
-                  ]}
-                >
-                  <Select placeholder="Select project category">
-                    <Option value="residential-cleaning">
-                      Residential Cleaning
-                    </Option>
-                    <Option value="commercial-cleaning">
-                      Commercial Cleaning
-                    </Option>
-                    <Option value="painting">Painting</Option>
-                    <Option value="landscaping">Landscaping</Option>
-                    <Option value="carpentry">Carpentry</Option>
-                  </Select>
                 </Form.Item>
 
                 {/* Work Details Textarea */}

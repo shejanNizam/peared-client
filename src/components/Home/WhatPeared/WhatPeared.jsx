@@ -1,5 +1,6 @@
 import CustomButton from "@/components/utils/CustomButton";
 import Image from "next/image";
+import Link from "next/link";
 import right_img1 from "../../../assets/home/whatPeared/right_img1.png";
 import right_img2 from "../../../assets/home/whatPeared/right_img2.png";
 import right_img3 from "../../../assets/home/whatPeared/right_img3.png";
@@ -23,7 +24,11 @@ export default function WhatPeared() {
               professionals in their area for any project. Our platform offers
               project and payment security for both customers and contractors. 
             </p>
-            <CustomButton> Learn More </CustomButton>
+            <div>
+              <Link href={`/about-us`}>
+                <CustomButton> Learn More </CustomButton>
+              </Link>
+            </div>
           </div>
           <div
             className="relative p-8 bg-no-repeat bg-cover bg-center"

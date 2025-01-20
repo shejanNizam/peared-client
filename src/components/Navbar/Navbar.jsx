@@ -60,7 +60,7 @@ export default function Navbar() {
   // Navigation links data
   const navigation = [
     { name: "Home", href: "/" },
-    { name: "Projects", href: "/projects" },
+    // { name: "Projects", href: "/projects" },
     // { name: "Add Project", href: "/add-project" },
     { name: "Contact", href: "/contact" },
   ];

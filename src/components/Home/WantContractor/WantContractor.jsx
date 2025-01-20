@@ -26,7 +26,11 @@ export default function WantContractor() {
                See More....
             </Link>
           </p>
-          <CustomButton>Join as a Contactor</CustomButton>
+          <div>
+            <Link href={`/auth/join-contractor`}>
+              <CustomButton>Join as a Contactor</CustomButton>
+            </Link>
+          </div>
         </div>
         <div className="lg:pl-40">
           <Image src={WANT_CONTRACTOR_IMG} alt="WANT_CONTRACTOR_IMG" />

@@ -20,11 +20,11 @@ function ServiceSearchBar() {
   ];
 
   // Handle search logic
-  const handleSearch = () => {
-    if (searchTerm) {
+  const handleSearch = (values) => {
+    console.log(values.serviceSearch);
+    if (values) {
       // Save the selected service to localStorage before navigation
-      localStorage.setItem("selectedCategory", searchTerm);
-      console.log(searchTerm);
+      localStorage.setItem("selectedCategory", values.serviceSearch);
     }
     router.push(`/add-project`);
 

@@ -294,7 +294,12 @@ export default function MyProfile() {
 
       {/* Edit Profile Modal using Ant Design's Modal */}
       <Modal
-        title="Edit Profile"
+        title={
+          <span className=" text-2xl text-primary font-semibold ">
+            {" "}
+            Edit Profile{" "}
+          </span>
+        }
         visible={isEditModalOpen}
         onCancel={() => setIsEditModalOpen(false)}
         footer={null} // We'll handle the footer with the form's submit button
@@ -314,7 +319,11 @@ export default function MyProfile() {
           form={editForm}
         >
           {/* Image Upload Field */}
-          <Form.Item label="Profile Photo">
+          <Form.Item
+            label={
+              <span className="text-black font-semibold"> Profile Photo </span>
+            }
+          >
             <Upload
               name="profile"
               listType="picture"
@@ -333,16 +342,16 @@ export default function MyProfile() {
               <Image
                 src={formData.image}
                 alt="Profile Preview"
-                width={100}
-                height={100}
-                className="object-cover rounded-full"
+                width={1000}
+                height={1000}
+                className="object-cover rounded-full w-24 h-24"
               />
             </div>
           )}
 
           {/* Name Field */}
           <Form.Item
-            label="Name"
+            label={<span className="text-black font-semibold"> Name </span>}
             name="name"
             rules={[
               { required: true, message: "Please enter your name" },
@@ -354,7 +363,9 @@ export default function MyProfile() {
 
           {/* Street Address Field */}
           <Form.Item
-            label="Street Address"
+            label={
+              <span className="text-black font-semibold"> Street Address </span>
+            }
             name="streetAddress"
             rules={[
               {
@@ -368,7 +379,7 @@ export default function MyProfile() {
 
           {/* City Field */}
           <Form.Item
-            label="City"
+            label={<span className="text-black font-semibold"> City </span>}
             name="city"
             rules={[{ required: true, message: "Please enter your city" }]}
           >
@@ -377,7 +388,9 @@ export default function MyProfile() {
 
           {/* Postal Code Field */}
           <Form.Item
-            label="Postal Code"
+            label={
+              <span className="text-black font-semibold"> Postal Code </span>
+            }
             name="postalCode"
             rules={[
               { required: true, message: "Please enter your postal code" },
