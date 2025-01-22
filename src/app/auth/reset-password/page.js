@@ -53,18 +53,17 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col justify-center items-center bg-gray-100 p-4 relative">
-      {/* Back Button */}
-      <button
-        onClick={handleBack}
-        className="absolute top-4 right-4 text-gray-600 hover:text-gray-800 focus:outline-none z-50"
-        aria-label="Go Back"
-      >
-        <FaArrowLeft size={24} />
-      </button>
-
+    <div className="min-h-screen w-full flex flex-col justify-center items-center bg-gray-100 p-4">
       {/* Reset Password Container */}
-      <div className="bg-white shadow-lg rounded-lg w-full max-w-md p-6">
+      <div className="bg-white shadow-lg rounded-lg w-full max-w-md p-6 relative">
+        {/* Back Button */}
+        <button
+          onClick={handleBack}
+          className="absolute top-4 left-4 text-gray-600 hover:text-gray-800 focus:outline-none z-50"
+          aria-label="Go Back"
+        >
+          <FaArrowLeft size={24} />
+        </button>
         {/* Heading */}
         <div className="flex flex-col items-center mb-6">
           <h2 className="text-2xl font-semibold mt-4">Reset Your Password</h2>
@@ -82,7 +81,9 @@ const ResetPassword = () => {
         >
           {/* New Password Field */}
           <Form.Item
-            label="New Password"
+            label={
+              <span className="text-black font-semibold"> New Password </span>
+            }
             name="password"
             rules={[
               { required: true, message: "Please enter your new password." },
@@ -99,7 +100,12 @@ const ResetPassword = () => {
 
           {/* Confirm Password Field */}
           <Form.Item
-            label="Confirm New Password"
+            label={
+              <span className="text-black font-semibold">
+                {" "}
+                Confirm New Password{" "}
+              </span>
+            }
             name="confirmPassword"
             dependencies={["password"]}
             rules={[

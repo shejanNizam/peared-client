@@ -22,29 +22,28 @@ export default function Contact() {
         <div className="text-center">
           <CustomHeading> Contact Us </CustomHeading>
         </div>
-        <div className="grid grid-col-1 md:grid-cols-2 gap-4 justify-center items-center md:py-4 md:px-40">
+        <div className="grid grid-col-1 md:grid-cols-1 lg:grid-cols-2 gap-4 justify-center items-center md:py-4 md:px-40">
           {/* Left Side - Contact Information */}
-
           <div className="p-8">
-            <div className="flex items-start mb-6 p-2 bg-secondary border border-primary rounded ">
-              <FaPhoneAlt className="text-primary text-2xl mr-4 mt-1" />
+            <div className="flex items-center mb-6 px-4 py-3 bg-secondary border border-primary rounded ">
+              <FaPhoneAlt className="text-primary text-3xl mr-4 mt-1" />
               <div>
-                <h3 className="text-xl font-medium">Call Us</h3>
-                <p className="text-gray-600">+(08) 255 201 888</p>
+                <h3 className="text-lg font-medium">Call Us</h3>
+                <p className="text-sm text-gray-600">+(08) 255 201 888</p>
               </div>
             </div>
-            <div className="flex items-start mb-6 p-2 bg-secondary border border-primary rounded ">
-              <FaEnvelope className="text-primary text-2xl mr-4 mt-1" />
+            <div className="flex items-center mb-6 px-4 py-3 bg-secondary border border-primary rounded ">
+              <FaEnvelope className="text-primary text-3xl mr-4 mt-1" />
               <div>
-                <h3 className="text-xl font-medium">Email Now</h3>
-                <p className="text-gray-600">Hello@procleaning.com</p>
+                <h3 className="text-lg font-medium">Email Now</h3>
+                <p className="text-sm text-gray-600">a@gmail.com</p>
               </div>
             </div>
-            <div className="flex items-start mb-6 p-2 bg-secondary border border-primary rounded ">
-              <FaMapMarkerAlt className="text-primary text-2xl mr-4 mt-1" />
+            <div className="flex items-center mb-6 px-4 py-3 bg-secondary border border-primary rounded ">
+              <FaMapMarkerAlt className="text-primary text-3xl mr-4 mt-1" />
               <div>
-                <h3 className="text-xl font-medium">Address</h3>
-                <p className="text-gray-600">
+                <h3 className="text-lg font-medium">Address</h3>
+                <p className="text-sm text-gray-600">
                   7510, Brand Tower, New York, USA
                 </p>
               </div>
@@ -52,7 +51,7 @@ export default function Contact() {
           </div>
 
           {/* Right Side - Contact Form */}
-          <div className=" p-8">
+          <div className="p-8">
             <Form
               name="contact_form"
               layout="vertical"
@@ -62,7 +61,7 @@ export default function Contact() {
               autoComplete="off"
             >
               <Form.Item
-                label={<span className="text-black font-semibold"> Name </span>}
+                // label={<span className="text-black font-semibold"> Name </span>}
                 name="name"
                 rules={[{ required: true, message: "Please enter your name!" }]}
               >
@@ -70,9 +69,9 @@ export default function Contact() {
               </Form.Item>
 
               <Form.Item
-                label={
-                  <span className="text-black font-semibold"> Email </span>
-                }
+                // label={
+                //   <span className="text-black font-semibold"> Email </span>
+                // }
                 name="email"
                 rules={[
                   { required: true, message: "Please enter your email!" },
@@ -83,15 +82,15 @@ export default function Contact() {
               </Form.Item>
 
               <Form.Item
-                label={
-                  <span className="text-black font-semibold"> Message </span>
-                }
+                // label={
+                //   <span className="text-black font-semibold"> Message </span>
+                // }
                 name="message"
                 rules={[
                   { required: true, message: "Please enter your message!" },
                 ]}
               >
-                <Input.TextArea rows={3} placeholder="Your Message" />
+                <Input.TextArea rows={7} placeholder="Your Message" />
               </Form.Item>
 
               <Form.Item>

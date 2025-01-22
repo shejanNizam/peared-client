@@ -36,7 +36,7 @@ const AddProject = () => {
       // form.setFields({ projectCategory: category });
       form.setFields([{ name: "projectCategory", value: category }]);
     }
-  }, []);
+  });
 
   // Show Modal
   const showModal = () => {

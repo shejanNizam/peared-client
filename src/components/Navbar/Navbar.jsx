@@ -1,34 +1,27 @@
 "use client";
 
+import { Dropdown, Menu } from "antd";
 import Image from "next/image";
-import main_logo from "../../assets/main_logo.svg";
-
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { IoIosArrowDown } from "react-icons/io";
+import { TiArrowSortedDown } from "react-icons/ti";
+import Swal from "sweetalert2";
 import profile_image from "../../assets/home/feedback/image4.png";
+import main_logo from "../../assets/main_logo.svg";
 import CustomButton from "../utils/CustomButton";
 
-import { Dropdown, Menu, Typography, message } from "antd";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-
-const { Title, Text } = Typography;
-
-const MySwal = withReactContent(Swal);
-
-const ProfileMenu = ({ router, handleLogout }) => (
+const ProfileMenu = ({ handleLogout }) => (
   <Menu>
     <Menu.Item key="1">
       <Link className="font-bold text-primary" href="/profile/my-profile">
         My Profile
       </Link>
     </Menu.Item>
-    <Menu.Item key="3">
+    <Menu.Item key="2">
       <div
-        className="font-bold text-primary"
+        className="font-bold text-red-600"
         type="text"
         onClick={handleLogout}
       >
@@ -39,8 +32,9 @@ const ProfileMenu = ({ router, handleLogout }) => (
 );
 
 export default function Navbar() {
-  // const user = true;
-  const user = false;
+  // come from database
+  const user = true;
+  // const user = false;
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -65,13 +59,29 @@ export default function Navbar() {
     { name: "Contact", href: "/contact" },
   ];
 
-  // Function to determine active link
   const isActive = (href) =>
     pathname === href || pathname.startsWith(`${href}/`);
 
-  // Handle Logout with SweetAlert2 Confirmation
+  // const handleLogout = () => {
+  //   Swal.fire({
+  //     title: "Are you sure?",
+  //     text: "Do you want to logout?",
+  //     icon: "warning",
+  //     showCancelButton: true,
+  //     confirmButtonColor: "#3085d6",
+  //     cancelButtonColor: "#d33",
+  //     confirmButtonText: "Yes, logout!",
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       // Implement actual logout logic here
+  //       message.success("Logged out successfully!");
+  //       router.push("/auth/login");
+  //     }
+  //   });
+  // };
+
   const handleLogout = () => {
-    MySwal.fire({
+    Swal.fire({
       title: "Are you sure?",
       text: "Do you want to logout?",
       icon: "warning",
@@ -82,9 +92,14 @@ export default function Navbar() {
     }).then((result) => {
       if (result.isConfirmed) {
         // Implement actual logout logic here
-        console.log("User logged out");
-        message.success("Logged out successfully!");
-        router.push("/auth/login");
+        Swal.fire({
+          title: "Logged out",
+          text: "You have successfully logged out.",
+          icon: "success",
+          confirmButtonColor: "#3085d6",
+        }).then(() => {
+          router.push("/auth/login");
+        });
       }
     });
   };
@@ -145,13 +160,7 @@ export default function Navbar() {
                         src={profile_image || "/default-profile.png"}
                         alt="profile_image"
                       />
-                      {/* <div>
-                        <div className="flex justify-start items-center gap-2">
-                          <h3 className="font-bold">Linder</h3>
-                          <IoIosArrowDown />
-                        </div>
-                        <p className="text-sm">User/Contractor</p>
-                      </div> */}
+                      <TiArrowSortedDown />
                     </div>
                   </Dropdown>
                 </>
@@ -286,13 +295,7 @@ export default function Navbar() {
                         src={profile_image}
                         alt="profile_image"
                       />
-                      <div>
-                        <div className="flex justify-start items-center gap-2">
-                          <h3 className="font-bold">Linder</h3>
-                          <IoIosArrowDown />
-                        </div>
-                        <p className="text-sm">User/Contractor</p>
-                      </div>
+                      <TiArrowSortedDown />
                     </div>
                   </Dropdown>
                 </>
@@ -325,8 +328,6 @@ export default function Navbar() {
           </div>
         </div>
       </nav>
-
-      {/* The Dropdown component handles both desktop and mobile profile menus */}
     </>
   );
 }

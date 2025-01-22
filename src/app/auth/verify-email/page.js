@@ -107,7 +107,7 @@ const VerifyEmail = () => {
         {/* Back Button */}
         <button
           onClick={handleBack}
-          className="absolute top-4 right-4 text-gray-600 hover:text-gray-800 focus:outline-none z-50"
+          className="absolute top-4 left-4 text-gray-600 hover:text-gray-800 focus:outline-none z-50"
           aria-label="Go Back"
         >
           <FaArrowLeft size={24} />

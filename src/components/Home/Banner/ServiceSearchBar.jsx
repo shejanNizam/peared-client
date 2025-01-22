@@ -8,7 +8,7 @@ import { MdArrowDropDown } from "react-icons/md"; // Import React Icon for the d
 function ServiceSearchBar() {
   const router = useRouter();
 
-  const [searchTerm, setSearchTerm] = useState(""); // Track the service input
+  const [addTerm, setAddTerm] = useState(""); // Track the service input
   const [isFocused, setIsFocused] = useState(false); // Track if the search bar is focused
 
   const suggestions = [
@@ -20,8 +20,7 @@ function ServiceSearchBar() {
   ];
 
   // Handle search logic
-  const handleSearch = (values) => {
-    console.log(values.serviceSearch);
+  const handleAdd = (values) => {
     if (values) {
       // Save the selected service to localStorage before navigation
       localStorage.setItem("selectedCategory", values.serviceSearch);
@@ -29,7 +28,7 @@ function ServiceSearchBar() {
     router.push(`/add-project`);
 
     // Clear the form inputs after search
-    setSearchTerm("");
+    setAddTerm("");
     setIsFocused(false); // Hide suggestions after searching
   };
 
@@ -45,25 +44,27 @@ function ServiceSearchBar() {
         <Form
           layout="inline"
           className="flex w-full items-center justify-center flex-wrap gap-4" // Added gap here for small devices
-          onFinish={handleSearch}
+          onFinish={handleAdd}
         >
           <Form.Item
             name="serviceSearch"
-            initialValue={searchTerm}
-            rules={[{ required: true, message: "Please enter a service!" }]}
+            initialValue={addTerm}
+            rules={[
+              { required: true, message: "Please select a service category!" },
+            ]}
             className="w-full sm:w-2/3 lg:w-3/4 xl:w-1/2"
           >
             <AutoComplete
               options={suggestions.map((suggestion) => ({
                 value: suggestion,
               }))}
-              onSelect={(value) => setSearchTerm(value)}
-              onSearch={(value) => setSearchTerm(value)}
+              onSelect={(value) => setAddTerm(value)}
+              onSearch={(value) => setAddTerm(value)}
               style={{ width: "100%" }} // Full width for AutoComplete
             >
               <Input
                 placeholder="What type of services are you looking for?"
-                value={searchTerm}
+                value={addTerm}
                 onFocus={() => setIsFocused(true)} // Show suggestions on focus
                 onBlur={handleBlur} // Hide suggestions on blur
                 style={{ width: "100%" }} // Full width for the input

@@ -34,7 +34,7 @@ export const mainTheme = {
       // Add other Button tokens as needed
     },
     Form: {
-      labelColor: "rgb(255, 255, 255)",
+      labelColor: "#000000",
       // Add other Form tokens as needed
     },
     Input: {

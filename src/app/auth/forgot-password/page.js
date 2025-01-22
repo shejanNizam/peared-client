@@ -50,7 +50,7 @@ const ForgotPassword = () => {
         {/* Back Button */}
         <button
           onClick={handleBack}
-          className="absolute top-4 right-4 text-red-600 hover:text-gray-800 focus:outline-none"
+          className="absolute top-4 left-4 hover:text-gray-800 focus:outline-none"
           aria-label="Go Back"
         >
           <FaArrowLeftLong size={24} />
@@ -74,7 +74,7 @@ const ForgotPassword = () => {
         >
           {/* Email Field */}
           <Form.Item
-            label="Email"
+            label={<span className="text-black font-semibold"> Email </span>}
             name="email"
             rules={[
               { type: "email", message: "Please enter a valid email address!" },
