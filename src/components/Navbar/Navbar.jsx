@@ -33,8 +33,8 @@ const ProfileMenu = ({ handleLogout }) => (
 
 export default function Navbar() {
   // come from database
-  const user = true;
-  // const user = false;
+  // const user = true;
+  const user = false;
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -54,7 +54,7 @@ export default function Navbar() {
   // Navigation links data
   const navigation = [
     { name: "Home", href: "/" },
-    // { name: "Projects", href: "/projects" },
+    { name: "Projects", href: "/projects" },
     // { name: "Add Project", href: "/add-project" },
     { name: "Contact", href: "/contact" },
   ];

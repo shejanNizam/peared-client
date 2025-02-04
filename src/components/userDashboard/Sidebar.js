@@ -1,6 +1,4 @@
-// components/userDashboard/Sidebar.jsx
-
-"use client"; // Ensures the component is rendered on the client side
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -15,8 +13,8 @@ import {
 } from "react-icons/fa";
 
 export default function Sidebar({ isCollapsed, toggleSidebarCollapsed }) {
-  const user = "";
-  // const user = "contratcor";
+  // const user = "";
+  const user = "contratcor";
 
   const pathname = usePathname();
   const firstLinkRef = useRef(null);
