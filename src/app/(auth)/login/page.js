@@ -1,38 +1,46 @@
 "use client";
 
-import { Button, Checkbox, Form, Input, message } from "antd";
+import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
+import { useLoginMutation } from "@/redux/features/authApi";
+import { setCredentials } from "@/redux/slices/authSlice";
+import { Button, Checkbox, Form, Input } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [login, { isLoading }] = useLoginMutation();
 
   const onFinish = async (values) => {
-    setIsSubmitting(true);
     try {
-      // Handle form submission logic here
-      // Example: Send data to your API endpoint
-      // const response = await fetch('/api/login', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(values),
-      // });
+      const response = await login({
+        email: values.email,
+        password: values.password,
+      }).unwrap();
+      localStorage.setItem("user_token", response?.data?.token);
 
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      message.success("Login successful! Redirecting...");
+      dispatch(
+        setCredentials({
+          user: response?.data?.user,
+          token: response?.data?.accesstoken,
+        })
+      );
+
+      SuccessSwal({
+        title: "Login successful!",
+        text: "Welcome to Peared!",
+      });
+
       router.push("/profile/my-profile");
     } catch (error) {
-      console.error("Login error:", error);
-      message.error(
-        "Login failed. Please check your credentials and try again."
-      );
-    } finally {
-      setIsSubmitting(false);
+      ErrorSwal({
+        title: "Login failed!",
+        text: `${error?.data?.message}`,
+      });
     }
   };
 
@@ -88,7 +96,7 @@ const Login = () => {
             <Form.Item name="remember" valuePropName="checked" className="mb-0">
               <Checkbox className="text-green-500">Remember me</Checkbox>
             </Form.Item>
-            <Link href="/auth/forgot-password" className="text-primary">
+            <Link href="/forgot-password" className="text-primary">
               Forgot password?
             </Link>
           </div>
@@ -99,7 +107,7 @@ const Login = () => {
               type="primary"
               htmlType="submit"
               size="large"
-              loading={isSubmitting}
+              loading={isLoading}
               className="w-full hover:bg-primary transition-colors"
             >
               Login
@@ -109,7 +117,7 @@ const Login = () => {
           {/* Navigation Link to Signup Page */}
           <p className="text-center">
             {"Don't have an account?"}
-            <Link href="/auth/signup" className="text-primary">
+            <Link href="/signup" className="text-primary">
               {" "}
               Create Account
             </Link>

@@ -1,5 +1,3 @@
-// app/auth/reset-password/page.jsx
-
 "use client"; // Enables client-side rendering for hooks and interactivity
 
 import { Button, Form, Input, message } from "antd";
@@ -38,7 +36,7 @@ const ResetPassword = () => {
       // Mock response for demonstration
       await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate network delay
       message.success("Password reset successfully!");
-      router.push("/auth/login"); // Navigate to Login page after successful reset
+      router.push("/login"); // Navigate to Login page after successful reset
     } catch (error) {
       console.error("Reset Password error:", error);
       message.error("Failed to reset password. Please try again.");
@@ -144,7 +142,7 @@ const ResetPassword = () => {
           {/* Navigation Link to Login Page */}
           <p className="text-center">
             Remembered your password?{" "}
-            <Link href="/auth/login" className="text-blue-500 underline">
+            <Link href="/login" className="text-blue-500 underline">
               Log In
             </Link>
           </p>

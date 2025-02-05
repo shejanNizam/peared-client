@@ -75,7 +75,7 @@ export default function Navbar() {
   //     if (result.isConfirmed) {
   //       // Implement actual logout logic here
   //       message.success("Logged out successfully!");
-  //       router.push("/auth/login");
+  //       router.push("/login");
   //     }
   //   });
   // };
@@ -98,7 +98,7 @@ export default function Navbar() {
           icon: "success",
           confirmButtonColor: "#3085d6",
         }).then(() => {
-          router.push("/auth/login");
+          router.push("/login");
         });
       }
     });
@@ -168,18 +168,18 @@ export default function Navbar() {
                 <>
                   <div className="flex items-center space-x-4 ml-6">
                     <Link
-                      href="/auth/join-contractor"
+                      href="/join-contractor"
                       className="text-black underline hover:text-primary transition duration-200"
                     >
                       Join as Contractor
                     </Link>
                     <Link
-                      href="/auth/login"
+                      href="/login"
                       className="px-4 py-2 bg-white text-primary border border-primary rounded-md text-sm font-medium hover:text-white hover:bg-primary transition duration-200"
                     >
                       Login
                     </Link>
-                    <Link href="/auth/signup">
+                    <Link href="/signup">
                       <CustomButton>Signup</CustomButton>
                     </Link>
                   </div>
@@ -302,21 +302,21 @@ export default function Navbar() {
               ) : (
                 <>
                   <Link
-                    href="/auth/join-contractor"
+                    href="/join-contractor"
                     onClick={closeMenu}
                     className="block px-6 py-3 mt-2 text-black underline hover:text-primary transition duration-200"
                   >
                     Join as Contractor
                   </Link>
                   <Link
-                    href="/auth/login"
+                    href="/login"
                     onClick={closeMenu}
                     className="block px-6 py-3 mt-2 bg-white text-primary border border-primary rounded-md text-sm font-medium hover:text-white hover:bg-primary transition duration-200"
                   >
                     Login
                   </Link>
                   <Link
-                    href="/auth/signup"
+                    href="/signup"
                     onClick={closeMenu}
                     className="block px-6 py-3 mt-2 bg-primary text-white rounded-md text-sm font-medium hover:bg-white hover:text-primary border border-primary transition duration-200"
                   >

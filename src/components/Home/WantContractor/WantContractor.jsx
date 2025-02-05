@@ -27,7 +27,7 @@ export default function WantContractor() {
             </Link>
           </p>
           <div>
-            <Link href={`/auth/join-contractor`}>
+            <Link href={`/join-contractor`}>
               <CustomButton>Join as a Contactor</CustomButton>
             </Link>
           </div>

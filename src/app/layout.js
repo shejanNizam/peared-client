@@ -5,6 +5,7 @@ import "./globals.css";
 
 import ThemeProvider from "@/lib/ThemeProvider";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
+import StoreProvider from "./StoreProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -21,15 +22,17 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={` ${poppins.className} antialiased bg-white `}>
-        <Navbar />
+        <StoreProvider>
+          <Navbar />
 
-        <AntdRegistry>
-          <ThemeProvider>
-            <div className="py-20">{children}</div>
-          </ThemeProvider>
-        </AntdRegistry>
+          <AntdRegistry>
+            <ThemeProvider>
+              <div className="py-20">{children}</div>
+            </ThemeProvider>
+          </AntdRegistry>
 
-        <Footer />
+          <Footer />
+        </StoreProvider>
       </body>
     </html>
   );

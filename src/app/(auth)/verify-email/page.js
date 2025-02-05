@@ -1,5 +1,3 @@
-// app/auth/verify-email/page.jsx
-
 "use client"; // Enables client-side rendering for hooks and interactivity
 
 import { Button, Form, Input, message } from "antd";
@@ -60,7 +58,7 @@ const VerifyEmail = () => {
       // Mock response for demonstration
       await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate network delay
       message.success("Email verified successfully!");
-      router.push("/auth/reset-password"); // Navigate to Reset Password page after successful verification
+      router.push("/reset-password"); // Navigate to Reset Password page after successful verification
     } catch (error) {
       console.error("Verify Email error:", error);
       message.error("Invalid OTP. Please try again.");

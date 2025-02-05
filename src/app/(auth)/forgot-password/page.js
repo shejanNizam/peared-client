@@ -29,7 +29,7 @@ const ForgotPassword = () => {
       // Mock response for demonstration
       await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate network delay
       message.success("OTP has been sent to your email!");
-      router.push("/auth/verify-email"); // Navigate to verify email page after successful submission
+      router.push("/verify-email"); // Navigate to verify email page after successful submission
     } catch (error) {
       console.error("Forgot Password error:", error);
       message.error("Failed to send OTP. Please try again.");
@@ -104,7 +104,7 @@ const ForgotPassword = () => {
           {/* Navigation Link to Login Page */}
           <p className="text-center">
             Remembered your password?{" "}
-            <Link href="/auth/login" className="text-blue-500 underline">
+            <Link href="/login" className="text-blue-500 underline">
               Log In
             </Link>
           </p>
