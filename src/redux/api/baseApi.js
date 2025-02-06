@@ -9,9 +9,11 @@ export const baseApi = createApi({
     credentials: "include",
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("user_token");
+
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
+
       headers.set("Content-Type", "application/json");
       return headers;
     },

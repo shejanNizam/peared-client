@@ -6,6 +6,7 @@ import { setCredentials } from "@/redux/slices/authSlice";
 import { Button, Checkbox, Form, Input } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { FaArrowLeft } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
 
 const Login = () => {
@@ -44,9 +45,21 @@ const Login = () => {
     }
   };
 
+  const handleBack = () => {
+    router.back();
+  };
+
   return (
     <div className="min-h-screen w-full flex flex-col justify-center items-center bg-secondary">
-      <div className="bg-white shadow-2xl rounded-2xl rounded-tl-[8rem] md:rounded-tl-[10rem] rounded-br-[8rem] md:rounded-br-[10rem] w-full max-w-xl p-8 md:p-16 mt-[-200px]">
+      <div className="bg-white shadow-2xl rounded-2xl rounded-tl-[8rem] md:rounded-tl-[10rem] rounded-br-[8rem] md:rounded-br-[10rem] w-full max-w-xl p-8 md:p-16 mt-[-200px] relative">
+        <button
+          onClick={handleBack}
+          className="absolute top-12 left-16 text-gray-500 hover:text-gray-900 focus:outline-none"
+          aria-label="Go Back"
+        >
+          <FaArrowLeft size={24} />
+        </button>
+
         <div className="flex flex-col items-center">
           <h2 className="text-2xl md:text-4xl font-semibold mb-8 border-b-2 border-b-secondary">
             Login

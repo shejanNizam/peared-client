@@ -1,60 +1,76 @@
-"use client"; // Enables client-side rendering for hooks and interactivity
+"use client";
 
 import { Button, Form, Input, message } from "antd";
-import Link from "next/link"; // Next.js Link component
-import { useRouter } from "next/navigation"; // For Next.js App Router
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FaArrowLeft } from "react-icons/fa"; // Importing the back arrow icon
+import { FaArrowLeft } from "react-icons/fa";
+
+// 1) Import the hook from your authApi
+import { useResetPasswordMutation } from "@/redux/features/authApi";
 
 const ResetPassword = () => {
-  const router = useRouter(); // Initialize Next.js router
-  const [isSubmitting, setIsSubmitting] = useState(false); // Loading state for form submission
-  const [form] = Form.useForm(); // Initialize Ant Design form instance
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [form] = Form.useForm();
 
-  // Handle form submission
+  // 2) Use the resetPassword mutation
+  const [resetPassword, { isLoading: isResetLoading }] =
+    useResetPasswordMutation();
+
   const onFinish = async (values) => {
     const { password, confirmPassword } = values;
 
-    // Validate if passwords match
     if (password !== confirmPassword) {
       message.error("Passwords do not match.");
       return;
     }
 
     setIsSubmitting(true);
-    try {
-      // TODO: Replace with actual reset password API call
-      // Example:
-      // const response = await fetch('/api/reset-password', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({ password }),
-      // });
 
-      // Mock response for demonstration
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate network delay
-      message.success("Password reset successfully!");
-      router.push("/login"); // Navigate to Login page after successful reset
+    try {
+      // 3) Grab the token from sessionStorage
+      const resetToken = localStorage.getItem("user_token");
+      if (!resetToken) {
+        message.error(
+          "Missing reset token. Please re-do the forgot password flow."
+        );
+        setIsSubmitting(false);
+        return;
+      }
+
+      // 4) Call the resetPassword mutation
+      const response = await resetPassword({
+        password,
+        token: resetToken,
+      }).unwrap();
+
+      if (response.success) {
+        message.success("Password reset successfully!");
+        localStorage.removeItem("user_token");
+        router.push("/login");
+      } else {
+        message.error(
+          response.message || "Failed to reset password. Please try again."
+        );
+      }
     } catch (error) {
       console.error("Reset Password error:", error);
-      message.error("Failed to reset password. Please try again.");
+      message.error(
+        error?.data?.message || "Failed to reset password. Please try again."
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Handle back button click
   const handleBack = () => {
-    router.back(); // Navigate to the previous page
+    router.back();
   };
 
   return (
     <div className="min-h-screen w-full flex flex-col justify-center items-center bg-gray-100 p-4">
-      {/* Reset Password Container */}
       <div className="bg-white shadow-lg rounded-lg w-full max-w-md p-6 relative">
-        {/* Back Button */}
         <button
           onClick={handleBack}
           className="absolute top-4 left-4 text-gray-600 hover:text-gray-800 focus:outline-none z-50"
@@ -62,7 +78,7 @@ const ResetPassword = () => {
         >
           <FaArrowLeft size={24} />
         </button>
-        {/* Heading */}
+
         <div className="flex flex-col items-center mb-6">
           <h2 className="text-2xl font-semibold mt-4">Reset Your Password</h2>
           <p className="text-center text-gray-600 mt-2">
@@ -70,14 +86,12 @@ const ResetPassword = () => {
           </p>
         </div>
 
-        {/* Reset Password Form */}
         <Form
           form={form}
           layout="vertical"
           onFinish={onFinish}
           className="space-y-6"
         >
-          {/* New Password Field */}
           <Form.Item
             label={
               <span className="text-black font-semibold"> New Password </span>
@@ -96,12 +110,10 @@ const ResetPassword = () => {
             />
           </Form.Item>
 
-          {/* Confirm Password Field */}
           <Form.Item
             label={
               <span className="text-black font-semibold">
-                {" "}
-                Confirm New Password{" "}
+                Confirm New Password
               </span>
             }
             name="confirmPassword"
@@ -126,20 +138,18 @@ const ResetPassword = () => {
             />
           </Form.Item>
 
-          {/* Submit Button */}
           <Form.Item>
             <Button
               type="primary"
               htmlType="submit"
               size="large"
-              loading={isSubmitting}
+              loading={isSubmitting || isResetLoading}
               className="w-full bg-green-500 hover:bg-green-600 transition-colors"
             >
               Reset Password
             </Button>
           </Form.Item>
 
-          {/* Navigation Link to Login Page */}
           <p className="text-center">
             Remembered your password?{" "}
             <Link href="/login" className="text-blue-500 underline">

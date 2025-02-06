@@ -34,10 +34,22 @@ export const authApi = baseApi.injectEndpoints({
     }),
 
     verifyForgetOtp: builder.mutation({
-      query: ({ email, otp }) => ({
-        url: `/user/verify-forget-otp?email=${encodeURIComponent(email)}`,
+      query: ({ token, otp }) => {
+        // console.log("sessionStorage", token);
+        return {
+          url: `/user/verify-forget-otp`,
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: { otp },
+        };
+      },
+    }),
+
+    // Pass an `email` param for resending:
+    resendOtp: builder.mutation({
+      query: (email) => ({
+        url: `/user/resend?email=${encodeURIComponent(email)}`,
         method: "POST",
-        body: { otp },
       }),
     }),
 
@@ -53,13 +65,6 @@ export const authApi = baseApi.injectEndpoints({
     verifyEmail: builder.mutation({
       query: (email) => ({
         url: `/user/verify-email?email=${encodeURIComponent(email)}`,
-        method: "POST",
-      }),
-    }),
-
-    resendOtp: builder.mutation({
-      query: (email) => ({
-        url: `/user/resend?email=${encodeURIComponent(email)}`,
         method: "POST",
       }),
     }),
