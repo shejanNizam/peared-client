@@ -18,12 +18,8 @@ const ForgotPassword = () => {
       const response = await forgotPassword({
         email: values?.email,
       }).unwrap();
-      console.log(response.data.token, "response....................");
       if (response?.success) {
-        // Save the token AND the email in sessionStorage
         localStorage.setItem("user_token", response?.data?.token);
-        // sessionStorage.setItem("forgot_email", values?.email);
-
         SuccessSwal({
           title: "OTP has been sent to your email!",
           text: `Check your email in ${values?.email}`,

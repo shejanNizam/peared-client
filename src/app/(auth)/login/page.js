@@ -27,7 +27,7 @@ const Login = () => {
       dispatch(
         setCredentials({
           user: response?.data?.user,
-          token: response?.data?.accesstoken,
+          token: response?.data?.token,
         })
       );
 

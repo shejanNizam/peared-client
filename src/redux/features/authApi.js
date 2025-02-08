@@ -2,6 +2,7 @@ import { baseApi } from "../api/baseApi";
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    // 1. Get profile data
     profileData: builder.query({
       query: () => ({
         url: "user/my-profile",
@@ -9,6 +10,7 @@ export const authApi = baseApi.injectEndpoints({
       }),
     }),
 
+    // 2. Signup
     signup: builder.mutation({
       query: (userData) => ({
         url: "/user/register",
@@ -17,6 +19,7 @@ export const authApi = baseApi.injectEndpoints({
       }),
     }),
 
+    // 3. Login
     login: builder.mutation({
       query: (credentials) => ({
         url: "/user/login",
@@ -25,6 +28,7 @@ export const authApi = baseApi.injectEndpoints({
       }),
     }),
 
+    // 4. Forgot Password
     forgotPassword: builder.mutation({
       query: (body) => ({
         url: "/user/forget-password",
@@ -32,20 +36,26 @@ export const authApi = baseApi.injectEndpoints({
         body,
       }),
     }),
+    resetPassword: builder.mutation({
+      query: ({ body }) => ({
+        url: "/user/reset-password",
+        method: "POST",
+        body,
+      }),
+    }),
 
+    // 5. Verify Forget OTP
     verifyForgetOtp: builder.mutation({
-      query: ({ token, otp }) => {
-        // console.log("sessionStorage", token);
+      query: ({ otp }) => {
         return {
-          url: `/user/verify-forget-otp`,
+          url: "/user/verify-forget-otp",
           method: "POST",
-          headers: { Authorization: `Bearer ${token}` },
           body: { otp },
         };
       },
     }),
 
-    // Pass an `email` param for resending:
+    // 6. Resend OTP
     resendOtp: builder.mutation({
       query: (email) => ({
         url: `/user/resend?email=${encodeURIComponent(email)}`,
@@ -53,15 +63,7 @@ export const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-    resetPassword: builder.mutation({
-      query: ({ password, token }) => ({
-        url: "/user/reset-password",
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-        body: { password },
-      }),
-    }),
-
+    // 8. Verify Email
     verifyEmail: builder.mutation({
       query: (email) => ({
         url: `/user/verify-email?email=${encodeURIComponent(email)}`,
@@ -69,6 +71,7 @@ export const authApi = baseApi.injectEndpoints({
       }),
     }),
 
+    // 9. Logout
     logout: builder.mutation({
       query: () => ({
         url: "/logout",
@@ -84,8 +87,8 @@ export const {
   useLoginMutation,
   useForgotPasswordMutation,
   useVerifyForgetOtpMutation,
-  useResetPasswordMutation,
   useVerifyEmailMutation,
   useResendOtpMutation,
   useLogoutMutation,
+  useResetPasswordMutation,
 } = authApi;

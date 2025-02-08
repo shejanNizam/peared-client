@@ -13,83 +13,62 @@ import { FaArrowLeft } from "react-icons/fa";
 const VerifyEmail = () => {
   const router = useRouter();
 
-  // Retrieve token and email from sessionStorage:
-  const token = sessionStorage.getItem("forgot_token");
-  const email = sessionStorage.getItem("forgot_email");
-
-  // State for the 6-digit OTP
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
 
-  // Resend button control
   const [resendDisabled, setResendDisabled] = useState(false);
   const [resendTimer, setResendTimer] = useState(180);
 
-  // Redux API hooks
   const [verifyForgetOtp, { isLoading }] = useVerifyForgetOtpMutation();
   const [resendOtp, { isLoading: resendLoading }] = useResendOtpMutation();
 
-  // Refs for each input to manage focus
   const inputRefs = useRef([]);
 
-  // Handle OTP input changes
   const onChangeOtp = (index, value) => {
-    // Allow only digits
     if (/^\d*$/.test(value)) {
       const newOtp = [...otp];
       newOtp[index] = value;
       setOtp(newOtp);
-      // Move focus to the next input if not the last and value is entered
+
       if (value && index < 5) {
         inputRefs.current[index + 1]?.focus();
       }
     }
   };
 
-  // Handle key down events (e.g., Backspace to go to previous field)
   const onKeyDownOtp = (index, event) => {
     if (event.key === "Backspace" && !otp[index] && index > 0) {
       inputRefs.current[index - 1]?.focus();
     }
   };
 
-  // Verify OTP submission
   const onFinish = async () => {
     const enteredOtp = otp.join("");
     if (enteredOtp.length < 6) {
-      message.error("Please enter the complete 6-digit OTP.");
+      message.error("Please enter the complete 4-digit OTP.");
       return;
     }
-    // console.log("================>>>>>>>>>>>>>>>>>>", token);
 
     try {
       const response = await verifyForgetOtp({
-        token, // "forgot_token"
         otp: enteredOtp,
       }).unwrap();
 
       if (response.success) {
-        // The API returns a new token for the reset step:
-        const resetToken = response?.data?.token;
-
-        // Save this new token in sessionStorage:
-        localStorage.setItem("user_token", resetToken);
         SuccessSwal({
           title: "OTP Verified!",
-          text: "Redirecting to reset password...",
+          text: "Redirecting to reset password.",
         });
 
-        router.push("/reset-password");
+        localStorage.setItem("user_token", response?.data?.token);
+        router.push(`/reset-password`);
       } else {
         message.error(response.message || "Invalid OTP. Please try again.");
       }
     } catch (error) {
       console.error("OTP Verification Error:", error);
-      message.error(
-        error?.data?.message || "Something went wrong. Please try again."
-      );
+      message.error("Something went wrong. Please try again.");
     }
   };
-
   // Resend OTP handler
   const handleResendOtp = async () => {
     if (resendDisabled) return;
@@ -141,8 +120,7 @@ const VerifyEmail = () => {
         <div className="flex flex-col items-center mb-6">
           <h2 className="text-2xl font-semibold mt-4">Verify Your Email</h2>
           <p className="text-center text-gray-600 mt-2">
-            Please enter the 6-digit OTP sent to your email address to verify
-            your account.
+            Please enter the 6-digit OTP sent to your email address.
           </p>
         </div>
 

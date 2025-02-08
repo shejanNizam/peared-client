@@ -1,64 +1,47 @@
 "use client";
 
+import { SuccessSwal } from "@/components/utils/allSwalFire";
+import { useResetPasswordMutation } from "@/redux/features/authApi";
 import { Button, Form, Input, message } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 
-// 1) Import the hook from your authApi
-import { useResetPasswordMutation } from "@/redux/features/authApi";
-
 const ResetPassword = () => {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form] = Form.useForm();
 
-  // 2) Use the resetPassword mutation
-  const [resetPassword, { isLoading: isResetLoading }] =
-    useResetPasswordMutation();
+  // Our RTK Query mutation
+  const [resetPassword, { isLoading }] = useResetPasswordMutation();
 
   const onFinish = async (values) => {
-    const { password, confirmPassword } = values;
-
-    if (password !== confirmPassword) {
-      message.error("Passwords do not match.");
+    if (values.password !== values.confirmPassword) {
+      message.error("Passwords do not match!");
       return;
     }
-
     setIsSubmitting(true);
-
     try {
-      // 3) Grab the token from sessionStorage
-      const resetToken = localStorage.getItem("user_token");
-      if (!resetToken) {
-        message.error(
-          "Missing reset token. Please re-do the forgot password flow."
-        );
-        setIsSubmitting(false);
-        return;
-      }
+      const token = localStorage.getItem("user_token");
+      console.log(token);
 
-      // 4) Call the resetPassword mutation
-      const response = await resetPassword({
-        password,
-        token: resetToken,
+      await resetPassword({
+        token,
+        body: {
+          password: values.password,
+          confirmPassword: values.confirmPassword,
+        },
       }).unwrap();
-
-      if (response.success) {
-        message.success("Password reset successfully!");
-        localStorage.removeItem("user_token");
-        router.push("/login");
-      } else {
-        message.error(
-          response.message || "Failed to reset password. Please try again."
-        );
-      }
+      SuccessSwal({
+        title: "Password Reset Successful!",
+        text: "You can now log in.",
+      });
+      localStorage.removeItem("user_token");
+      router.push("/login");
     } catch (error) {
-      console.error("Reset Password error:", error);
-      message.error(
-        error?.data?.message || "Failed to reset password. Please try again."
-      );
+      console.log(error);
+      message.error("Failed to reset password. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -94,7 +77,7 @@ const ResetPassword = () => {
         >
           <Form.Item
             label={
-              <span className="text-black font-semibold"> New Password </span>
+              <span className="text-black font-semibold">New Password</span>
             }
             name="password"
             rules={[
@@ -112,9 +95,7 @@ const ResetPassword = () => {
 
           <Form.Item
             label={
-              <span className="text-black font-semibold">
-                Confirm New Password
-              </span>
+              <span className="text-black font-semibold">Confirm Password</span>
             }
             name="confirmPassword"
             dependencies={["password"]}
@@ -143,7 +124,7 @@ const ResetPassword = () => {
               type="primary"
               htmlType="submit"
               size="large"
-              loading={isSubmitting || isResetLoading}
+              loading={isSubmitting}
               className="w-full bg-green-500 hover:bg-green-600 transition-colors"
             >
               Reset Password
