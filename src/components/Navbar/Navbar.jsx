@@ -1,5 +1,6 @@
 "use client";
 
+import { logout } from "@/redux/slices/authSlice";
 import { Dropdown, Menu } from "antd";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,6 +8,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { TiArrowSortedDown } from "react-icons/ti";
+import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import profile_image from "../../assets/home/feedback/image4.png";
 import main_logo from "../../assets/main_logo.svg";
@@ -32,9 +34,9 @@ const ProfileMenu = ({ handleLogout }) => (
 );
 
 export default function Navbar() {
-  // come from database
-  // const user = true;
-  const user = false;
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  // console.log(user);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -62,24 +64,6 @@ export default function Navbar() {
   const isActive = (href) =>
     pathname === href || pathname.startsWith(`${href}/`);
 
-  // const handleLogout = () => {
-  //   Swal.fire({
-  //     title: "Are you sure?",
-  //     text: "Do you want to logout?",
-  //     icon: "warning",
-  //     showCancelButton: true,
-  //     confirmButtonColor: "#3085d6",
-  //     cancelButtonColor: "#d33",
-  //     confirmButtonText: "Yes, logout!",
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       // Implement actual logout logic here
-  //       message.success("Logged out successfully!");
-  //       router.push("/login");
-  //     }
-  //   });
-  // };
-
   const handleLogout = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -98,6 +82,8 @@ export default function Navbar() {
           icon: "success",
           confirmButtonColor: "#3085d6",
         }).then(() => {
+          dispatch(logout());
+          localStorage.removeItem("user_token");
           router.push("/login");
         });
       }
@@ -123,7 +109,11 @@ export default function Navbar() {
             {/* Desktop Menu */}
             <div className="hidden md:flex md:items-center space-x-4">
               {/* Navigation Links */}
-              <div className={`flex space-x-4 ${user ? " text-center " : ""}`}>
+              <div
+                className={`flex space-x-4 ${
+                  user?.role === "user" ? " text-center " : ""
+                }`}
+              >
                 {navigation.map((item) => (
                   <Link
                     key={item.name}
@@ -140,8 +130,14 @@ export default function Navbar() {
               </div>
 
               {/* Action Buttons */}
-              {user ? (
+              {user?.role === "user" ? (
                 <>
+                  <Link
+                    href="/join-contractor"
+                    className="text-black underline hover:text-primary transition duration-200"
+                  >
+                    Join as Contractor
+                  </Link>
                   <Dropdown
                     overlay={
                       <ProfileMenu
@@ -167,12 +163,6 @@ export default function Navbar() {
               ) : (
                 <>
                   <div className="flex items-center space-x-4 ml-6">
-                    <Link
-                      href="/join-contractor"
-                      className="text-black underline hover:text-primary transition duration-200"
-                    >
-                      Join as Contractor
-                    </Link>
                     <Link
                       href="/login"
                       className="px-4 py-2 bg-white text-primary border border-primary rounded-md text-sm font-medium hover:text-white hover:bg-primary transition duration-200"
@@ -269,8 +259,15 @@ export default function Navbar() {
               <hr className="my-4 border-gray-300" />
 
               {/* Action Links */}
-              {user ? (
+              {user?.role === "user" ? (
                 <>
+                  <Link
+                    href="/join-contractor"
+                    onClick={closeMenu}
+                    className="block px-6 py-3 mt-2 text-black underline hover:text-primary transition duration-200"
+                  >
+                    Join as Contractor
+                  </Link>
                   <Dropdown
                     overlay={
                       <ProfileMenu
@@ -301,13 +298,6 @@ export default function Navbar() {
                 </>
               ) : (
                 <>
-                  <Link
-                    href="/join-contractor"
-                    onClick={closeMenu}
-                    className="block px-6 py-3 mt-2 text-black underline hover:text-primary transition duration-200"
-                  >
-                    Join as Contractor
-                  </Link>
                   <Link
                     href="/login"
                     onClick={closeMenu}

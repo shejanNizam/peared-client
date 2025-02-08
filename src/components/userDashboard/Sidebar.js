@@ -11,10 +11,14 @@ import {
   FaUser,
   FaWallet,
 } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 export default function Sidebar({ isCollapsed, toggleSidebarCollapsed }) {
   // const user = "";
-  const user = "contratcor";
+  const user1 = "contratcor";
+
+  const { user } = useSelector((state) => state.auth);
+  console.log(user);
 
   const pathname = usePathname();
   const firstLinkRef = useRef(null);
@@ -83,7 +87,7 @@ export default function Sidebar({ isCollapsed, toggleSidebarCollapsed }) {
 
           {/* Navigation Links */}
           <nav className="mt-10 flex-1">
-            {user == "contratcor" ? (
+            {user?.role == "provider" && (
               <>
                 {menuItemsCont?.map((item, index) => (
                   <Link
@@ -117,7 +121,8 @@ export default function Sidebar({ isCollapsed, toggleSidebarCollapsed }) {
                   </Link>
                 ))}
               </>
-            ) : (
+            )}
+            {user?.role == "user" && (
               <>
                 {menuItems?.map((item, index) => (
                   <Link
@@ -125,18 +130,18 @@ export default function Sidebar({ isCollapsed, toggleSidebarCollapsed }) {
                     key={item.name}
                     onClick={() => {}} // No action needed on link click
                     className={`
-                  flex items-center px-4 py-3 mt-2 
-                  ${
-                    pathname === item.path
-                      ? "bg-gray-700 text-primary font-semibold border-l-4 border-primary"
-                      : "hover:bg-gray-700 transition-colors duration-200"
-                  }
-                  ${
-                    isCollapsed
-                      ? "justify-center relative group cursor-pointer"
-                      : ""
-                  }
-                `}
+                flex items-center px-4 py-3 mt-2 
+                ${
+                  pathname === item.path
+                    ? "bg-gray-700 text-primary font-semibold border-l-4 border-primary"
+                    : "hover:bg-gray-700 transition-colors duration-200"
+                }
+                ${
+                  isCollapsed
+                    ? "justify-center relative group cursor-pointer"
+                    : ""
+                }
+              `}
                     ref={index === 0 ? firstLinkRef : null} // Focus on the first link when expanded
                     aria-current={pathname === item.path ? "page" : undefined}
                     title={isCollapsed ? item.name : undefined} // Show tooltip when collapsed
