@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import profile_image from "../../assets/home/feedback/image4.png";
 import main_logo from "../../assets/main_logo.svg";
-import CustomButton from "../utils/CustomButton";
 
 const ProfileMenu = ({ handleLogout }) => (
   <Menu>
@@ -160,6 +159,30 @@ export default function Navbar() {
                     </div>
                   </Dropdown>
                 </>
+              ) : user?.role === "provider" ? (
+                <>
+                  <Dropdown
+                    overlay={
+                      <ProfileMenu
+                        router={router}
+                        handleLogout={handleLogout}
+                      />
+                    }
+                    trigger={["click"]}
+                    placement="bottomRight"
+                  >
+                    <div className="flex justify-start items-center gap-2 cursor-pointer">
+                      <Image
+                        width={1000}
+                        height={1000}
+                        className="w-12 h-12 rounded-full border-4 border-primary"
+                        src={profile_image || "/default-profile.png"}
+                        alt="profile_image"
+                      />
+                      <TiArrowSortedDown />
+                    </div>
+                  </Dropdown>
+                </>
               ) : (
                 <>
                   <div className="flex items-center space-x-4 ml-6">
@@ -168,9 +191,6 @@ export default function Navbar() {
                       className="px-4 py-2 bg-white text-primary border border-primary rounded-md text-sm font-medium hover:text-white hover:bg-primary transition duration-200"
                     >
                       Login
-                    </Link>
-                    <Link href="/signup">
-                      <CustomButton>Signup</CustomButton>
                     </Link>
                   </div>
                 </>
@@ -304,13 +324,6 @@ export default function Navbar() {
                     className="block px-6 py-3 mt-2 bg-white text-primary border border-primary rounded-md text-sm font-medium hover:text-white hover:bg-primary transition duration-200"
                   >
                     Login
-                  </Link>
-                  <Link
-                    href="/signup"
-                    onClick={closeMenu}
-                    className="block px-6 py-3 mt-2 bg-primary text-white rounded-md text-sm font-medium hover:bg-white hover:text-primary border border-primary transition duration-200"
-                  >
-                    Signup
                   </Link>
                 </>
               )}

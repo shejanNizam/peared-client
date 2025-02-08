@@ -2,14 +2,20 @@
 
 "use client";
 
-import ServiceSearchBar from "@/components/Home/Banner/ServiceSearchBar";
 import CustomHeading from "@/components/utils/CustomHeading";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 
-// Import all project images
+// 1) Import Ant Design components
+import { Button, Input, Select } from "antd";
+
+const { Option } = Select;
+const { Search } = Input;
+
+// Sample data (all have category = "Plumber";
+// you might want to change them to the categories below)
 import image from "../../assets/project/project_img_1.png";
 import image2 from "../../assets/project/project_img_2.png";
 
@@ -100,6 +106,7 @@ const projects = [
   },
 ];
 
+// AnimatePresence + Framer Motion variants
 const overlayVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1 },
@@ -112,10 +119,25 @@ const modalVariants = {
   exit: { scale: 0.8, opacity: 0 },
 };
 
+// 2) Categories you want in the Select
+// NOTE: If your data is all "Plumber", you won't see results unless you add "Plumber" here or change your data to these categories.
+const categories = [
+  "Residential Cleaning",
+  "Commercial Cleaning",
+  "Painting",
+  "Landscaping",
+  "Carpentry",
+  "Plumber", // <- added so your sample data can be filtered
+];
+
 export default function Projects() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+
+  // 3) Filter states
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [searchText, setSearchText] = useState("");
 
   // Prevent background scrolling when modal is open
   useEffect(() => {
@@ -125,7 +147,6 @@ export default function Projects() {
       document.body.style.overflow = "auto";
     }
 
-    // Cleanup on unmount
     return () => {
       document.body.style.overflow = "auto";
     };
@@ -150,25 +171,79 @@ export default function Projects() {
       }
     };
     window.addEventListener("keydown", handleEsc);
-
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
+
+  // 4) Filtering Logic
+  const filteredProjects = projects.filter((proj) => {
+    // If a category is selected, filter by it
+    if (selectedCategory && proj.category !== selectedCategory) {
+      return false;
+    }
+    // If there's search text, check if it's in the title (case-insensitive)
+    if (
+      searchText &&
+      !proj.title.toLowerCase().includes(searchText.toLowerCase())
+    ) {
+      return false;
+    }
+    return true;
+  });
+
+  // 5) Handlers for the filters
+  const handleSelectCategory = (value) => {
+    setSelectedCategory(value);
+  };
+
+  const handleSearch = (value) => {
+    setSearchText(value);
+  };
+
+  const handleClearFilters = () => {
+    setSelectedCategory("");
+    setSearchText("");
+  };
 
   return (
     <>
       <section className="py-12 bg-white">
         <div className="container mx-auto px-4">
           {/* Heading */}
-          <div className="mb-12">
-            <div className="text-center">
-              <CustomHeading>Project List</CustomHeading>
-            </div>
-            <ServiceSearchBar />
+          <div className="mb-8 text-center">
+            <CustomHeading>Project List</CustomHeading>
+          </div>
+
+          {/* 6) Filter Row using Ant Design Select + Search + Button */}
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
+            <Select
+              placeholder="Select Category"
+              style={{ width: 200 }}
+              value={selectedCategory}
+              onChange={handleSelectCategory}
+              allowClear
+            >
+              {categories.map((cat) => (
+                <Option key={cat} value={cat}>
+                  {cat}
+                </Option>
+              ))}
+            </Select>
+
+            <Search
+              placeholder="Search by title"
+              allowClear
+              onSearch={handleSearch}
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              style={{ width: 300 }}
+            />
+
+            <Button onClick={handleClearFilters}>Clear All</Button>
           </div>
 
           {/* Grid Layout */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project) => (
+            {filteredProjects.map((project) => (
               <div
                 key={project._id}
                 className="bg-secondary p-4 rounded-lg overflow-hidden shadow-md flex flex-col hover:shadow-xl transition-shadow duration-300"
@@ -227,7 +302,7 @@ export default function Projects() {
             onClick={handleCloseModal}
           >
             <motion.div
-              className="bg-white border-2 border-primary  rounded-lg shadow-lg w-11/12 md:w-3/4 lg:w-1/2 xl:w-1/3 relative overflow-auto max-h-full"
+              className="bg-white border-2 border-primary rounded-lg shadow-lg w-11/12 md:w-3/4 lg:w-1/2 xl:w-1/3 relative overflow-auto max-h-full"
               variants={modalVariants}
               initial="hidden"
               animate="visible"
@@ -281,7 +356,7 @@ export default function Projects() {
                         {selectedProject.price}
                       </li>
                       <li>
-                        <span className="font-medium">Time:</span>{" "}
+                        <span className="font-medium">Urgency:</span>{" "}
                         {selectedProject.urgency}
                       </li>
                     </ul>
@@ -313,8 +388,7 @@ export default function Projects() {
                 <div className="mt-6 flex justify-center">
                   <button
                     onClick={handleCloseModal}
-                    className="bg-white text-primary border border-primary px-6 py-2 rounded hover:bg-primary hover:text-white
-                     transition-colors duration-300"
+                    className="bg-white text-primary border border-primary px-6 py-2 rounded hover:bg-primary hover:text-white transition-colors duration-300"
                   >
                     Back
                   </button>
