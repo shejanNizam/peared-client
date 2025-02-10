@@ -1,5 +1,7 @@
 "use client";
 
+import { ErrorSwal } from "@/components/utils/allSwalFire";
+import { useAddProjectMutation } from "@/redux/features/projects/projectApi";
 import { Button, Form, Input, message, Modal, Select, Upload } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -21,19 +23,18 @@ const getBase64 = (file) =>
 
 const AddProject = () => {
   const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
   const [form] = Form.useForm();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(""); // To hold the category from search bar
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  const [addProject, { isLoading }] = useAddProjectMutation();
 
   useEffect(() => {
-    // Get the selected category from localStorage and set it as the default category
     const category = localStorage.getItem("selectedCategory");
-    console.log(category);
+    // console.log(category);
     if (category) {
-      // form.setFields({ projectCategory: category });
       form.setFields([{ name: "projectCategory", value: category }]);
     }
   });
@@ -49,31 +50,26 @@ const AddProject = () => {
   };
 
   // Handle form submission
-  const onFinish = async (values) => {
-    console.log(values);
-    setIsSubmitting(true);
-    try {
-      // TODO: Replace with actual API call to add the project
-      // Example:
-      // const response = await fetch('/api/add-project', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(values),
-      // });
 
-      // Mock response for demonstration
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate network delay
-      message.success("Project added successfully!");
-      form.resetFields(); // Reset form fields after successful submission
-      setImageUrl(null); // Reset image
-      // router.push("/profile/my-projects");
+  const onFinish = async (values) => {
+    // console.log(values);
+    try {
+      const response = await addProject(values).unwrap();
+      console.log(response);
+
+      SuccessSwal({
+        title: "",
+        text: "Account created successfully!",
+      });
+
+      // router.push("/");
     } catch (error) {
-      console.error("Add Project error:", error);
-      message.error("Failed to add project. Please try again.");
-    } finally {
-      setIsSubmitting(false);
+      ErrorSwal({
+        title: "",
+        text:
+          (error.message || error?.data?.message || "Something went wrong.") +
+          " Please try again later.",
+      });
     }
   };
 
@@ -91,6 +87,7 @@ const AddProject = () => {
     if (info.file.status === "done" || info.file.status === "error") {
       try {
         const base64 = await getBase64(info.file.originFileObj);
+        console.log(base64);
         setImageUrl(base64);
       } catch (error) {
         // console.error("Image Upload Error:", error);
@@ -192,9 +189,8 @@ const AddProject = () => {
                   ]}
                 >
                   <Select placeholder="Select location type">
-                    <Option value="office">Office</Option>
-                    <Option value="remote">Remote</Option>
-                    <Option value="hybrid">Hybrid</Option>
+                    <Option value="Home">Home</Option>
+                    <Option value="Business">Business</Option>
                   </Select>
                 </Form.Item>
 
@@ -207,9 +203,14 @@ const AddProject = () => {
                   ]}
                 >
                   <Select placeholder="Select time">
-                    <Option value="full-time">Full-Time</Option>
-                    <Option value="part-time">Part-Time</Option>
-                    <Option value="contract">Contract</Option>
+                    <Option value="Urgent(1 - 2 days)">
+                      Urgent(1 - 2 days)
+                    </Option>
+                    <Option value="Within 2 weeks">Within 2 weeks</Option>
+                    <Option value="More than 2 weeks">More than 2 weeks</Option>
+                    <Option value="Not sure - still planning">
+                      Not sure - still planning
+                    </Option>
                   </Select>
                 </Form.Item>
 
@@ -243,7 +244,7 @@ const AddProject = () => {
                       Project Image
                     </span>
                   }
-                  name="projectImage"
+                  name="image"
                   valuePropName="fileList"
                   getValueFromEvent={(e) => {
                     if (Array.isArray(e)) {
@@ -289,7 +290,7 @@ const AddProject = () => {
                       Add Your Project
                     </span>
                   }
-                  name="projectWork"
+                  name="projectName"
                   rules={[
                     {
                       required: true,
@@ -346,9 +347,8 @@ const AddProject = () => {
                 type="primary"
                 htmlType="submit"
                 size="large"
-                loading={isSubmitting}
+                loading={isLoading}
                 className="w-full bg-green-500 hover:bg-green-600 transition-colors"
-                onClick={showModal}
               >
                 Add Project
               </Button>

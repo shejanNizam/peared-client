@@ -30,10 +30,7 @@ const JoinAsContractor = () => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const handleBeforeUpload = (file, fileList) => {
-    console.log("Selected File:", file);
-    console.log("File List:", fileList);
-
+  const handleBeforeUpload = (file) => {
     if (file.type !== "application/pdf") {
       message.error("Only PDF files are allowed!");
       return Upload.LIST_IGNORE;
@@ -51,7 +48,6 @@ const JoinAsContractor = () => {
   };
 
   const onFinish = async (values) => {
-    console.log("here is certificate", certificate);
     if (!certificate || certificate.length === 0) {
       message.error("Please upload at least one certificate.");
       return;

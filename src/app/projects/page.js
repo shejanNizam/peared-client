@@ -275,12 +275,18 @@ export default function Projects() {
                     {project.description}
                   </p>
                   {/* Button */}
-                  <div className="flex justify-center">
+                  <div className="flex justify-between">
                     <button
                       onClick={() => handleClickProjectDetails(project)}
                       className="bg-primary/80 text-white px-4 py-2 rounded hover:bg-primary transition-colors duration-300"
                     >
                       Learn More
+                    </button>
+                    <button
+                      onCanPlay={"bid"}
+                      className="bg-primary/80 text-white px-4 py-2 rounded hover:bg-primary transition-colors duration-300"
+                    >
+                      Bid
                     </button>
                   </div>
                 </div>

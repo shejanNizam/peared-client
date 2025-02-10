@@ -14,7 +14,7 @@ const ThemeProvider = ({ children }) => {
   const { data, isLoading } = useGetUserDataQuery(undefined);
   const dispatch = useDispatch();
 
-  console.log(data?.data, isLoading);
+  // console.log(data?.data, isLoading);
 
   useEffect(() => {
     dispatch(
