@@ -57,7 +57,7 @@ export default function Wallet() {
   const [addBalanceForm] = Form.useForm();
 
   // State for Change Card Modal
-  const [isChangeCardModalOpen, setIsChangeCardModalOpen] = useState(false);
+  // const [isChangeCardModalOpen, setIsChangeCardModalOpen] = useState(false); // remove
   const [changeCardForm] = Form.useForm();
 
   // State for balance and transactions
@@ -72,7 +72,7 @@ export default function Wallet() {
   };
 
   // Open and close functions for Change Card Modal
-  const openChangeCardModal = () => setIsChangeCardModalOpen(true);
+  // const openChangeCardModal = () => setIsChangeCardModalOpen(true); // remove
   const closeChangeCardModal = () => {
     setIsChangeCardModalOpen(false);
     changeCardForm.resetFields();
@@ -138,14 +138,14 @@ export default function Wallet() {
           >
             Add Balance
           </Button>
-          <Button
+          {/* <Button
             type="default"
             size="large"
             className="w-full"
             onClick={openChangeCardModal}
           >
             Change Card
-          </Button>
+          </Button> */}
         </div>
 
         {/* Right Section */}
@@ -290,90 +290,90 @@ export default function Wallet() {
         </Form>
       </Modal>
 
-      {/* Change Card Modal */}
-      <Modal
-        title="Change Card"
-        visible={isChangeCardModalOpen}
-        onCancel={closeChangeCardModal}
-        footer={null} // We'll handle buttons within the form
-        destroyOnClose
-      >
-        <Form
-          form={changeCardForm}
-          layout="vertical"
-          onFinish={handleChangeCardFinish}
-        >
-          <Form.Item
-            label="Card Name"
-            name="cardName"
-            rules={[
-              { required: true, message: "Please enter the cardholder's name" },
-            ]}
-          >
-            <Input placeholder="e.g., Jane Smith" />
-          </Form.Item>
+      {/* Change Card Modal
+      // <Modal
+      //   title="Change Card"
+      //   visible={isChangeCardModalOpen}
+      //   onCancel={closeChangeCardModal}
+      //   footer={null} // We'll handle buttons within the form
+      //   destroyOnClose
+      // >
+      //   <Form
+      //     form={changeCardForm}
+      //     layout="vertical"
+      //     onFinish={handleChangeCardFinish}
+      //   >
+      //     <Form.Item
+      //       label="Card Name"
+      //       name="cardName"
+      //       rules={[
+      //         { required: true, message: "Please enter the cardholder's name" },
+      //       ]}
+      //     >
+      //       <Input placeholder="e.g., Jane Smith" />
+      //     </Form.Item>
 
-          <Form.Item
-            label="Card Number"
-            name="cardNumber"
-            rules={[
-              { required: true, message: "Please enter the card number" },
-              {
-                pattern: /^\d{4}\s?\d{4}\s?\d{4}\s?\d{4}$/,
-                message: "Card number must be 16 digits",
-              },
-            ]}
-          >
-            <Input
-              placeholder="1234 5678 9012 3456"
-              maxLength={19}
-              onChange={(e) => {
-                const { value } = e.target;
-                const formattedValue = value
-                  .replace(/\D/g, "")
-                  .replace(/(.{4})/g, "$1 ")
-                  .trim();
-                changeCardForm.setFieldsValue({ cardNumber: formattedValue });
-              }}
-            />
-          </Form.Item>
+      //     <Form.Item
+      //       label="Card Number"
+      //       name="cardNumber"
+      //       rules={[
+      //         { required: true, message: "Please enter the card number" },
+      //         {
+      //           pattern: /^\d{4}\s?\d{4}\s?\d{4}\s?\d{4}$/,
+      //           message: "Card number must be 16 digits",
+      //         },
+      //       ]}
+      //     >
+      //       <Input
+      //         placeholder="1234 5678 9012 3456"
+      //         maxLength={19}
+      //         onChange={(e) => {
+      //           const { value } = e.target;
+      //           const formattedValue = value
+      //             .replace(/\D/g, "")
+      //             .replace(/(.{4})/g, "$1 ")
+      //             .trim();
+      //           changeCardForm.setFieldsValue({ cardNumber: formattedValue });
+      //         }}
+      //       />
+      //     </Form.Item>
 
-          <Space size="large" style={{ width: "100%" }}>
-            <Form.Item
-              label="Expiry Date"
-              name="expiryDate"
-              rules={[
-                { required: true, message: "Please select the expiry date" },
-              ]}
-            >
-              <Input type="month" />
-            </Form.Item>
+      //     <Space size="large" style={{ width: "100%" }}>
+      //       <Form.Item
+      //         label="Expiry Date"
+      //         name="expiryDate"
+      //         rules={[
+      //           { required: true, message: "Please select the expiry date" },
+      //         ]}
+      //       >
+      //         <Input type="month" />
+      //       </Form.Item>
 
-            <Form.Item
-              label="CCV"
-              name="ccv"
-              rules={[
-                { required: true, message: "Please enter the CCV" },
-                {
-                  pattern: /^\d{3,4}$/,
-                  message: "CCV must be 3 or 4 digits",
-                },
-              ]}
-            >
-              <Input.Password placeholder="123" maxLength={4} />
-            </Form.Item>
-          </Space>
+      //       <Form.Item
+      //         label="CCV"
+      //         name="ccv"
+      //         rules={[
+      //           { required: true, message: "Please enter the CCV" },
+      //           {
+      //             pattern: /^\d{3,4}$/,
+      //             message: "CCV must be 3 or 4 digits",
+      //           },
+      //         ]}
+      //       >
+      //         <Input.Password placeholder="123" maxLength={4} />
+      //       </Form.Item>
+      //     </Space>
 
-          <Form.Item>
-            <Space className="w-full justify-end">
-              <Button onClick={closeChangeCardModal}>Cancel</Button>
-              <Button type="primary" htmlType="submit">
-                Save Changes
-              </Button>
-            </Space>
-          </Form.Item>
-        </Form>
-      </Modal>
+      //     <Form.Item>
+      //       <Space className="w-full justify-end">
+      //         <Button onClick={closeChangeCardModal}>Cancel</Button>
+      //         <Button type="primary" htmlType="submit">
+      //           Save Changes
+      //         </Button>
+      //       </Space>
+      //     </Form.Item>
+      //   </Form>
+      // </Modal> */}
     </div>
   );
 }

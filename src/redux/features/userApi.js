@@ -4,12 +4,9 @@ export const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     // Example: Fetch currently logged-in user's data
     getUserData: builder.query({
-      query: (token) => ({
+      query: () => ({
         url: "/user/my-profile",
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
     }),
 

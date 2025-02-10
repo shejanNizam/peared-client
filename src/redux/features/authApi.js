@@ -2,6 +2,8 @@ import { baseApi } from "../api/baseApi";
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    // 0 user
+
     // 0. join as provider
     joinAsProvider: builder.mutation({
       query: (providerData) => {
@@ -12,14 +14,6 @@ export const authApi = baseApi.injectEndpoints({
           body: providerData,
         };
       },
-    }),
-
-    // 1. Get profile data
-    profileData: builder.query({
-      query: () => ({
-        url: "user/my-profile",
-        method: "GET",
-      }),
     }),
 
     // 2. Signup
@@ -95,13 +89,12 @@ export const authApi = baseApi.injectEndpoints({
 
 export const {
   useJoinAsProviderMutation,
-  useProfileDataQuery,
   useSignupMutation,
   useLoginMutation,
   useForgotPasswordMutation,
   useVerifyForgetOtpMutation,
   useVerifyEmailMutation,
   useResendOtpMutation,
-  useLogoutMutation,
   useResetPasswordMutation,
+  useLogoutMutation,
 } = authApi;

@@ -187,6 +187,12 @@ export default function Navbar() {
                 <>
                   <div className="flex items-center space-x-4 ml-6">
                     <Link
+                      href="/join-contractor"
+                      className="text-black underline hover:text-primary transition duration-200"
+                    >
+                      Join as Contractor
+                    </Link>
+                    <Link
                       href="/login"
                       className="px-4 py-2 bg-white text-primary border border-primary rounded-md text-sm font-medium hover:text-white hover:bg-primary transition duration-200"
                     >
