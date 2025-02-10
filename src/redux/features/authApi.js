@@ -2,6 +2,18 @@ import { baseApi } from "../api/baseApi";
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    // 0. join as provider
+    joinAsProvider: builder.mutation({
+      query: (providerData) => {
+        console.log("MU DATA", providerData);
+        return {
+          url: "/user/join-provider",
+          method: "POST",
+          body: providerData,
+        };
+      },
+    }),
+
     // 1. Get profile data
     profileData: builder.query({
       query: () => ({
@@ -82,6 +94,7 @@ export const authApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useJoinAsProviderMutation,
   useProfileDataQuery,
   useSignupMutation,
   useLoginMutation,
