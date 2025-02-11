@@ -1,17 +1,16 @@
 "use client";
 
+import { useAddBalanceMutation } from "@/redux/features/payment/paymentApi";
 import { PlusOutlined } from "@ant-design/icons";
 import {
   Button,
   Form,
-  Input,
   InputNumber,
   List,
   Modal,
   Space,
   Tag,
   Typography,
-  message,
 } from "antd";
 import { useState } from "react";
 
@@ -52,59 +51,33 @@ const initialHistoryData = [
 ];
 
 export default function Wallet() {
-  // State for Add Balance Modal
   const [isAddBalanceModalOpen, setIsAddBalanceModalOpen] = useState(false);
   const [addBalanceForm] = Form.useForm();
+  const balance = 100;
 
-  // State for Change Card Modal
-  // const [isChangeCardModalOpen, setIsChangeCardModalOpen] = useState(false); // remove
-  const [changeCardForm] = Form.useForm();
-
-  // State for balance and transactions
-  const [balance, setBalance] = useState(12670.9);
   const [transactions, setTransactions] = useState(initialHistoryData);
 
-  // Open and close functions for Add Balance Modal
+  const [addBalance, { isLoading }] = useAddBalanceMutation();
+
   const openAddBalanceModal = () => setIsAddBalanceModalOpen(true);
   const closeAddBalanceModal = () => {
     setIsAddBalanceModalOpen(false);
     addBalanceForm.resetFields();
   };
 
-  // Open and close functions for Change Card Modal
-  // const openChangeCardModal = () => setIsChangeCardModalOpen(true); // remove
-  const closeChangeCardModal = () => {
-    setIsChangeCardModalOpen(false);
-    changeCardForm.resetFields();
-  };
+  const handleAddBalanceFinish = async (values) => {
+    const { balanceAmount } = values;
 
-  // Handle Add Balance form submission
-  const handleAddBalanceFinish = (values) => {
-    const { balanceAmount, cardName, cardNumber, expiryDate, ccv } = values;
-    const newBalance = balance + Number(balanceAmount);
-    setBalance(newBalance);
-
-    // Update transactions
-    const newTransaction = {
-      label: "Add Balance",
-      amount: `+ $${balanceAmount}`,
-      date: new Date().toLocaleString(),
-      color: "green",
-    };
-    setTransactions([newTransaction, ...transactions]);
-
-    message.success("Balance added successfully!");
-    closeAddBalanceModal();
-  };
-
-  // Handle Change Card form submission
-  const handleChangeCardFinish = (values) => {
-    const { cardName, cardNumber, expiryDate, ccv } = values;
-    // Here you would typically update the card details in your backend or state management
-    // For demonstration, we'll just log the values and show a success message
-    console.log("Updated Card Details:", values);
-    message.success("Card details updated successfully!");
-    closeChangeCardModal();
+    try {
+      // Make API call to add balance
+      const response = await addBalance({ amount: balanceAmount }).unwrap();
+      console.log(response);
+      if (response?.success) {
+        window.location.href = response?.data;
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -123,7 +96,7 @@ export default function Wallet() {
             Available Balance
           </Text>
           <Title level={1} className="my-4">
-            $
+            ${" "}
             {balance.toLocaleString(undefined, {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
@@ -135,17 +108,10 @@ export default function Wallet() {
             size="large"
             className="mb-4 w-full"
             onClick={openAddBalanceModal}
+            loading={isLoading}
           >
-            Add Balance
+            Add Some Balance
           </Button>
-          {/* <Button
-            type="default"
-            size="large"
-            className="w-full"
-            onClick={openChangeCardModal}
-          >
-            Change Card
-          </Button> */}
         </div>
 
         {/* Right Section */}
@@ -221,98 +187,13 @@ export default function Wallet() {
           <Form.Item>
             <Space className="w-full justify-end">
               <Button onClick={closeAddBalanceModal}>Cancel</Button>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" loading={isLoading}>
                 Add Balance
               </Button>
             </Space>
           </Form.Item>
         </Form>
       </Modal>
-
-      {/* Change Card Modal
-      // <Modal
-      //   title="Change Card"
-      //   visible={isChangeCardModalOpen}
-      //   onCancel={closeChangeCardModal}
-      //   footer={null} // We'll handle buttons within the form
-      //   destroyOnClose
-      // >
-      //   <Form
-      //     form={changeCardForm}
-      //     layout="vertical"
-      //     onFinish={handleChangeCardFinish}
-      //   >
-      //     <Form.Item
-      //       label="Card Name"
-      //       name="cardName"
-      //       rules={[
-      //         { required: true, message: "Please enter the cardholder's name" },
-      //       ]}
-      //     >
-      //       <Input placeholder="e.g., Jane Smith" />
-      //     </Form.Item>
-
-      //     <Form.Item
-      //       label="Card Number"
-      //       name="cardNumber"
-      //       rules={[
-      //         { required: true, message: "Please enter the card number" },
-      //         {
-      //           pattern: /^\d{4}\s?\d{4}\s?\d{4}\s?\d{4}$/,
-      //           message: "Card number must be 16 digits",
-      //         },
-      //       ]}
-      //     >
-      //       <Input
-      //         placeholder="1234 5678 9012 3456"
-      //         maxLength={19}
-      //         onChange={(e) => {
-      //           const { value } = e.target;
-      //           const formattedValue = value
-      //             .replace(/\D/g, "")
-      //             .replace(/(.{4})/g, "$1 ")
-      //             .trim();
-      //           changeCardForm.setFieldsValue({ cardNumber: formattedValue });
-      //         }}
-      //       />
-      //     </Form.Item>
-
-      //     <Space size="large" style={{ width: "100%" }}>
-      //       <Form.Item
-      //         label="Expiry Date"
-      //         name="expiryDate"
-      //         rules={[
-      //           { required: true, message: "Please select the expiry date" },
-      //         ]}
-      //       >
-      //         <Input type="month" />
-      //       </Form.Item>
-
-      //       <Form.Item
-      //         label="CCV"
-      //         name="ccv"
-      //         rules={[
-      //           { required: true, message: "Please enter the CCV" },
-      //           {
-      //             pattern: /^\d{3,4}$/,
-      //             message: "CCV must be 3 or 4 digits",
-      //           },
-      //         ]}
-      //       >
-      //         <Input.Password placeholder="123" maxLength={4} />
-      //       </Form.Item>
-      //     </Space>
-
-      //     <Form.Item>
-      //       <Space className="w-full justify-end">
-      //         <Button onClick={closeChangeCardModal}>Cancel</Button>
-      //         <Button type="primary" htmlType="submit">
-      //           Save Changes
-      //         </Button>
-      //       </Space>
-      //     </Form.Item>
-      //   </Form>
-      // </Modal> */}
     </div>
   );
 }

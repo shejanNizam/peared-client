@@ -77,8 +77,6 @@ const JoinAsContractor = () => {
   const handlePayNow = () => {
     message.success("Payment successful! Redirecting...");
     window.location.href = paymentUrl;
-
-    // router.push("/login");
   };
 
   const handleCancel = () => {

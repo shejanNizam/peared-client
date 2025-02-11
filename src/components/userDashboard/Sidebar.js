@@ -14,11 +14,7 @@ import {
 import { useSelector } from "react-redux";
 
 export default function Sidebar({ isCollapsed, toggleSidebarCollapsed }) {
-  // const user = "";
-  const user1 = "contratcor";
-
   const { user } = useSelector((state) => state.auth);
-  console.log(user);
 
   const pathname = usePathname();
   const firstLinkRef = useRef(null);

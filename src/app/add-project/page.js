@@ -27,7 +27,7 @@ const AddProject = () => {
   const [form] = Form.useForm();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [formData1, setFormData1] = useState(null);
 
   const [addProject, { isLoading }] = useAddProjectMutation();
 
@@ -55,12 +55,14 @@ const AddProject = () => {
     setImage(file); // Set only one image
     return false; // Prevent automatic upload
   };
+  console.log("Outside --------------->><<", formData1);
 
   // Handle form submission
   const onFinish = async (values) => {
     console.log("Original Values:", values);
 
     const formData = new FormData();
+    console.log(" --------------<<<<<<<<<<<<<<<<", formData);
 
     // Append all text fields
     Object.keys(values).forEach((key) => {
@@ -74,16 +76,18 @@ const AddProject = () => {
       formData.append("image", values.image[0].originFileObj); // Take the first image file
     }
 
+    setFormData1(formData);
+    setIsModalVisible(true);
     try {
       const response = await addProject(formData).unwrap();
       console.log("Response:", response);
-
-      SuccessSwal({
-        title: "",
-        text: "Account created successfully!",
-      });
-
-      setIsModalVisible(true);
+      if (response?.statusCode === 200) {
+        console.log("project created successfully ------------------->>");
+        // SuccessSwal({
+        //   title: "",
+        //   text: "Project created successfully!",
+        // });
+      }
     } catch (error) {
       const statusCode = error?.data?.statusCode;
       console.log(statusCode);
@@ -119,6 +123,10 @@ const AddProject = () => {
     }
 
     setImage(file); // Store the latest uploaded image
+  };
+
+  const handlePaymentSuccess = (formData) => {
+    console.log("click pay now ---------------------->>>>>>>>>>>> ", formData);
   };
 
   return (
@@ -406,7 +414,7 @@ const AddProject = () => {
           <Button
             type="primary"
             className="bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary/90"
-            onClick={() => alert("Payment Successful!")} // Replace with payment logic
+            onClick={() => handlePaymentSuccess(formData1)} // Replace with payment logic
           >
             Pay Now
           </Button>
