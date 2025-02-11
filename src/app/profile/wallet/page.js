@@ -218,67 +218,6 @@ export default function Wallet() {
             />
           </Form.Item>
 
-          <Form.Item
-            label="Card Name"
-            name="cardName"
-            rules={[
-              { required: true, message: "Please enter the cardholder's name" },
-            ]}
-          >
-            <Input placeholder="e.g., John Doe" />
-          </Form.Item>
-
-          <Form.Item
-            label="Card Number"
-            name="cardNumber"
-            rules={[
-              { required: true, message: "Please enter the card number" },
-              {
-                pattern: /^\d{4}\s?\d{4}\s?\d{4}\s?\d{4}$/,
-                message: "Card number must be 16 digits",
-              },
-            ]}
-          >
-            <Input
-              placeholder="1234 5678 9012 3456"
-              maxLength={19}
-              onChange={(e) => {
-                const { value } = e.target;
-                const formattedValue = value
-                  .replace(/\D/g, "")
-                  .replace(/(.{4})/g, "$1 ")
-                  .trim();
-                addBalanceForm.setFieldsValue({ cardNumber: formattedValue });
-              }}
-            />
-          </Form.Item>
-
-          <Space size="large" style={{ width: "100%" }}>
-            <Form.Item
-              label="Expiry Date"
-              name="expiryDate"
-              rules={[
-                { required: true, message: "Please select the expiry date" },
-              ]}
-            >
-              <Input type="month" />
-            </Form.Item>
-
-            <Form.Item
-              label="CCV"
-              name="ccv"
-              rules={[
-                { required: true, message: "Please enter the CCV" },
-                {
-                  pattern: /^\d{3,4}$/,
-                  message: "CCV must be 3 or 4 digits",
-                },
-              ]}
-            >
-              <Input.Password placeholder="123" maxLength={4} />
-            </Form.Item>
-          </Space>
-
           <Form.Item>
             <Space className="w-full justify-end">
               <Button onClick={closeAddBalanceModal}>Cancel</Button>

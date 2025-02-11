@@ -1,12 +1,12 @@
 "use client";
 
-import { ErrorSwal } from "@/components/utils/allSwalFire";
 import { useAddProjectMutation } from "@/redux/features/projects/projectApi";
 import { Button, Form, Input, message, Modal, Select, Upload } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaArrowLeft, FaUpload } from "react-icons/fa";
+import Swal from "sweetalert2";
 import payment_img from "../../assets/payment/payment_img.png";
 
 const { Option } = Select;
@@ -23,7 +23,7 @@ const getBase64 = (file) =>
 
 const AddProject = () => {
   const router = useRouter();
-  const [imageUrl, setImageUrl] = useState(null);
+  const [image, setImage] = useState(null);
   const [form] = Form.useForm();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -39,61 +39,86 @@ const AddProject = () => {
     }
   });
 
-  // Show Modal
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
   // Handle Modal Close
   const handleCancel = () => {
     setIsModalVisible(false);
   };
 
-  // Handle form submission
+  const handleBeforeUpload = (file) => {
+    const isImage = file.type.startsWith("image/");
 
+    if (!isImage) {
+      message.error("Only image files (JPG, PNG, JPEG) are allowed!");
+      return Upload.LIST_IGNORE;
+    }
+
+    setImage(file); // Set only one image
+    return false; // Prevent automatic upload
+  };
+
+  // Handle form submission
   const onFinish = async (values) => {
-    // console.log(values);
+    console.log("Original Values:", values);
+
+    const formData = new FormData();
+
+    // Append all text fields
+    Object.keys(values).forEach((key) => {
+      if (key !== "image") {
+        formData.append(key, values[key]);
+      }
+    });
+
+    // Append image file(s) if available
+    if (values.image && values.image.length > 0) {
+      formData.append("image", values.image[0].originFileObj); // Take the first image file
+    }
+
     try {
-      const response = await addProject(values).unwrap();
-      console.log(response);
+      const response = await addProject(formData).unwrap();
+      console.log("Response:", response);
 
       SuccessSwal({
         title: "",
         text: "Account created successfully!",
       });
 
-      // router.push("/");
+      setIsModalVisible(true);
     } catch (error) {
-      ErrorSwal({
-        title: "",
-        text:
-          (error.message || error?.data?.message || "Something went wrong.") +
-          " Please try again later.",
-      });
+      const statusCode = error?.data?.statusCode;
+      console.log(statusCode);
+      if (statusCode === 402) {
+        Swal.fire({
+          text: `${error?.data?.message}`,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Go Wallet",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            router.push("/profile/wallet");
+          }
+        });
+      }
     }
   };
 
   // Handle back button click
   const handleBack = () => {
-    router.back(); // Navigate to the previous page
+    router.back();
   };
 
   // Handle image upload
-  const handleChange = async (info) => {
-    if (info.file.status === "uploading") {
-      setImageUrl(null);
+  const handleFileChange = ({ file }) => {
+    console.log("Uploaded File:", file);
+
+    if (!file.type.startsWith("image/")) {
+      message.error("Only image files (JPG, PNG, JPEG) are allowed!");
       return;
     }
-    if (info.file.status === "done" || info.file.status === "error") {
-      try {
-        const base64 = await getBase64(info.file.originFileObj);
-        console.log(base64);
-        setImageUrl(base64);
-      } catch (error) {
-        // console.error("Image Upload Error:", error);
-        message.error("Failed to upload image.");
-      }
-    }
+
+    setImage(file); // Store the latest uploaded image
   };
 
   return (
@@ -165,7 +190,7 @@ const AddProject = () => {
                   rules={[
                     { required: true, message: "Please enter the post code." },
                     {
-                      pattern: /^\d{5}(-\d{4})?$/,
+                      pattern: /^\d{4}(-\d{3})?$/,
                       message: "Please enter a valid post code.",
                     },
                   ]}
@@ -264,18 +289,11 @@ const AddProject = () => {
                     listType="picture"
                     maxCount={1}
                     showUploadList={true}
-                    beforeUpload={() => false} // Prevent automatic upload
-                    onChange={handleChange}
+                    beforeUpload={handleBeforeUpload}
+                    onChange={handleFileChange}
                   >
-                    <Button icon={<FaUpload />}>Click to Upload</Button>
+                    <Button icon={<FaUpload />}>Upload Image </Button>
                   </Upload>
-                  {imageUrl && (
-                    <Image
-                      src={imageUrl}
-                      alt="Project Image"
-                      className="mt-4 h-40 w-full object-cover rounded"
-                    />
-                  )}
                 </Form.Item>
               </div>
 

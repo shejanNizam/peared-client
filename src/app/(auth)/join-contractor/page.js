@@ -97,10 +97,8 @@ const JoinAsContractor = () => {
 
   return (
     <>
-      {/* Main Contractor Form */}
-      {/* {certificate.length} */}
       <div className="min-h-screen w-full flex flex-col justify-center items-center bg-secondary">
-        <div className="bg-white shadow-2xl rounded-2xl rounded-tl-[8rem] md:rounded-tl-[10rem] rounded-br-[8rem] md:rounded-br-[10rem] w-full max-w-xl px-8 md:px-16 py-4 md:py-8 my-20">
+        <div className="bg-white shadow-2xl rounded-2xl w-full max-w-xl px-8 md:px-16 py-4 md:py-8 my-20">
           <div className="flex flex-col items-center">
             <h2 className="text-2xl md:text-4xl font-semibold mb-8 border-b-2 border-b-secondary">
               Join As Contractor
@@ -232,11 +230,11 @@ const JoinAsContractor = () => {
               getValueFromEvent={({ fileList }) => fileList}
             >
               <Upload
-                beforeUpload={handleBeforeUpload}
                 accept="application/pdf"
                 maxCount={2}
                 showUploadList
                 className="w-full"
+                beforeUpload={handleBeforeUpload}
                 onChange={handleFileChange}
               >
                 <Button
