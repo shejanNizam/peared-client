@@ -1,5 +1,6 @@
 "use client";
 
+import { SuccessSwal } from "@/components/utils/allSwalFire";
 import { useAddProjectMutation } from "@/redux/features/projects/projectApi";
 import { Button, Form, Input, message, Modal, Select, Upload } from "antd";
 import Image from "next/image";
@@ -93,13 +94,15 @@ const AddProject = () => {
   const handlePaymentSuccess = async () => {
     try {
       const response = await addProject(formData1).unwrap();
-      console.log("Response:", response);
+      console.log(" --------------->><<<", response);
+
       if (response?.statusCode === 200) {
-        console.log("project created successfully ------------------->>");
-        // SuccessSwal({
-        //   title: "",
-        //   text: "Project created successfully!",
-        // });
+        setIsModalVisible(false);
+        router.push("/profile/my-projects");
+        SuccessSwal({
+          title: "",
+          text: "Project created successfully!",
+        });
       }
     } catch (error) {
       const statusCode = error?.data?.statusCode;
@@ -128,7 +131,7 @@ const AddProject = () => {
           {/* Back Button */}
           <button
             onClick={handleBack}
-            className="absolute top-4 left-4 text-gray-600 hover:text-gray-800 focus:outline-none z-30"
+            className="absolute top-8 left-8 text-gray-600 hover:text-gray-800 focus:outline-none z-30"
             aria-label="Go Back"
           >
             <FaArrowLeft size={24} />
@@ -406,7 +409,7 @@ const AddProject = () => {
             type="primary"
             loading={isLoading}
             className="bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary/90"
-            onClick={handlePaymentSuccess} // Replace with payment logic
+            onClick={handlePaymentSuccess}
           >
             Pay Now
           </Button>

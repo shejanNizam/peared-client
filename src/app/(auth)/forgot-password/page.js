@@ -5,7 +5,7 @@ import { useForgotPasswordMutation } from "@/redux/features/authApi";
 import { Button, Form, Input } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FaArrowLeft } from "react-icons/fa6";
+import { FaArrowLeft } from "react-icons/fa";
 
 const ForgotPassword = () => {
   const router = useRouter();
@@ -43,7 +43,7 @@ const ForgotPassword = () => {
       <div className="bg-white shadow-lg rounded-lg w-full max-w-md p-6 relative">
         <button
           onClick={handleBack}
-          className="absolute top-4 left-4 hover:text-gray-900 focus:outline-none"
+          className="absolute top-8 left-8 text-gray-500 hover:text-gray-900 focus:outline-none"
           aria-label="Go Back"
         >
           <FaArrowLeft size={24} />

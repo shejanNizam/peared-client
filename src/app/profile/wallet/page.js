@@ -1,6 +1,9 @@
 "use client";
 
-import { useAddBalanceMutation } from "@/redux/features/payment/paymentApi";
+import {
+  useAddBalanceMutation,
+  useMyWalletQuery,
+} from "@/redux/features/payment/paymentApi";
 import { PlusOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -53,7 +56,11 @@ const initialHistoryData = [
 export default function Wallet() {
   const [isAddBalanceModalOpen, setIsAddBalanceModalOpen] = useState(false);
   const [addBalanceForm] = Form.useForm();
-  const balance = 100;
+
+  const { data } = useMyWalletQuery();
+  // console.log(data?.data?.amount);
+
+  const balance = data?.data?.amount;
 
   const [transactions, setTransactions] = useState(initialHistoryData);
 
@@ -97,7 +104,7 @@ export default function Wallet() {
           </Text>
           <Title level={1} className="my-4">
             ${" "}
-            {balance.toLocaleString(undefined, {
+            {balance?.toLocaleString(undefined, {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             })}

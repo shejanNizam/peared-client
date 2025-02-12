@@ -113,7 +113,7 @@ const Feedback = () => {
               {" "}
               Feedback About Their Experience With Us{" "}
             </CustomHeading>
-            <p className="my-6">
+            <p className="my-6 text-black">
               Read testimonials from our satisfied clients. See how our cleaning
               services have made a difference in their lives and homes
             </p>

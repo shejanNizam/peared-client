@@ -6,7 +6,7 @@ import { setCredentials } from "@/redux/slices/authSlice";
 import { Button, Checkbox, Form, Input } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FaArrowLeft } from "react-icons/fa6";
+import { FaArrowLeft } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 
 const Login = () => {
@@ -51,10 +51,10 @@ const Login = () => {
 
   return (
     <div className="min-h-screen w-full flex flex-col justify-center items-center bg-secondary">
-      <div className="bg-white shadow-2xl rounded-2xl rounded-tl-[8rem] md:rounded-tl-[10rem] rounded-br-[8rem] md:rounded-br-[10rem] w-full max-w-xl p-8 md:p-16 mt-[-200px] relative">
+      <div className="bg-white shadow-2xl rounded-2xl w-full max-w-xl p-8 md:p-16 mt-[-200px] relative">
         <button
           onClick={handleBack}
-          className="absolute top-12 left-16 text-gray-500 hover:text-gray-900 focus:outline-none"
+          className="absolute top-8 left-8 text-gray-500 hover:text-gray-900 focus:outline-none"
           aria-label="Go Back"
         >
           <FaArrowLeft size={24} />

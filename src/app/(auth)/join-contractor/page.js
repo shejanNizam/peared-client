@@ -16,6 +16,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { FaArrowLeft } from "react-icons/fa";
 
 const { Text } = Typography;
 
@@ -93,10 +94,22 @@ const JoinAsContractor = () => {
     setCertificates(fileList);
   };
 
+  const handleBack = () => {
+    router.back();
+  };
+
   return (
     <>
       <div className="min-h-screen w-full flex flex-col justify-center items-center bg-secondary">
-        <div className="bg-white shadow-2xl rounded-2xl w-full max-w-xl px-8 md:px-16 py-4 md:py-8 my-20">
+        <div className="bg-white shadow-2xl rounded-2xl w-full max-w-xl px-8 md:px-16 py-4 md:py-8 my-20 relative">
+          <button
+            onClick={handleBack}
+            className="absolute top-8 left-8 text-gray-500 hover:text-gray-900 focus:outline-none"
+            aria-label="Go Back"
+          >
+            <FaArrowLeft size={24} />
+          </button>
+
           <div className="flex flex-col items-center">
             <h2 className="text-2xl md:text-4xl font-semibold mb-8 border-b-2 border-b-secondary">
               Join As Contractor

@@ -19,7 +19,7 @@ export default function WhatPeared() {
             <h3 className="font-bold text-3xl md:text-4xl lg:text-5xl text-primary">
               What is Peared?
             </h3>
-            <p>
+            <p className="text-black">
               Peared is a one stop shop for customers to pear up with
               professionals in their area for any project. Our platform offers
               project and payment security for both customers and contractors. 

@@ -72,9 +72,9 @@ export default function BidList() {
               >
                 See Details
               </button>
-              {/* <button className="bg-primary text-white hover:bg-white hover:text-black hover:border hover:border-primary px-4 py-2 rounded">
+              <button className="bg-primary text-white hover:bg-white hover:text-black hover:border hover:border-primary px-4 py-2 rounded">
                 Approve
-              </button> */}
+              </button>
             </div>
           </div>
         ))}

@@ -190,7 +190,7 @@ export default function WhyPeared() {
                         priority
                       />
                     </div>
-                    <p className="text-primary text-lg">{option.description}</p>
+                    <p className="text-black text-lg">{option.description}</p>
                   </div>
                 )
             )}

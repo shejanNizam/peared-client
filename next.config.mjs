@@ -6,6 +6,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "i.stack.imgur.com",
       },
+      {
+        protocol: "https",
+        hostname: "magy-abu-sayed.sarv.live",
+      },
     ],
   },
 };

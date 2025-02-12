@@ -15,14 +15,14 @@ export default function WantContractor() {
             {" "}
             Want to be a Peared contractor?{" "}
           </h3>
-          <p>
+          <p className="text-black">
             Peared allows you to easily find work in your field and only accept
             jobs that you want, for a mutually agreed upon price. 
             <br />
             <br />
             Bid on projects in any pricing format, whether it be a flat rate, by
             the hour, or by the task, it is up to you.
-            <Link href="/" className="text-primary">
+            <Link href="/" className="text-primary font-bold">
                See More....
             </Link>
           </p>
