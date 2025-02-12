@@ -1,55 +1,34 @@
-// components/MyProfile.jsx
+"use client";
 
-"use client"; // Ensures client-side rendering for hooks
-
-import { UploadOutlined } from "@ant-design/icons"; // Import Ant Design icons
-import { Button, Checkbox, Form, Input, Modal, Upload, message } from "antd"; // Import Ant Design components
+import { UploadOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Form, Input, Modal, Upload, message } from "antd";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { FaTimes } from "react-icons/fa"; // Importing the FaTimes icon
+import { FaTimes } from "react-icons/fa";
 import image from "../../../assets/home/feedback/image1.png";
 
 export default function MyProfile() {
-  // Initialize user data state
   const [userData, setUserData] = useState({
     name: "John Doe",
     email: "john.doe@example.com",
     streetAddress: "123 Main St",
     city: "Anytown",
     postalCode: "12345",
-    image: image, // Add image to user data
+    image: image,
   });
-
-  // State to control Edit Profile modal visibility
+  const [formData, setFormData] = useState({ ...userData });
+  const [previewImage, setPreviewImage] = useState(null);
+  const [profileImage, setProfileImage] = useState(image);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-
-  // State to control Change Password modal visibility
   const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
     useState(false);
-
-  // Ref for the Edit button to return focus after closing modal
   const editButtonRef = useRef(null);
-
-  // Ref for the Change Password button to return focus after closing modal
   const changePasswordButtonRef = useRef(null);
-
-  // Ref for the Ant Design Form instance
   const [editForm] = Form.useForm();
   const [passwordForm] = Form.useForm();
 
-  // State to manage form inputs within the Edit Profile modal
-  const [formData, setFormData] = useState({ ...userData });
-
-  // State for image preview
-  const [previewImage, setPreviewImage] = useState(null);
-
-  // State to manage profile image
-  const [profileImage, setProfileImage] = useState(image); // Initialize with the default image
-
-  // Handle image upload and preview in Edit Profile modal
   const handleImageChange = ({ fileList }) => {
     if (fileList.length === 0) {
-      // No files uploaded
       setFormData((prev) => ({
         ...prev,
         image: null,
@@ -58,88 +37,67 @@ export default function MyProfile() {
       return;
     }
 
-    const fileObj = fileList[0].originFileObj; // Access the first (and only) file
+    const fileObj = fileList[0].originFileObj;
 
     if (!fileObj || !(fileObj instanceof Blob)) {
       message.error("Invalid file type. Please upload a valid image.");
       return;
     }
 
-    // Validate file type
     const isImage = fileObj.type.startsWith("image/");
     if (!isImage) {
       message.error("You can only upload image files!");
       return;
     }
 
-    // Validate file size (e.g., max 2MB)
     const isLt2M = fileObj.size / 1024 / 1024 < 2;
     if (!isLt2M) {
       message.error("Image must be smaller than 2MB!");
       return;
     }
 
-    // Read the image and set it for preview
     const reader = new FileReader();
     reader.onload = (e) => {
       setFormData((prev) => ({
         ...prev,
-        image: e.target.result, // Store the Data URL
+        image: e.target.result,
       }));
       setPreviewImage(e.target.result);
     };
     reader.readAsDataURL(fileObj);
   };
 
-  // Handle form submission in the Edit Profile modal
   const handleEditFormSubmit = (values) => {
-    // Update user data with form values, including the new image
     setUserData({ ...values, image: formData.image });
-    // Update the profile image state to reflect changes in the main view
     setProfileImage(formData.image);
-    // Show success message
     message.success("Profile updated successfully!");
-    // Close the modal
     setIsEditModalOpen(false);
-    // Optionally, reset the form fields if needed
     editForm.resetFields();
   };
 
-  // Handle form submission in the Change Password modal
   const handleChangePassword = (values) => {
     const { email, oldPassword, newPassword, confirmPassword } = values;
 
-    // Mock validation: In real scenarios, verify oldPassword with backend
     if (oldPassword === "incorrect") {
       message.error("Old password is incorrect");
       return;
     }
-
-    // Mock success: Update password
     message.success("Password changed successfully!");
-
-    // Close the Change Password modal
     setIsChangePasswordModalOpen(false);
-
-    // Optionally, reset the form fields
     passwordForm.resetFields();
   };
 
-  // Handle opening the Edit Profile modal and initializing form data
   const openEditModal = () => {
-    setFormData({ ...userData }); // Reset form data to current user data
+    setFormData({ ...userData });
     setIsEditModalOpen(true);
   };
 
-  // Handle opening the Change Password modal
   const openChangePasswordModal = () => {
     setIsChangePasswordModalOpen(true);
   };
 
-  // Focus management: Focus first input when modal opens and return focus when it closes
   useEffect(() => {
     if (isEditModalOpen) {
-      // Delay to ensure the modal is rendered
       setTimeout(() => {
         const nameInput = document.querySelector('input[name="name"]');
         if (nameInput) {
@@ -155,7 +113,6 @@ export default function MyProfile() {
 
   useEffect(() => {
     if (isChangePasswordModalOpen) {
-      // Delay to ensure the modal is rendered
       setTimeout(() => {
         const emailInput = document.querySelector('input[name="email"]');
         if (emailInput) {
@@ -169,7 +126,6 @@ export default function MyProfile() {
     }
   }, [isChangePasswordModalOpen]);
 
-  // Handle closing modal with Esc key
   useEffect(() => {
     const handleEsc = (event) => {
       if (event.key === "Escape") {
@@ -269,15 +225,13 @@ export default function MyProfile() {
                     type="text"
                     id="postalCode"
                     name="postalCode"
+                    // defaultValue={userData.postalCode}
                     value={userData.postalCode}
                     readOnly
                     className="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-sm md:text-base"
                   />
                 </div>
               </div>
-
-              {/* Remove the Save Changes button from the main form */}
-              {/* It will be handled via the Edit Profile modal */}
             </div>
           </form>
         </div>
