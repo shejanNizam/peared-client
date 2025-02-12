@@ -59,53 +59,18 @@ const AddProject = () => {
 
   // Handle form submission
   const onFinish = async (values) => {
-    console.log("Original Values:", values);
-
     const formData = new FormData();
-    console.log(" --------------<<<<<<<<<<<<<<<<", formData);
-
-    // Append all text fields
     Object.keys(values).forEach((key) => {
       if (key !== "image") {
         formData.append(key, values[key]);
       }
     });
-
     // Append image file(s) if available
     if (values.image && values.image.length > 0) {
       formData.append("image", values.image[0].originFileObj); // Take the first image file
     }
-
     setFormData1(formData);
     setIsModalVisible(true);
-    try {
-      const response = await addProject(formData).unwrap();
-      console.log("Response:", response);
-      if (response?.statusCode === 200) {
-        console.log("project created successfully ------------------->>");
-        // SuccessSwal({
-        //   title: "",
-        //   text: "Project created successfully!",
-        // });
-      }
-    } catch (error) {
-      const statusCode = error?.data?.statusCode;
-      console.log(statusCode);
-      if (statusCode === 402) {
-        Swal.fire({
-          text: `${error?.data?.message}`,
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Go Wallet",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            router.push("/profile/wallet");
-          }
-        });
-      }
-    }
   };
 
   // Handle back button click
@@ -125,8 +90,35 @@ const AddProject = () => {
     setImage(file); // Store the latest uploaded image
   };
 
-  const handlePaymentSuccess = (formData) => {
-    console.log("click pay now ---------------------->>>>>>>>>>>> ", formData);
+  const handlePaymentSuccess = async () => {
+    try {
+      const response = await addProject(formData1).unwrap();
+      console.log("Response:", response);
+      if (response?.statusCode === 200) {
+        console.log("project created successfully ------------------->>");
+        // SuccessSwal({
+        //   title: "",
+        //   text: "Project created successfully!",
+        // });
+      }
+    } catch (error) {
+      const statusCode = error?.data?.statusCode;
+      console.log(statusCode);
+      if (statusCode === 402) {
+        Swal.fire({
+          text: error?.data || error?.data?.message || "something went wrong",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Go Wallet",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            router.push("/profile/wallet");
+          }
+        });
+      }
+    }
   };
 
   return (
@@ -373,7 +365,6 @@ const AddProject = () => {
                 type="primary"
                 htmlType="submit"
                 size="large"
-                loading={isLoading}
                 className="w-full bg-green-500 hover:bg-green-600 transition-colors"
               >
                 Add Project
@@ -413,8 +404,9 @@ const AddProject = () => {
           {/* Pay Now Button */}
           <Button
             type="primary"
+            loading={isLoading}
             className="bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary/90"
-            onClick={() => handlePaymentSuccess(formData1)} // Replace with payment logic
+            onClick={handlePaymentSuccess} // Replace with payment logic
           >
             Pay Now
           </Button>

@@ -35,28 +35,22 @@ const ProfileMenu = ({ handleLogout }) => (
 export default function Navbar() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  // console.log(user);
 
   const [isOpen, setIsOpen] = useState(false);
 
   const pathname = usePathname();
   const router = useRouter();
 
-  // Toggle mobile menu
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
-  // Close mobile menu
   const closeMenu = () => {
     setIsOpen(false);
   };
 
-  // Navigation links data
   const navigation = [
     { name: "Home", href: "/" },
-    { name: "Projects", href: "/projects" },
-    // { name: "Add Project", href: "/add-project" },
     { name: "Contact", href: "/contact" },
   ];
 
@@ -74,7 +68,6 @@ export default function Navbar() {
       confirmButtonText: "Yes, logout!",
     }).then((result) => {
       if (result.isConfirmed) {
-        // Implement actual logout logic here
         Swal.fire({
           title: "Logged out",
           text: "You have successfully logged out.",
@@ -107,7 +100,6 @@ export default function Navbar() {
 
             {/* Desktop Menu */}
             <div className="hidden md:flex md:items-center space-x-4">
-              {/* Navigation Links */}
               <div
                 className={`flex space-x-4 ${
                   user?.role === "user" ? " text-center " : ""
@@ -161,6 +153,12 @@ export default function Navbar() {
                 </>
               ) : user?.role === "provider" ? (
                 <>
+                  <Link
+                    href="/projects"
+                    className="text-black hover:text-primary transition duration-200"
+                  >
+                    Projects
+                  </Link>
                   <Dropdown
                     overlay={
                       <ProfileMenu
@@ -322,15 +320,61 @@ export default function Navbar() {
                     </div>
                   </Dropdown>
                 </>
-              ) : (
+              ) : user?.role === "provider" ? (
                 <>
                   <Link
-                    href="/login"
+                    href="/projects"
                     onClick={closeMenu}
-                    className="block px-6 py-3 mt-2 bg-white text-primary border border-primary rounded-md text-sm font-medium hover:text-white hover:bg-primary transition duration-200"
+                    className="block px-6 py-3 mt-2 text-black hover:text-primary transition duration-200"
                   >
-                    Login
+                    Projects
                   </Link>
+                  <Dropdown
+                    overlay={
+                      <ProfileMenu
+                        router={router}
+                        handleLogout={handleLogout}
+                      />
+                    }
+                    trigger={["click"]}
+                    placement="bottomRight"
+                  >
+                    <div
+                      className={`flex justify-start items-center gap-2 px-4 py-2 mt-2 cursor-pointer ${
+                        pathname === "/profile/my-profile"
+                          ? "text-primary underline font-semibold"
+                          : "text-gray-700 hover:text-gray-900"
+                      }`}
+                    >
+                      <Image
+                        width={1000}
+                        height={1000}
+                        className="w-16 h-16 rounded-full border-4 border-primary"
+                        src={profile_image}
+                        alt="profile_image"
+                      />
+                      <TiArrowSortedDown />
+                    </div>
+                  </Dropdown>
+                </>
+              ) : (
+                <>
+                  <>
+                    <Link
+                      href="/join-contractor"
+                      onClick={closeMenu}
+                      className="block px-6 py-3 mt-2 text-black underline hover:text-primary transition duration-200"
+                    >
+                      Join as Contractor
+                    </Link>
+                    <Link
+                      href="/login"
+                      onClick={closeMenu}
+                      className="block px-6 py-3 mt-2 bg-white text-primary border border-primary rounded-md text-sm font-medium hover:text-white hover:bg-primary transition duration-200"
+                    >
+                      Login
+                    </Link>
+                  </>
                 </>
               )}
             </nav>
