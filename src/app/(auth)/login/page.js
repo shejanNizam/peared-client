@@ -38,6 +38,7 @@ const Login = () => {
 
       router.push("/profile/my-profile");
     } catch (error) {
+      console.log(error);
       ErrorSwal({
         title: "Login failed!",
         text: `${error?.data?.message}`,

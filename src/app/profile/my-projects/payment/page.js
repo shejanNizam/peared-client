@@ -6,7 +6,7 @@ export default function Payment() {
   const router = useRouter();
 
   const handlePayment = () => {
-    router.push(`/profile/project-details`);
+    router.push(`/profile/project-details-message`);
   };
 
   return (

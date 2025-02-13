@@ -1,23 +1,17 @@
-// components/Project.jsx
-
 "use client";
 
 import CustomHeading from "@/components/utils/CustomHeading";
+import { Button, DatePicker, Form, Input, Modal, Select } from "antd";
+import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
-
-// 1) Import Ant Design components
-import { Button, Input, Select } from "antd";
-
-const { Option } = Select;
-const { Search } = Input;
-
-// Sample data (all have category = "Plumber";
-// you might want to change them to the categories below)
 import image from "../../assets/project/project_img_1.png";
 import image2 from "../../assets/project/project_img_2.png";
+
+const { Option } = Select;
+const { Search, TextArea } = Input;
 
 const projects = [
   {
@@ -106,56 +100,59 @@ const projects = [
   },
 ];
 
-// AnimatePresence + Framer Motion variants
 const overlayVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1 },
   exit: { opacity: 0 },
 };
-
 const modalVariants = {
   hidden: { scale: 0.8, opacity: 0 },
   visible: { scale: 1, opacity: 1 },
   exit: { scale: 0.8, opacity: 0 },
 };
 
-// 2) Categories you want in the Select
-// NOTE: If your data is all "Plumber", you won't see results unless you add "Plumber" here or change your data to these categories.
 const categories = [
   "Residential Cleaning",
   "Commercial Cleaning",
   "Painting",
   "Landscaping",
   "Carpentry",
-  "Plumber", // <- added so your sample data can be filtered
 ];
 
 export default function Projects() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-
-  // 3) Filter states
+  const [isBidModalOpen, setIsBidModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchText, setSearchText] = useState("");
 
-  // Prevent background scrolling when modal is open
   useEffect(() => {
-    if (isModalOpen) {
+    if (isModalOpen || isBidModalOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
     }
-
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [isModalOpen]);
+  }, [isModalOpen, isBidModalOpen]);
+
+  useEffect(() => {
+    const handleEsc = (event) => {
+      if (event.key === "Escape") {
+        handleCloseModal();
+        handleCloseBidModal();
+      }
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, []);
 
   const handleClickProjectDetails = (project) => {
     setSelectedProject(project);
     setIsModalOpen(true);
-    setIsImageLoaded(false); // Reset image load state
+    setIsImageLoaded(false);
   };
 
   const handleCloseModal = () => {
@@ -163,24 +160,24 @@ export default function Projects() {
     setSelectedProject(null);
   };
 
-  // Close modal when pressing Escape key
-  useEffect(() => {
-    const handleEsc = (event) => {
-      if (event.key === "Escape") {
-        handleCloseModal();
-      }
-    };
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
-  }, []);
+  const handleOpenBidModal = (project) => {
+    setSelectedProject(project);
+    setIsBidModalOpen(true);
+  };
 
-  // 4) Filtering Logic
+  const handleCloseBidModal = () => {
+    setIsBidModalOpen(false);
+  };
+
+  const onFinish = (values) => {
+    console.log("Bid form values:", values);
+    setIsBidModalOpen(false);
+  };
+
   const filteredProjects = projects.filter((proj) => {
-    // If a category is selected, filter by it
     if (selectedCategory && proj.category !== selectedCategory) {
       return false;
     }
-    // If there's search text, check if it's in the title (case-insensitive)
     if (
       searchText &&
       !proj.title.toLowerCase().includes(searchText.toLowerCase())
@@ -190,7 +187,6 @@ export default function Projects() {
     return true;
   });
 
-  // 5) Handlers for the filters
   const handleSelectCategory = (value) => {
     setSelectedCategory(value);
   };
@@ -208,12 +204,9 @@ export default function Projects() {
     <>
       <section className="py-12 bg-white">
         <div className="container mx-auto px-4">
-          {/* Heading */}
           <div className="mb-8 text-center">
             <CustomHeading>Project List</CustomHeading>
           </div>
-
-          {/* 6) Filter Row using Ant Design Select + Search + Button */}
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
             <Select
               placeholder="Select Category"
@@ -228,7 +221,6 @@ export default function Projects() {
                 </Option>
               ))}
             </Select>
-
             <Search
               placeholder="Search by title"
               allowClear
@@ -237,18 +229,14 @@ export default function Projects() {
               onChange={(e) => setSearchText(e.target.value)}
               style={{ width: 300 }}
             />
-
             <Button onClick={handleClearFilters}>Clear All</Button>
           </div>
-
-          {/* Grid Layout */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProjects.map((project) => (
               <div
                 key={project._id}
                 className="bg-secondary p-4 rounded-lg overflow-hidden shadow-md flex flex-col hover:shadow-xl transition-shadow duration-300"
               >
-                {/* Image */}
                 <div className="relative w-full h-48 mb-4 rounded-t-lg overflow-hidden">
                   <Image
                     src={project.image}
@@ -258,8 +246,6 @@ export default function Projects() {
                     className="rounded-t-lg"
                   />
                 </div>
-
-                {/* Content */}
                 <div className="p-6 flex flex-col flex-grow">
                   <h3 className="text-xl font-semibold mb-2">
                     {project.title}
@@ -274,7 +260,6 @@ export default function Projects() {
                   <p className="text-gray-700 mb-6 flex-grow">
                     {project.description}
                   </p>
-                  {/* Button */}
                   <div className="flex justify-between">
                     <button
                       onClick={() => handleClickProjectDetails(project)}
@@ -283,7 +268,7 @@ export default function Projects() {
                       Learn More
                     </button>
                     <button
-                      onCanPlay={"bid"}
+                      onClick={() => handleOpenBidModal(project)}
                       className="bg-primary/80 text-white px-4 py-2 rounded hover:bg-primary transition-colors duration-300"
                     >
                       Bid
@@ -295,8 +280,6 @@ export default function Projects() {
           </div>
         </div>
       </section>
-
-      {/* Modal */}
       <AnimatePresence>
         {isModalOpen && selectedProject && (
           <motion.div
@@ -319,7 +302,6 @@ export default function Projects() {
               aria-modal="true"
               aria-labelledby="modal-title"
             >
-              {/* Close Button */}
               <button
                 onClick={handleCloseModal}
                 className="absolute top-4 right-4 text-red-500 hover:text-red-700 transition-colors duration-200"
@@ -327,8 +309,6 @@ export default function Projects() {
               >
                 <FaTimes size={24} />
               </button>
-
-              {/* Modal Content */}
               <div className="p-6">
                 <h2
                   id="modal-title"
@@ -337,7 +317,6 @@ export default function Projects() {
                   Project Details
                 </h2>
                 <div className="flex flex-col md:flex-row gap-6">
-                  {/* Left Side - Properties */}
                   <div className="md:w-1/2">
                     <ul className="space-y-2">
                       <li className="font-bold">{selectedProject.title}</li>
@@ -367,8 +346,6 @@ export default function Projects() {
                       </li>
                     </ul>
                   </div>
-
-                  {/* Right Side - Image and Description */}
                   <div className="md:w-1/2">
                     <div
                       className={`relative w-full h-40 mb-4 ${
@@ -389,8 +366,6 @@ export default function Projects() {
                     </p>
                   </div>
                 </div>
-
-                {/* Back Button */}
                 <div className="mt-6 flex justify-center">
                   <button
                     onClick={handleCloseModal}
@@ -404,6 +379,72 @@ export default function Projects() {
           </motion.div>
         )}
       </AnimatePresence>
+      <Modal
+        open={isBidModalOpen}
+        onCancel={handleCloseBidModal}
+        footer={null}
+        destroyOnClose
+        title={<h2 className="text-xl font-bold text-primary">Bid</h2>}
+      >
+        <Form layout="vertical" onFinish={onFinish} className="">
+          <div className="">
+            <Form.Item
+              label="Price (Fixed)"
+              name="price"
+              rules={[{ required: true, message: "Please enter a price" }]}
+            >
+              <Input type="number" placeholder="Price" />
+            </Form.Item>
+            <Form.Item
+              label="Service Time (days)"
+              name="serviceTime"
+              rules={[
+                { required: true, message: "Please enter the service time" },
+              ]}
+            >
+              <Input type="number" placeholder="4 days" />
+            </Form.Item>
+            <Form.Item
+              label="Starting Date"
+              name="startingDate"
+              rules={[
+                { required: true, message: "Please pick a starting date" },
+              ]}
+            >
+              <DatePicker
+                style={{ width: "100%" }}
+                disabledDate={(current) =>
+                  current && current < dayjs().startOf("day")
+                }
+              />
+            </Form.Item>
+          </div>
+          <div className="">
+            <Form.Item
+              label="Work Details"
+              name="workDetails"
+              rules={[
+                {
+                  required: true,
+                  message: "Please write something about your work process",
+                },
+              ]}
+            >
+              <TextArea
+                rows={6}
+                maxLength={200}
+                placeholder="Write something about your work process"
+              />
+            </Form.Item>
+          </div>
+          <div className="text-ce mt-4 ">
+            <Button onClick={handleCloseBidModal}>Back</Button>
+            <Button type="primary" htmlType="submit">
+              Send
+            </Button>
+          </div>
+        </Form>
+      </Modal>
     </>
   );
 }

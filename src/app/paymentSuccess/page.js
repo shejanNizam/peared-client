@@ -44,7 +44,7 @@ const PaymentSuccess = () => {
             // e.g., window.location.href = '/dashboard';
           }}
         >
-          Go to Dashboard
+          Go to Login
         </Link>
       </div>
     </div>

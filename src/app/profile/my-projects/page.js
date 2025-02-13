@@ -8,9 +8,13 @@ export default function MyProjects() {
   const router = useRouter();
 
   const { data } = useMyProjectsQuery();
+  console.log(data?.data);
 
   const handleOpenProject = (project) => {
-    router.push(`/profile/my-projects/bid-lists?projectid=${project._id}`);
+    router.push(`/profile/my-projects/bid-lists?projectId=${project._id}`);
+  };
+  const handleGoToMessage = () => {
+    router.push(`//profile/project-details-message`);
   };
 
   return (
@@ -44,7 +48,11 @@ export default function MyProjects() {
             </p>
             <div className="flex justify-center">
               <button
-                onClick={() => handleOpenProject(project)}
+                onClick={
+                  project?.payment === "true"
+                    ? handleGoToMessage
+                    : () => handleOpenProject(project)
+                }
                 className="bg-primary/80 text-white px-4 py-2 rounded hover:bg-primary transition-colors duration-300"
               >
                 Open
