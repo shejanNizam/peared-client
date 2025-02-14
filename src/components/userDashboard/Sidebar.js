@@ -20,7 +20,7 @@ export default function Sidebar({ isCollapsed, toggleSidebarCollapsed }) {
   const firstLinkRef = useRef(null);
 
   const menuItems = [
-    { name: "My Profile", icon: <FaUser />, path: "/profile/my-profile" },
+    { name: "My Profile", icon: <FaUser />, path: "/profile" },
     {
       name: "My Projects",
       icon: <FaProjectDiagram />,

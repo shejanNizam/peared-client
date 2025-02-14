@@ -16,7 +16,7 @@ import main_logo from "../../assets/main_logo.svg";
 const ProfileMenu = ({ handleLogout }) => (
   <Menu>
     <Menu.Item key="1">
-      <Link className="font-bold text-primary" href="/profile/my-profile">
+      <Link className="font-bold text-primary" href="/profile">
         My Profile
       </Link>
     </Menu.Item>

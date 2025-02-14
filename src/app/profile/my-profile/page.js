@@ -1,5 +1,6 @@
 "use client";
 
+import { useGetUserDataQuery } from "@/redux/features/userApi";
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Modal, Upload, message } from "antd";
 import Image from "next/image";
@@ -26,6 +27,11 @@ export default function MyProfile() {
   const changePasswordButtonRef = useRef(null);
   const [editForm] = Form.useForm();
   const [passwordForm] = Form.useForm();
+
+  const { data } = useGetUserDataQuery();
+
+  const user = data?.data;
+  // console.log(user);
 
   const handleImageChange = ({ fileList }) => {
     if (fileList.length === 0) {

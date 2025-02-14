@@ -36,7 +36,7 @@ const Login = () => {
         text: "Welcome to Peared!",
       });
 
-      router.push("/profile/my-profile");
+      router.push("/profile");
     } catch (error) {
       console.log(error);
       ErrorSwal({

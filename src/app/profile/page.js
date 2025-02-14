@@ -1,14 +1,18 @@
-// app/profile/page.jsx
+"use client";
 
-import React from "react";
+import ProviderProfile from "@/components/profile/my-profile/ProviderProfile";
+import UserProfile from "@/components/profile/my-profile/UserProfile";
+import { useGetUserDataQuery } from "@/redux/features/userApi";
 
 export default function ProfileHomePage() {
+  const { data } = useGetUserDataQuery();
+  const user = data?.data;
+  console.log(user);
+
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-4">Welcome to Your Profile</h1>
-      <p className="text-gray-700">
-        Select an option from the sidebar to view more details.
-      </p>
+      {user?.role === "user" && <UserProfile />}
+      {user?.role === "provider" && <ProviderProfile />}
     </div>
   );
 }

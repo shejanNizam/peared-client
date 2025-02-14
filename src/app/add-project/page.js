@@ -56,7 +56,7 @@ const AddProject = () => {
     setImage(file); // Set only one image
     return false; // Prevent automatic upload
   };
-  console.log("Outside --------------->><<", formData1);
+  // console.log("Outside --------------->><<", formData1);
 
   // Handle form submission
   const onFinish = async (values) => {
