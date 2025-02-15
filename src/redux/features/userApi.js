@@ -8,7 +8,7 @@ export const userApi = baseApi.injectEndpoints({
         url: "/user/my-profile",
         method: "GET",
       }),
-      providesTags: ["a"],
+      providesTags: ["auth"],
     }),
 
     // Example: Update user data
@@ -18,7 +18,7 @@ export const userApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["a"],
+      invalidatesTags: ["auth"],
     }),
   }),
 });

@@ -13,17 +13,15 @@ export default function UserProfile() {
   const baseUrl = process.env.NEXT_PUBLIC_IMAGE_URL;
   const [file, setFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
-
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
     useState(false);
   const [form] = Form.useForm();
-  const [passwordForm] = Form.useForm();
 
   const { user } = useSelector((state) => state.auth);
   const [updateUser] = useUpdateUserDataMutation();
 
-  // Update the preview URL whenever a new file is selected
+  // Update the preview URL when a new file is selected
   useEffect(() => {
     if (file) {
       const objectUrl = URL.createObjectURL(file);
@@ -47,7 +45,6 @@ export default function UserProfile() {
 
   // Handle file changes (for a single image)
   const handleFileChange = ({ file }) => {
-    console.log("Uploaded File:", file);
     if (!file.type.startsWith("image/")) {
       message.error("Only image files (JPG, PNG, JPEG) are allowed!");
       return;
@@ -58,45 +55,25 @@ export default function UserProfile() {
   // Handle form submission for editing the profile
   const handleEditFormSubmit = async (values) => {
     const formData = new FormData();
-    const updatedValues = {
-      ...values,
-      image: file, // Use the file selected by the user
-    };
+    const updatedValues = { ...values, image: file };
 
     Object.keys(updatedValues).forEach((key) => {
       formData.append(key, updatedValues[key]);
     });
-    console.log(updatedValues);
 
     try {
-      const response = await updateUser(formData).unwrap();
-      console.log(response);
+      await updateUser(formData).unwrap();
       setIsEditModalOpen(false);
       SuccessSwal({
         title: "",
-        text: `Profile updated successfully!`,
+        text: "Profile updated successfully!",
       });
     } catch (error) {
       message.error(error?.message || error?.data?.message);
     }
   };
 
-  // Handle change password form submission
-  const handleChangePassword = (values) => {
-    const { oldPassword, newPassword, confirmPassword } = values;
-    if (oldPassword === "incorrect") {
-      message.error("Old password is incorrect");
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      message.error("New passwords do not match");
-      return;
-    }
-    message.success("Password changed successfully!");
-    setIsChangePasswordModalOpen(false);
-    passwordForm.resetFields();
-  };
-
+  // Update preview image when edit modal opens and no new file is selected
   useEffect(() => {
     if (isEditModalOpen && user && !file) {
       const formattedImage = user.image
@@ -111,7 +88,6 @@ export default function UserProfile() {
     }
   }, [isEditModalOpen, user, file, baseUrl]);
 
-  // Format the image path (remove "public" if present)
   const formattedImage = user?.image
     ? user.image.replace(/^public/, "")
     : "/default-profile.png";
@@ -151,7 +127,6 @@ export default function UserProfile() {
           <h2 className="text-xl font-bold">{user?.name}</h2>
           <p className="text-gray-600 mb-4">{user?.email}</p>
 
-          {/* Profile Details */}
           <form className="w-full">
             <div className="flex flex-col gap-6">
               <div className="w-full">
@@ -244,7 +219,6 @@ export default function UserProfile() {
             ]}
           >
             <div className="relative flex justify-center">
-              {/* Preview image container */}
               <div className="relative">
                 {previewImage ? (
                   <Image
@@ -257,8 +231,6 @@ export default function UserProfile() {
                 ) : (
                   <div className="w-24 h-24 bg-gray-200 rounded-full" />
                 )}
-
-                {/* Upload button overlayed on the image */}
                 <Upload
                   name="image"
                   maxCount={1}
@@ -266,7 +238,6 @@ export default function UserProfile() {
                   beforeUpload={handleBeforeUpload}
                   onChange={handleFileChange}
                   showUploadList={false}
-                  // Remove default styling if needed and use absolute positioning
                   className="absolute top-8 right-8"
                 >
                   <div
@@ -328,75 +299,11 @@ export default function UserProfile() {
         </Form>
       </Modal>
 
-      {/* Change Password Modal */}
+      {/* Standalone Change Password Modal */}
       <ChangePasswordModal
-        isChangePasswordModalOpen={isChangePasswordModalOpen}
-        setIsChangePasswordModalOpen={setIsChangePasswordModalOpen}
-        handleChangePassword={handleChangePassword}
-      />
-
-      {/* <Modal
-        title="Change Password"
         visible={isChangePasswordModalOpen}
-        onCancel={() => setIsChangePasswordModalOpen(false)}
-        footer={null}
-        centered
-        destroyOnClose
-        maskClosable
-        closeIcon={<FaTimes size={20} />}
-        width={600}
-      >
-        <Form
-          layout="vertical"
-          onFinish={handleChangePassword}
-          form={passwordForm}
-        >
-          <Form.Item
-            label="Old Password"
-            name="oldPassword"
-            rules={[
-              { required: true, message: "Please enter your old password" },
-            ]}
-          >
-            <Input.Password placeholder="Enter your old password" />
-          </Form.Item>
-
-          <Form.Item
-            label="New Password"
-            name="newPassword"
-            rules={[
-              { required: true, message: "Please enter your new password" },
-            ]}
-          >
-            <Input.Password placeholder="Enter your new password" />
-          </Form.Item>
-
-          <Form.Item
-            label="Confirm New Password"
-            name="confirmPassword"
-            dependencies={["newPassword"]}
-            rules={[
-              { required: true, message: "Please confirm your new password" },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (!value || getFieldValue("newPassword") === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject("The two passwords do not match");
-                },
-              }),
-            ]}
-          >
-            <Input.Password placeholder="Confirm your new password" />
-          </Form.Item>
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit" className="w-full">
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
-      </Modal> */}
+        onClose={() => setIsChangePasswordModalOpen(false)}
+      />
     </div>
   );
 }
