@@ -1,110 +1,23 @@
 "use client";
 
 import CustomHeading from "@/components/utils/CustomHeading";
+import { useAllProjectsQuery } from "@/redux/features/projects/projectApi";
 import { Button, DatePicker, Form, Input, Modal, Select } from "antd";
 import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
-import image from "../../assets/project/project_img_1.png";
-import image2 from "../../assets/project/project_img_2.png";
 
 const { Option } = Select;
 const { Search, TextArea } = Input;
-
-const projects = [
-  {
-    _id: "1",
-    image: image,
-    title: "Modern Apartment",
-    postCode: "12345",
-    time: "2 weeks",
-    description:
-      "A beautiful modern apartment located in the heart of the city with all amenities.",
-    category: "Plumber",
-    street: "Baker Street",
-    city: "London",
-    price: "$50-$70",
-    urgency: "Urgent (1 - 2 days)",
-  },
-  {
-    _id: "2",
-    image: image2,
-    title: "Luxury Villa",
-    postCode: "67890",
-    time: "1 month",
-    description:
-      "A stunning luxury villa with spacious rooms and a large garden.",
-    category: "Plumber",
-    street: "Elm Street",
-    city: "Manchester",
-    price: "$80-$100",
-    urgency: "Standard (3 - 5 days)",
-  },
-  {
-    _id: "3",
-    image: image,
-    title: "Cozy Cottage",
-    postCode: "54321",
-    time: "3 weeks",
-    description:
-      "A cozy cottage perfect for a family getaway with modern interiors.",
-    category: "Plumber",
-    street: "Maple Avenue",
-    city: "Birmingham",
-    price: "$60-$80",
-    urgency: "Urgent (1 - 2 days)",
-  },
-  {
-    _id: "4",
-    image: image,
-    title: "Urban Loft",
-    postCode: "98765",
-    time: "4 weeks",
-    description:
-      "An urban loft with an open floor plan and high ceilings, ideal for professionals.",
-    category: "Plumber",
-    street: "Pine Street",
-    city: "Leeds",
-    price: "$70-$90",
-    urgency: "Standard (3 - 5 days)",
-  },
-  {
-    _id: "5",
-    image: image,
-    title: "Beach House",
-    postCode: "11223",
-    time: "5 weeks",
-    description:
-      "A beautiful beach house with stunning sea views and direct beach access.",
-    category: "Plumber",
-    street: "Ocean Drive",
-    city: "Brighton",
-    price: "$90-$120",
-    urgency: "Non-Urgent (6+ days)",
-  },
-  {
-    _id: "6",
-    image: image,
-    title: "Mountain Cabin",
-    postCode: "44556",
-    time: "3 months",
-    description:
-      "A serene mountain cabin surrounded by nature, perfect for relaxation.",
-    category: "Plumber",
-    street: "Mountain Road",
-    city: "Edinburgh",
-    price: "$100-$150",
-    urgency: "Standard (3 - 5 days)",
-  },
-];
 
 const overlayVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1 },
   exit: { opacity: 0 },
 };
+
 const modalVariants = {
   hidden: { scale: 0.8, opacity: 0 },
   visible: { scale: 1, opacity: 1 },
@@ -127,6 +40,9 @@ export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchText, setSearchText] = useState("");
 
+  const { data } = useAllProjectsQuery();
+
+  // Update body overflow when modals are open
   useEffect(() => {
     if (isModalOpen || isBidModalOpen) {
       document.body.style.overflow = "hidden";
@@ -174,13 +90,15 @@ export default function Projects() {
     setIsBidModalOpen(false);
   };
 
-  const filteredProjects = projects.filter((proj) => {
-    if (selectedCategory && proj.category !== selectedCategory) {
+  // Filtering projects based on selected category and search text.
+  // We assume each project has keys: projectName and projectCategory.
+  const filteredProjects = data?.data?.filter((proj) => {
+    if (selectedCategory && proj.projectCategory !== selectedCategory) {
       return false;
     }
     if (
       searchText &&
-      !proj.title.toLowerCase().includes(searchText.toLowerCase())
+      !proj.projectName.toLowerCase().includes(searchText.toLowerCase())
     ) {
       return false;
     }
@@ -211,7 +129,7 @@ export default function Projects() {
             <Select
               placeholder="Select Category"
               style={{ width: 200 }}
-              value={selectedCategory}
+              value={selectedCategory || undefined}
               onChange={handleSelectCategory}
               allowClear
             >
@@ -222,7 +140,7 @@ export default function Projects() {
               ))}
             </Select>
             <Search
-              placeholder="Search by title"
+              placeholder="Search by project name"
               allowClear
               onSearch={handleSearch}
               value={searchText}
@@ -232,7 +150,7 @@ export default function Projects() {
             <Button onClick={handleClearFilters}>Clear All</Button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project) => (
+            {filteredProjects?.map((project) => (
               <div
                 key={project._id}
                 className="bg-secondary p-4 rounded-lg overflow-hidden shadow-md flex flex-col hover:shadow-xl transition-shadow duration-300"
@@ -240,7 +158,7 @@ export default function Projects() {
                 <div className="relative w-full h-48 mb-4 rounded-t-lg overflow-hidden">
                   <Image
                     src={project.image}
-                    alt={project.title}
+                    alt={project.projectName}
                     layout="fill"
                     objectFit="cover"
                     className="rounded-t-lg"
@@ -248,7 +166,7 @@ export default function Projects() {
                 </div>
                 <div className="p-6 flex flex-col flex-grow">
                   <h3 className="text-xl font-semibold mb-2">
-                    {project.title}
+                    {project.projectName}
                   </h3>
                   <p className="text-gray-500 mb-1">
                     <span className="font-medium">Post Code:</span>{" "}
@@ -258,7 +176,7 @@ export default function Projects() {
                     <span className="font-medium">Time:</span> {project.time}
                   </p>
                   <p className="text-gray-700 mb-6 flex-grow">
-                    {project.description}
+                    {project.workDetails}
                   </p>
                   <div className="flex justify-between">
                     <button
@@ -319,10 +237,12 @@ export default function Projects() {
                 <div className="flex flex-col md:flex-row gap-6">
                   <div className="md:w-1/2">
                     <ul className="space-y-2">
-                      <li className="font-bold">{selectedProject.title}</li>
+                      <li className="font-bold">
+                        {selectedProject.projectName}
+                      </li>
                       <li>
                         <span className="font-medium">Category:</span>{" "}
-                        {selectedProject.category}
+                        {selectedProject.projectCategory}
                       </li>
                       <li>
                         <span className="font-medium">Street:</span>{" "}
@@ -337,12 +257,12 @@ export default function Projects() {
                         {selectedProject.postCode}
                       </li>
                       <li>
-                        <span className="font-medium">Price:</span>{" "}
-                        {selectedProject.price}
+                        <span className="font-medium">Price Range:</span>{" "}
+                        {selectedProject.priceRange}
                       </li>
                       <li>
-                        <span className="font-medium">Urgency:</span>{" "}
-                        {selectedProject.urgency}
+                        <span className="font-medium">Time:</span>{" "}
+                        {selectedProject.time}
                       </li>
                     </ul>
                   </div>
@@ -354,7 +274,7 @@ export default function Projects() {
                     >
                       <Image
                         src={selectedProject.image}
-                        alt={selectedProject.title}
+                        alt={selectedProject.projectName}
                         layout="fill"
                         objectFit="cover"
                         className="rounded"
@@ -362,7 +282,7 @@ export default function Projects() {
                       />
                     </div>
                     <p className="text-gray-700">
-                      {selectedProject.description}
+                      {selectedProject.workDetails}
                     </p>
                   </div>
                 </div>
@@ -386,8 +306,8 @@ export default function Projects() {
         destroyOnClose
         title={<h2 className="text-xl font-bold text-primary">Bid</h2>}
       >
-        <Form layout="vertical" onFinish={onFinish} className="">
-          <div className="">
+        <Form layout="vertical" onFinish={onFinish}>
+          <div>
             <Form.Item
               label="Price (Fixed)"
               name="price"
@@ -419,7 +339,7 @@ export default function Projects() {
               />
             </Form.Item>
           </div>
-          <div className="">
+          <div>
             <Form.Item
               label="Work Details"
               name="workDetails"
@@ -437,7 +357,7 @@ export default function Projects() {
               />
             </Form.Item>
           </div>
-          <div className="text-ce mt-4 ">
+          <div className="text-center mt-4">
             <Button onClick={handleCloseBidModal}>Back</Button>
             <Button type="primary" htmlType="submit">
               Send

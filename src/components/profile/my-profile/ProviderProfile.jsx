@@ -1,5 +1,6 @@
 "use client";
 
+import ChangePasswordModal from "@/components/modals/ChangePasswordModal";
 import { useUpdateUserDataMutation } from "@/redux/features/userApi";
 import { Button, Form, Input, message, Modal, Select, Upload } from "antd";
 import Image from "next/image";
@@ -22,6 +23,9 @@ export default function ProviderProfile() {
   // Display URLs for existing certificates from user data
   const [certificate1Url, setCertificate1Url] = useState(null);
   const [certificate2Url, setCertificate2Url] = useState(null);
+
+  const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
+    useState(false);
 
   const [form] = Form.useForm();
   const [updateUser, { isLoading }] = useUpdateUserDataMutation();
@@ -277,6 +281,13 @@ export default function ProviderProfile() {
         </div>
       </div>
 
+      <button
+        onClick={() => setIsChangePasswordModalOpen(true)}
+        className="mt-6 bg-primary text-white px-4 py-2 md:px-6 md:py-2.5 rounded hover:bg-secondary-dark transition"
+      >
+        Change Password
+      </button>
+
       {/* Edit Profile Modal */}
       <Modal
         title={
@@ -470,6 +481,14 @@ export default function ProviderProfile() {
           </Form.Item>
         </Form>
       </Modal>
+
+      {/* pass chng */}
+
+      <ChangePasswordModal
+        visible={isChangePasswordModalOpen}
+        onClose={() => setIsChangePasswordModalOpen(false)}
+      />
+      {/* Change Password Button */}
     </div>
   );
 }
