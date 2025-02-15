@@ -1,109 +1,120 @@
 "use client";
 
-import {
-  useGetUserDataQuery,
-  useUpdateUserDataMutation,
-} from "@/redux/features/userApi";
-import { UploadOutlined } from "@ant-design/icons";
+import ChangePasswordModal from "@/components/modals/ChangePasswordModal";
+import { SuccessSwal } from "@/components/utils/allSwalFire";
+import { useUpdateUserDataMutation } from "@/redux/features/userApi";
 import { Button, Form, Input, Modal, Upload, message } from "antd";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { FaTimes } from "react-icons/fa";
-import image from "../../../assets/home/feedback/image1.png";
-
-// Function to handle image upload before sending to server
-const getBase64 = (file) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
+import { FaPlus, FaTimes } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 export default function UserProfile() {
-  const [profileImage, setProfileImage] = useState(image);
+  const baseUrl = process.env.NEXT_PUBLIC_IMAGE_URL;
+  const [file, setFile] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
+
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
     useState(false);
-  const [editForm] = Form.useForm();
+  const [form] = Form.useForm();
   const [passwordForm] = Form.useForm();
 
-  // Fetch user data
-  const { data } = useGetUserDataQuery();
-  const user = data?.data;
-
+  const { user } = useSelector((state) => state.auth);
   const [updateUser] = useUpdateUserDataMutation();
 
-  // Handle Image Upload
-  const handleImageChange = ({ fileList }) => {
-    if (fileList.length === 0) return;
+  // Update the preview URL whenever a new file is selected
+  useEffect(() => {
+    if (file) {
+      const objectUrl = URL.createObjectURL(file);
+      setPreviewImage(objectUrl);
+      return () => URL.revokeObjectURL(objectUrl);
+    } else {
+      setPreviewImage(null);
+    }
+  }, [file]);
 
-    const fileObj = fileList[0].originFileObj;
-
-    const isImage = fileObj.type.startsWith("image/");
+  // Check file type before upload and store file in state
+  const handleBeforeUpload = (file) => {
+    const isImage = file.type.startsWith("image/");
     if (!isImage) {
-      message.error("You can only upload image files!");
-      return;
+      message.error("Only image files (JPG, PNG, JPEG) are allowed!");
+      return Upload.LIST_IGNORE;
     }
-
-    const isLt2M = fileObj.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error("Image must be smaller than 2MB!");
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (e) => setProfileImage(e.target.result);
-    reader.readAsDataURL(fileObj);
+    setFile(file);
+    return false; // Prevent auto-upload
   };
 
-  // Handle Edit Profile form submission
-  const handleEditFormSubmit = (values) => {
+  // Handle file changes (for a single image)
+  const handleFileChange = ({ file }) => {
+    console.log("Uploaded File:", file);
+    if (!file.type.startsWith("image/")) {
+      message.error("Only image files (JPG, PNG, JPEG) are allowed!");
+      return;
+    }
+    setFile(file);
+  };
+
+  // Handle form submission for editing the profile
+  const handleEditFormSubmit = async (values) => {
+    const formData = new FormData();
     const updatedValues = {
       ...values,
-      image: profileImage,
+      image: file, // Use the file selected by the user
     };
 
-    updateUser(updatedValues)
-      .then(() => {
-        message.success("Profile updated successfully!");
-        setIsEditModalOpen(false);
-        editForm.resetFields();
-      })
-      .catch(() => {
-        message.error("Error updating profile!");
+    Object.keys(updatedValues).forEach((key) => {
+      formData.append(key, updatedValues[key]);
+    });
+    console.log(updatedValues);
+
+    try {
+      const response = await updateUser(formData).unwrap();
+      console.log(response);
+      setIsEditModalOpen(false);
+      SuccessSwal({
+        title: "",
+        text: `Profile updated successfully!`,
       });
+    } catch (error) {
+      message.error(error?.message || error?.data?.message);
+    }
   };
 
-  // Handle Change Password form submission
+  // Handle change password form submission
   const handleChangePassword = (values) => {
     const { oldPassword, newPassword, confirmPassword } = values;
-
     if (oldPassword === "incorrect") {
       message.error("Old password is incorrect");
       return;
     }
-
     if (newPassword !== confirmPassword) {
       message.error("New passwords do not match");
       return;
     }
-
     message.success("Password changed successfully!");
     setIsChangePasswordModalOpen(false);
     passwordForm.resetFields();
   };
 
   useEffect(() => {
-    if (isEditModalOpen && user) {
-      editForm.setFieldsValue({
-        name: user.name,
-        address: user.address || "",
-        city: user.city || "",
-        postalCode: user.postalCode || "",
-      });
+    if (isEditModalOpen && user && !file) {
+      const formattedImage = user.image
+        ? user.image.replace(/^public/, "")
+        : "/default-profile.png";
+      setPreviewImage(
+        baseUrl +
+          (formattedImage.startsWith("/")
+            ? formattedImage
+            : "/" + formattedImage)
+      );
     }
-  }, [isEditModalOpen, user, editForm]);
+  }, [isEditModalOpen, user, file, baseUrl]);
+
+  // Format the image path (remove "public" if present)
+  const formattedImage = user?.image
+    ? user.image.replace(/^public/, "")
+    : "/default-profile.png";
 
   return (
     <div className="flex flex-col justify-center items-center gap-6 p-4">
@@ -120,7 +131,15 @@ export default function UserProfile() {
 
         {/* Profile Image */}
         <Image
-          src={profileImage || user?.image || image}
+          src={
+            previewImage ||
+            (user?.image
+              ? baseUrl +
+                (formattedImage.startsWith("/")
+                  ? formattedImage
+                  : "/" + formattedImage)
+              : "/default-profile.png")
+          }
           alt="Profile Image"
           className="w-40 h-40 md:w-64 md:h-64 object-cover rounded-full"
           width={256}
@@ -197,7 +216,9 @@ export default function UserProfile() {
 
       {/* Edit Profile Modal */}
       <Modal
-        title="Edit Profile"
+        title={
+          <span className="text-xl font-bold text-primary"> Edit Profile </span>
+        }
         visible={isEditModalOpen}
         onCancel={() => setIsEditModalOpen(false)}
         footer={null}
@@ -205,38 +226,59 @@ export default function UserProfile() {
         destroyOnClose
         maskClosable
         closeIcon={<FaTimes size={20} />}
-        width={600}
+        width={500}
       >
         <Form
           layout="vertical"
           initialValues={user}
           onFinish={handleEditFormSubmit}
-          form={editForm}
+          form={form}
         >
-          <Form.Item label="Profile Photo">
-            <Upload
-              name="profile"
-              listType="picture"
-              showUploadList={false}
-              beforeUpload={() => false}
-              onChange={handleImageChange}
-              maxCount={1}
-            >
-              <Button icon={<UploadOutlined />}>Click to Upload</Button>
-            </Upload>
-          </Form.Item>
+          <Form.Item
+            label={
+              <span className="text-black font-semibold">Profile Image</span>
+            }
+            name="image"
+            rules={[
+              { required: true, message: "Please upload a profile image." },
+            ]}
+          >
+            <div className="relative flex justify-center">
+              {/* Preview image container */}
+              <div className="relative">
+                {previewImage ? (
+                  <Image
+                    src={previewImage}
+                    alt="Profile Preview"
+                    width={100}
+                    height={100}
+                    className="object-cover rounded-full w-24 h-24"
+                  />
+                ) : (
+                  <div className="w-24 h-24 bg-gray-200 rounded-full" />
+                )}
 
-          {profileImage && (
-            <div className="flex justify-center">
-              <Image
-                src={profileImage}
-                alt="Profile Preview"
-                width={100}
-                height={100}
-                className="object-cover rounded-full w-24 h-24"
-              />
+                {/* Upload button overlayed on the image */}
+                <Upload
+                  name="image"
+                  maxCount={1}
+                  fileList={file ? [file] : []}
+                  beforeUpload={handleBeforeUpload}
+                  onChange={handleFileChange}
+                  showUploadList={false}
+                  // Remove default styling if needed and use absolute positioning
+                  className="absolute top-8 right-8"
+                >
+                  <div
+                    className="p-2 bg-white rounded-full shadow cursor-pointer"
+                    title="Change Profile Image"
+                  >
+                    <FaPlus />
+                  </div>
+                </Upload>
+              </div>
             </div>
-          )}
+          </Form.Item>
 
           <Form.Item
             label="Name"
@@ -269,6 +311,10 @@ export default function UserProfile() {
             name="postalCode"
             rules={[
               { required: true, message: "Please enter your postal code" },
+              {
+                pattern: /^\d{1,4}$/,
+                message: "Postal code must be up to 4 digits",
+              },
             ]}
           >
             <Input placeholder="Enter your postal code" />
@@ -283,7 +329,13 @@ export default function UserProfile() {
       </Modal>
 
       {/* Change Password Modal */}
-      <Modal
+      <ChangePasswordModal
+        isChangePasswordModalOpen={isChangePasswordModalOpen}
+        setIsChangePasswordModalOpen={setIsChangePasswordModalOpen}
+        handleChangePassword={handleChangePassword}
+      />
+
+      {/* <Modal
         title="Change Password"
         visible={isChangePasswordModalOpen}
         onCancel={() => setIsChangePasswordModalOpen(false)}
@@ -344,7 +396,7 @@ export default function UserProfile() {
             </Button>
           </Form.Item>
         </Form>
-      </Modal>
+      </Modal> */}
     </div>
   );
 }

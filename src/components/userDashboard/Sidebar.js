@@ -30,7 +30,7 @@ export default function Sidebar({ isCollapsed, toggleSidebarCollapsed }) {
     { name: "Notifications", icon: <FaBell />, path: "/profile/notifications" },
   ];
   const menuItemsCont = [
-    { name: "My Profile", icon: <FaUser />, path: "/profile/my-profile" },
+    { name: "My Profile", icon: <FaUser />, path: "/profile" },
     {
       name: "Current Projects",
       icon: <FaProjectDiagram />,
