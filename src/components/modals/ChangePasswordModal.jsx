@@ -1,26 +1,33 @@
 "use client";
 
+import { useChangePasswordMutation } from "@/redux/features/authApi";
 import { Button, Form, Input, message, Modal } from "antd";
 import { FaTimes } from "react-icons/fa";
+import { ErrorSwal, SuccessSwal } from "../utils/allSwalFire";
 
 export default function ChangePasswordModal({ visible, onClose }) {
   const [form] = Form.useForm();
 
+  const [changePass, { isLoading }] = useChangePasswordMutation();
+
   // All change password functionality is inside this component
-  const handleChangePassword = (values) => {
-    const { oldPassword, newPassword, confirmPassword } = values;
+  const handleChangePassword = async (values) => {
+    console.log(values);
 
-    // Sample validations (replace with your actual logic or API call)
-    if (oldPassword === "incorrect") {
-      message.error("Old password is incorrect");
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      message.error("New passwords do not match");
-      return;
+    try {
+      const response = await changePass(values).unwrap();
+      SuccessSwal({
+        title: "",
+        text: response?.message,
+      });
+    } catch (error) {
+      ErrorSwal({
+        title: "",
+        text: error?.message || error?.data?.message,
+      });
+      // message.error(error?.message || error?.data?.message);
     }
 
-    message.success("Password changed successfully!");
     form.resetFields();
     if (onClose) onClose();
   };
