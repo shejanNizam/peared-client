@@ -1,12 +1,16 @@
 "use client";
 
 import Message from "@/components/project-details-message/Message";
+import { SuccessSwal } from "@/components/utils/allSwalFire";
 import { useConfirmProjectQuery } from "@/redux/features/projects/projectApi";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 
 export default function ProjectDetails(props) {
+  const router = useRouter();
   const { projectId } = props.searchParams;
   const { data } = useConfirmProjectQuery(projectId);
+  console.log(data?.data);
 
   // Safely check and format the startTime
   let formattedStartDate = "N/A";
@@ -20,11 +24,14 @@ export default function ProjectDetails(props) {
     }
   }
 
-  console.log("Project Complete:", data?.data?.isComplete);
-  console.log("Formatted Start Date:", formattedStartDate);
-
   const handleCompleteProject = () => {
-    console.log("click Confirm yes button");
+    // before click yes button do something as we need
+    SuccessSwal({
+      title: "",
+      text: "Project completed successfully!",
+    });
+
+    router.push(`/feedback?providerId=${data?.data?.providerId}`);
   };
 
   return (
@@ -61,9 +68,9 @@ export default function ProjectDetails(props) {
 
           {/* Work Completion Section */}
           <div className="mt-6 bg-gray-50 rounded-lg p-4 relative">
-            {data?.data?.isComplete !== "complete" && (
+            {/* {data?.data?.isComplete !== "complete" && (
               <div className="w-full h-full rounded-lg absolute bg-gray-500/50 top-0 left-0"></div>
-            )}
+            )} */}
 
             <div>
               <h3 className="font-semibold text-center mb-2">
@@ -73,12 +80,12 @@ export default function ProjectDetails(props) {
                 after complete this project you can access these button
               </p>
               {/* Buttons */}
+
               <div className="mt-6 flex justify-center items-center gap-6">
                 <button className="border border-red-500 text-red-700 px-5 py-2 rounded-xl font-medium shadow-md hover:bg-red-200 transition">
                   No
                 </button>
                 <button
-                  disabled
                   onClick={handleCompleteProject}
                   className="bg-green-600 text-white px-5 py-2 rounded-xl font-medium shadow-md hover:bg-green-700 transition"
                 >

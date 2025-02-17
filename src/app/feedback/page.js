@@ -1,12 +1,32 @@
 "use client";
+import { SuccessSwal } from "@/components/utils/allSwalFire";
+import { useFeedbackProviderMutation } from "@/redux/features/feedback/feedbackApi";
 import { Button, Form, Input, Rate } from "antd";
+import { useRouter } from "next/navigation";
 
-export default function Feedback() {
+export default function Feedback(props) {
+  const router = useRouter();
+  const { providerId } = props.searchParams;
   const [form] = Form.useForm();
+  const [feedback, { isLoading }] = useFeedbackProviderMutation();
 
-  const onFinish = (values) => {
-    console.log("Form Values:", values);
-    form.resetFields();
+  const onFinish = async (values) => {
+    const feedbackData = {
+      ...values,
+      providerId,
+    };
+    try {
+      const response = await feedback(feedbackData).unwrap();
+      console.log(response);
+      SuccessSwal({
+        title: "",
+        text: response?.message,
+      });
+      form.resetFields();
+      router.push(`/`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -14,34 +34,27 @@ export default function Feedback() {
       <h2 className="text-xl font-semibold mb-4 text-center">
         Give your feedback
       </h2>
-
       <Form
         form={form}
         layout="vertical"
         onFinish={onFinish}
-        initialValues={{ rating: 5 }} // Default rating set to 5 stars
+        initialValues={{ rating: 5 }}
       >
-        {/* Rating Field */}
         <Form.Item
           label="Rating"
           name="rating"
           rules={[{ required: true, message: "Please provide a rating!" }]}
         >
-          <div className="flex justify-center">
-            <Rate />
-          </div>
+          <Rate className="custom-rate" />
         </Form.Item>
-
-        {/* Review Field with max 200 words */}
         <Form.Item
           label="Review"
-          name="review"
+          name="details"
           rules={[
             { required: true, message: "Please write a review!" },
             {
               validator: (_, value) => {
                 if (!value) return Promise.resolve();
-                // Count the words in the review text
                 const wordCount = value
                   .trim()
                   .split(/\s+/)
@@ -58,14 +71,22 @@ export default function Feedback() {
         >
           <Input.TextArea rows={4} placeholder="Write your review" />
         </Form.Item>
-
-        {/* Submit Button */}
         <Form.Item>
-          <Button type="primary" htmlType="submit" className="w-full">
+          <Button
+            type="primary"
+            loading={isLoading}
+            htmlType="submit"
+            className="w-full"
+          >
             Submit
           </Button>
         </Form.Item>
       </Form>
+      <style jsx>{`
+        :global(.custom-rate .ant-rate-star-full .ant-rate-star-first) {
+          color: yellow;
+        }
+      `}</style>
     </div>
   );
 }
