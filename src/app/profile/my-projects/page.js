@@ -13,8 +13,10 @@ export default function MyProjects() {
   const handleOpenProject = (project) => {
     router.push(`/profile/my-projects/bid-lists?projectId=${project._id}`);
   };
-  const handleGoToMessage = () => {
-    router.push(`/profile/project-details-message`);
+
+  const handleGoToMessage = (project) => {
+    router.push(`/profile/project-details-message?projectId=${project._id}`);
+    // router.push(`/profile/project-details-message?feedbackId=${}`);
   };
 
   return (
@@ -50,7 +52,7 @@ export default function MyProjects() {
               <button
                 onClick={
                   project?.isApprove
-                    ? handleGoToMessage
+                    ? () => handleGoToMessage(project)
                     : () => handleOpenProject(project)
                 }
                 className="bg-primary/80 text-white px-4 py-2 rounded hover:bg-primary transition-colors duration-300"

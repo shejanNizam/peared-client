@@ -56,6 +56,15 @@ export const projectApi = baseApi.injectEndpoints({
         };
       },
     }),
+
+    confirmProject: builder.query({
+      query: (id) => {
+        return {
+          url: `/bit/confirm-project/${id}`,
+          method: "GET",
+        };
+      },
+    }),
   }),
 });
 
@@ -67,4 +76,5 @@ export const {
   useMyProjectBitsQuery,
   useMyProjectBitDetailsQuery,
   useProjectApprovedMutation,
+  useConfirmProjectQuery,
 } = projectApi;
