@@ -12,7 +12,6 @@ export default function ProjectDetails(props) {
   const { data } = useConfirmProjectQuery(projectId);
   console.log(data?.data);
 
-  // Safely check and format the startTime
   let formattedStartDate = "N/A";
   const startTimeValue = data?.data?.startTime;
   if (startTimeValue) {

@@ -1,14 +1,17 @@
 "use client";
 
 import { useMyProjectsQuery } from "@/redux/features/projects/projectApi";
+import { Button } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function MyProjects() {
   const router = useRouter();
 
-  const { data } = useMyProjectsQuery();
-  console.log(data?.data);
+  // Force refetch on mount so that newly added projects are shown immediately.
+  const { data } = useMyProjectsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
 
   const handleOpenProject = (project) => {
     router.push(`/profile/my-projects/bid-lists?projectId=${project._id}`);
@@ -16,7 +19,6 @@ export default function MyProjects() {
 
   const handleGoToMessage = (project) => {
     router.push(`/profile/project-details-message?projectId=${project._id}`);
-    // router.push(`/profile/project-details-message?feedbackId=${}`);
   };
 
   return (
@@ -29,7 +31,6 @@ export default function MyProjects() {
           <div className="relative w-full h-48 mb-4 rounded-t-lg overflow-hidden">
             <Image
               src={`https://magy-abu-sayed.sarv.live/${project?.image}`}
-              // src={image}
               alt={project.projectName}
               fill
               className="rounded-t-lg object-cover"
@@ -49,7 +50,8 @@ export default function MyProjects() {
               {project.workDetails}
             </p>
             <div className="flex justify-center">
-              <button
+              <Button
+                type="primary"
                 onClick={
                   project?.isApprove
                     ? () => handleGoToMessage(project)
@@ -58,7 +60,7 @@ export default function MyProjects() {
                 className="bg-primary/80 text-white px-4 py-2 rounded hover:bg-primary transition-colors duration-300"
               >
                 {project?.isApprove ? " Message " : " Open "}
-              </button>
+              </Button>
             </div>
           </div>
         </div>
