@@ -4,6 +4,7 @@ import ChangePasswordModal from "@/components/modals/ChangePasswordModal";
 import { useUpdateUserDataMutation } from "@/redux/features/userApi";
 import { Button, Form, Input, message, Modal, Select, Upload } from "antd";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaPlus, FaTimes } from "react-icons/fa";
 import { useSelector } from "react-redux";
@@ -212,14 +213,14 @@ export default function ProviderProfile() {
                   Experience Certificate 1
                 </label>
                 {certificate1Url ? (
-                  <a
+                  <Link
                     href={certificate1Url}
                     target="_blank"
                     rel="noreferrer"
                     className="text-primary underline"
                   >
-                    View Certificate 1 (PDF)
-                  </a>
+                    View Certificate
+                  </Link>
                 ) : (
                   <p className="text-gray-500">No certificate uploaded</p>
                 )}
@@ -229,14 +230,14 @@ export default function ProviderProfile() {
                   Experience Certificate 2
                 </label>
                 {certificate2Url ? (
-                  <a
+                  <Link
                     href={certificate2Url}
                     target="_blank"
                     rel="noreferrer"
                     className="text-primary underline"
                   >
-                    View Certificate 2 (PDF)
-                  </a>
+                    View Certificate
+                  </Link>
                 ) : (
                   <p className="text-gray-500">No certificate uploaded</p>
                 )}

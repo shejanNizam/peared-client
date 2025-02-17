@@ -35,7 +35,7 @@ export default function MyProjects() {
           </div>
           <div className="p-6 flex flex-col flex-grow">
             <h3 className="text-xl font-semibold mb-2">
-              {project.projectName}
+              {project.projectCategory}
             </h3>
             <p className="text-gray-500 mb-1">
               <span className="font-medium">Post Code:</span> {project.postCode}

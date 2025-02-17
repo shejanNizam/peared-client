@@ -2,7 +2,6 @@
 
 import ProviderProfile from "@/components/profile/my-profile/ProviderProfile";
 import UserProfile from "@/components/profile/my-profile/UserProfile";
-import { useGetUserDataQuery } from "@/redux/features/userApi";
 import { useSelector } from "react-redux";
 
 export default function ProfileHomePage() {
@@ -22,8 +21,6 @@ export default function ProfileHomePage() {
           <UserProfile />
         </>
       )}
-      {/* {user?.role === "user" && <UserProfile />}
-      {user?.role === "provider" && <ProviderProfile />} */}
     </div>
   );
 }

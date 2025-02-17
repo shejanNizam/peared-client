@@ -109,7 +109,8 @@ const AddProject = () => {
       console.log(statusCode);
       if (statusCode === 402) {
         Swal.fire({
-          text: error?.data || error?.data?.message || "something went wrong",
+          text:
+            error?.message || error?.data?.message || "something went wrong",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",

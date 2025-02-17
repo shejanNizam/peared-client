@@ -36,8 +36,9 @@ export default function ProviderDetails(props) {
 
   const handleConfirm = () => {
     setIsModalVisible(false);
-    // console.log("Service provider's bid approved!");
-    router.push(`/profile/my-projects/payment`);
+    router.push(
+      `/profile/my-projects/payment?approvdProjectId=${bitProjectId}`
+    );
   };
 
   return (
@@ -134,9 +135,15 @@ export default function ProviderDetails(props) {
       </div>
 
       {/* Modal */}
-      <Modal open={isModalVisible} onCancel={handleCancel} footer={null}>
+      <Modal
+        centered
+        width={400}
+        open={isModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+      >
         <p className="text-xl font-semibold text-gray-800">
-          Are you sure you want to select this service provider’s bid?
+          Are you sure? you want to select this service provider’s bid?
         </p>
         <div className="flex justify-end gap-4 mt-4">
           <Button

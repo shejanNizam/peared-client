@@ -47,6 +47,15 @@ export const projectApi = baseApi.injectEndpoints({
         };
       },
     }),
+
+    projectApproved: builder.mutation({
+      query: (projectApproveId) => {
+        return {
+          url: `/bit/bit-project-approved/${projectApproveId}`,
+          method: "POST",
+        };
+      },
+    }),
   }),
 });
 
@@ -57,4 +66,5 @@ export const {
   useMyProjectsQuery,
   useMyProjectBitsQuery,
   useMyProjectBitDetailsQuery,
+  useProjectApprovedMutation,
 } = projectApi;

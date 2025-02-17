@@ -47,7 +47,7 @@ export default function SingleBidCard({ bid, handleProviderDetails }) {
           </p>
         </div>
 
-        <div className="mt-6 flex justify-between">
+        <div className="mt-6 flex justify-center items-center ">
           {}
           <button
             onClick={() => handleProviderDetails(bid?._id)}
@@ -55,9 +55,9 @@ export default function SingleBidCard({ bid, handleProviderDetails }) {
           >
             See Details
           </button>
-          <button className="bg-green-600 text-white px-5 py-2 rounded-xl font-medium shadow-md hover:bg-green-700 transition">
+          {/* <button className="bg-green-600 text-white px-5 py-2 rounded-xl font-medium shadow-md hover:bg-green-700 transition">
             Approved
-          </button>
+          </button> */}
         </div>
       </div>
     </>

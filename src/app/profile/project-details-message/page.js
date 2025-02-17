@@ -45,18 +45,18 @@ export default function ProjectDetails() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="min-h-screen bg-gray-100 p-6 relative">
       {/* Page Title */}
       <h1 className="text-3xl font-bold text-green-600 text-center mb-8">
         Project Details
       </h1>
 
       {/* Main Grid Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+      <button className="absolute top-0 right-0 bg-red-600 text-white text-sm px-4 py-2 rounded-md shadow-md hover:bg-red-700 transition">
+        Report
+      </button>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
         {/* Report Button */}
-        <button className="absolute top-0 right-0 bg-red-600 text-white text-sm px-4 py-2 rounded-md shadow-md hover:bg-red-700 transition">
-          Report
-        </button>
 
         {/* Left Section: Provider Info + Chat */}
         <div className="col-span-2 bg-white rounded-lg shadow-lg p-6 flex flex-col">
@@ -176,9 +176,16 @@ export default function ProjectDetails() {
               Click the button below to notify your client. Once approved, you
               will receive your payment.
             </p>
-            <button className="bg-green-500 text-white px-6 py-2 rounded-md font-semibold hover:bg-green-600 w-full shadow-sm">
-              Done
-            </button>
+
+            <div className="mt-6 flex justify-center items-center gap-6 ">
+              {}
+              <button className="border border-red-500 text-red-700 px-5 py-2 rounded-xl font-medium shadow-md hover:bg-red-200 transition">
+                No
+              </button>
+              <button className="bg-green-600 text-white px-5 py-2 rounded-xl font-medium shadow-md hover:bg-green-700 transition">
+                Yes
+              </button>
+            </div>
           </div>
         </div>
       </div>
