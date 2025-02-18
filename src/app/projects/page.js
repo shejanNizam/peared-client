@@ -52,8 +52,9 @@ export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchText, setSearchText] = useState("");
 
-  const { data, isLoading } = useAllProjectsQuery();
+  const { data } = useAllProjectsQuery();
   const [bidProject] = useCreateBidProjectMutation();
+  console.log(data);
 
   useEffect(() => {
     if (isModalOpen || isBidModalOpen) {
@@ -152,7 +153,7 @@ export default function Projects() {
       <section className="py-12 bg-white">
         <div className="container mx-auto px-4">
           <div className="mb-8 text-center">
-            <CustomHeading>Project List</CustomHeading>
+            <CustomHeading>Project List Dada </CustomHeading>
           </div>
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
             <Select
@@ -186,7 +187,7 @@ export default function Projects() {
               >
                 <div className="relative w-full h-48 mb-4 rounded-t-lg overflow-hidden">
                   <Image
-                    src={project.image}
+                    src={`https://magy-abu-sayed.sarv.live/${project?.image}`}
                     alt={project.projectName}
                     layout="fill"
                     objectFit="cover"
@@ -392,7 +393,7 @@ export default function Projects() {
           </div>
           <div className="text-center flex justify-center gap-8">
             <Button onClick={handleCloseBidModal}>Back</Button>
-            <Button type="primary" loading={isLoading} htmlType="submit">
+            <Button type="primary" htmlType="submit">
               Send
             </Button>
           </div>
