@@ -102,7 +102,7 @@ export default function UserProfile() {
           onClick={() => setIsEditModalOpen(true)}
           className="absolute top-4 right-4 bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark transition"
         >
-          Edit
+          Update user
         </button>
 
         {/* Profile Image */}
@@ -192,7 +192,10 @@ export default function UserProfile() {
       {/* Edit Profile Modal */}
       <Modal
         title={
-          <span className="text-xl font-bold text-primary"> Edit Profile </span>
+          <span className="text-xl font-bold text-primary">
+            {" "}
+            Update Profile{" "}
+          </span>
         }
         visible={isEditModalOpen}
         onCancel={() => setIsEditModalOpen(false)}

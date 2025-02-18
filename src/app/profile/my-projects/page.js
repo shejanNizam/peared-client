@@ -24,7 +24,7 @@ export default function MyProjects() {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-      {data?.data.length === 0 && (
+      {data?.data?.length === 0 && (
         <p className="text-red-500 w-full mx-auto"> No data found </p>
       )}
       {data?.data?.map((project) => (
@@ -44,6 +44,9 @@ export default function MyProjects() {
             <h3 className="text-xl font-semibold mb-2">
               {project.projectCategory}
             </h3>
+            <p className="text-gray-500 mb-1">
+              <span className="font-medium">Price:</span> ${project.priceRange}
+            </p>
             <p className="text-gray-500 mb-1">
               <span className="font-medium">Post Code:</span> {project.postCode}
             </p>

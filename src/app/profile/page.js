@@ -5,10 +5,7 @@ import UserProfile from "@/components/profile/my-profile/UserProfile";
 import { useSelector } from "react-redux";
 
 export default function ProfileHomePage() {
-  // const { data } = useGetUserDataQuery();
   const { user } = useSelector((state) => state.auth);
-  // const user = data?.data;
-  // console.log(user);
 
   return (
     <div>

@@ -1,8 +1,13 @@
 "use client";
 
 import Message from "@/components/project-details-message/Message";
-import { SuccessSwal } from "@/components/utils/allSwalFire";
-import { useConfirmProjectQuery } from "@/redux/features/projects/projectApi";
+import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
+import {
+  useConfirmProjectQuery,
+  useProjectDoneByProviderMutation,
+  useProjectNotOkByUserMutation,
+  useProjectOkByUserMutation,
+} from "@/redux/features/projects/projectApi";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
@@ -10,10 +15,17 @@ import { useSelector } from "react-redux";
 export default function ProjectDetails(props) {
   const { user } = useSelector((state) => state.auth);
 
-  const router = useRouter();
   const { projectId } = props.searchParams;
+  console.log(projectId);
+
   const { data } = useConfirmProjectQuery(projectId);
-  console.log(data?.data);
+
+  const [projectOk] = useProjectOkByUserMutation(projectId);
+  const [projectNotOk] = useProjectNotOkByUserMutation(projectId);
+
+  const [projectDone] = useProjectDoneByProviderMutation(projectId);
+
+  const router = useRouter();
 
   let formattedStartDate = "N/A";
   const startTimeValue = data?.data?.startTime;
@@ -26,8 +38,9 @@ export default function ProjectDetails(props) {
     }
   }
 
-  const handleCompleteProject = () => {
-    // before click yes button do something as we need
+  const handleProjectOk = async () => {
+    const response = await projectOk(projectId).unwrap();
+    // console.log(response);
     SuccessSwal({
       title: "",
       text: "Project completed successfully!",
@@ -36,12 +49,25 @@ export default function ProjectDetails(props) {
     router.push(`/feedback?providerId=${data?.data?.providerId}`);
   };
 
-  const handleDoneProject = () => {
+  const handleProjectNotOk = async () => {
+    // before click yes button do something as we need
+    const response = await projectNotOk(projectId).unwrap();
+    // console.log(response);
+
+    ErrorSwal({
+      title: "",
+      text: " Project not complete! ",
+    });
+  };
+
+  const handleProjectDone = async () => {
+    // before click yes button do something as we need
+    const response = await projectDone(projectId).unwrap();
+    console.log(response);
     SuccessSwal({
       title: "",
       text: "Project completed successfully!",
     });
-    console.log("Provider Click Done ");
   };
 
   return (
@@ -84,23 +110,28 @@ export default function ProjectDetails(props) {
             {user?.role === "user" ? (
               <>
                 <div>
-                  <h3 className="font-semibold text-center mb-2">
-                    Did you get services Done?
-                  </h3>
-                  <p className="text-sm text-center mb-2">
-                    after complete this project you can access these button
-                  </p>
-                  {/* Buttons */}
-                  <div className="mt-6 flex justify-center items-center gap-6">
-                    <button className="border border-red-500 text-red-700 px-5 py-2 rounded-xl font-medium shadow-md hover:bg-red-200 transition">
-                      No
-                    </button>
-                    <button
-                      onClick={handleCompleteProject}
-                      className="bg-green-600 text-white px-5 py-2 rounded-xl font-medium shadow-md hover:bg-green-700 transition"
-                    >
-                      Yes
-                    </button>
+                  <div>
+                    <h3 className="font-semibold text-center mb-2">
+                      Did you get services Done?
+                    </h3>
+                    <p className="text-sm text-center mb-2">
+                      after complete this project you can access these button
+                    </p>
+                    {/* Buttons */}
+                    <div className="mt-6 flex justify-center items-center gap-6">
+                      <button
+                        onClick={handleProjectNotOk}
+                        className="border border-red-500 text-red-700 px-5 py-2 rounded-xl font-medium shadow-md hover:bg-red-200 transition"
+                      >
+                        No
+                      </button>
+                      <button
+                        onClick={handleProjectOk}
+                        className="bg-green-600 text-white px-5 py-2 rounded-xl font-medium shadow-md hover:bg-green-700 transition"
+                      >
+                        Yes
+                      </button>
+                    </div>
                   </div>
                 </div>
               </>
@@ -117,7 +148,7 @@ export default function ProjectDetails(props) {
                   {/* Buttons */}
                   <div className="mt-6 flex justify-center items-center gap-6">
                     <button
-                      onClick={handleDoneProject}
+                      onClick={handleProjectDone}
                       className="bg-green-600 text-white px-5 py-2 rounded-xl font-medium shadow-md hover:bg-green-700 transition"
                     >
                       Done

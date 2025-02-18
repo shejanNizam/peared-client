@@ -101,6 +101,34 @@ export const projectApi = baseApi.injectEndpoints({
         };
       },
     }),
+
+    // project OK by use
+    projectOkByUser: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/bit/workOkByUser/${id}`,
+          method: "POST",
+        };
+      },
+    }),
+    // project NOT OK by use
+    projectNotOkByUser: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/bit/workNotOKByUser/${id}`,
+          method: "POST",
+        };
+      },
+    }),
+    // project DONE by provider
+    projectDoneByProvider: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/bit/workOkByProvider/${id}`,
+          method: "POST",
+        };
+      },
+    }),
   }),
 });
 
@@ -115,4 +143,7 @@ export const {
   useCreateBidProjectMutation,
   useCurrentProjectsQuery,
   usePendingBidsQuery,
+  useProjectOkByUserMutation,
+  useProjectNotOkByUserMutation,
+  useProjectDoneByProviderMutation,
 } = projectApi;
