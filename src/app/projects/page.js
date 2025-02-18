@@ -1,8 +1,20 @@
 "use client";
 
+import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
 import CustomHeading from "@/components/utils/CustomHeading";
-import { useAllProjectsQuery } from "@/redux/features/projects/projectApi";
-import { Button, DatePicker, Form, Input, Modal, Select } from "antd";
+import {
+  useAllProjectsQuery,
+  useCreateBidProjectMutation,
+} from "@/redux/features/projects/projectApi";
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  InputNumber,
+  Modal,
+  Select,
+} from "antd";
 import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
@@ -40,9 +52,9 @@ export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchText, setSearchText] = useState("");
 
-  const { data } = useAllProjectsQuery();
+  const { data, isLoading } = useAllProjectsQuery();
+  const [bidProject] = useCreateBidProjectMutation();
 
-  // Update body overflow when modals are open
   useEffect(() => {
     if (isModalOpen || isBidModalOpen) {
       document.body.style.overflow = "hidden";
@@ -85,13 +97,6 @@ export default function Projects() {
     setIsBidModalOpen(false);
   };
 
-  const onFinish = (values) => {
-    console.log("Bid form values:", values);
-    setIsBidModalOpen(false);
-  };
-
-  // Filtering projects based on selected category and search text.
-  // We assume each project has keys: projectName and projectCategory.
   const filteredProjects = data?.data?.filter((proj) => {
     if (selectedCategory && proj.projectCategory !== selectedCategory) {
       return false;
@@ -118,6 +123,30 @@ export default function Projects() {
     setSearchText("");
   };
 
+  const onFinish = async (values) => {
+    const projectId = selectedProject?._id;
+    const allModalData = {
+      ...values,
+      projectId,
+    };
+    // console.log(allModalData);
+    try {
+      const response = await bidProject(allModalData).unwrap();
+      SuccessSwal({
+        title: "",
+        text: response?.message || response?.data?.message,
+      });
+      console.log(response);
+    } catch (error) {
+      ErrorSwal({
+        title: "",
+        text: error?.message || error?.data?.message,
+      });
+    }
+
+    setIsBidModalOpen(false);
+  };
+
   return (
     <>
       <section className="py-12 bg-white">
@@ -133,7 +162,7 @@ export default function Projects() {
               onChange={handleSelectCategory}
               allowClear
             >
-              {categories.map((cat) => (
+              {categories?.map((cat) => (
                 <Option key={cat} value={cat}>
                   {cat}
                 </Option>
@@ -173,11 +202,13 @@ export default function Projects() {
                     {project.postCode}
                   </p>
                   <p className="text-gray-500 mb-4">
+                    <span className="font-medium">Street:</span>{" "}
+                    {project.street}
+                  </p>
+                  <p className="text-gray-500 mb-4">
                     <span className="font-medium">Time:</span> {project.time}
                   </p>
-                  <p className="text-gray-700 mb-6 flex-grow">
-                    {project.workDetails}
-                  </p>
+
                   <div className="flex justify-between">
                     <button
                       onClick={() => handleClickProjectDetails(project)}
@@ -299,6 +330,8 @@ export default function Projects() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* providers create-bit modal */}
       <Modal
         open={isBidModalOpen}
         onCancel={handleCloseBidModal}
@@ -313,7 +346,7 @@ export default function Projects() {
               name="price"
               rules={[{ required: true, message: "Please enter a price" }]}
             >
-              <Input type="number" placeholder="Price" />
+              <InputNumber placeholder="Price" style={{ width: "100%" }} />
             </Form.Item>
             <Form.Item
               label="Service Time (days)"
@@ -322,11 +355,11 @@ export default function Projects() {
                 { required: true, message: "Please enter the service time" },
               ]}
             >
-              <Input type="number" placeholder="4 days" />
+              <InputNumber placeholder="4 days" style={{ width: "100%" }} />
             </Form.Item>
             <Form.Item
               label="Starting Date"
-              name="startingDate"
+              name="startTime"
               rules={[
                 { required: true, message: "Please pick a starting date" },
               ]}
@@ -342,7 +375,7 @@ export default function Projects() {
           <div>
             <Form.Item
               label="Work Details"
-              name="workDetails"
+              name="Workdetails"
               rules={[
                 {
                   required: true,
@@ -357,9 +390,9 @@ export default function Projects() {
               />
             </Form.Item>
           </div>
-          <div className="text-center mt-4">
+          <div className="text-center flex justify-center gap-8">
             <Button onClick={handleCloseBidModal}>Back</Button>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" loading={isLoading} htmlType="submit">
               Send
             </Button>
           </div>

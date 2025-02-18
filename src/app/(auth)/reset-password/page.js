@@ -5,15 +5,12 @@ import { useResetPasswordMutation } from "@/redux/features/authApi";
 import { Button, Form, Input, message } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 
 const ResetPassword = () => {
   const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [form] = Form.useForm();
 
-  // Our RTK Query mutation
   const [resetPassword, { isLoading }] = useResetPasswordMutation();
 
   const onFinish = async (values) => {
@@ -21,7 +18,7 @@ const ResetPassword = () => {
       message.error("Passwords do not match!");
       return;
     }
-    setIsSubmitting(true);
+
     try {
       const token = localStorage.getItem("user_token");
       console.log(token);
@@ -42,8 +39,6 @@ const ResetPassword = () => {
     } catch (error) {
       console.log(error);
       message.error("Failed to reset password. Please try again.");
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -124,7 +119,7 @@ const ResetPassword = () => {
               type="primary"
               htmlType="submit"
               size="large"
-              loading={isSubmitting}
+              loading={isLoading}
               className="w-full bg-green-500 hover:bg-green-600 transition-colors"
             >
               Reset Password

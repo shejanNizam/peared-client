@@ -17,7 +17,6 @@ const Signup = () => {
   const [signup, { isLoading }] = useSignupMutation();
 
   const onFinish = async (values) => {
-    // console.log(values);
     try {
       const response = await signup({
         name: values.name,
@@ -30,7 +29,6 @@ const Signup = () => {
       dispatch(
         setCredentials({
           user: response?.data?.user,
-          // token: response?.data?.token,
         })
       );
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useChangePasswordMutation } from "@/redux/features/authApi";
-import { Button, Form, Input, message, Modal } from "antd";
+import { Button, Form, Input, Modal } from "antd";
 import { FaTimes } from "react-icons/fa";
 import { ErrorSwal, SuccessSwal } from "../utils/allSwalFire";
 
@@ -10,7 +10,6 @@ export default function ChangePasswordModal({ visible, onClose }) {
 
   const [changePass, { isLoading }] = useChangePasswordMutation();
 
-  // All change password functionality is inside this component
   const handleChangePassword = async (values) => {
     console.log(values);
 
@@ -25,7 +24,6 @@ export default function ChangePasswordModal({ visible, onClose }) {
         title: "",
         text: error?.message || error?.data?.message,
       });
-      // message.error(error?.message || error?.data?.message);
     }
 
     form.resetFields();
@@ -95,7 +93,12 @@ export default function ChangePasswordModal({ visible, onClose }) {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" className="w-full">
+          <Button
+            type="primary"
+            loading={isLoading}
+            htmlType="submit"
+            className="w-full"
+          >
             Submit
           </Button>
         </Form.Item>

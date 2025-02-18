@@ -2,11 +2,7 @@ import { format } from "date-fns";
 import { FaStar } from "react-icons/fa";
 
 export default function SingleBidCard({ bid, handleProviderDetails }) {
-  // Convert averageRating to number and round it
   const rating = Math.round(parseFloat(bid.averageRating));
-
-  // Format the start date to a readable format
-  const formattedStartDate = format(new Date(bid.startTime), "dd MMM yyyy");
 
   return (
     <>
@@ -43,7 +39,7 @@ export default function SingleBidCard({ bid, handleProviderDetails }) {
           </p>
           <p>
             <span className="font-bold text-green-700">Starting Date:</span>{" "}
-            {formattedStartDate}
+            {format(new Date(bid.startTime), "dd MMM yyyy")}
           </p>
         </div>
 

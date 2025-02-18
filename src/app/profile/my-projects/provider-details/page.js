@@ -15,11 +15,6 @@ export default function ProviderDetails(props) {
   const { data } = useMyProjectBitDetailsQuery(bitProjectId);
   const bid = data?.data;
 
-  // Format the start date
-  const formattedStartDate = bid?.startDate
-    ? format(new Date(bid.startDate), "dd MMM yyyy")
-    : "N/A";
-
   // Handle back button functionality
   const handleBack = () => {
     router.back();
@@ -69,7 +64,7 @@ export default function ProviderDetails(props) {
             </p>
             <p className="text-lg">
               <span className="font-semibold">Starting Date:</span>{" "}
-              {formattedStartDate}
+              {format(new Date(bid.startDate), "dd MMM yyyy")}
             </p>
           </div>
 

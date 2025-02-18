@@ -11,7 +11,6 @@ export function SuccessSwal({ title, text }) {
 }
 
 export function ErrorSwal({ title, text }) {
-  console.log(title, text);
   return Swal.fire({
     title: title,
     text: text,

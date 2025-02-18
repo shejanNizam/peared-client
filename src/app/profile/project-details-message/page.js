@@ -12,17 +12,6 @@ export default function ProjectDetails(props) {
   const { data } = useConfirmProjectQuery(projectId);
   console.log(data?.data);
 
-  let formattedStartDate = "N/A";
-  const startTimeValue = data?.data?.startTime;
-  if (startTimeValue) {
-    const startDate = new Date(startTimeValue);
-    if (!isNaN(startDate.getTime())) {
-      formattedStartDate = format(startDate, "dd MMM yyyy");
-    } else {
-      console.error("Invalid date:", startTimeValue);
-    }
-  }
-
   const handleCompleteProject = () => {
     // before click yes button do something as we need
     SuccessSwal({
@@ -62,7 +51,7 @@ export default function ProjectDetails(props) {
           </p>
           <p className="text-gray-600 mb-1">
             <span className="font-semibold">Starting Date:</span>{" "}
-            {formattedStartDate}
+            {format(new Date(data?.data?.startDate), "dd MMM yyyy")}
           </p>
 
           {/* Work Completion Section */}

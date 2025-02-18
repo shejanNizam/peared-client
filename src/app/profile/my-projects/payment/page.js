@@ -19,10 +19,6 @@ export default function Payment(props) {
 
   const [approved, { isLoading }] = useProjectApprovedMutation();
 
-  const formattedStartDate = bid?.startDate
-    ? format(new Date(bid.startDate), "dd MMM yyyy")
-    : "N/A";
-
   const handlePayment = async (id) => {
     console.log(id);
     try {
@@ -73,7 +69,7 @@ export default function Payment(props) {
           </div>
           <div className="flex justify-between items-center mt-2">
             <p className="font-semibold">Starting Date : </p>
-            <p>{formattedStartDate}</p>
+            <p>{format(new Date(bid.startDate), "dd MMM yyyy")}</p>
           </div>
           <div className="flex justify-between items-center mt-2">
             <p className="font-semibold">Service Time :</p>

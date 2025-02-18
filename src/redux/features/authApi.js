@@ -2,9 +2,7 @@ import { baseApi } from "../api/baseApi";
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // 0 user
-
-    // 0. join as provider
+    // 01. join as provider
     joinAsProvider: builder.mutation({
       query: (providerData) => {
         console.log("MU DATA", providerData);
@@ -16,7 +14,7 @@ export const authApi = baseApi.injectEndpoints({
       },
     }),
 
-    // 2. Signup
+    // 02. signup
     signup: builder.mutation({
       query: (userData) => ({
         url: "/user/register",
@@ -25,7 +23,7 @@ export const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-    // 3. Login
+    // 03. login
     login: builder.mutation({
       query: (credentials) => ({
         url: "/user/login",
@@ -34,7 +32,7 @@ export const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-    // 4. Forgot Password
+    // 04. forgot password
     forgotPassword: builder.mutation({
       query: (body) => ({
         url: "/user/forget-password",
@@ -42,6 +40,8 @@ export const authApi = baseApi.injectEndpoints({
         body,
       }),
     }),
+
+    // 05. reset password
     resetPassword: builder.mutation({
       query: ({ body }) => ({
         url: "/user/reset-password",
@@ -50,7 +50,7 @@ export const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-    // 5. Verify Forget OTP
+    // 06.  verify forgot password
     verifyForgetOtp: builder.mutation({
       query: ({ otp }) => {
         return {
@@ -61,7 +61,7 @@ export const authApi = baseApi.injectEndpoints({
       },
     }),
 
-    // 6. Resend OTP
+    // 07. resend OTP
     resendOtp: builder.mutation({
       query: (email) => ({
         url: `/user/resend?email=${encodeURIComponent(email)}`,
@@ -69,7 +69,7 @@ export const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-    // 8. Verify Email
+    // 08. verify email
     verifyEmail: builder.mutation({
       query: (email) => ({
         url: `/user/verify-email?email=${encodeURIComponent(email)}`,
@@ -77,6 +77,7 @@ export const authApi = baseApi.injectEndpoints({
       }),
     }),
 
+    // 09. change password
     changePassword: builder.mutation({
       query: (body) => ({
         url: "/user/change-password",
@@ -85,7 +86,7 @@ export const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-    // 9. Logout
+    // 10. logout
     logout: builder.mutation({
       query: () => ({
         url: "/logout",

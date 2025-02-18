@@ -101,7 +101,6 @@ const VerifyEmail = () => {
     }
   };
 
-  // Handle back button click
   const handleBack = () => {
     router.back();
   };

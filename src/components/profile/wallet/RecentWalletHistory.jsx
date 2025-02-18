@@ -1,11 +1,11 @@
-import { useRecentPaymentHisttoryQuery } from "@/redux/features/payment/paymentApi";
+import { useRecentPaymentHistoryQuery } from "@/redux/features/payment/paymentApi";
 import { List, Tag, Typography } from "antd";
 import { format } from "date-fns";
 
 const { Title, Text } = Typography;
 
 export default function RecentWalletHistory() {
-  const { data } = useRecentPaymentHisttoryQuery();
+  const { data } = useRecentPaymentHistoryQuery();
   const historyData = data?.data || [];
 
   const formattedTransactions = historyData.map((transaction) => {

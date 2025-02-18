@@ -42,7 +42,6 @@ export default function Sidebar({ isCollapsed, toggleSidebarCollapsed }) {
     { name: "My Review", icon: <FaBell />, path: "/profile/my-review" },
   ];
 
-  // Focus on the first link when sidebar is expanded
   useEffect(() => {
     if (!isCollapsed && firstLinkRef.current) {
       firstLinkRef.current.focus();
@@ -89,7 +88,7 @@ export default function Sidebar({ isCollapsed, toggleSidebarCollapsed }) {
                   <Link
                     href={item.path}
                     key={item.name}
-                    onClick={() => {}} // No action needed on link click
+                    onClick={() => {}}
                     className={`
                   flex items-center px-4 py-3 mt-2 
                   ${
@@ -124,7 +123,7 @@ export default function Sidebar({ isCollapsed, toggleSidebarCollapsed }) {
                   <Link
                     href={item.path}
                     key={item.name}
-                    onClick={() => {}} // No action needed on link click
+                    onClick={() => {}}
                     className={`
                 flex items-center px-4 py-3 mt-2 
                 ${
@@ -138,9 +137,9 @@ export default function Sidebar({ isCollapsed, toggleSidebarCollapsed }) {
                     : ""
                 }
               `}
-                    ref={index === 0 ? firstLinkRef : null} // Focus on the first link when expanded
+                    ref={index === 0 ? firstLinkRef : null}
                     aria-current={pathname === item.path ? "page" : undefined}
-                    title={isCollapsed ? item.name : undefined} // Show tooltip when collapsed
+                    title={isCollapsed ? item.name : undefined}
                   >
                     <span className="text-lg">{item.icon}</span>
                     {!isCollapsed && <span className="mx-3">{item.name}</span>}
