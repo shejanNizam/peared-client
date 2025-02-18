@@ -83,7 +83,16 @@ export const projectApi = baseApi.injectEndpoints({
         };
       },
     }),
-
+    //  current provider project
+    currentProjects: builder.query({
+      query: () => {
+        return {
+          url: `/bit/current-projects`,
+          method: "GET",
+        };
+      },
+    }),
+    //  pending bids project
     pendingBids: builder.query({
       query: () => {
         return {
@@ -104,5 +113,6 @@ export const {
   useProjectApprovedMutation,
   useConfirmProjectQuery,
   useCreateBidProjectMutation,
+  useCurrentProjectsQuery,
   usePendingBidsQuery,
 } = projectApi;

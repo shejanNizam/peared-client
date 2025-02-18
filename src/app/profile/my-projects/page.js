@@ -2,6 +2,7 @@
 
 import { useMyProjectsQuery } from "@/redux/features/projects/projectApi";
 import { Button } from "antd";
+import { format } from "date-fns";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -23,6 +24,9 @@ export default function MyProjects() {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {data?.data.length === 0 && (
+        <p className="text-red-500 w-full mx-auto"> No data found </p>
+      )}
       {data?.data?.map((project) => (
         <div
           key={project._id}
@@ -43,12 +47,18 @@ export default function MyProjects() {
             <p className="text-gray-500 mb-1">
               <span className="font-medium">Post Code:</span> {project.postCode}
             </p>
+            <p className="text-gray-500 mb-1">
+              <span className="font-medium">Street:</span> {project.street}
+            </p>
             <p className="text-gray-500 mb-4">
               <span className="font-medium">Time:</span> {project.time}
             </p>
-            <p className="text-gray-700 mb-6 flex-grow">
-              {project.workDetails}
+            <p className="text-gray-500 mb-4">
+              <span className="font-medium">Start Date:</span>{" "}
+              {/* {project.createdAt} */}
+              {format(new Date(project?.createdAt), "dd MMM yyyy")}
             </p>
+
             <div className="flex justify-center">
               <Button
                 type="primary"

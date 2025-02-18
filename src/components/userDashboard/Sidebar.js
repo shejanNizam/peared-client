@@ -36,7 +36,7 @@ export default function Sidebar({ isCollapsed, toggleSidebarCollapsed }) {
       icon: <FaProjectDiagram />,
       path: "/profile/current-projects",
     },
-    { name: "My Bids", icon: <FaUser />, path: "/profile/my-bids" },
+    { name: "Pending Bids", icon: <FaUser />, path: "/profile/my-bids" },
     { name: "Wallet", icon: <FaWallet />, path: "/profile/wallet" },
     { name: "Notifications", icon: <FaBell />, path: "/profile/notifications" },
     { name: "My Review", icon: <FaBell />, path: "/profile/my-review" },

@@ -2,7 +2,7 @@
 
 import { useMyProjectBitDetailsQuery } from "@/redux/features/projects/projectApi";
 import { Button, Modal, Rate } from "antd";
-import { format } from "date-fns";
+// import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaStar } from "react-icons/fa";
@@ -14,6 +14,11 @@ export default function ProviderDetails(props) {
 
   const { data } = useMyProjectBitDetailsQuery(bitProjectId);
   const bid = data?.data;
+
+  // // Format the start date
+  // const formattedStartDate = bid?.startDate
+  //   ? format(new Date(bid.startDate), "dd MMM yyyy")
+  //   : "N/A";
 
   // Handle back button functionality
   const handleBack = () => {
@@ -62,10 +67,10 @@ export default function ProviderDetails(props) {
               <span className="font-semibold">Service Time:</span>{" "}
               {bid?.serviceTime} Days
             </p>
-            <p className="text-lg">
+            {/* <p className="text-lg">
               <span className="font-semibold">Starting Date:</span>{" "}
-              {format(new Date(bid.startDate), "dd MMM yyyy")}
-            </p>
+              {formattedStartDate}
+            </p> */}
           </div>
 
           {/* Ratings Section */}
