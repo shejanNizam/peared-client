@@ -5,8 +5,11 @@ import { SuccessSwal } from "@/components/utils/allSwalFire";
 import { useConfirmProjectQuery } from "@/redux/features/projects/projectApi";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 
 export default function ProjectDetails(props) {
+  const { user } = useSelector((state) => state.auth);
+
   const router = useRouter();
   const { projectId } = props.searchParams;
   const { data } = useConfirmProjectQuery(projectId);
@@ -31,6 +34,14 @@ export default function ProjectDetails(props) {
     });
 
     router.push(`/feedback?providerId=${data?.data?.providerId}`);
+  };
+
+  const handleDoneProject = () => {
+    SuccessSwal({
+      title: "",
+      text: "Project completed successfully!",
+    });
+    console.log("Provider Click Done ");
   };
 
   return (
@@ -70,28 +81,51 @@ export default function ProjectDetails(props) {
             {/* {data?.data?.isComplete !== "complete" && (
               <div className="w-full h-full rounded-lg absolute bg-gray-500/50 top-0 left-0"></div>
             )} */}
-
-            <div>
-              <h3 className="font-semibold text-center mb-2">
-                Did you get services Done?
-              </h3>
-              <p className="text-sm text-center mb-2">
-                after complete this project you can access these button
-              </p>
-              {/* Buttons */}
-
-              <div className="mt-6 flex justify-center items-center gap-6">
-                <button className="border border-red-500 text-red-700 px-5 py-2 rounded-xl font-medium shadow-md hover:bg-red-200 transition">
-                  No
-                </button>
-                <button
-                  onClick={handleCompleteProject}
-                  className="bg-green-600 text-white px-5 py-2 rounded-xl font-medium shadow-md hover:bg-green-700 transition"
-                >
-                  Yes
-                </button>
-              </div>
-            </div>
+            {user?.role === "user" ? (
+              <>
+                <div>
+                  <h3 className="font-semibold text-center mb-2">
+                    Did you get services Done?
+                  </h3>
+                  <p className="text-sm text-center mb-2">
+                    after complete this project you can access these button
+                  </p>
+                  {/* Buttons */}
+                  <div className="mt-6 flex justify-center items-center gap-6">
+                    <button className="border border-red-500 text-red-700 px-5 py-2 rounded-xl font-medium shadow-md hover:bg-red-200 transition">
+                      No
+                    </button>
+                    <button
+                      onClick={handleCompleteProject}
+                      className="bg-green-600 text-white px-5 py-2 rounded-xl font-medium shadow-md hover:bg-green-700 transition"
+                    >
+                      Yes
+                    </button>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div>
+                  <h3 className="font-semibold text-center mb-2">
+                    Are your work is done?
+                  </h3>
+                  <p className="text-sm text-center mb-2">
+                    If you click this button we send your client work done
+                    request if they approve then you get your payment
+                  </p>
+                  {/* Buttons */}
+                  <div className="mt-6 flex justify-center items-center gap-6">
+                    <button
+                      onClick={handleDoneProject}
+                      className="bg-green-600 text-white px-5 py-2 rounded-xl font-medium shadow-md hover:bg-green-700 transition"
+                    >
+                      Done
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
