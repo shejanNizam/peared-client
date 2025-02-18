@@ -196,18 +196,29 @@ export default function Projects() {
                 </div>
                 <div className="p-6 flex flex-col flex-grow">
                   <h3 className="text-xl font-semibold mb-2">
-                    {project.projectName}
+                    {project.projectCategory}
                   </h3>
+                  <p className="text-gray-500 mb-1">
+                    <span className="font-medium">Price:</span> $
+                    {project.priceRange}
+                  </p>
+                  <p className="text-gray-500 mb-4">
+                    <span className="font-medium">Time:</span> {project.time}
+                  </p>
+                  <p className="text-gray-500 mb-1">
+                    <span className="font-medium">City:</span> {project.city}
+                  </p>
                   <p className="text-gray-500 mb-1">
                     <span className="font-medium">Post Code:</span>{" "}
                     {project.postCode}
                   </p>
-                  <p className="text-gray-500 mb-4">
+                  <p className="text-gray-500 mb-1">
                     <span className="font-medium">Street:</span>{" "}
                     {project.street}
                   </p>
                   <p className="text-gray-500 mb-4">
-                    <span className="font-medium">Time:</span> {project.time}
+                    <span className="font-medium">Location Type:</span>{" "}
+                    {project.locationType}
                   </p>
 
                   <div className="flex justify-between">
@@ -277,9 +288,14 @@ export default function Projects() {
                         {selectedProject.projectCategory}
                       </li>
                       <li>
-                        <span className="font-medium">Street:</span>{" "}
-                        {selectedProject.street}
+                        <span className="font-medium">Price Range:</span> $
+                        {selectedProject.priceRange}
                       </li>
+                      <li>
+                        <span className="font-medium">Time:</span>{" "}
+                        {selectedProject.time}
+                      </li>
+
                       <li>
                         <span className="font-medium">City:</span>{" "}
                         {selectedProject.city}
@@ -289,12 +305,8 @@ export default function Projects() {
                         {selectedProject.postCode}
                       </li>
                       <li>
-                        <span className="font-medium">Price Range:</span>{" "}
-                        {selectedProject.priceRange}
-                      </li>
-                      <li>
-                        <span className="font-medium">Time:</span>{" "}
-                        {selectedProject.time}
+                        <span className="font-medium">Street:</span>{" "}
+                        {selectedProject.street}
                       </li>
                     </ul>
                   </div>
@@ -305,7 +317,7 @@ export default function Projects() {
                       }`}
                     >
                       <Image
-                        src={selectedProject.image}
+                        src={`https://magy-abu-sayed.sarv.live/${selectedProject?.image}`}
                         alt={selectedProject.projectName}
                         layout="fill"
                         objectFit="cover"
@@ -317,14 +329,6 @@ export default function Projects() {
                       {selectedProject.workDetails}
                     </p>
                   </div>
-                </div>
-                <div className="mt-6 flex justify-center">
-                  <button
-                    onClick={handleCloseModal}
-                    className="bg-white text-primary border border-primary px-6 py-2 rounded hover:bg-primary hover:text-white transition-colors duration-300"
-                  >
-                    Back
-                  </button>
                 </div>
               </div>
             </motion.div>

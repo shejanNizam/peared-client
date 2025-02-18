@@ -14,11 +14,14 @@ export default function MyProjects() {
     refetchOnMountOrArgChange: true,
   });
 
+  console.log(data);
+
   const handleOpenProject = (project) => {
     router.push(`/profile/my-projects/bid-lists?projectId=${project._id}`);
   };
 
   const handleGoToMessage = (project) => {
+    console.log(project);
     router.push(`/profile/project-details-message?projectId=${project._id}`);
   };
 

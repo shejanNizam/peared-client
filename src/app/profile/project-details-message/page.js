@@ -19,11 +19,12 @@ export default function ProjectDetails(props) {
   console.log(projectId);
 
   const { data } = useConfirmProjectQuery(projectId);
+  console.log(data?.data);
 
-  const [projectOk] = useProjectOkByUserMutation(projectId);
-  const [projectNotOk] = useProjectNotOkByUserMutation(projectId);
+  const [projectOk] = useProjectOkByUserMutation(data?.data?._id);
+  const [projectNotOk] = useProjectNotOkByUserMutation(data?.data?._id);
 
-  const [projectDone] = useProjectDoneByProviderMutation(projectId);
+  const [projectDone] = useProjectDoneByProviderMutation(data?.data?._id);
 
   const router = useRouter();
 
@@ -40,7 +41,7 @@ export default function ProjectDetails(props) {
 
   const handleProjectOk = async () => {
     const response = await projectOk(projectId).unwrap();
-    // console.log(response);
+    console.log(response);
     SuccessSwal({
       title: "",
       text: "Project completed successfully!",
@@ -52,7 +53,7 @@ export default function ProjectDetails(props) {
   const handleProjectNotOk = async () => {
     // before click yes button do something as we need
     const response = await projectNotOk(projectId).unwrap();
-    // console.log(response);
+    console.log(response);
 
     ErrorSwal({
       title: "",
@@ -62,12 +63,19 @@ export default function ProjectDetails(props) {
 
   const handleProjectDone = async () => {
     // before click yes button do something as we need
-    const response = await projectDone(projectId).unwrap();
-    console.log(response);
-    SuccessSwal({
-      title: "",
-      text: "Project completed successfully!",
-    });
+    try {
+      const response = await projectDone(projectId).unwrap();
+      console.log(response);
+      SuccessSwal({
+        title: "",
+        text: "Project completed successfully!",
+      });
+    } catch (error) {
+      ErrorSwal({
+        title: "",
+        text: error?.message || error?.data?.message,
+      });
+    }
   };
 
   return (
@@ -91,7 +99,8 @@ export default function ProjectDetails(props) {
             Project Details
           </h2>
           <p className="text-gray-600 mb-1">
-            <span className="font-semibold">Price:</span> ${data?.data?.price}
+            <span className="font-semibold">Price --- :</span> $
+            {data?.data?.price}
           </p>
           <p className="text-gray-600 mb-1">
             <span className="font-semibold">Service Time:</span>{" "}

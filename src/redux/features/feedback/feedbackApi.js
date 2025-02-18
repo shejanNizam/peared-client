@@ -11,6 +11,7 @@ export const feedbackApi = baseApi.injectEndpoints({
           body: feedbackData,
         };
       },
+      invalidatesTags: ["feedback"],
     }),
 
     // allProjects: builder.query({

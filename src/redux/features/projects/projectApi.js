@@ -11,6 +11,7 @@ export const projectApi = baseApi.injectEndpoints({
           body: projectData,
         };
       },
+      invalidatesTags: ["projects"],
     }),
 
     // all projects for providers
@@ -21,6 +22,7 @@ export const projectApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["projects"],
     }),
 
     // my project for users in dashboard
@@ -31,6 +33,7 @@ export const projectApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["projects"],
     }),
 
     //  my project bits
@@ -41,6 +44,7 @@ export const projectApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["projects"],
     }),
 
     //  my project bit details
@@ -51,6 +55,7 @@ export const projectApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["projects"],
     }),
 
     // project approved
@@ -61,6 +66,7 @@ export const projectApi = baseApi.injectEndpoints({
           method: "POST",
         };
       },
+      invalidatesTags: ["projects"],
     }),
 
     // confirm project
@@ -71,6 +77,7 @@ export const projectApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["projects"],
     }),
 
     // bit/create-bit-project
@@ -82,6 +89,7 @@ export const projectApi = baseApi.injectEndpoints({
           body: bidProjectData,
         };
       },
+      invalidatesTags: ["projects"],
     }),
     //  current provider project
     currentProjects: builder.query({
@@ -91,6 +99,7 @@ export const projectApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["projects"],
     }),
     //  pending bids project
     pendingBids: builder.query({
@@ -100,6 +109,7 @@ export const projectApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["projects"],
     }),
 
     // project OK by use
@@ -110,6 +120,7 @@ export const projectApi = baseApi.injectEndpoints({
           method: "POST",
         };
       },
+      invalidatesTags: ["projects"],
     }),
     // project NOT OK by use
     projectNotOkByUser: builder.mutation({
@@ -119,6 +130,7 @@ export const projectApi = baseApi.injectEndpoints({
           method: "POST",
         };
       },
+      invalidatesTags: ["projects"],
     }),
     // project DONE by provider
     projectDoneByProvider: builder.mutation({
@@ -128,6 +140,7 @@ export const projectApi = baseApi.injectEndpoints({
           method: "POST",
         };
       },
+      invalidatesTags: ["projects"],
     }),
   }),
 });

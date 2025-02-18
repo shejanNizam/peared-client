@@ -13,7 +13,9 @@ export default function CurrentProjects() {
   const myProject = data?.data;
 
   const handleOpenProject = (project) => {
-    router.push(`/profile/project-details-message?projectiId=${project._id}`);
+    router.push(
+      `/profile/project-details-message?projectId=${project?.projectId?._id}`
+    );
     // router.push(`/profile/project-details-message`);
   };
 

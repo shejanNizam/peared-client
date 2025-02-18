@@ -11,6 +11,7 @@ export const balanceApi = baseApi.injectEndpoints({
           body: balanceData,
         };
       },
+      invalidatesTags: ["payment"],
     }),
 
     //  my wallet
@@ -21,6 +22,7 @@ export const balanceApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["payment"],
     }),
 
     //  recent payment history
