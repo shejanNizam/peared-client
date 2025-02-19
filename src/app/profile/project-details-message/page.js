@@ -19,7 +19,7 @@ export default function ProjectDetails(props) {
   console.log(projectId);
 
   const { data } = useConfirmProjectQuery(projectId);
-  console.log(data?.data);
+  // console.log(data?.data);
 
   const [projectOk] = useProjectOkByUserMutation(data?.data?._id);
   const [projectNotOk] = useProjectNotOkByUserMutation(data?.data?._id);
@@ -40,8 +40,8 @@ export default function ProjectDetails(props) {
   }
 
   const handleProjectOk = async () => {
-    // const response = await projectOk(projectId).unwrap();
-    // console.log(response);
+    const response = await projectOk(projectId).unwrap();
+    console.log(response);
     SuccessSwal({
       title: "",
       text: "Project completed successfully!",
@@ -124,7 +124,9 @@ export default function ProjectDetails(props) {
                       Did you get services Done?
                     </h3>
                     <p className="text-sm text-center mb-2">
-                      after complete this project you can access these button
+                      {data?.data?.isComplete !== "complete"
+                        ? "after complete this project you can access these button"
+                        : ""}
                     </p>
                     {/* Buttons */}
                     <div className="mt-6 flex justify-center items-center gap-6">

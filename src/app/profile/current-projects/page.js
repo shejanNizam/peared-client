@@ -9,12 +9,13 @@ export default function CurrentProjects() {
   const router = useRouter();
 
   const { data } = useCurrentProjectsQuery();
-  console.log(data?.data);
   const myProject = data?.data;
+  console.log(myProject);
 
   const handleOpenProject = (project) => {
+    console.log(project);
     router.push(
-      `/profile/project-details-message?projectId=${project?.projectId?._id}`
+      `/profile/project-details-message?projectId=${project?.projectId}`
     );
     // router.push(`/profile/project-details-message`);
   };

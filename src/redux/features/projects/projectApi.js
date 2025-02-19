@@ -135,6 +135,7 @@ export const projectApi = baseApi.injectEndpoints({
     // project DONE by provider
     projectDoneByProvider: builder.mutation({
       query: (id) => {
+        console.log(id);
         return {
           url: `/bit/workOkByProvider/${id}`,
           method: "POST",
