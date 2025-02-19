@@ -14,6 +14,7 @@ export default function ProviderDetails(props) {
 
   const { data } = useMyProjectBitDetailsQuery(bitProjectId);
   const bid = data?.data;
+  console.log(bid);
 
   // // Format the start date
   // const formattedStartDate = bid?.startDate

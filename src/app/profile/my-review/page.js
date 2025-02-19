@@ -1,148 +1,74 @@
 "use client";
 
-import { useState } from "react";
-import { FaRegStar, FaStar, FaStarHalfAlt } from "react-icons/fa";
+import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
+import {
+  useAddToFavouriteMutation,
+  useProviderAllReviewsQuery,
+} from "@/redux/features/review/reviewApi";
+import { Checkbox, Rate } from "antd";
 
 export default function MyReview() {
-  const reviews = [
-    {
-      reviewer: "Gazi",
-      rating: 5,
-      date: "2024-03-08",
-      comment:
-        "Elisha is just purely exceptional and thoughtful in design and understanding of requirements. Even when the requirements aren’t as polished and professional.",
-    },
-    {
-      reviewer: "Sarah",
-      rating: 4,
-      date: "2024-03-07",
-      comment:
-        "Great work overall, but a few areas could have been more polished.",
-    },
-    {
-      reviewer: "John",
-      rating: 5,
-      date: "2024-03-06",
-      comment:
-        "Highly professional and creative. Delivered exactly what was needed.",
-    },
-    {
-      reviewer: "Emily",
-      rating: 4.5,
-      date: "2024-03-05",
-      comment: "Very thoughtful design and execution. Loved working with them.",
-    },
-    {
-      reviewer: "Michael",
-      rating: 3,
-      date: "2024-03-04",
-      comment:
-        "Work was decent but didn't fully meet the expectations I had set.",
-    },
-  ];
+  // Mock reviews. In a real app, fetch these from your backend or use RTK Query.
+  const { data } = useProviderAllReviewsQuery();
+  const allReviews = data?.data?.data;
+  // console.log(data?.data?.data);
 
-  const ratingsBreakdown = [50, 20, 15, 11, 5]; // Ratings for 5, 4, 3, 2, 1 stars
-  const totalReviews = reviews.length;
-  const averageRating = 4.5;
+  const [addFav, { isLoading }] = useAddToFavouriteMutation();
 
-  const StarRating = ({ rating }) => {
-    const fullStars = Math.floor(rating);
-    const halfStar = rating % 1 >= 0.5;
-    const emptyStars = 5 - Math.ceil(rating);
+  // const [reviews, setReviews] = useState([]);
 
-    return (
-      <div style={{ display: "flex", alignItems: "center" }}>
-        {[...Array(fullStars)].map((_, index) => (
-          <FaStar key={index} style={{ color: "gold", marginRight: "2px" }} />
-        ))}
-        {halfStar && (
-          <FaStarHalfAlt style={{ color: "gold", marginRight: "2px" }} />
-        )}
-        {[...Array(emptyStars)].map((_, index) => (
-          <FaRegStar
-            key={index}
-            style={{ color: "gold", marginRight: "2px" }}
-          />
-        ))}
-      </div>
-    );
+  const handleFavouriteChange = async (reviewId, checked) => {
+    try {
+      console.log("Toggling review:", reviewId, "New status:", checked);
+
+      const response = await addFav({
+        reviewId: reviewId,
+        isFavourite: checked,
+      }).unwrap();
+      console.log(response);
+
+      SuccessSwal({
+        title: "",
+        text: response?.message,
+      });
+    } catch (error) {
+      console.error(error);
+      ErrorSwal({
+        title: "",
+        text: error?.data?.message || error?.message,
+      });
+    }
   };
-
-  const [selectedReviews, setSelectedReviews] = useState([]);
-
-  const handleCheckboxChange = (index) => {
-    setSelectedReviews((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
-  };
-
-  //   throw new Error("Required");
 
   return (
-    <div style={{ padding: "2rem", maxWidth: "800px", margin: "auto" }}>
-      <h2 style={{ textAlign: "center", color: "green" }}>My Review</h2>
-      {/* Average Rating */}
-      <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-        <StarRating rating={averageRating} />
-        <p style={{ fontSize: "1.5rem", fontWeight: "bold" }}>
-          {averageRating}/5
-        </p>
-        <p>Total Reviews: {totalReviews}</p>
+    <div className="max-w-4xl mx-auto p-4 sm:p-8">
+      <h1 className="text-2xl font-bold text-center mb-6">My Review</h1>
+      <div className="flex justify-around items-center my-12">
+        <div>1</div>
+        <div>2</div>
       </div>
-
-      {/* Ratings Breakdown */}
-      <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-        {ratingsBreakdown.map((count, index) => (
-          <div
-            key={index}
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "200px",
-              margin: "auto",
-              fontSize: "1rem",
-            }}
-          >
-            <span>{5 - index} Stars:</span>
-            <span>{count}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* Review List */}
       <div>
-        <h3 style={{ marginBottom: "1rem" }}>All Reviews</h3>
-        {reviews.map((review, index) => (
+        {allReviews?.map((review) => (
           <div
-            key={index}
-            style={{
-              border: "1px solid #ddd",
-              padding: "1rem",
-              margin: "0.5rem 0",
-              borderRadius: "5px",
-              display: "flex",
-              alignItems: "center",
-            }}
+            key={review.id}
+            className="border rounded p-4 mb-4 flex items-start space-x-3"
           >
-            <input
-              type="checkbox"
-              style={{ marginRight: "1rem" }}
-              checked={selectedReviews.includes(index)}
-              onChange={() => handleCheckboxChange(index)}
+            <Checkbox
+              checked={review?.isFavourite}
+              onChange={(e) =>
+                handleFavouriteChange(review._id, e.target.checked)
+              }
             />
-            <div style={{ width: "100%" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <strong>{review.reviewer}</strong>
-                <span>{new Date(review.date).toLocaleDateString()}</span>
+            <div>
+              <div className="flex items-center space-x-2 mb-2">
+                <span className="font-bold">{review?.userId?.name}</span>
+                <Rate disabled defaultValue={review?.rating} />
+                <span className="text-gray-500 text-sm">
+                  {review?.createdAt}
+                </span>
               </div>
-              <StarRating rating={review.rating} />
-              <p style={{ marginTop: "0.5rem" }}>{review.comment}</p>
+              <p className="text-gray-700 mb-2">{review?.details}</p>
+              <span className="text-blue-600 cursor-pointer">See More</span>
             </div>
           </div>
         ))}

@@ -1,5 +1,5 @@
 "use client";
-import { SuccessSwal } from "@/components/utils/allSwalFire";
+import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
 import { useFeedbackProviderMutation } from "@/redux/features/feedback/feedbackApi";
 import { Button, Form, Input, Rate } from "antd";
 import { useRouter } from "next/navigation";
@@ -26,6 +26,11 @@ export default function Feedback(props) {
       router.push(`/`);
     } catch (error) {
       console.log(error);
+      ErrorSwal({
+        title: "",
+        text:
+          error?.message || error?.data?.message || " Something went wrong! ",
+      });
     }
   };
 

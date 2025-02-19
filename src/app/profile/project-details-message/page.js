@@ -40,8 +40,8 @@ export default function ProjectDetails(props) {
   }
 
   const handleProjectOk = async () => {
-    const response = await projectOk(projectId).unwrap();
-    console.log(response);
+    // const response = await projectOk(projectId).unwrap();
+    // console.log(response);
     SuccessSwal({
       title: "",
       text: "Project completed successfully!",

@@ -37,7 +37,8 @@ export default function MyProjects() {
         >
           <div className="relative w-full h-48 mb-4 rounded-t-lg overflow-hidden">
             <Image
-              src={`https://magy-abu-sayed.sarv.live/${project?.image}`}
+              // src={`https://magy-abu-sayed.sarv.live/${project?.image}`}
+              src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${project?.image}`}
               alt={project.projectName}
               fill
               className="rounded-t-lg object-cover"
