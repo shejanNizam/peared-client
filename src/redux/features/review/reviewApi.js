@@ -2,7 +2,16 @@ import baseApi from "@/redux/api/baseApi";
 
 export const reviewApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    //  my wallet
+    topReviews: builder.query({
+      query: (id) => {
+        return {
+          url: `/provider/top-reviews/${id}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["review"],
+    }),
+
     providerAllReviews: builder.query({
       query: () => {
         return {
@@ -26,5 +35,8 @@ export const reviewApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useProviderAllReviewsQuery, useAddToFavouriteMutation } =
-  reviewApi;
+export const {
+  useProviderAllReviewsQuery,
+  useAddToFavouriteMutation,
+  useTopReviewsQuery,
+} = reviewApi;
