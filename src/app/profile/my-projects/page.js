@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 export default function MyProjects() {
   const router = useRouter();
 
-  // Force refetch on mount so that newly added projects are shown immediately.
   const { data } = useMyProjectsQuery();
   // console.log(first);
 
@@ -18,7 +17,6 @@ export default function MyProjects() {
   };
 
   const handleGoToMessage = (project) => {
-    // console.log(project);
     router.push(`/profile/project-details-message?projectId=${project._id}`);
   };
 

@@ -13,10 +13,10 @@ import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
 export default function ProjectDetails(props) {
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth) || {};
 
   const { projectId } = props.searchParams;
-  // console.log(projectId);
+  const conversationId = "conversationId";
 
   const { data } = useConfirmProjectQuery(projectId);
   console.log(data?.data);
@@ -89,7 +89,7 @@ export default function ProjectDetails(props) {
       </button>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Messaging Section Component */}
-        <Message />
+        <Message conversationId={conversationId} userId={user?._id} />
 
         {/* Right Section: Project Details */}
         <div className="bg-white rounded-lg shadow-lg p-6">

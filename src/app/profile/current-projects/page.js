@@ -17,7 +17,6 @@ export default function CurrentProjects() {
     router.push(
       `/profile/project-details-message?projectId=${project?.projectId?._id}`
     );
-    // router.push(`/profile/project-details-message`);
   };
 
   return (

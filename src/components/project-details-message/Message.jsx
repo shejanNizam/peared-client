@@ -1,125 +1,89 @@
 "use client";
 
-import { useState } from "react";
+// import { getSocket, initSocket } from "@/utils/socket";
+import { useEffect, useState } from "react";
+import { getSocket, initSocket } from "../utils/socket";
 
-export default function Message() {
-  // Example chat data in local state
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      sender: "provider",
-      text: "Hi there! I'll be arriving at your location shortly.",
-      time: "10:35 AM",
-    },
-    {
-      id: 2,
-      sender: "user",
-      text: "Sounds good, thanks for the update!",
-      time: "10:45 AM",
-    },
-  ]);
-
-  // Local state for new message input
+export default function Message({ conversationId, userId }) {
+  const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
 
-  // Handle sending a new message
-  const handleSend = () => {
-    if (!newMessage.trim()) return; // don't send empty messages
+  useEffect(() => {
+    // সোকেট ইনিশিয়ালাইজ
+    const socket = initSocket();
 
-    const now = new Date();
-    const formattedTime = now.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
+    // রুমে জয়েন (conversationId)
+    if (conversationId) {
+      socket.emit("joinConversation", { conversationId });
+      console.log("Joining conversation:", conversationId);
+    }
+
+    // সার্ভার থেকে নতুন মেসেজ পেলে
+    socket.on("receiveMessage", (message) => {
+      // যদি মেসেজের conversationId আমাদের বর্তমান conversationId এর সাথে মিলে যায়
+      if (message.conversationId === conversationId) {
+        setMessages((prev) => [...prev, message]);
+      }
     });
 
-    // For this demo, we treat all newly sent messages as coming from the "user"
-    const newMsg = {
-      id: Date.now(),
-      sender: "user",
-      text: newMessage.trim(),
-      time: formattedTime,
+    // cleanup
+    return () => {
+      socket.off("receiveMessage");
+    };
+  }, [conversationId]);
+
+  // মেসেজ পাঠানোর হ্যান্ডলার
+  const handleSend = () => {
+    if (!newMessage.trim()) return;
+
+    const socket = getSocket();
+    const data = {
+      conversationId,
+      senderId: userId,
+      messageText: newMessage.trim(),
     };
 
-    setMessages([...messages, newMsg]);
+    // সার্ভারে পাঠিয়ে দিন
+    socket.emit("sendMessage", data);
+
+    // চাইলে লোকাল স্টেটেও অ্যাড করতে পারেন
+    // (এতে সাথে সাথে UI আপডেট হবে, সার্ভার থেকেও "receiveMessage" এসে আবার আপডেট হবে)
+    setMessages((prev) => [...prev, { ...data, _id: Date.now() }]);
+
     setNewMessage("");
   };
 
   return (
-    <>
-      <div className="col-span-2 bg-white rounded-lg shadow-lg p-6 flex flex-col">
-        {/* Provider Info */}
-        <div className="flex items-center justify-between pb-4 border-b border-gray-300">
-          <div className="flex items-center gap-4">
-            <img
-              src="/profile-placeholder.jpg"
-              alt="Provider"
-              className="w-14 h-14 rounded-full shadow-md"
-            />
-            <div>
-              <h3 className="font-bold text-lg text-gray-800">WILLIUM SMITH</h3>
-              <p className="text-sm text-gray-500">Provider ID: #2345E</p>
-              <p className="text-xs text-gray-400">3 hours ago</p>
-            </div>
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-yellow-500 font-bold">4/5</span>
-              <span className="text-gray-500">(120 Reviews)</span>
-            </div>
-          </div>
-        </div>
+    <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col">
+      <h2 className="text-lg font-bold mb-4">
+        Conversation ID: {conversationId}
+      </h2>
 
-        {/* Chat Section */}
-        <div className="mt-4 flex-1 overflow-y-auto space-y-4 pr-2">
-          {messages.map((msg) => (
-            <div
-              key={msg.id}
-              className={`flex gap-3 ${
-                msg.sender === "user" ? "flex-row-reverse" : ""
-              }`}
-            >
-              <img
-                src="/profile-placeholder.jpg"
-                alt={msg.sender}
-                className="w-10 h-10 rounded-full"
-              />
-              <div>
-                <div
-                  className={`p-3 rounded-lg text-sm text-gray-800 shadow-sm ${
-                    msg.sender === "user" ? "bg-gray-100" : "bg-green-100"
-                  }`}
-                >
-                  {msg.text}
-                </div>
-                <p
-                  className={`text-xs text-gray-400 mt-1 ${
-                    msg.sender === "user" ? "text-right" : ""
-                  }`}
-                >
-                  {msg.time}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* New Message Input */}
-        <div className="mt-4 flex items-center gap-2">
-          <input
-            className="flex-1 border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
-            type="text"
-            placeholder="Type your message..."
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-          />
-          <button
-            onClick={handleSend}
-            className="bg-green-500 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-green-600"
-          >
-            Send
-          </button>
-        </div>
+      {/* মেসেজ লিস্ট */}
+      <div className="flex-1 overflow-y-auto mb-4 border p-2 rounded">
+        {messages.map((msg) => (
+          <div key={msg._id} className="mb-2">
+            <strong>{msg.senderId}:</strong> {msg.messageText}
+          </div>
+        ))}
       </div>
-    </>
+
+      {/* মেসেজ ইনপুট */}
+      <div className="flex gap-2">
+        <input
+          className="flex-1 border rounded p-2"
+          type="text"
+          placeholder="Type your message..."
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+        />
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+          onClick={handleSend}
+        >
+          Send
+        </button>
+      </div>
+    </div>
   );
 }
