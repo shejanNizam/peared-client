@@ -13,15 +13,6 @@ import payment_img from "../../assets/payment/payment_img.png";
 const { Option } = Select;
 const { TextArea } = Input;
 
-// Function to handle image upload before sending to server
-const getBase64 = (file) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
-
 const AddProject = () => {
   const router = useRouter();
   const [image, setImage] = useState(null);

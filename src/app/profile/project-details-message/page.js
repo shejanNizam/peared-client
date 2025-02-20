@@ -16,15 +16,15 @@ export default function ProjectDetails(props) {
   const { user } = useSelector((state) => state.auth);
 
   const { projectId } = props.searchParams;
-  console.log(projectId);
+  // console.log(projectId);
 
   const { data } = useConfirmProjectQuery(projectId);
-  // console.log(data?.data);
+  console.log(data?.data);
 
-  const [projectOk] = useProjectOkByUserMutation(data?.data?._id);
-  const [projectNotOk] = useProjectNotOkByUserMutation(data?.data?._id);
+  const [projectOk] = useProjectOkByUserMutation();
+  const [projectNotOk] = useProjectNotOkByUserMutation();
 
-  const [projectDone] = useProjectDoneByProviderMutation(data?.data?._id);
+  const [projectDone] = useProjectDoneByProviderMutation();
 
   const router = useRouter();
 
@@ -40,7 +40,7 @@ export default function ProjectDetails(props) {
   }
 
   const handleProjectOk = async () => {
-    const response = await projectOk(projectId).unwrap();
+    const response = await projectOk(data?.data?._id).unwrap();
     console.log(response);
     SuccessSwal({
       title: "",
@@ -52,19 +52,17 @@ export default function ProjectDetails(props) {
 
   const handleProjectNotOk = async () => {
     // before click yes button do something as we need
-    const response = await projectNotOk(projectId).unwrap();
-    console.log(response);
-
+    const response = await projectNotOk(data?.data?._id).unwrap();
     ErrorSwal({
       title: "",
-      text: " Project not complete! ",
+      text: response?.message || response?.data?.message,
     });
   };
 
   const handleProjectDone = async () => {
     // before click yes button do something as we need
     try {
-      const response = await projectDone(projectId).unwrap();
+      const response = await projectDone(data?.data?._id).unwrap();
       console.log(response);
       SuccessSwal({
         title: "",
@@ -112,14 +110,15 @@ export default function ProjectDetails(props) {
           </p>
 
           {/* Work Completion Section */}
-          <div className="mt-6 bg-gray-50 rounded-lg p-4 relative">
-            {/* {data?.data?.isComplete !== "complete" && (
-              <div className="w-full h-full rounded-lg absolute bg-gray-500/50 top-0 left-0"></div>
-            )} */}
+          <div className="mt-6 bg-gray-50 rounded-lg p-4">
             {user?.role === "user" ? (
               <>
-                <div>
-                  <div>
+                <div className="relative">
+                  {data?.data?.isComplete !== "complete" && (
+                    <div className="w-full h-full rounded-lg absolute bg-gray-500/50 top-0 left-0"></div>
+                  )}
+
+                  <div className="p-4">
                     <h3 className="font-semibold text-center mb-2">
                       Did you get services Done?
                     </h3>
@@ -137,7 +136,7 @@ export default function ProjectDetails(props) {
                         No
                       </button>
                       <button
-                        onClick={handleProjectOk}
+                        onClick={() => handleProjectOk()}
                         className="bg-green-600 text-white px-5 py-2 rounded-xl font-medium shadow-md hover:bg-green-700 transition"
                       >
                         Yes

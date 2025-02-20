@@ -10,18 +10,15 @@ export default function MyProjects() {
   const router = useRouter();
 
   // Force refetch on mount so that newly added projects are shown immediately.
-  const { data } = useMyProjectsQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  });
-
-  console.log(data);
+  const { data } = useMyProjectsQuery();
+  // console.log(first);
 
   const handleOpenProject = (project) => {
     router.push(`/profile/my-projects/bid-lists?projectId=${project._id}`);
   };
 
   const handleGoToMessage = (project) => {
-    console.log(project);
+    // console.log(project);
     router.push(`/profile/project-details-message?projectId=${project._id}`);
   };
 
