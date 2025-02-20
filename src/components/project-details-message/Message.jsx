@@ -1,88 +1,131 @@
 "use client";
 
-// import { getSocket, initSocket } from "@/utils/socket";
+import { SendOutlined } from "@ant-design/icons";
+import { Button, Input } from "antd";
+import Image from "next/image";
 import { useEffect, useState } from "react";
+
+import { useGetAllMessagesQuery } from "@/redux/features/socket/socketApi";
 import { getSocket, initSocket } from "../utils/socket";
+import { useSelector } from "react-redux";
 
 export default function Message({ conversationId, userId }) {
+  // const { user } = useSelector((state) => state.auth);
+  // console.log(user);
+
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
 
+  const { data, isLoading } = useGetAllMessagesQuery(conversationId);
+
   useEffect(() => {
-    // সোকেট ইনিশিয়ালাইজ
+    if (data?.data) {
+      const filtered = data.data.filter(
+        (msg) => msg.conversationId === conversationId
+      );
+      setMessages(filtered);
+    }
+  }, [data, conversationId]);
+
+  useEffect(() => {
     const socket = initSocket();
 
-    // রুমে জয়েন (conversationId)
     if (conversationId) {
       socket.emit("joinConversation", { conversationId });
       console.log("Joining conversation:", conversationId);
     }
 
-    // সার্ভার থেকে নতুন মেসেজ পেলে
     socket.on("receiveMessage", (message) => {
-      // যদি মেসেজের conversationId আমাদের বর্তমান conversationId এর সাথে মিলে যায়
       if (message.conversationId === conversationId) {
-        setMessages((prev) => [...prev, message]);
+        setMessages((prev) => {
+          const alreadyExists = prev.some((m) => m._id === message._id);
+          if (!alreadyExists) {
+            return [...prev, message];
+          }
+          return prev;
+        });
       }
     });
 
-    // cleanup
     return () => {
       socket.off("receiveMessage");
     };
   }, [conversationId]);
 
-  // মেসেজ পাঠানোর হ্যান্ডলার
   const handleSend = () => {
     if (!newMessage.trim()) return;
 
     const socket = getSocket();
-    const data = {
+    const outgoingMsg = {
       conversationId,
       senderId: userId,
       messageText: newMessage.trim(),
     };
 
-    // সার্ভারে পাঠিয়ে দিন
-    socket.emit("sendMessage", data);
-
-    // চাইলে লোকাল স্টেটেও অ্যাড করতে পারেন
-    // (এতে সাথে সাথে UI আপডেট হবে, সার্ভার থেকেও "receiveMessage" এসে আবার আপডেট হবে)
-    setMessages((prev) => [...prev, { ...data, _id: Date.now() }]);
+    socket.emit("sendMessage", outgoingMsg);
 
     setNewMessage("");
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col">
-      <h2 className="text-lg font-bold mb-4">
-        Conversation ID: {conversationId}
-      </h2>
-
-      {/* মেসেজ লিস্ট */}
-      <div className="flex-1 overflow-y-auto mb-4 border p-2 rounded">
-        {messages.map((msg) => (
-          <div key={msg._id} className="mb-2">
-            <strong>{msg.senderId}:</strong> {msg.messageText}
-          </div>
-        ))}
+    <div className="flex flex-col h-full bg-white rounded-lg shadow-md">
+      {/* Header */}
+      <div className="flex items-center p-4 border-b">
+        <Image
+          src="/default-avatar.png"
+          alt="Avatar"
+          width={48}
+          height={48}
+          className="rounded-full object-cover"
+        />
+        <div className="ml-3">
+          <h2 className="text-lg font-bold leading-none">WILLIUM SMITH</h2>
+          <p className="text-gray-500 text-sm">Provider ID: #2345E</p>
+        </div>
       </div>
 
-      {/* মেসেজ ইনপুট */}
-      <div className="flex gap-2">
-        <input
-          className="flex-1 border rounded p-2"
-          type="text"
+      {/* Chat Content */}
+      <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
+        {messages.map((msg) => {
+          const isOwnMessage = msg.senderId === userId;
+          return (
+            <div
+              key={msg._id}
+              className={`mb-3 flex ${
+                isOwnMessage ? "justify-end" : "justify-start"
+              }`}
+            >
+              <div
+                className={`rounded-lg p-3 max-w-xs ${
+                  isOwnMessage
+                    ? "bg-green-200 text-gray-800"
+                    : "bg-white text-gray-800 border border-gray-300"
+                }`}
+              >
+                {msg.messageText}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Input Area */}
+      <div className="border-t p-3 flex gap-2">
+        <Input
           placeholder="Type your message..."
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
+          onPressEnter={handleSend}
+          className="flex-1"
         />
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+        <Button
+          type="primary"
+          loading={isLoading}
+          icon={<SendOutlined />}
           onClick={handleSend}
         >
           Send
-        </button>
+        </Button>
       </div>
     </div>
   );

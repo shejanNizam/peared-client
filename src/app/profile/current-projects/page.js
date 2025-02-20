@@ -13,7 +13,7 @@ export default function CurrentProjects() {
   console.log(myProject);
 
   const handleOpenProject = (project) => {
-    console.log(project);
+    // console.log(project);
     router.push(
       `/profile/project-details-message?projectId=${project?.projectId?._id}`
     );
@@ -58,7 +58,8 @@ export default function CurrentProjects() {
             </p>
 
             <p className="text-gray-500 mb-4">
-              <span className="font-medium">Time:</span> {project.serviceTime}
+              <span className="font-medium">Time:</span> {project.serviceTime}{" "}
+              Days
             </p>
             <p className="text-gray-500 mb-4">{project.Workdetails}</p>
 

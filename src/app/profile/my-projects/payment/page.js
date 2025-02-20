@@ -69,7 +69,8 @@ export default function Payment(props) {
           </div>
           <div className="flex justify-between items-center mt-2">
             <p className="font-semibold">Starting Date : </p>
-            <p>{format(new Date(bid.startDate), "dd MMM yyyy")}</p>
+            {/* <p>{format(new Date(bid?.startDate), "dd MMM yyyy")}</p> */}
+            <p>{"56 feb"}</p>
           </div>
           <div className="flex justify-between items-center mt-2">
             <p className="font-semibold">Service Time :</p>
