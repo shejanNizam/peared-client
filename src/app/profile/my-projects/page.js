@@ -1,6 +1,10 @@
 "use client";
 
-import { useMyProjectsQuery } from "@/redux/features/projects/projectApi";
+import { SuccessSwal } from "@/components/utils/allSwalFire";
+import {
+  useBoostProjectMutation,
+  useMyProjectsQuery,
+} from "@/redux/features/projects/projectApi";
 import { Button } from "antd";
 import { format } from "date-fns";
 import Image from "next/image";
@@ -12,6 +16,8 @@ export default function MyProjects() {
   const { data } = useMyProjectsQuery();
   console.log(data?.data);
 
+  const [boostProject] = useBoostProjectMutation();
+
   const handleOpenProject = (project) => {
     router.push(`/profile/my-projects/bid-lists?projectId=${project._id}`);
   };
@@ -20,8 +26,12 @@ export default function MyProjects() {
     router.push(`/profile/project-details-message?projectId=${project._id}`);
   };
 
-  const handleBoostProject = () => {
-    console.log("boost your project");
+  const handleBoostProject = async (id) => {
+    const response = await boostProject(id).unwrap();
+    SuccessSwal({
+      title: "",
+      text: response?.message,
+    });
   };
 
   return (
@@ -71,7 +81,7 @@ export default function MyProjects() {
                 type="primary"
                 onClick={
                   project?.isApprove === false && project?.payment === false
-                    ? handleBoostProject
+                    ? () => handleBoostProject(project._id)
                     : project?.isApprove
                     ? () => handleGoToMessage(project)
                     : () => handleOpenProject(project)

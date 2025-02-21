@@ -5,18 +5,24 @@ import WalletBalance from "@/components/profile/wallet/WalletBalance";
 import {
   useAddBalanceMutation,
   useMyWalletQuery,
+  useWithdrawBalanceMutation,
 } from "@/redux/features/payment/paymentApi";
 import { PlusOutlined } from "@ant-design/icons";
 import { Button, Form, InputNumber, Modal, Space, Typography } from "antd";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const { Title, Text } = Typography;
 
 export default function Wallet() {
+  const { user } = useSelector((state) => state.auth);
+  console.log(user);
+
   const [isAddBalanceModalOpen, setIsAddBalanceModalOpen] = useState(false);
   const [addBalanceForm] = Form.useForm();
 
   const [addBalance, { isLoading }] = useAddBalanceMutation();
+  const [withdrawBanalce] = useWithdrawBalanceMutation();
 
   const { data } = useMyWalletQuery();
   const balance = data?.data?.amount;
@@ -40,6 +46,21 @@ export default function Wallet() {
       console.log(error);
     }
   };
+  const handleWithdrawBalanceFinish = async (values) => {
+    const { balanceAmount } = values;
+
+    try {
+      const response = await withdrawBanalce({
+        amount: balanceAmount,
+      }).unwrap();
+      console.log(response);
+      if (response?.success) {
+        window.location.href = response?.data?.url;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
@@ -50,16 +71,34 @@ export default function Wallet() {
         {/* Left Section */}
         <div className="bg-white rounded-xl shadow-lg p-8 flex flex-col items-center mx-auto">
           <WalletBalance balance={balance} />
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            size="large"
-            className="mb-4 w-full"
-            onClick={openAddBalanceModal}
-            loading={isLoading}
-          >
-            Add Some Balance
-          </Button>
+
+          {user?.role === "provider" ? (
+            <>
+              <Button
+                type="primary"
+                icon={<PlusOutlined />}
+                size="large"
+                className="mb-4 w-full"
+                onClick={openAddBalanceModal}
+                loading={isLoading}
+              >
+                Withdraw Balance
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                type="primary"
+                icon={<PlusOutlined />}
+                size="large"
+                className="mb-4 w-full"
+                onClick={openAddBalanceModal}
+                loading={isLoading}
+              >
+                Add Some Balance
+              </Button>
+            </>
+          )}
         </div>
 
         {/* Right Section */}
@@ -77,7 +116,11 @@ export default function Wallet() {
         <Form
           form={addBalanceForm}
           layout="vertical"
-          onFinish={handleAddBalanceFinish}
+          onFinish={
+            user?.role === "provider"
+              ? handleWithdrawBalanceFinish
+              : handleAddBalanceFinish
+          }
           initialValues={{
             balanceAmount: 0,
           }}
@@ -103,7 +146,7 @@ export default function Wallet() {
             <Space className="w-full justify-end">
               <Button onClick={closeAddBalanceModal}>Cancel</Button>
               <Button type="primary" htmlType="submit" loading={isLoading}>
-                Add Balance
+                {user?.role === "provider" ? "Withdraw Balance" : "Add Balance"}
               </Button>
             </Space>
           </Form.Item>

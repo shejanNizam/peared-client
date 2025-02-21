@@ -143,6 +143,17 @@ export const projectApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["projects"],
     }),
+    // boost project
+    boostProject: builder.mutation({
+      query: (id) => {
+        console.log(id);
+        return {
+          url: `/project/boost-project/${id}`,
+          method: "POST",
+        };
+      },
+      invalidatesTags: ["projects"],
+    }),
   }),
 });
 
@@ -160,4 +171,5 @@ export const {
   useProjectOkByUserMutation,
   useProjectNotOkByUserMutation,
   useProjectDoneByProviderMutation,
+  useBoostProjectMutation,
 } = projectApi;

@@ -4,9 +4,10 @@ export const socketApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     // Fetch currently logged-in user's data
     getAllMessages: builder.query({
-      query: (id) => ({
-        url: `/chat/conversation/${id}`,
+      query: ({ conversationId, page = 1, limit = 10 }) => ({
+        url: `/chat/conversation/${conversationId}`,
         method: "GET",
+        params: { page, limit },
       }),
       providesTags: ["socket"],
     }),

@@ -3,36 +3,58 @@
 import { SendOutlined } from "@ant-design/icons";
 import { Button, Input } from "antd";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useGetAllMessagesQuery } from "@/redux/features/socket/socketApi";
 import { getSocket, initSocket } from "../utils/socket";
-import { useSelector } from "react-redux";
 
 export default function Message({ conversationId, userId }) {
-  // const { user } = useSelector((state) => state.auth);
-  // console.log(user);
-
+  // State for messages, new message text, and pagination info
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit] = useState(10); // default limit (adjust as needed)
+  const [pagination, setPagination] = useState(null);
 
-  const { data, isLoading } = useGetAllMessagesQuery(conversationId);
+  // Ref to scroll to the bottom when messages update
+  const messagesEndRef = useRef(null);
 
+  // Use the updated query hook with conversationId, page, and limit params
+  const { data, isLoading } = useGetAllMessagesQuery({
+    conversationId,
+    page,
+    limit,
+  });
+
+  // When API data loads, update messages:
+  // - For page 1, replace messages; for later pages, prepend older messages.
   useEffect(() => {
     if (data?.data) {
-      const filtered = data.data.filter(
+      const newMessages = data.data.data.filter(
         (msg) => msg.conversationId === conversationId
       );
-      setMessages(filtered);
+      if (page === 1) {
+        setMessages(newMessages);
+      } else {
+        setMessages((prev) => [...newMessages, ...prev]);
+      }
+      setPagination(data.data.pagination);
     }
-  }, [data, conversationId]);
+  }, [data, conversationId, page]);
 
+  // Scroll to the bottom when messages update
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
+  // Socket initialization and event listener for receiving new messages
   useEffect(() => {
     const socket = initSocket();
 
     if (conversationId) {
       socket.emit("joinConversation", { conversationId });
-      console.log("Joining conversation:", conversationId);
     }
 
     socket.on("receiveMessage", (message) => {
@@ -52,6 +74,23 @@ export default function Message({ conversationId, userId }) {
     };
   }, [conversationId]);
 
+  // Handle scroll event on the chat container to load older messages when near top
+  const handleScroll = (e) => {
+    const target = e.currentTarget;
+    if (target.scrollTop < 50) {
+      if (pagination && page < pagination.totalPage) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    }
+  };
+
+  // Format the timestamp to a readable time (HH:MM)
+  const formatTime = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  };
+
+  // Handle sending a new message
   const handleSend = () => {
     if (!newMessage.trim()) return;
 
@@ -63,7 +102,6 @@ export default function Message({ conversationId, userId }) {
     };
 
     socket.emit("sendMessage", outgoingMsg);
-
     setNewMessage("");
   };
 
@@ -85,7 +123,11 @@ export default function Message({ conversationId, userId }) {
       </div>
 
       {/* Chat Content */}
-      <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
+      <div
+        onScroll={handleScroll}
+        className="flex-1 overflow-y-auto p-4 bg-gray-50"
+      >
+        {isLoading && page === 1 && <p>Loading messages...</p>}
         {messages.map((msg) => {
           const isOwnMessage = msg.senderId === userId;
           return (
@@ -96,17 +138,21 @@ export default function Message({ conversationId, userId }) {
               }`}
             >
               <div
-                className={`rounded-lg p-3 max-w-xs ${
+                className={`rounded-lg p-3 max-w-xs break-words ${
                   isOwnMessage
                     ? "bg-green-200 text-gray-800"
                     : "bg-white text-gray-800 border border-gray-300"
                 }`}
               >
-                {msg.messageText}
+                <p>{msg.messageText}</p>
+                <span className="text-xs text-gray-500 block text-right mt-1">
+                  {formatTime(msg.createdAt)}
+                </span>
               </div>
             </div>
           );
         })}
+        {/* <div ref={messagesEndRef} /> */}
       </div>
 
       {/* Input Area */}

@@ -17,8 +17,6 @@ export default function ProjectDetails(props) {
   const router = useRouter();
 
   const { projectId } = props.searchParams;
-  // console.log(projectId);
-
   // Fetch project data
   const { data } = useConfirmProjectQuery(projectId);
   const conversationId = data?.data?.conversationId;
@@ -63,7 +61,7 @@ export default function ProjectDetails(props) {
     });
   };
 
-  // Handle provider “Done”
+  // Handle provider "Done"
   const handleProjectDone = async () => {
     try {
       await projectDone(data?.data?.currentProjects?._id).unwrap();
@@ -80,10 +78,10 @@ export default function ProjectDetails(props) {
   };
 
   return (
-    <div className="h-screen w-full flex flex-col bg-gray-100">
+    <div className="h-[80vh] w-full flex flex-col bg-gray-100">
       {/* Top Bar */}
       <div className="relative flex items-center justify-center">
-        <h1 className="text-2xl font-bold text-green-600">Project Details</h1>
+        {/* <h1 className="text-2xl font-bold text-green-600">Project Details</h1> */}
         <button className="absolute right-4 bg-red-600 text-white text-sm px-4 py-2 rounded-md shadow-md hover:bg-red-700 transition">
           Report
         </button>
