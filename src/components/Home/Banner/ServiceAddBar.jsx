@@ -1,13 +1,13 @@
 "use client";
 
+import { SuccessSwal } from "@/components/utils/allSwalFire";
 import { AutoComplete, Button, Form, Input } from "antd";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { MdArrowDropDown } from "react-icons/md";
 
-function ServiceAddBar() {
+function ServiceAddBar({ user }) {
   const router = useRouter();
-
   const [addTerm, setAddTerm] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
@@ -23,7 +23,16 @@ function ServiceAddBar() {
     if (values) {
       localStorage.setItem("selectedCategory", values.serviceSearch);
     }
-    router.push(`/add-project`);
+
+    if (user) {
+      router.push(`/add-project`);
+    } else {
+      SuccessSwal({
+        title: "",
+        text: " Please login first! ",
+      });
+      router.push(`/login?redirect=/add-project`);
+    }
 
     setAddTerm("");
     setIsFocused(false);
@@ -70,7 +79,7 @@ function ServiceAddBar() {
             </AutoComplete>
           </Form.Item>
 
-          {/* Search Button */}
+          {/* Add Button */}
           <Form.Item className="w-full sm:w-auto sm:ml-4 mt-4 sm:mt-0">
             <Button
               type="primary"

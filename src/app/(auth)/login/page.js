@@ -5,12 +5,14 @@ import { useLoginMutation } from "@/redux/features/authApi";
 import { setCredentials } from "@/redux/slices/authSlice";
 import { Button, Checkbox, Form, Input } from "antd";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 
 const Login = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get("redirect") || "/profile";
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 
@@ -36,7 +38,7 @@ const Login = () => {
         text: "Welcome to Peared!",
       });
 
-      router.push("/profile");
+      router.push(redirectUrl);
     } catch (error) {
       console.log(error);
       ErrorSwal({

@@ -42,7 +42,7 @@ export default function Banner() {
                 </Link>
               </div>
             ) : (
-              <ServiceAddBar />
+              <ServiceAddBar user={user} />
             )}
           </div>
         </div>
