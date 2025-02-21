@@ -42,7 +42,7 @@ export default function MyProjects() {
       {data?.data?.map((project) => (
         <div
           key={project._id}
-          className="bg-secondary p-4 rounded-lg overflow-hidden shadow-md flex flex-col hover:shadow-xl transition-shadow duration-300 relative"
+          className="bg-secondary p-2 md:p-4 rounded-lg overflow-hidden shadow-md flex flex-col hover:shadow-xl transition-shadow duration-300 relative"
         >
           {/* <div className="w-full h-full rounded-lg absolute bg-gray-500/50 top-0 left-0"></div> */}
           <div className="relative w-full h-48 mb-4 rounded-t-lg overflow-hidden">

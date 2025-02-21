@@ -63,13 +63,13 @@ export default function Wallet() {
   };
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
+    <div className=" bg-gray-50 min-h-screen">
       <Title level={2} className="text-center text-green-600 mb-12">
         Wallet
       </Title>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 justify-center items-start">
         {/* Left Section */}
-        <div className="bg-white rounded-xl shadow-lg p-8 flex flex-col items-center mx-auto">
+        <div className="bg-white rounded-xl shadow-lg p-4 flex flex-col items-center mx-auto">
           <WalletBalance balance={balance} />
 
           {user?.role === "provider" ? (

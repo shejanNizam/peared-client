@@ -93,11 +93,11 @@ export default function UserProfile() {
     : "/default-profile.png";
 
   return (
-    <div className="flex flex-col justify-center items-center gap-6 p-4">
+    <div className="flex flex-col justify-center items-center gap-6">
       <h3 className="text-2xl font-semibold">My Profile</h3>
 
       {/* Profile Section */}
-      <div className="flex flex-col md:flex-row justify-start items-start gap-8 shadow-2xl border border-secondary rounded w-full max-w-4xl h-auto relative p-12">
+      <div className="flex flex-col md:flex-row justify-start items-start gap-8 shadow-2xl border border-secondary rounded w-full max-w-4xl h-auto relative p-8 md:p-12">
         <button
           onClick={() => setIsEditModalOpen(true)}
           className="absolute top-4 right-4 bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark transition"

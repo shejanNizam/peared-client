@@ -17,7 +17,6 @@ export default function ProjectDetails(props) {
   const router = useRouter();
   const { projectId } = props.searchParams;
 
-  // Fetch project data
   const { data } = useConfirmProjectQuery(projectId);
   const conversationId = data?.data?.conversationId;
 
@@ -25,7 +24,6 @@ export default function ProjectDetails(props) {
   const [projectNotOk] = useProjectNotOkByUserMutation();
   const [projectDone] = useProjectDoneByProviderMutation();
 
-  // Format start date
   let formattedStartDate = "N/A";
   const startTimeValue = data?.data?.currentProjects?.startTime;
   if (startTimeValue) {
@@ -37,7 +35,6 @@ export default function ProjectDetails(props) {
     }
   }
 
-  // Handle user OK
   const handleProjectOk = async () => {
     await projectOk(data?.data?.currentProjects?._id).unwrap();
     SuccessSwal({
@@ -49,7 +46,6 @@ export default function ProjectDetails(props) {
     );
   };
 
-  // Handle user Not OK
   const handleProjectNotOk = async () => {
     const response = await projectNotOk(
       data?.data?.currentProjects?._id
@@ -60,7 +56,6 @@ export default function ProjectDetails(props) {
     });
   };
 
-  // Handle provider "Done"
   const handleProjectDone = async () => {
     try {
       await projectDone(data?.data?.currentProjects?._id).unwrap();
@@ -77,19 +72,18 @@ export default function ProjectDetails(props) {
   };
 
   return (
-    <div className="h-[80vh] w-full flex flex-col bg-gray-100">
-      {/* Top Bar */}
-      <div className="relative flex items-center justify-center">
-        {/* <h1 className="text-2xl font-bold text-green-600">Project Details</h1> */}
-        <button className="absolute right-4 bg-red-600 text-white text-sm px-4 py-2 rounded-md shadow-md hover:bg-red-700 transition">
+    <div className="h-[80vh] w-full flex flex-col bg-gray-100 overflow-hidden">
+      <div className="relative flex items-center justify-center flex-shrink-0 p-4 md:p-6 border-b">
+        <h1 className="text-2xl md:text-3xl font-bold text-green-600">
+          Project Details
+        </h1>
+        <button className="absolute right-4 bg-red-600 text-white text-xs md:text-sm px-3 md:px-4 py-1 md:py-2 rounded-md shadow-md hover:bg-red-700 transition">
           Report
         </button>
       </div>
 
-      {/* Main Content (grid layout) */}
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-6 p-4 overflow-hidden">
-        {/* Left Section: Messaging */}
-        <div className="md:col-span-2 flex flex-col h-full overflow-hidden">
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4 p-4 md:p-6 overflow-hidden">
+        <div className="md:col-span-2 flex flex-col sm:h-[70vh] md:h-full overflow-hidden">
           <Message
             conversationId={conversationId}
             userId={user?._id}
@@ -97,51 +91,48 @@ export default function ProjectDetails(props) {
           />
         </div>
 
-        {/* Right Section: Project Details */}
-        <div className="md:col-span-1 bg-white rounded-lg shadow-lg p-6 flex flex-col h-full overflow-auto">
-          <h2 className="text-xl text-primary font-bold mb-4">
+        <div className="md:col-span-1 bg-white rounded-lg shadow-lg p-4 md:p-6 flex flex-col h-full overflow-auto">
+          <h2 className="text-lg md:text-xl text-primary font-bold mb-4">
             Project Details
           </h2>
-          <p className="text-gray-600 mb-1">
-            <span className="font-semibold">Price:</span> $
+          <p className="text-gray-600 text-sm md:text-base mb-1">
+            <span className="font-semibold">Price:</span> ${" "}
             {data?.data?.currentProjects?.price}
           </p>
-          <p className="text-gray-600 mb-1">
+          <p className="text-gray-600 text-sm md:text-base mb-1">
             <span className="font-semibold">Service Time:</span>{" "}
             {data?.data?.currentProjects?.serviceTime} Days
           </p>
-          <p className="text-gray-600 mb-1">
+          <p className="text-gray-600 text-sm md:text-base mb-1">
             <span className="font-semibold">Starting Date:</span>{" "}
             {formattedStartDate}
           </p>
 
-          {/* Work Completion Section */}
           <div className="mt-6 bg-gray-50 rounded-lg p-4 flex-1">
             {user?.role === "user" ? (
               <div className="relative">
                 {data?.data?.currentProjects?.isComplete !== "complete" && (
                   <div className="w-full h-full rounded-lg absolute bg-gray-500/50 top-0 left-0"></div>
                 )}
-                <div className="p-4">
-                  <h3 className="font-semibold text-center mb-2">
+                <div className="p-2 md:p-4">
+                  <h3 className="font-semibold text-center mb-2 text-sm md:text-base">
                     Did you get services Done?
                   </h3>
-                  <p className="text-sm text-center mb-2">
+                  <p className="text-xs md:text-sm text-center mb-2">
                     {data?.data?.currentProjects?.isComplete !== "complete"
                       ? "After completing this project you can access these buttons."
                       : ""}
                   </p>
-                  {/* Buttons */}
-                  <div className="mt-6 flex justify-center items-center gap-6">
+                  <div className="mt-4 flex justify-center items-center gap-4">
                     <button
                       onClick={handleProjectNotOk}
-                      className="border border-red-500 text-red-700 px-5 py-2 rounded-xl font-medium shadow-md hover:bg-red-200 transition"
+                      className="border border-red-500 text-red-700 text-xs md:text-sm px-3 md:px-5 py-1 md:py-2 rounded-xl font-medium shadow-md hover:bg-red-200 transition"
                     >
                       No
                     </button>
                     <button
                       onClick={handleProjectOk}
-                      className="bg-green-600 text-white px-5 py-2 rounded-xl font-medium shadow-md hover:bg-green-700 transition"
+                      className="bg-green-600 text-white text-xs md:text-sm px-3 md:px-5 py-1 md:py-2 rounded-xl font-medium shadow-md hover:bg-green-700 transition"
                     >
                       Yes
                     </button>
@@ -149,20 +140,19 @@ export default function ProjectDetails(props) {
                 </div>
               </div>
             ) : (
-              <div>
-                <h3 className="font-semibold text-center mb-2">
+              <div className="p-2 md:p-4">
+                <h3 className="font-semibold text-center mb-2 text-sm md:text-base">
                   Is your work done?
                 </h3>
-                <p className="text-sm text-center mb-2">
+                <p className="text-xs md:text-sm text-center mb-2">
                   {
                     "If you click this button, we'll send your client a work done request. If they approve, you get your payment."
                   }
                 </p>
-                {/* Buttons */}
-                <div className="mt-6 flex justify-center items-center gap-6">
+                <div className="mt-4 flex justify-center items-center">
                   <button
                     onClick={handleProjectDone}
-                    className="bg-green-600 text-white px-5 py-2 rounded-xl font-medium shadow-md hover:bg-green-700 transition"
+                    className="bg-green-600 text-white text-xs md:text-sm px-3 md:px-5 py-1 md:py-2 rounded-xl font-medium shadow-md hover:bg-green-700 transition"
                   >
                     Done
                   </button>

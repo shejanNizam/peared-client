@@ -9,55 +9,42 @@ import { useGetAllMessagesQuery } from "@/redux/features/socket/socketApi";
 import { getSocket, initSocket } from "../utils/socket";
 
 export default function Message({ conversationId, userId, providerData }) {
-  console.log(providerData?.data?.currentProjects?.providerId);
-  // State for messages, new message text, and pagination info
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [page, setPage] = useState(1);
-  const [limit] = useState(10); // default limit (adjust as needed)
+  const [limit] = useState(10);
   const [pagination, setPagination] = useState(null);
 
-  // Ref to scroll to the bottom when messages update
-  const messagesEndRef = useRef(null);
-
-  // Use the updated query hook with conversationId, page, and limit params
   const { data, isLoading } = useGetAllMessagesQuery({
     conversationId,
     page,
     limit,
   });
 
-  // When API data loads, update messages:
-  // - For page 1, replace messages; for later pages, prepend older messages.
+  const containerRef = useRef(null);
+
   useEffect(() => {
     if (data?.data) {
-      const newMessages = data.data.data.filter(
+      let loadedMessages = data.data.data.filter(
         (msg) => msg.conversationId === conversationId
       );
+      loadedMessages.sort(
+        (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+      );
       if (page === 1) {
-        setMessages(newMessages);
+        setMessages(loadedMessages);
       } else {
-        setMessages((prev) => [...newMessages, ...prev]);
+        setMessages((prev) => [...loadedMessages, ...prev]);
       }
       setPagination(data.data.pagination);
     }
   }, [data, conversationId, page]);
 
-  // Scroll to the bottom when messages update
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages]);
-
-  // Socket initialization and event listener for receiving new messages
   useEffect(() => {
     const socket = initSocket();
-
     if (conversationId) {
       socket.emit("joinConversation", { conversationId });
     }
-
     socket.on("receiveMessage", (message) => {
       if (message.conversationId === conversationId) {
         setMessages((prev) => {
@@ -69,13 +56,17 @@ export default function Message({ conversationId, userId, providerData }) {
         });
       }
     });
-
     return () => {
       socket.off("receiveMessage");
     };
   }, [conversationId]);
 
-  // Handle scroll event on the chat container to load older messages when near top
+  useEffect(() => {
+    if (page === 1 && containerRef.current && messages.length > 0) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
+  }, [messages, page]);
+
   const handleScroll = (e) => {
     const target = e.currentTarget;
     if (target.scrollTop < 50) {
@@ -85,33 +76,27 @@ export default function Message({ conversationId, userId, providerData }) {
     }
   };
 
-  // Format the timestamp to a readable time (HH:MM)
-  const formatTime = (timestamp) => {
-    const date = new Date(timestamp);
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  };
-
-  // Handle sending a new message
   const handleSend = () => {
     if (!newMessage.trim()) return;
-
     const socket = getSocket();
     const outgoingMsg = {
       conversationId,
       senderId: userId,
       messageText: newMessage.trim(),
     };
-
     socket.emit("sendMessage", outgoingMsg);
     setNewMessage("");
   };
 
+  const formatTime = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  };
+
   return (
-    <div className="flex flex-col h-full bg-white rounded-lg shadow-md">
-      {/* Header */}
-      <div className="flex items-center p-4 border-b">
+    <div className="flex flex-col h-full bg-white rounded-lg shadow-md w-full max-w-4xl mx-auto">
+      <div className="flex items-center p-4 sm:p-6 border-b flex-shrink-0">
         <Image
-          // src={`https://magy-abu-sayed.sarv.live/${providerData?.data?.currentProjects?.providerId?.image}`}
           src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${providerData?.data?.currentProjects?.providerId?.image}`}
           alt="Avatar"
           width={48}
@@ -119,20 +104,20 @@ export default function Message({ conversationId, userId, providerData }) {
           className="rounded-full object-cover"
         />
         <div className="ml-3">
-          <h2 className="text-lg font-bold leading-none">
-            {" "}
-            {providerData?.data?.currentProjects?.providerId?.name}{" "}
+          <h2 className="text-lg sm:text-xl font-bold leading-none">
+            {providerData?.data?.currentProjects?.providerId?.name}
           </h2>
-          <p className="text-gray-500 text-sm">
-            Provider ID: {providerData?.data?.currentProjects?.providerId?._id}{" "}
+          <p className="text-gray-500 text-sm sm:text-base">
+            Provider ID:{" "}
+            {providerData?.data?.currentProjects?.providerId?._id.slice(0, 7) +
+              "..."}
           </p>
         </div>
       </div>
-
-      {/* Chat Content */}
       <div
+        ref={containerRef}
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto p-4 bg-gray-50"
+        className="flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50"
       >
         {isLoading && page === 1 && <p>Loading messages...</p>}
         {messages.map((msg) => {
@@ -145,13 +130,13 @@ export default function Message({ conversationId, userId, providerData }) {
               }`}
             >
               <div
-                className={`rounded-lg p-3 max-w-xs break-words ${
+                className={`rounded-lg p-3 max-w-xs sm:max-w-sm break-words ${
                   isOwnMessage
                     ? "bg-green-200 text-gray-800"
                     : "bg-white text-gray-800 border border-gray-300"
                 }`}
               >
-                <p>{msg.messageText}</p>
+                <p className="text-sm sm:text-base">{msg.messageText}</p>
                 <span className="text-xs text-gray-500 block text-right mt-1">
                   {formatTime(msg.createdAt)}
                 </span>
@@ -159,11 +144,8 @@ export default function Message({ conversationId, userId, providerData }) {
             </div>
           );
         })}
-        <div ref={messagesEndRef} />
       </div>
-
-      {/* Input Area */}
-      <div className="border-t p-3 flex gap-2">
+      <div className="border-t p-3 sm:p-4 flex gap-2 flex-shrink-0">
         <Input
           placeholder="Type your message..."
           value={newMessage}
@@ -173,12 +155,12 @@ export default function Message({ conversationId, userId, providerData }) {
         />
         <Button
           type="primary"
-          className="p-4"
+          className="p-3 sm:p-4"
           loading={isLoading}
           icon={<SendOutlined />}
           onClick={handleSend}
         >
-          {/* Send */}
+          Send
         </Button>
       </div>
     </div>

@@ -10,11 +10,11 @@ export default function WalletBalance({ balance }) {
           alt="wallet"
           className="w-full object-contain"
         />
-        <div className="absolute top-12 left-8 text-center">
+        <div className="absolute top-8 left-4 md:top-16 md:left-12 text-center">
           <p className="text-green-700 text-sm font-medium">
             Available balance
           </p>
-          <h2 className="text-3xl font-bold text-gray-800">
+          <h2 className="text-2xl font-bold text-gray-800">
             ${" "}
             {balance?.toLocaleString(undefined, {
               minimumFractionDigits: 2,
