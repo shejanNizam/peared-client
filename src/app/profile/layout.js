@@ -24,25 +24,23 @@ export default function ProfileLayout({ children }) {
   };
 
   return (
-    <div className="relative flex min-h-screen">
+    <div className="relative flex ">
       {/* MOBILE TOGGLE BUTTON - appears in top-right corner */}
       <button
         onClick={toggleMobileSidebar}
-        className="md:hidden absolute top-4 right-4 z-40 bg-primary text-white p-2 rounded shadow"
+        className="md:hidden absolute top-4 right-4 z-40 bg-primary text-white p-1 rounded shadow"
       >
-        <FaBars size={20} />
+        <FaBars size={16} />
       </button>
 
-      {/* DESKTOP SIDEBAR (fixed) */}
       <div className="hidden md:block fixed top-20 left-0 z-20">
         <Sidebar
           isCollapsed={isSidebarCollapsed}
           toggleSidebarCollapsed={toggleSidebarCollapsed}
-          onLinkClick={() => {}} // Desktop doesn't need to close the sidebar
+          onLinkClick={() => {}}
         />
       </div>
 
-      {/* MOBILE SIDEBAR (SLIDE-IN) */}
       <div
         className={`
           fixed top-0 left-0 h-full z-40 bg-gray-800 text-white transition-transform duration-300 md:hidden
@@ -50,13 +48,12 @@ export default function ProfileLayout({ children }) {
         `}
       >
         <Sidebar
-          isCollapsed={false} // For mobile, ignore collapsed state
+          isCollapsed={false}
           toggleSidebarCollapsed={toggleSidebarCollapsed}
-          onLinkClick={closeMobileSidebar} // Close the sidebar after clicking a link
+          onLinkClick={closeMobileSidebar}
         />
       </div>
 
-      {/* MOBILE OVERLAY */}
       {isMobileSidebarOpen && (
         <div
           className="fixed inset-0 z-30 bg-black bg-opacity-50 md:hidden"
@@ -64,14 +61,13 @@ export default function ProfileLayout({ children }) {
         />
       )}
 
-      {/* MAIN CONTENT */}
       <div
         className={`
-          flex-1 bg-gray-100 transition-all duration-200 pt-20
+          flex-1 bg-gray-100 transition-all duration-200 
           ${isSidebarCollapsed ? "md:ml-16" : "md:ml-64"}
         `}
       >
-        <main className="p-10">{children}</main>
+        <main>{children}</main>
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ export default function ProfileHomePage() {
   const { user } = useSelector((state) => state.auth);
 
   return (
-    <div>
+    <>
       {user?.role === "provider" ? (
         <>
           <ProviderProfile />
@@ -18,6 +18,6 @@ export default function ProfileHomePage() {
           <UserProfile />
         </>
       )}
-    </div>
+    </>
   );
 }
