@@ -15,8 +15,8 @@ import main_logo from "../../assets/main_logo.svg";
 
 const Footer = () => {
   return (
-    <footer className="bg-secondary z-40 text-gray-700 py-8 pl-16 md:pl-0">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="bg-secondary z-40 text-gray-700 py-8">
+      <div className="max-w-7xl mx-auto px-2 ">
         {/* Top Section */}
         <div className="flex flex-col md:flex-row justify-between">
           {/* Logo and Description */}
@@ -24,7 +24,7 @@ const Footer = () => {
             <Link href="/" className="text-xl font-bold text-gray-800">
               <Image width={70} height={70} src={main_logo} alt="main_logo" />
             </Link>
-            <p className="mt-2 text-sm">
+            <p className="mt-2 text-sm px-4">
               Peared connects customers with trusted local service providers,{" "}
               <br />
               ensuring fair pricing and secure transactions. Service providers{" "}
@@ -36,7 +36,7 @@ const Footer = () => {
           </div>
 
           {/* Navigation Links */}
-          <div className="flex flex-col sm:flex-row">
+          <div className="flex flex-col sm:flex-row px-4">
             <div className="mr-6">
               <h3 className="font-semibold text-primary text-xl mb-2">
                 Explore
@@ -87,7 +87,7 @@ const Footer = () => {
               </ul>
             </div>
 
-            <div>
+            <div className="mr-6">
               <h3 className="font-semibold text-primary text-xl mb-2">
                 Get In Touch
               </h3>

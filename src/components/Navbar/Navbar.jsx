@@ -13,10 +13,14 @@ import Swal from "sweetalert2";
 import profile_image from "../../assets/home/feedback/image4.png";
 import main_logo from "../../assets/main_logo.svg";
 
-const ProfileMenu = ({ handleLogout }) => (
+const ProfileMenu = ({ handleLogout, closeMenu }) => (
   <Menu>
     <Menu.Item key="1">
-      <Link className="font-bold text-primary" href="/profile">
+      <Link
+        className="font-bold text-primary"
+        onClick={closeMenu}
+        href="/profile"
+      >
         My Profile
       </Link>
     </Menu.Item>
@@ -85,13 +89,13 @@ export default function Navbar() {
   return (
     <>
       <nav className="bg-secondary shadow-md fixed w-full p-2 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
           <div className="flex justify-between h-16">
             {/* Logo Section */}
             <div className="flex-shrink-0 flex items-center">
               <Link
                 href="/"
-                className="text-xl font-bold text-gray-800 pl-16 md:pl-0"
+                className="text-xl font-bold text-gray-800"
                 onClick={closeMenu}
               >
                 <Image width={70} height={70} src={main_logo} alt="main_logo" />
@@ -132,6 +136,7 @@ export default function Navbar() {
                   <Dropdown
                     overlay={
                       <ProfileMenu
+                        closeMenu={closeMenu}
                         router={router}
                         handleLogout={handleLogout}
                       />
@@ -162,6 +167,7 @@ export default function Navbar() {
                   <Dropdown
                     overlay={
                       <ProfileMenu
+                        closeMenu={closeMenu}
                         router={router}
                         handleLogout={handleLogout}
                       />
@@ -295,6 +301,7 @@ export default function Navbar() {
                   <Dropdown
                     overlay={
                       <ProfileMenu
+                        closeMenu={closeMenu}
                         router={router}
                         handleLogout={handleLogout}
                       />
@@ -332,6 +339,7 @@ export default function Navbar() {
                   <Dropdown
                     overlay={
                       <ProfileMenu
+                        closeMenu={closeMenu}
                         router={router}
                         handleLogout={handleLogout}
                       />
