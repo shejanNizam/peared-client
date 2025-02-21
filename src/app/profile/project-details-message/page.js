@@ -118,7 +118,7 @@ export default function ProjectDetails(props) {
           <div className="mt-6 bg-gray-50 rounded-lg p-4 flex-1">
             {user?.role === "user" ? (
               <div className="relative">
-                {data?.data?.isComplete !== "complete" && (
+                {data?.data?.currentProjects?.isComplete !== "complete" && (
                   <div className="w-full h-full rounded-lg absolute bg-gray-500/50 top-0 left-0"></div>
                 )}
                 <div className="p-4">
@@ -126,7 +126,7 @@ export default function ProjectDetails(props) {
                     Did you get services Done?
                   </h3>
                   <p className="text-sm text-center mb-2">
-                    {data?.data?.isComplete !== "complete"
+                    {data?.data?.currentProjects?.isComplete !== "complete"
                       ? "After completing this project you can access these buttons."
                       : ""}
                   </p>
