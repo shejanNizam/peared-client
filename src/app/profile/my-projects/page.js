@@ -10,7 +10,7 @@ export default function MyProjects() {
   const router = useRouter();
 
   const { data } = useMyProjectsQuery();
-  // console.log(first);
+  console.log(data?.data);
 
   const handleOpenProject = (project) => {
     router.push(`/profile/my-projects/bid-lists?projectId=${project._id}`);
@@ -18,6 +18,10 @@ export default function MyProjects() {
 
   const handleGoToMessage = (project) => {
     router.push(`/profile/project-details-message?projectId=${project._id}`);
+  };
+
+  const handleBoostProject = () => {
+    console.log("boost your project");
   };
 
   return (
@@ -28,8 +32,9 @@ export default function MyProjects() {
       {data?.data?.map((project) => (
         <div
           key={project._id}
-          className="bg-secondary p-4 rounded-lg overflow-hidden shadow-md flex flex-col hover:shadow-xl transition-shadow duration-300"
+          className="bg-secondary p-4 rounded-lg overflow-hidden shadow-md flex flex-col hover:shadow-xl transition-shadow duration-300 relative"
         >
+          {/* <div className="w-full h-full rounded-lg absolute bg-gray-500/50 top-0 left-0"></div> */}
           <div className="relative w-full h-48 mb-4 rounded-t-lg overflow-hidden">
             <Image
               // src={`https://magy-abu-sayed.sarv.live/${project?.image}`}
@@ -65,13 +70,19 @@ export default function MyProjects() {
               <Button
                 type="primary"
                 onClick={
-                  project?.isApprove
+                  project?.isApprove === false && project?.payment === false
+                    ? handleBoostProject
+                    : project?.isApprove
                     ? () => handleGoToMessage(project)
                     : () => handleOpenProject(project)
                 }
                 className="bg-primary/80 text-white px-4 py-2 rounded hover:bg-primary transition-colors duration-300"
               >
-                {project?.isApprove ? " Message " : " Open "}
+                {project?.isApprove === false && project?.payment === false
+                  ? "Boost"
+                  : project?.isApprove
+                  ? " Message "
+                  : " Open "}
               </Button>
             </div>
           </div>
