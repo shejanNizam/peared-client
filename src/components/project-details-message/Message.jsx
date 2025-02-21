@@ -8,7 +8,8 @@ import { useEffect, useRef, useState } from "react";
 import { useGetAllMessagesQuery } from "@/redux/features/socket/socketApi";
 import { getSocket, initSocket } from "../utils/socket";
 
-export default function Message({ conversationId, userId }) {
+export default function Message({ conversationId, userId, providerData }) {
+  console.log(providerData?.data?.currentProjects?.providerId);
   // State for messages, new message text, and pagination info
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
@@ -110,15 +111,21 @@ export default function Message({ conversationId, userId }) {
       {/* Header */}
       <div className="flex items-center p-4 border-b">
         <Image
-          src="/default-avatar.png"
+          // src={`https://magy-abu-sayed.sarv.live/${providerData?.data?.currentProjects?.providerId?.image}`}
+          src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${providerData?.data?.currentProjects?.providerId?.image}`}
           alt="Avatar"
           width={48}
           height={48}
           className="rounded-full object-cover"
         />
         <div className="ml-3">
-          <h2 className="text-lg font-bold leading-none">WILLIUM SMITH</h2>
-          <p className="text-gray-500 text-sm">Provider ID: #2345E</p>
+          <h2 className="text-lg font-bold leading-none">
+            {" "}
+            {providerData?.data?.currentProjects?.providerId?.name}{" "}
+          </h2>
+          <p className="text-gray-500 text-sm">
+            Provider ID: {providerData?.data?.currentProjects?.providerId?._id}{" "}
+          </p>
         </div>
       </div>
 
@@ -152,7 +159,7 @@ export default function Message({ conversationId, userId }) {
             </div>
           );
         })}
-        {/* <div ref={messagesEndRef} /> */}
+        <div ref={messagesEndRef} />
       </div>
 
       {/* Input Area */}
@@ -166,11 +173,12 @@ export default function Message({ conversationId, userId }) {
         />
         <Button
           type="primary"
+          className="p-4"
           loading={isLoading}
           icon={<SendOutlined />}
           onClick={handleSend}
         >
-          Send
+          {/* Send */}
         </Button>
       </div>
     </div>

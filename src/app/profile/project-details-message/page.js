@@ -15,12 +15,11 @@ import { useSelector } from "react-redux";
 export default function ProjectDetails(props) {
   const { user } = useSelector((state) => state.auth) || {};
   const router = useRouter();
-
   const { projectId } = props.searchParams;
+
   // Fetch project data
   const { data } = useConfirmProjectQuery(projectId);
   const conversationId = data?.data?.conversationId;
-  console.log(data?.data);
 
   const [projectOk] = useProjectOkByUserMutation();
   const [projectNotOk] = useProjectNotOkByUserMutation();
@@ -91,7 +90,11 @@ export default function ProjectDetails(props) {
       <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-6 p-4 overflow-hidden">
         {/* Left Section: Messaging */}
         <div className="md:col-span-2 flex flex-col h-full overflow-hidden">
-          <Message conversationId={conversationId} userId={user?._id} />
+          <Message
+            conversationId={conversationId}
+            userId={user?._id}
+            providerData={data}
+          />
         </div>
 
         {/* Right Section: Project Details */}
@@ -105,7 +108,7 @@ export default function ProjectDetails(props) {
           </p>
           <p className="text-gray-600 mb-1">
             <span className="font-semibold">Service Time:</span>{" "}
-            {data?.data?.currentProjects.serviceTime} Days
+            {data?.data?.currentProjects?.serviceTime} Days
           </p>
           <p className="text-gray-600 mb-1">
             <span className="font-semibold">Starting Date:</span>{" "}
