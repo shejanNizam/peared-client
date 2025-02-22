@@ -11,82 +11,60 @@ import { FaArrowLeft } from "react-icons/fa";
 
 import { SuccessSwal } from "@/components/utils/allSwalFire";
 import { useReportProviderMutation } from "@/redux/features/feedback/feedbackApi";
-import payment_img from "../../assets/payment/payment_img.png";
-// ^ Adjust import path to wherever your "reportProvider" is defined
+import report_img from "../../assets/payment/report_img.png";
 
 const { TextArea } = Input;
 
 export default function Feedback() {
   const router = useRouter();
   const [form] = Form.useForm();
-
-  // Control modal visibility
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  // Temporary store for the form data before payment
   const [pendingData, setPendingData] = useState(null);
-
-  // Payment loading state
   const [isPaying, setIsPaying] = useState(false);
-
-  // RTK mutation for reportProvider
   const [reportProvider, { isLoading }] = useReportProviderMutation();
 
-  // ============ IMAGE HANDLERS ============
-  // Restrict uploads to image files
   const handleBeforeUpload = (file) => {
     const isImage = file.type.startsWith("image/");
     if (!isImage) {
       message.error("Only image files (JPG, PNG, JPEG) are allowed!");
       return Upload.LIST_IGNORE;
     }
-    return false; // Prevent automatic upload
+    return false;
   };
 
-  // ============ FORM SUBMIT ============
   const onFinish = (values) => {
-    // Prepare FormData
     const formData = new FormData();
     Object.keys(values).forEach((key) => {
-      // Exclude the 'images' field since it's stored differently
       if (key !== "images") {
         formData.append(key, values[key]);
       }
     });
-    // Append image file(s) if available
     if (values.images && values.images.length > 0) {
-      // For example, handle multiple images or just one
       values.images.forEach((fileObj, index) => {
         formData.append(`images`, fileObj.originFileObj);
       });
     }
-
     setPendingData(formData);
     setIsModalVisible(true);
   };
 
-  // ============ MODAL ============
   const handleCancel = () => {
     setIsModalVisible(false);
   };
 
-  // ============ PAYMENT HANDLER ============
   const handlePaymentSuccess = async () => {
     try {
       setIsPaying(true);
       const response = await reportProvider(pendingData).unwrap();
-
       if (response?.statusCode === 200) {
-        // Payment & submission success
         setIsModalVisible(false);
         SuccessSwal({
           title: "",
           text: "Feedback submitted successfully!",
         });
-        router.push("/"); // redirect as needed
+        router.push("/");
       }
     } catch (error) {
-      // For example, handle insufficient wallet or other errors
       message.error(
         error?.data?.message || error?.message || "Something went wrong!"
       );
@@ -95,11 +73,9 @@ export default function Feedback() {
     }
   };
 
-  // ============ UI ============
   return (
     <div className="min-h-screen w-full flex flex-col justify-center items-center bg-secondary p-4">
       <div className="bg-white shadow-lg rounded-lg w-full max-w-3xl p-8 relative">
-        {/* Back Button */}
         <button
           onClick={() => router.back()}
           className="absolute top-8 left-8 text-gray-600 hover:text-gray-800 focus:outline-none z-30"
@@ -107,23 +83,18 @@ export default function Feedback() {
         >
           <FaArrowLeft size={24} />
         </button>
-
-        {/* Heading */}
         <div className="mb-6 text-center">
           <h2 className="text-3xl font-semibold">Report</h2>
           <p className="text-gray-600 mt-1">
             Provide your feedback or report below.
           </p>
         </div>
-
-        {/* Form */}
         <Form
           form={form}
           layout="vertical"
           onFinish={onFinish}
           className="space-y-5"
         >
-          {/* Text Input */}
           <Form.Item
             label="Your Feedback"
             name="feedbackText"
@@ -134,8 +105,6 @@ export default function Feedback() {
           >
             <TextArea rows={4} placeholder="Describe your feedback or report" />
           </Form.Item>
-
-          {/* Images Upload */}
           <Form.Item
             label="Upload Screenshot / Images (optional)"
             name="images"
@@ -147,13 +116,11 @@ export default function Feedback() {
               listType="picture"
               multiple
               beforeUpload={handleBeforeUpload}
-              maxCount={3} // adjust as needed
+              maxCount={3}
             >
               <Button icon={<UploadOutlined />}>Upload Images</Button>
             </Upload>
           </Form.Item>
-
-          {/* Submit Button */}
           <Form.Item>
             <Button
               type="primary"
@@ -166,8 +133,6 @@ export default function Feedback() {
           </Form.Item>
         </Form>
       </div>
-
-      {/* Payment Modal */}
       <Modal
         open={isModalVisible}
         onCancel={handleCancel}
@@ -182,11 +147,9 @@ export default function Feedback() {
             Please pay $25 to confirm your report submission.
           </p>
           <div className="text-4xl font-bold text-gray-800 mb-4">$25</div>
-
           <div className="mb-6">
-            <Image src={payment_img} alt="Payment" className="mx-auto" />
+            <Image src={report_img} alt="Payment" className="mx-auto" />
           </div>
-
           <Button
             type="primary"
             className="bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary/90"

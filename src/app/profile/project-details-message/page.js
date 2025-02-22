@@ -22,7 +22,7 @@ export default function ProjectDetails(props) {
   const { data } = useConfirmProjectQuery(projectId);
   const conversationId = data?.data?.conversationId;
 
-  console.log(data?.data?.currentProjects?.projectId?.image);
+  console.log(data?.data);
 
   const [projectOk] = useProjectOkByUserMutation();
   const [projectNotOk] = useProjectNotOkByUserMutation();

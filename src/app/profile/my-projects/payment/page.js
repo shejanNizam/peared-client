@@ -22,7 +22,7 @@ export default function Payment(props) {
     console.log(id);
     try {
       const response = await approved(id).unwrap();
-      console.log(response);
+      // console.log(response);
       SuccessSwal({
         title: "",
         text: " Payment Successfull! ",
@@ -31,10 +31,28 @@ export default function Payment(props) {
       // if (response?.statusCode === 510) {
       //   router.push(`/profile/wallet`);
       // }
-      router.push(`/profile/project-details-message`);
+      // router.push(`/profile/project-details-message`);
     } catch (error) {
+      console.log(error?.data);
       const statusCode = error?.data?.statusCode;
-      console.log(statusCode);
+      // console.log(statusCode);
+
+      if (statusCode === 409) {
+        Swal.fire({
+          text:
+            error?.message || error?.data?.message || "something went wrong",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Go My Projects",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            router.push("/profile/my-projects");
+          }
+        });
+      }
+
       if (statusCode === 510) {
         Swal.fire({
           text:

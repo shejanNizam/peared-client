@@ -2,6 +2,7 @@
 
 import { useChangePasswordMutation } from "@/redux/features/authApi";
 import { Button, Form, Input, Modal } from "antd";
+import Link from "next/link";
 import { FaTimes } from "react-icons/fa";
 import { ErrorSwal, SuccessSwal } from "../utils/allSwalFire";
 
@@ -91,6 +92,13 @@ export default function ChangePasswordModal({ visible, onClose }) {
         >
           <Input.Password placeholder="Confirm your new password" />
         </Form.Item>
+
+        <div className="flex justify-between items-center mb-2">
+          <p></p>
+          <Link href="/forgot-password" className="text-primary">
+            Forgot password?
+          </Link>
+        </div>
 
         <Form.Item>
           <Button

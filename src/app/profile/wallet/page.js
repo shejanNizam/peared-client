@@ -21,8 +21,10 @@ export default function Wallet() {
   const [isAddBalanceModalOpen, setIsAddBalanceModalOpen] = useState(false);
   const [addBalanceForm] = Form.useForm();
 
-  const [addBalance, { isLoading }] = useAddBalanceMutation();
-  const [withdrawBanalce] = useWithdrawBalanceMutation();
+  const [addBalance, { isLoading: addBalanceLoading }] =
+    useAddBalanceMutation();
+  const [withdrawBanalce, { isLoading: withdrawBalanceLoading }] =
+    useWithdrawBalanceMutation();
 
   const { data } = useMyWalletQuery();
   const balance = data?.data?.amount;
@@ -80,7 +82,7 @@ export default function Wallet() {
                 size="large"
                 className="mb-4 w-full"
                 onClick={openAddBalanceModal}
-                loading={isLoading}
+                loading={withdrawBalanceLoading}
               >
                 Withdraw Balance
               </Button>
@@ -93,7 +95,7 @@ export default function Wallet() {
                 size="large"
                 className="mb-4 w-full"
                 onClick={openAddBalanceModal}
-                loading={isLoading}
+                loading={addBalanceLoading}
               >
                 Add Some Balance
               </Button>
@@ -145,9 +147,25 @@ export default function Wallet() {
           <Form.Item>
             <Space className="w-full justify-end">
               <Button onClick={closeAddBalanceModal}>Cancel</Button>
-              <Button type="primary" htmlType="submit" loading={isLoading}>
-                {user?.role === "provider" ? "Withdraw Balance" : "Add Balance"}
-              </Button>
+              {user?.role === "user" && (
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={addBalanceLoading}
+                >
+                  Add Balance
+                </Button>
+              )}
+
+              {user?.role === "provider" && (
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={withdrawBalanceLoading}
+                >
+                  Withdraw Balance
+                </Button>
+              )}
             </Space>
           </Form.Item>
         </Form>

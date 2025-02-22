@@ -1,6 +1,7 @@
 "use client";
 
 import TopReviews from "@/components/reviews/TopReviews";
+import { SuccessSwal } from "@/components/utils/allSwalFire";
 import { useMyProjectBitDetailsQuery } from "@/redux/features/projects/projectApi";
 import { Button, Modal, Rate } from "antd";
 // import { format } from "date-fns";
@@ -37,6 +38,10 @@ export default function ProviderDetails(props) {
 
   const handleConfirm = () => {
     setIsModalVisible(false);
+    SuccessSwal({
+      title: "",
+      text: " Service approved successfully ",
+    });
     router.push(
       `/profile/my-projects/payment?approvdProjectId=${bitProjectId}`
     );

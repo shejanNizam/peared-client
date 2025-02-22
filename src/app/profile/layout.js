@@ -8,24 +8,20 @@ export default function ProfileLayout({ children }) {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
-  // Toggle sidebar collapse for desktop
   const toggleSidebarCollapsed = () => {
     setIsSidebarCollapsed((prev) => !prev);
   };
 
-  // Toggle sidebar for mobile screens
   const toggleMobileSidebar = () => {
     setIsMobileSidebarOpen((prev) => !prev);
   };
 
-  // Close mobile sidebar after a link is clicked
   const closeMobileSidebar = () => {
     setIsMobileSidebarOpen(false);
   };
 
   return (
     <div className="relative flex ">
-      {/* MOBILE TOGGLE BUTTON - appears in top-right corner */}
       <button
         onClick={toggleMobileSidebar}
         className="md:hidden absolute top-4 right-4 z-40 bg-primary text-white p-1 rounded shadow"

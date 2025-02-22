@@ -28,6 +28,10 @@ export default function Message({ conversationId, userId, providerData }) {
 
   useEffect(() => {
     if (data?.data) {
+      const previousScrollHeight = containerRef.current
+        ? containerRef.current.scrollHeight
+        : 0;
+
       let loadedMessages = data.data.data.filter(
         (msg) => msg.conversationId === conversationId
       );
@@ -40,6 +44,14 @@ export default function Message({ conversationId, userId, providerData }) {
         setMessages((prev) => [...loadedMessages, ...prev]);
       }
       setPagination(data.data.pagination);
+
+      if (page > 1 && containerRef.current) {
+        setTimeout(() => {
+          const newScrollHeight = containerRef.current.scrollHeight;
+          containerRef.current.scrollTop =
+            newScrollHeight - previousScrollHeight;
+        }, 0);
+      }
     }
   }, [data, conversationId, page]);
 
@@ -65,6 +77,7 @@ export default function Message({ conversationId, userId, providerData }) {
   }, [conversationId]);
 
   useEffect(() => {
+    // প্রথম পেজ হলে সবশেষ মেসেজ দেখানোর জন্য scroll পজিশন ঠিক করা
     if (page === 1 && containerRef.current && messages.length > 0) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
@@ -154,7 +167,7 @@ export default function Message({ conversationId, userId, providerData }) {
         className="flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50"
       >
         {isLoading && page === 1 && <p>Loading messages...</p>}
-        {messages.map((msg) => {
+        {messages?.map((msg) => {
           const isOwnMessage = msg.senderId === userId;
           return (
             <div
