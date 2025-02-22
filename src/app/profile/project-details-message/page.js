@@ -9,6 +9,8 @@ import {
   useProjectOkByUserMutation,
 } from "@/redux/features/projects/projectApi";
 import { format } from "date-fns";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
@@ -19,6 +21,8 @@ export default function ProjectDetails(props) {
 
   const { data } = useConfirmProjectQuery(projectId);
   const conversationId = data?.data?.conversationId;
+
+  console.log(data?.data?.currentProjects?.projectId?.image);
 
   const [projectOk] = useProjectOkByUserMutation();
   const [projectNotOk] = useProjectNotOkByUserMutation();
@@ -77,9 +81,11 @@ export default function ProjectDetails(props) {
         <h1 className="text-2xl md:text-3xl font-bold text-green-600">
           Project Details
         </h1>
-        <button className="absolute right-4 bg-red-600 text-white text-xs md:text-sm px-3 md:px-4 py-1 md:py-2 rounded-md shadow-md hover:bg-red-700 transition">
-          Report
-        </button>
+        <Link href={"/report"}>
+          <button className="absolute right-4 bg-red-600 text-white text-xs md:text-sm px-3 md:px-4 py-1 md:py-2 rounded-md shadow-md hover:bg-red-700 transition">
+            Report
+          </button>
+        </Link>
       </div>
 
       <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4 p-4 md:p-6 overflow-hidden">
@@ -95,18 +101,59 @@ export default function ProjectDetails(props) {
           <h2 className="text-lg md:text-xl text-primary font-bold mb-4">
             Project Details
           </h2>
-          <p className="text-gray-600 text-sm md:text-base mb-1">
-            <span className="font-semibold">Price:</span> ${" "}
-            {data?.data?.currentProjects?.price}
-          </p>
-          <p className="text-gray-600 text-sm md:text-base mb-1">
-            <span className="font-semibold">Service Time:</span>{" "}
-            {data?.data?.currentProjects?.serviceTime} Days
-          </p>
-          <p className="text-gray-600 text-sm md:text-base mb-1">
-            <span className="font-semibold">Starting Date:</span>{" "}
-            {formattedStartDate}
-          </p>
+          <div className="md:flex justify-between items-center gap-8">
+            <div>
+              <p className="text-gray-600 text-sm md:text-base mb-1">
+                <span className="font-semibold">Price:</span> ${" "}
+                {data?.data?.currentProjects?.price}
+              </p>
+              <p className="text-gray-600 text-sm md:text-base mb-1">
+                <span className="font-semibold">Time:</span>{" "}
+                {data?.data?.currentProjects?.serviceTime} Days
+              </p>
+              <p className="text-gray-600 text-sm md:text-base mb-1">
+                <span className="font-semibold">Starting:</span>{" "}
+                {formattedStartDate}
+              </p>
+            </div>
+
+            <div className="relative w-[80%] md:w-[50%]  h-32 md:h-32 lg:h-32 mb-6">
+              <Image
+                src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${data?.data?.currentProjects?.projectId?.image}`}
+                alt="project_img"
+                layout="fill"
+                objectFit="cover"
+                className="rounded-lg shadow-lg"
+                priority
+              />
+            </div>
+          </div>
+
+          {user?.role === "provider" ? (
+            <>
+              <p className="text-gray-600 text-2xl font-bold mt-2 mb-1">
+                {data?.data?.currentProjects?.projectId?.projectName}
+              </p>
+              <p className="text-gray-600 text-sm md:text-base mb-1">
+                <span className="font-semibold">Category:</span>{" "}
+                {data?.data?.currentProjects?.projectId?.projectCategory}
+              </p>
+              <p className="text-gray-600 text-sm md:text-base mb-1">
+                <span className="font-semibold">City:</span>{" "}
+                {data?.data?.currentProjects?.projectId?.city}
+              </p>
+              <p className="text-gray-600 text-sm md:text-base mb-1">
+                <span className="font-semibold">Post Code:</span>{" "}
+                {data?.data?.currentProjects?.projectId?.postCode}
+              </p>
+              <p className="text-gray-600 text-sm md:text-base mb-1">
+                <span className="font-semibold">Street:</span>{" "}
+                {data?.data?.currentProjects?.projectId?.street}
+              </p>
+            </>
+          ) : (
+            <></>
+          )}
 
           <div className="mt-6 bg-gray-50 rounded-lg p-4 flex-1">
             {user?.role === "user" ? (
