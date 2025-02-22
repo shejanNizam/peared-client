@@ -2,10 +2,8 @@ import baseApi from "@/redux/api/baseApi";
 
 export const socketApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // Fetch currently logged-in user's data
     getAllMessages: builder.query({
       query: ({ conversationId, page = 1, limit = 10 }) => ({
-        // url: `/chat/conversation/${conversationId}/`,
         url: `/chat/conversation/${conversationId}?page=${page}&limit=${limit}`,
         method: "GET",
         params: { page, limit },
@@ -13,7 +11,7 @@ export const socketApi = baseApi.injectEndpoints({
       providesTags: ["socket"],
     }),
 
-    // getStudios: builder.query({
+    // getAllMessages: builder.query({
     //   query: (args) => {
     //     const params = new URLSearchParams();
     //     if (args) {
@@ -23,30 +21,12 @@ export const socketApi = baseApi.injectEndpoints({
     //     }
 
     //     return {
-    //       url: `studio/get-studios/`,
+    //       url: `/chat/conversation/${conversationId}`,
     //       method: "GET",
     //       params,
     //     };
     //   },
-    //   providesTags: ["studio"],
-    // }),
-
-    // getUserData: builder.query({
-    //   query: () => ({
-    //     url: "/user/my-profile",
-    //     method: "GET",
-    //   }),
-    //   providesTags: ["auth"],
-    // }),
-
-    // // Update user data
-    // updateUserData: builder.mutation({
-    //   query: (data) => ({
-    //     url: "/user/update",
-    //     method: "POST",
-    //     body: data,
-    //   }),
-    //   invalidatesTags: ["auth"],
+    //   providesTags: ["socket"],
     // }),
   }),
 });

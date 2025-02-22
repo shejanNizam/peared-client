@@ -22,8 +22,6 @@ export default function ProjectDetails(props) {
   const { data } = useConfirmProjectQuery(projectId);
   const conversationId = data?.data?.conversationId;
 
-  console.log(data?.data);
-
   const [projectOk] = useProjectOkByUserMutation();
   const [projectNotOk] = useProjectNotOkByUserMutation();
   const [projectDone] = useProjectDoneByProviderMutation();
@@ -76,19 +74,18 @@ export default function ProjectDetails(props) {
   };
 
   return (
-    <div className="h-[80vh] w-full flex flex-col bg-gray-100 overflow-hidden">
-      <div className="relative flex items-center justify-center flex-shrink-0 p-4 md:p-6 border-b">
-        <h1 className="text-2xl md:text-3xl font-bold text-green-600">
+    <div className="h-[80vh] w-full flex flex-col bg-gray-100 overflow-auto pb-20">
+      <div className="relative flex items-center justify-center flex-shrink-0 py-12 md:p-6 border-b">
+        {/* <h1 className="text-2xl md:text-3xl font-bold text-green-600 my-4">
           Project Details
-        </h1>
+        </h1> */}
         <Link href={"/report"}>
           <button className="absolute right-4 bg-red-600 text-white text-xs md:text-sm px-3 md:px-4 py-1 md:py-2 rounded-md shadow-md hover:bg-red-700 transition">
             Report
           </button>
         </Link>
       </div>
-
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4 p-4 md:p-6 overflow-hidden">
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4 p-2 md:p-6">
         <div className="md:col-span-2 flex flex-col sm:h-[70vh] md:h-full overflow-hidden">
           <Message
             conversationId={conversationId}
@@ -96,7 +93,6 @@ export default function ProjectDetails(props) {
             providerData={data}
           />
         </div>
-
         <div className="md:col-span-1 bg-white rounded-lg shadow-lg p-4 md:p-6 flex flex-col h-full overflow-auto">
           <h2 className="text-lg md:text-xl text-primary font-bold mb-4">
             Project Details
@@ -116,8 +112,7 @@ export default function ProjectDetails(props) {
                 {formattedStartDate}
               </p>
             </div>
-
-            <div className="relative w-[80%] md:w-[50%]  h-32 md:h-32 lg:h-32 mb-6">
+            <div className="relative w-[80%] md:w-[50%] h-32 md:h-32 lg:h-32 mb-6">
               <Image
                 src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${data?.data?.currentProjects?.projectId?.image}`}
                 alt="project_img"
@@ -128,7 +123,6 @@ export default function ProjectDetails(props) {
               />
             </div>
           </div>
-
           {user?.role === "provider" ? (
             <>
               <p className="text-gray-600 text-2xl font-bold mt-2 mb-1">
@@ -151,10 +145,7 @@ export default function ProjectDetails(props) {
                 {data?.data?.currentProjects?.projectId?.street}
               </p>
             </>
-          ) : (
-            <></>
-          )}
-
+          ) : null}
           <div className="mt-6 bg-gray-50 rounded-lg p-4 flex-1">
             {user?.role === "user" ? (
               <div className="relative">

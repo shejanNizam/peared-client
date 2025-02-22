@@ -1,17 +1,15 @@
 "use client";
 
+import { useGetAllMessagesQuery } from "@/redux/features/socket/socketApi";
 import { SendOutlined } from "@ant-design/icons";
 import { Button, Input } from "antd";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-
-import { useGetAllMessagesQuery } from "@/redux/features/socket/socketApi";
 import { useSelector } from "react-redux";
 import { getSocket, initSocket } from "../utils/socket";
 
 export default function Message({ conversationId, userId, providerData }) {
   const { user } = useSelector((state) => state.auth) || {};
-
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [page, setPage] = useState(1);
@@ -31,7 +29,6 @@ export default function Message({ conversationId, userId, providerData }) {
       const previousScrollHeight = containerRef.current
         ? containerRef.current.scrollHeight
         : 0;
-
       let loadedMessages = data.data.data.filter(
         (msg) => msg.conversationId === conversationId
       );
@@ -44,7 +41,6 @@ export default function Message({ conversationId, userId, providerData }) {
         setMessages((prev) => [...loadedMessages, ...prev]);
       }
       setPagination(data.data.pagination);
-
       if (page > 1 && containerRef.current) {
         setTimeout(() => {
           const newScrollHeight = containerRef.current.scrollHeight;
@@ -77,7 +73,6 @@ export default function Message({ conversationId, userId, providerData }) {
   }, [conversationId]);
 
   useEffect(() => {
-    // প্রথম পেজ হলে সবশেষ মেসেজ দেখানোর জন্য scroll পজিশন ঠিক করা
     if (page === 1 && containerRef.current && messages.length > 0) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
@@ -85,7 +80,7 @@ export default function Message({ conversationId, userId, providerData }) {
 
   const handleScroll = (e) => {
     const target = e.currentTarget;
-    if (target.scrollTop < 50) {
+    if (target.scrollTop < 100) {
       if (pagination && page < pagination.totalPage) {
         setPage((prevPage) => prevPage + 1);
       }
@@ -110,57 +105,52 @@ export default function Message({ conversationId, userId, providerData }) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-white rounded-lg shadow-md w-full max-w-4xl mx-auto">
+    <div className="flex flex-col h-[70vh] bg-white rounded-lg shadow-md w-full max-w-4xl mx-auto pb-8">
       {user?.role === "provider" ? (
-        <>
-          <div className="flex items-center p-4 sm:p-6 border-b flex-shrink-0">
-            <Image
-              src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${providerData?.data?.userImage}`}
-              alt="Avatar"
-              width={48}
-              height={48}
-              className="rounded-full object-cover"
-            />
-            <div className="ml-3">
-              <h2 className="text-lg sm:text-xl font-bold leading-none">
-                {providerData?.data?.userName}
-              </h2>
-              <p className="text-gray-500 text-sm sm:text-base">
-                User ID:{" "}
-                {providerData?.data?.currentProjects?.projectId?.userId.slice(
-                  0,
-                  7
-                ) + "..."}
-              </p>
-            </div>
+        <div className="flex items-center p-4 sm:p-6 border-b flex-shrink-0">
+          <Image
+            src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${providerData?.data?.userImage}`}
+            alt="Avatar"
+            width={48}
+            height={48}
+            className="rounded-full object-cover"
+          />
+          <div className="ml-3">
+            <h2 className="text-lg sm:text-xl font-bold leading-none">
+              {providerData?.data?.userName}
+            </h2>
+            <p className="text-gray-500 text-sm sm:text-base">
+              User ID:{" "}
+              {providerData?.data?.currentProjects?.projectId?.userId.slice(
+                0,
+                7
+              ) + "..."}
+            </p>
           </div>
-        </>
+        </div>
       ) : (
-        <>
-          <div className="flex items-center p-4 sm:p-6 border-b flex-shrink-0">
-            <Image
-              src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${providerData?.data?.currentProjects?.providerId?.image}`}
-              alt="Avatar"
-              width={48}
-              height={48}
-              className="rounded-full object-cover"
-            />
-            <div className="ml-3">
-              <h2 className="text-lg sm:text-xl font-bold leading-none">
-                {providerData?.data?.currentProjects?.providerId?.name}
-              </h2>
-              <p className="text-gray-500 text-sm sm:text-base">
-                Provider ID:{" "}
-                {providerData?.data?.currentProjects?.providerId?._id.slice(
-                  0,
-                  7
-                ) + "..."}
-              </p>
-            </div>
+        <div className="flex items-center p-4 sm:p-6 border-b flex-shrink-0">
+          <Image
+            src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${providerData?.data?.currentProjects?.providerId?.image}`}
+            alt="Avatar"
+            width={48}
+            height={48}
+            className="rounded-full object-cover"
+          />
+          <div className="ml-3">
+            <h2 className="text-lg sm:text-xl font-bold leading-none">
+              {providerData?.data?.currentProjects?.providerId?.name}
+            </h2>
+            <p className="text-gray-500 text-sm sm:text-base">
+              Provider ID:{" "}
+              {providerData?.data?.currentProjects?.providerId?._id.slice(
+                0,
+                7
+              ) + "..."}
+            </p>
           </div>
-        </>
+        </div>
       )}
-
       <div
         ref={containerRef}
         onScroll={handleScroll}
