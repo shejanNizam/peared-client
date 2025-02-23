@@ -1,6 +1,7 @@
 "use client";
 
 import ChangePasswordModal from "@/components/modals/ChangePasswordModal";
+import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
 import { useUpdateUserDataMutation } from "@/redux/features/userApi";
 import { Button, Form, Input, message, Modal, Select, Upload } from "antd";
 import Image from "next/image";
@@ -148,10 +149,16 @@ export default function ProviderProfile() {
 
     try {
       await updateUser(formData).unwrap();
-      message.success("Profile updated successfully!");
+      SuccessSwal({
+        title: "",
+        text: "Profile updated successfully!",
+      });
       handleCloseModal();
     } catch (error) {
-      message.error(error?.data?.message || error?.message);
+      ErrorSwal({
+        title: "",
+        text: error?.message || error?.data?.message || "Somethings went wrong",
+      });
     }
   };
 
@@ -164,7 +171,7 @@ export default function ProviderProfile() {
           onClick={handleOpenEditModal}
           className="absolute top-4 right-4 bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark transition"
         >
-          Update Provider
+          Update
         </button>
 
         {/* Profile Image */}
@@ -186,12 +193,12 @@ export default function ProviderProfile() {
 
         {/* Profile Information */}
         <div className="flex flex-col w-full">
-          <h2 className="text-xl font-bold">{user?.name}</h2>
-          <p className="text-gray-600 mb-4">{user?.email}</p>
+          <h2 className="text-2xl font-bold">{user?.name}</h2>
+          <p className="text-primary mb-4">{user?.email}</p>
           <form className="w-full">
             <div className="flex flex-col gap-4">
               <div>
-                <label className="block text-gray-700 font-medium mb-1">
+                <label className="block text-black font-semibold">
                   Service Category
                 </label>
                 <input
@@ -208,9 +215,9 @@ export default function ProviderProfile() {
                       href={certificate1Url}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-purple-600 "
+                      className="text-purple-600 font-semibold mb-2"
                     >
-                      View Certificate one
+                      View Certificate One
                     </Link>
                   ) : (
                     <p className="text-gray-500">No certificate uploaded</p>
@@ -222,7 +229,7 @@ export default function ProviderProfile() {
                       href={certificate2Url}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-purple-600 "
+                      className="text-purple-600 font-semibold "
                     >
                       View Certificate Two
                     </Link>
@@ -232,7 +239,7 @@ export default function ProviderProfile() {
                 </div>
               </div>
               <div>
-                <label className="block text-gray-700 font-medium mb-1">
+                <label className="block text-black font-semibold">
                   Street Address
                 </label>
                 <input
@@ -244,9 +251,7 @@ export default function ProviderProfile() {
               </div>
               <div className="flex flex-col md:flex-row gap-6">
                 <div className="w-full md:w-1/2">
-                  <label className="block text-gray-700 font-medium mb-1">
-                    City
-                  </label>
+                  <label className="block text-black font-semibold">City</label>
                   <input
                     type="text"
                     value={user?.city || ""}
@@ -255,8 +260,8 @@ export default function ProviderProfile() {
                   />
                 </div>
                 <div className="w-full md:w-1/2">
-                  <label className="block text-gray-700 font-medium mb-1">
-                    Postal Code
+                  <label className="block text-black font-semibold">
+                    Post Code
                   </label>
                   <input
                     type="text"
@@ -281,9 +286,7 @@ export default function ProviderProfile() {
       {/* Edit Profile Modal */}
       <Modal
         title={
-          <span className="text-xl font-bold text-primary">
-            Update Provider Profile
-          </span>
+          <span className="text-xl font-bold text-primary">Update Profile</span>
         }
         visible={isEditModalOpen}
         onCancel={handleCloseModal}
@@ -292,7 +295,7 @@ export default function ProviderProfile() {
         destroyOnClose
         maskClosable
         closeIcon={<FaTimes size={20} />}
-        width={600}
+        width={500}
       >
         <Form
           layout="vertical"
@@ -373,11 +376,8 @@ export default function ProviderProfile() {
           </Form.Item>
 
           {/* Certificates side by side */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Form.Item
-              label="Experience Certificate 1 (Optional)"
-              name="certificate1"
-            >
+          <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+            <Form.Item name="certificate1">
               <Upload
                 maxCount={1}
                 accept="application/pdf"
@@ -396,13 +396,10 @@ export default function ProviderProfile() {
                 }
                 onRemove={() => setCertificate1File(null)}
               >
-                <Button icon={<FaPlus />}>Upload Certificate 1</Button>
+                <Button icon={<FaPlus />}>Certificate 1</Button>
               </Upload>
             </Form.Item>
-            <Form.Item
-              label="Experience Certificate 2 (Optional)"
-              name="certificate2"
-            >
+            <Form.Item name="certificate2">
               <Upload
                 maxCount={1}
                 accept="application/pdf"
@@ -421,7 +418,7 @@ export default function ProviderProfile() {
                 }
                 onRemove={() => setCertificate2File(null)}
               >
-                <Button icon={<FaPlus />}>Upload Certificate 2</Button>
+                <Button icon={<FaPlus />}>Certificate 2</Button>
               </Upload>
             </Form.Item>
           </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import ChangePasswordModal from "@/components/modals/ChangePasswordModal";
-import { SuccessSwal } from "@/components/utils/allSwalFire";
+import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
 import { useUpdateUserDataMutation } from "@/redux/features/userApi";
 import { Button, Form, Input, Modal, Upload, message } from "antd";
 import Image from "next/image";
@@ -65,7 +65,10 @@ export default function UserProfile() {
         text: "Profile updated successfully!",
       });
     } catch (error) {
-      message.error(error?.message || error?.data?.message);
+      ErrorSwal({
+        title: "",
+        text: error?.message || error?.data?.message || "Somethings went wrong",
+      });
     }
   };
 
@@ -97,7 +100,7 @@ export default function UserProfile() {
           onClick={() => setIsEditModalOpen(true)}
           className="absolute top-4 right-4 bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark transition"
         >
-          Update user
+          Update
         </button>
 
         {/* Profile Image */}
@@ -119,15 +122,15 @@ export default function UserProfile() {
 
         {/* Profile Information */}
         <div className="flex flex-col w-full">
-          <h2 className="text-xl font-bold">{user?.name}</h2>
-          <p className="text-gray-600 mb-4">{user?.email}</p>
+          <h2 className="text-2xl font-bold">{user?.name}</h2>
+          <p className="text-primary mb-4">{user?.email}</p>
 
           <form className="w-full">
             <div className="flex flex-col gap-6">
               <div className="w-full">
                 <label
                   htmlFor="address"
-                  className="block text-gray-700 font-medium mb-2"
+                  className="block text-black font-semibold "
                 >
                   Street Address
                 </label>
@@ -143,7 +146,7 @@ export default function UserProfile() {
                 <div className="w-full md:w-1/2">
                   <label
                     htmlFor="city"
-                    className="block text-gray-700 font-medium mb-2"
+                    className="block text-black font-semibold "
                   >
                     City
                   </label>
@@ -158,9 +161,9 @@ export default function UserProfile() {
                 <div className="w-full md:w-1/2">
                   <label
                     htmlFor="postalCode"
-                    className="block text-gray-700 font-medium mb-2"
+                    className="block text-black font-semibold "
                   >
-                    Postal Code
+                    Post Code
                   </label>
                   <input
                     type="text"
