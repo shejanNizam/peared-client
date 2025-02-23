@@ -64,7 +64,7 @@ const Login = () => {
         </button>
 
         <div className="flex flex-col items-center">
-          <h2 className="text-2xl md:text-4xl font-semibold mb-8 border-b-2 border-b-secondary">
+          <h2 className="text-2xl md:text-4xl font-semibold text-primary mb-8 border-b-2 border-b-secondary">
             Login
           </h2>
         </div>

@@ -92,7 +92,7 @@ const ForgotPassword = () => {
 
           <p className="text-center">
             Remembered your password?{" "}
-            <Link href="/login" className="text-blue-500 underline">
+            <Link href="/login" className="text-primary">
               Log In
             </Link>
           </p>

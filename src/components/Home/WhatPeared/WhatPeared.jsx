@@ -31,7 +31,7 @@ export default function WhatPeared() {
             </div>
           </div>
           <div
-            className="relative p-8 bg-no-repeat bg-cover bg-center"
+            className="relative p-8 bg-no-repeat bg-cover bg-center "
             style={{
               backgroundImage: `url(${right_img.src})`,
             }}

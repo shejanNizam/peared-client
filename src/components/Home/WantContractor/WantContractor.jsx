@@ -22,7 +22,7 @@ export default function WantContractor() {
             <br />
             Bid on projects in any pricing format, whether it be a flat rate, by
             the hour, or by the task, it is up to you.
-            <Link href="/" className="text-primary font-bold">
+            <Link href="/about-us" className="text-primary font-bold">
                See More....
             </Link>
           </p>

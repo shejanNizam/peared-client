@@ -113,7 +113,7 @@ export default function Navbar() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={`px-3 py-2 rounded-md text-sm font-medium ${
+                    className={`px-3 py-2 rounded-md text-sm font-medium hover:text-primary ${
                       isActive(item.href)
                         ? "text-primary underline"
                         : "text-gray-700 hover:text-gray-900"
@@ -129,7 +129,7 @@ export default function Navbar() {
                 <>
                   <Link
                     href="/join-contractor"
-                    className="text-black underline hover:text-primary transition duration-200"
+                    className={`text-black underline hover:text-primary transition duration-200  `}
                   >
                     Join as Contractor
                   </Link>
@@ -160,7 +160,7 @@ export default function Navbar() {
                 <>
                   <Link
                     href="/projects"
-                    className="text-black hover:text-primary transition duration-200"
+                    className="text-black hover:text-primary underline transition duration-200"
                   >
                     Projects
                   </Link>

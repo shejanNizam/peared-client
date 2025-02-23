@@ -17,7 +17,6 @@ import image4 from "../../../assets/home/feedback/image4.png";
 import quotation_img from "../../../assets/home/feedback/quotation_img.png";
 
 const Feedback = () => {
-  // JSON data for Feedback
   const Feedback = [
     {
       _id: "1",
@@ -27,7 +26,7 @@ const Feedback = () => {
       description:
         "Peared has transformed the way our team collaborates. Their solutions are intuitive and highly effective.",
       image: image1,
-      logo: "/images/company-logo.png", // Ensure this logo exists in public/images/
+      logo: "/images/company-logo.png",
     },
     {
       _id: "2",
@@ -65,17 +64,14 @@ const Feedback = () => {
   const [current, setCurrent] = useState(0);
   const length = Feedback.length;
 
-  // Handler for next button
   const nextSlide = () => {
     setCurrent(current === length - 1 ? 0 : current + 1);
   };
 
-  // Handler for previous button
   const prevSlide = () => {
     setCurrent(current === 0 ? length - 1 : current - 1);
   };
 
-  // Function to render star ratings
   const renderStars = (rating) => {
     const stars = [];
     const fullStars = Math.floor(rating);
@@ -106,7 +102,7 @@ const Feedback = () => {
   return (
     <section className="  py-12 bg-secondary">
       <div className="container mx-auto px-4">
-        <div className="grid grid-col-1 md:grid-cols-2 gap-8 md:px-44">
+        <div className="grid grid-col-1 md:grid-cols-2 gap-8 lg:px-44">
           {/* Left Side */}
           <div className="">
             <CustomHeading>

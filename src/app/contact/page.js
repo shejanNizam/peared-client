@@ -5,26 +5,25 @@ import { Button, Form, Input, message } from "antd";
 import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
 
 export default function Contact() {
-  // Handle form submission
-  const onFinish = (values) => {
+  const [form] = Form.useForm();
+
+  const onFinish = () => {
     message.success("Message Sent!");
-    // Here, you can integrate with your backend or email service
+    form.resetFields();
   };
 
-  // Handle form submission failure
-  const onFinishFailed = (errorInfo) => {
+  const onFinishFailed = () => {
     message.error("Please check the form and try again.");
   };
 
   return (
-    <section className="py-12">
+    <section className="py-4 md:py-20">
       <div className="container mx-auto md:px-4">
-        <div className="text-center">
+        <div className="text-center mb-4">
           <CustomHeading> Contact Us </CustomHeading>
         </div>
         <div className="grid grid-col-1 md:grid-cols-1 lg:grid-cols-2 gap-4 justify-center items-center md:py-4 md:px-40">
-          {/* Left Side - Contact Information */}
-          <div className="p-8">
+          <div>
             <div className="flex items-center mb-6 px-4 py-3 bg-secondary border border-primary rounded ">
               <FaPhoneAlt className="text-primary text-3xl mr-4 mt-1" />
               <div>
@@ -36,7 +35,7 @@ export default function Contact() {
               <FaEnvelope className="text-primary text-3xl mr-4 mt-1" />
               <div>
                 <h3 className="text-lg font-medium">Email Now</h3>
-                <p className="text-sm text-gray-600">a@gmail.com</p>
+                <p className="text-sm text-gray-600">peared@gmail.com</p>
               </div>
             </div>
             <div className="flex items-center mb-6 px-4 py-3 bg-secondary border border-primary rounded ">
@@ -50,18 +49,16 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Right Side - Contact Form */}
-          <div className="p-8">
+          <div>
             <Form
+              form={form}
               name="contact_form"
               layout="vertical"
-              initialValues={{ remember: true }}
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
               autoComplete="off"
             >
               <Form.Item
-                // label={<span className="text-black font-semibold"> Name </span>}
                 name="name"
                 rules={[{ required: true, message: "Please enter your name!" }]}
               >
@@ -69,9 +66,6 @@ export default function Contact() {
               </Form.Item>
 
               <Form.Item
-                // label={
-                //   <span className="text-black font-semibold"> Email </span>
-                // }
                 name="email"
                 rules={[
                   { required: true, message: "Please enter your email!" },
@@ -82,15 +76,24 @@ export default function Contact() {
               </Form.Item>
 
               <Form.Item
-                // label={
-                //   <span className="text-black font-semibold"> Message </span>
-                // }
                 name="message"
                 rules={[
                   { required: true, message: "Please enter your message!" },
+                  {
+                    min: 20,
+                    message:
+                      "Your message must contain at least 20 characters.",
+                  },
+                  {
+                    max: 200,
+                    message: "Your message cannot exceed 200 characters.",
+                  },
                 ]}
               >
-                <Input.TextArea rows={7} placeholder="Your Message" />
+                <Input.TextArea
+                  rows={7}
+                  placeholder="Your Message (Min 20, Max 200 characters)"
+                />
               </Form.Item>
 
               <Form.Item>

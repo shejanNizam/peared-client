@@ -1,5 +1,3 @@
-"use client";
-
 import Banner from "@/components/Home/Banner/Banner";
 import Feedback from "@/components/Home/Feedback/Feedback";
 import PopularServices from "@/components/Home/PopularServices/PopularServices";

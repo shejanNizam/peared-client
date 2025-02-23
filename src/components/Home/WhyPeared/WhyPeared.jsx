@@ -120,7 +120,7 @@ export default function WhyPeared() {
         </div>
 
         {/* Tablist */}
-        <div className="grid grid-cols-1 md:grid-cols-2 justify-around items-center gap-8 md:gap-0 md:px-32">
+        <div className="grid grid-cols-1 md:grid-cols-2 justify-around items-center gap-8 md:gap-0 lg:px-32">
           {/* Left Sidebar */}
           <div className="">
             <div className="flex flex-col items-start">
@@ -180,7 +180,7 @@ export default function WhyPeared() {
                     aria-labelledby={`tab-${option._id}`}
                     className="flex flex-col items-start"
                   >
-                    <div className="relative w-full lg:w-[668px] h-64 md:h-80 lg:h-96 mb-6">
+                    <div className="relative w-full h-48 md:h-72 mb-6">
                       <Image
                         src={option.image}
                         alt={option.title}

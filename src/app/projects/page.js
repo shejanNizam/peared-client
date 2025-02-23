@@ -153,7 +153,7 @@ export default function Projects() {
       <section className="py-12 bg-white">
         <div className="container mx-auto px-4">
           <div className="mb-8 text-center">
-            <CustomHeading>Project List Dada </CustomHeading>
+            <CustomHeading>Projects List </CustomHeading>
           </div>
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
             <Select
@@ -187,7 +187,6 @@ export default function Projects() {
               >
                 <div className="relative w-full h-48 mb-4 rounded-t-lg overflow-hidden">
                   <Image
-                    // src={`https://magy-abu-sayed.sarv.live/${project?.image}`}
                     src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${project?.image}`}
                     alt={project.projectName}
                     layout="fill"
@@ -196,29 +195,31 @@ export default function Projects() {
                   />
                 </div>
                 <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="text-xl font-semibold mb-2">
+                  <h3 className="text-2xl font-semibold mb-2">
                     {project.projectCategory}
                   </h3>
-                  <p className="text-gray-500 mb-1">
-                    <span className="font-medium">Price:</span> $
+                  <p className=" mb-1 text-primary font-semibold">
+                    <span className="font-bold text-black">Price:</span> $
                     {project.priceRange}
                   </p>
-                  <p className="text-gray-500 mb-4">
-                    <span className="font-medium">Time:</span> {project.time}
+                  <p className=" mb-4 text-primary font-semibold">
+                    <span className="font-bold text-black">Time:</span>{" "}
+                    {project.time}
                   </p>
-                  <p className="text-gray-500 mb-1">
-                    <span className="font-medium">City:</span> {project.city}
+                  <p className=" mb-1 text-primary font-semibold">
+                    <span className="font-bold text-black">City:</span>{" "}
+                    {project.city}
                   </p>
-                  <p className="text-gray-500 mb-1">
-                    <span className="font-medium">Post Code:</span>{" "}
+                  <p className=" mb-1 text-primary font-semibold">
+                    <span className="font-bold text-black">Post Code:</span>{" "}
                     {project.postCode}
                   </p>
-                  <p className="text-gray-500 mb-1">
-                    <span className="font-medium">Street:</span>{" "}
+                  <p className=" mb-1 text-primary font-semibold">
+                    <span className="font-bold text-black">Street:</span>{" "}
                     {project.street}
                   </p>
-                  <p className="text-gray-500 mb-4">
-                    <span className="font-medium">Location Type:</span>{" "}
+                  <p className=" mb-4 text-primary font-semibold">
+                    <span className="font-bold text-black">Location Type:</span>{" "}
                     {project.locationType}
                   </p>
 
@@ -242,6 +243,7 @@ export default function Projects() {
           </div>
         </div>
       </section>
+
       <AnimatePresence>
         {isModalOpen && selectedProject && (
           <motion.div
@@ -281,32 +283,38 @@ export default function Projects() {
                 <div className="flex flex-col md:flex-row gap-6">
                   <div className="md:w-1/2">
                     <ul className="space-y-2">
-                      <li className="font-bold">
+                      <li className="font-bold text-xl">
                         {selectedProject.projectName}
                       </li>
-                      <li>
-                        <span className="font-medium">Category:</span>{" "}
+                      <li className="text-primary font-semibold">
+                        <span className="font-bold text-black  ">
+                          Category:
+                        </span>{" "}
                         {selectedProject.projectCategory}
                       </li>
-                      <li>
-                        <span className="font-medium">Price Range:</span> $
-                        {selectedProject.priceRange}
+                      <li className="text-primary font-semibold">
+                        <span className="font-bold text-black  ">
+                          Price Range:
+                        </span>{" "}
+                        ${selectedProject.priceRange}
                       </li>
-                      <li>
-                        <span className="font-medium">Time:</span>{" "}
+                      <li className="text-primary font-semibold">
+                        <span className="font-bold text-black  ">Time:</span>{" "}
                         {selectedProject.time}
                       </li>
 
-                      <li>
-                        <span className="font-medium">City:</span>{" "}
+                      <li className="text-primary font-semibold">
+                        <span className="font-bold text-black  ">City:</span>{" "}
                         {selectedProject.city}
                       </li>
-                      <li>
-                        <span className="font-medium">Post Code:</span>{" "}
+                      <li className="text-primary font-semibold">
+                        <span className="font-bold text-black  ">
+                          Post Code:
+                        </span>{" "}
                         {selectedProject.postCode}
                       </li>
-                      <li>
-                        <span className="font-medium">Street:</span>{" "}
+                      <li className="text-primary font-semibold">
+                        <span className="font-bold text-black  ">Street:</span>{" "}
                         {selectedProject.street}
                       </li>
                     </ul>
@@ -318,7 +326,7 @@ export default function Projects() {
                       }`}
                     >
                       <Image
-                        src={`https://magy-abu-sayed.sarv.live/${selectedProject?.image}`}
+                        src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${selectedProject?.image}`}
                         alt={selectedProject.projectName}
                         layout="fill"
                         objectFit="cover"
@@ -326,7 +334,7 @@ export default function Projects() {
                         onLoadingComplete={() => setIsImageLoaded(true)}
                       />
                     </div>
-                    <p className="text-gray-700">
+                    <p className="text-black text-xs font-bold overflow-hidden text-ellipsis whitespace-nowrap">
                       {selectedProject.workDetails}
                     </p>
                   </div>
@@ -343,12 +351,14 @@ export default function Projects() {
         onCancel={handleCloseBidModal}
         footer={null}
         destroyOnClose
-        title={<h2 className="text-xl font-bold text-primary">Bid</h2>}
+        title={
+          <h2 className="text-xl font-bold text-primary">Bid this project</h2>
+        }
       >
         <Form layout="vertical" onFinish={onFinish}>
           <div>
             <Form.Item
-              label="Price (Fixed)"
+              label="Price"
               name="price"
               rules={[{ required: true, message: "Please enter a price" }]}
             >
