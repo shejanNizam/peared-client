@@ -65,10 +65,11 @@ export default function Wallet() {
   };
 
   return (
-    <div className=" bg-gray-50 min-h-screen">
-      <Title level={2} className="text-center text-green-600 mb-12">
+    <div className="min-h-screen">
+      <div className="text-primary text-2xl text-center font-bold my-2">
         Wallet
-      </Title>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 justify-center items-start">
         {/* Left Section */}
         <div className="bg-white rounded-xl shadow-lg p-4 flex flex-col items-center mx-auto">
@@ -104,7 +105,9 @@ export default function Wallet() {
         </div>
 
         {/* Right Section */}
-        <RecentWalletHistory />
+        <div className="">
+          <RecentWalletHistory />
+        </div>
       </div>
 
       {/* Add Balance Modal */}
