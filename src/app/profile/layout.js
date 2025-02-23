@@ -63,7 +63,7 @@ export default function ProfileLayout({ children }) {
           ${isSidebarCollapsed ? "md:ml-16" : "md:ml-64"}
         `}
       >
-        <main>{children}</main>
+        <main className="my-4">{children}</main>
       </div>
     </div>
   );

@@ -17,11 +17,9 @@ export default function ProviderProfile() {
   const [file, setFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
 
-  // Certificate file states (for new uploads)
   const [certificate1File, setCertificate1File] = useState(null);
   const [certificate2File, setCertificate2File] = useState(null);
 
-  // Display URLs for existing certificates from user data
   const [certificate1Url, setCertificate1Url] = useState(null);
   const [certificate2Url, setCertificate2Url] = useState(null);
 
@@ -31,7 +29,6 @@ export default function ProviderProfile() {
   const [form] = Form.useForm();
   const [updateUser, { isLoading }] = useUpdateUserDataMutation();
 
-  // Update certificate URLs from user.certificate (an array)
   useEffect(() => {
     if (user && user.certificate && Array.isArray(user.certificate)) {
       if (user.certificate.length > 0) {
@@ -51,7 +48,6 @@ export default function ProviderProfile() {
     }
   }, [user, baseUrl]);
 
-  // Set image preview based on user.image
   useEffect(() => {
     if (user?.image) {
       const formattedImage = user.image.replace(/^public/, "");
@@ -68,7 +64,6 @@ export default function ProviderProfile() {
     ? user.image.replace(/^public/, "")
     : "/default-profile.png";
 
-  // Handle image upload (only images allowed)
   const handleBeforeUpload = (file) => {
     const isImage = file.type.startsWith("image/");
     if (!isImage) {
@@ -87,7 +82,6 @@ export default function ProviderProfile() {
     setFile(file);
   };
 
-  // Certificate upload validations (PDF only)
   const handleBeforeUploadCertificate1 = (file) => {
     if (file.type !== "application/pdf") {
       message.error("Only PDF files are allowed for Certificate 1!");
@@ -133,14 +127,14 @@ export default function ProviderProfile() {
 
   const handleEditFormSubmit = async (values) => {
     const formData = new FormData();
-    // Append text fields (convert arrays to comma-separated strings)
+
     Object.keys(values).forEach((key) => {
       formData.append(
         key,
         Array.isArray(values[key]) ? values[key].join(",") : values[key]
       );
     });
-    // Append new image if provided
+
     if (file) {
       formData.append("image", file);
     }
@@ -162,10 +156,9 @@ export default function ProviderProfile() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center gap-6 p-4">
-      <h3 className="text-2xl font-semibold">Provider Profile</h3>
+    <div className="flex flex-col justify-center items-center gap-6">
+      <h3 className="text-2xl text-primary font-semibold">Provider Profile</h3>
 
-      {/* Profile Display */}
       <div className="flex flex-col md:flex-row justify-start items-start gap-8 shadow-2xl border border-secondary rounded w-full max-w-4xl p-12 relative">
         <button
           onClick={handleOpenEditModal}
@@ -208,39 +201,35 @@ export default function ProviderProfile() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed"
                 />
               </div>
-              <div>
-                <label className="block text-gray-700 font-medium mb-1">
-                  Experience Certificate 1
-                </label>
-                {certificate1Url ? (
-                  <Link
-                    href={certificate1Url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-primary underline"
-                  >
-                    View Certificate
-                  </Link>
-                ) : (
-                  <p className="text-gray-500">No certificate uploaded</p>
-                )}
-              </div>
-              <div>
-                <label className="block text-gray-700 font-medium mb-1">
-                  Experience Certificate 2
-                </label>
-                {certificate2Url ? (
-                  <Link
-                    href={certificate2Url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-primary underline"
-                  >
-                    View Certificate
-                  </Link>
-                ) : (
-                  <p className="text-gray-500">No certificate uploaded</p>
-                )}
+              <div className="md:flex justify-start items-center gap-8">
+                <div>
+                  {certificate1Url ? (
+                    <Link
+                      href={certificate1Url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-purple-600 "
+                    >
+                      View Certificate one
+                    </Link>
+                  ) : (
+                    <p className="text-gray-500">No certificate uploaded</p>
+                  )}
+                </div>
+                <div>
+                  {certificate2Url ? (
+                    <Link
+                      href={certificate2Url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-purple-600 "
+                    >
+                      View Certificate Two
+                    </Link>
+                  ) : (
+                    <p className="text-gray-500">No certificate uploaded</p>
+                  )}
+                </div>
               </div>
               <div>
                 <label className="block text-gray-700 font-medium mb-1">
@@ -298,6 +287,7 @@ export default function ProviderProfile() {
         }
         visible={isEditModalOpen}
         onCancel={handleCloseModal}
+        footer={null}
         centered
         destroyOnClose
         maskClosable

@@ -14,7 +14,6 @@ export default function MyProjects() {
   const router = useRouter();
 
   const { data } = useMyProjectsQuery();
-  console.log(data?.data);
 
   const [boostProject] = useBoostProjectMutation();
 
@@ -51,7 +50,6 @@ export default function MyProjects() {
             {/* <div className="w-full h-full rounded-lg absolute bg-gray-500/50 top-0 left-0"></div> */}
             <div className="relative w-full h-48 mb-4 rounded-t-lg overflow-hidden">
               <Image
-                // src={`https://magy-abu-sayed.sarv.live/${project?.image}`}
                 src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${project?.image}`}
                 alt={project.projectName}
                 fill

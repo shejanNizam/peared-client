@@ -21,7 +21,6 @@ export default function UserProfile() {
   const { user } = useSelector((state) => state.auth);
   const [updateUser] = useUpdateUserDataMutation();
 
-  // Update the preview URL when a new file is selected
   useEffect(() => {
     if (file) {
       const objectUrl = URL.createObjectURL(file);
@@ -32,7 +31,6 @@ export default function UserProfile() {
     }
   }, [file]);
 
-  // Check file type before upload and store file in state
   const handleBeforeUpload = (file) => {
     const isImage = file.type.startsWith("image/");
     if (!isImage) {
@@ -43,7 +41,6 @@ export default function UserProfile() {
     return false; // Prevent auto-upload
   };
 
-  // Handle file changes (for a single image)
   const handleFileChange = ({ file }) => {
     if (!file.type.startsWith("image/")) {
       message.error("Only image files (JPG, PNG, JPEG) are allowed!");
@@ -52,7 +49,6 @@ export default function UserProfile() {
     setFile(file);
   };
 
-  // Handle form submission for editing the profile
   const handleEditFormSubmit = async (values) => {
     const formData = new FormData();
     const updatedValues = { ...values, image: file };
@@ -73,7 +69,6 @@ export default function UserProfile() {
     }
   };
 
-  // Update preview image when edit modal opens and no new file is selected
   useEffect(() => {
     if (isEditModalOpen && user && !file) {
       const formattedImage = user.image
@@ -94,7 +89,7 @@ export default function UserProfile() {
 
   return (
     <div className="flex flex-col justify-center items-center gap-6">
-      <h3 className="text-2xl font-semibold">My Profile</h3>
+      <h3 className="text-2xl text-primary font-semibold">My Profile</h3>
 
       {/* Profile Section */}
       <div className="flex flex-col md:flex-row justify-start items-start gap-8 shadow-2xl border border-secondary rounded w-full max-w-4xl h-auto relative p-8 md:p-12">
