@@ -36,12 +36,20 @@ const modalVariants = {
   exit: { scale: 0.8, opacity: 0 },
 };
 
+// const categories = [
+//   "Residential Cleaning",
+//   "Commercial Cleaning",
+//   "Painting",
+//   "Landscaping",
+//   "Carpentry",
+// ];
+
 const categories = [
-  "Residential Cleaning",
-  "Commercial Cleaning",
-  "Painting",
-  "Landscaping",
-  "Carpentry",
+  { _id: "1", name: "Residential Cleaning" },
+  { _id: "2", name: "Commercial Cleaning" },
+  { _id: "3", name: "Painting" },
+  { _id: "4", name: "Landscaping" },
+  { _id: "5", name: "Carpentry" },
 ];
 
 export default function Projects() {
@@ -164,8 +172,8 @@ export default function Projects() {
               allowClear
             >
               {categories?.map((cat) => (
-                <Option key={cat} value={cat}>
-                  {cat}
+                <Option key={cat._id} value={cat.name}>
+                  {cat.name}
                 </Option>
               ))}
             </Select>

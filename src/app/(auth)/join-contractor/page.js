@@ -98,6 +98,14 @@ const JoinAsContractor = () => {
     router.back();
   };
 
+  const serviceCategories = [
+    { _id: "1", name: "Residential Cleaning" },
+    { _id: "2", name: "Commercial Cleaning" },
+    { _id: "3", name: "Painting" },
+    { _id: "4", name: "Landscaping" },
+    { _id: "5", name: "Carpentry" },
+  ];
+
   return (
     <>
       <div className="min-h-screen w-full flex flex-col justify-center items-center bg-secondary">
@@ -201,7 +209,30 @@ const JoinAsContractor = () => {
             </div>
 
             {/* Services Select (multiple selection) */}
+
             <Form.Item
+              label={<span className="text-black font-semibold">Services</span>}
+              name="service"
+              rules={[
+                {
+                  required: true,
+                  message: "Please select at least one service",
+                },
+              ]}
+            >
+              <Select
+                mode="multiple"
+                placeholder="Select the services you provide"
+                size="large"
+              >
+                {serviceCategories.map((service) => (
+                  <Select.Option key={service.id} value={service.name}>
+                    {service.name}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+            {/* <Form.Item
               label={<span className="text-black font-semibold">Services</span>}
               name="service"
               rules={[
@@ -226,7 +257,7 @@ const JoinAsContractor = () => {
                 <Select.Option value="Landscaping">Landscaping</Select.Option>
                 <Select.Option value="Carpentry">Carpentry</Select.Option>
               </Select>
-            </Form.Item>
+            </Form.Item> */}
 
             {/* Document Upload Field */}
             <Form.Item
