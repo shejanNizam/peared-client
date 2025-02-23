@@ -188,66 +188,77 @@ export default function Projects() {
             <Button onClick={handleClearFilters}>Clear All</Button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects?.map((project) => (
-              <div
-                key={project._id}
-                className="bg-secondary p-4 rounded-lg overflow-hidden shadow-md flex flex-col hover:shadow-xl transition-shadow duration-300"
-              >
-                <div className="relative w-full h-48 mb-4 rounded-t-lg overflow-hidden">
-                  <Image
-                    src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${project?.image}`}
-                    alt={project.projectName}
-                    layout="fill"
-                    objectFit="cover"
-                    className="rounded-t-lg"
-                  />
-                </div>
-                <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="text-2xl font-semibold mb-2">
-                    {project.projectCategory}
-                  </h3>
-                  <p className=" mb-1 text-primary font-semibold">
-                    <span className="font-bold text-black">Price:</span> $
-                    {project.priceRange}
-                  </p>
-                  <p className=" mb-4 text-primary font-semibold">
-                    <span className="font-bold text-black">Time:</span>{" "}
-                    {project.time}
-                  </p>
-                  <p className=" mb-1 text-primary font-semibold">
-                    <span className="font-bold text-black">City:</span>{" "}
-                    {project.city}
-                  </p>
-                  <p className=" mb-1 text-primary font-semibold">
-                    <span className="font-bold text-black">Post Code:</span>{" "}
-                    {project.postCode}
-                  </p>
-                  <p className=" mb-1 text-primary font-semibold">
-                    <span className="font-bold text-black">Street:</span>{" "}
-                    {project.street}
-                  </p>
-                  <p className=" mb-4 text-primary font-semibold">
-                    <span className="font-bold text-black">Location Type:</span>{" "}
-                    {project.locationType}
-                  </p>
+            {filteredProjects?.length === 0 ? (
+              <p className="text-red-500 min-h-screen text-center text-2xl font-semibold">
+                {" "}
+                No project found!
+              </p>
+            ) : (
+              <>
+                {filteredProjects?.map((project) => (
+                  <div
+                    key={project._id}
+                    className="bg-secondary p-4 rounded-lg overflow-hidden shadow-md flex flex-col hover:shadow-xl transition-shadow duration-300"
+                  >
+                    <div className="relative w-full h-48 mb-4 rounded-t-lg overflow-hidden">
+                      <Image
+                        src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${project?.image}`}
+                        alt={project.projectName}
+                        layout="fill"
+                        objectFit="cover"
+                        className="rounded-t-lg"
+                      />
+                    </div>
+                    <div className="p-6 flex flex-col flex-grow">
+                      <h3 className="text-2xl font-semibold mb-2">
+                        {project.projectCategory}
+                      </h3>
+                      <p className=" mb-1 text-primary font-semibold">
+                        <span className="font-bold text-black">Price:</span> $
+                        {project.priceRange}
+                      </p>
+                      <p className=" mb-4 text-primary font-semibold">
+                        <span className="font-bold text-black">Time:</span>{" "}
+                        {project.time}
+                      </p>
+                      <p className=" mb-1 text-primary font-semibold">
+                        <span className="font-bold text-black">City:</span>{" "}
+                        {project.city}
+                      </p>
+                      <p className=" mb-1 text-primary font-semibold">
+                        <span className="font-bold text-black">Post Code:</span>{" "}
+                        {project.postCode}
+                      </p>
+                      <p className=" mb-1 text-primary font-semibold">
+                        <span className="font-bold text-black">Street:</span>{" "}
+                        {project.street}
+                      </p>
+                      <p className=" mb-4 text-primary font-semibold">
+                        <span className="font-bold text-black">
+                          Location Type:
+                        </span>{" "}
+                        {project.locationType}
+                      </p>
 
-                  <div className="flex justify-between">
-                    <button
-                      onClick={() => handleClickProjectDetails(project)}
-                      className="bg-primary/80 text-white px-4 py-2 rounded hover:bg-primary transition-colors duration-300"
-                    >
-                      Learn More
-                    </button>
-                    <button
-                      onClick={() => handleOpenBidModal(project)}
-                      className="bg-primary/80 text-white px-4 py-2 rounded hover:bg-primary transition-colors duration-300"
-                    >
-                      Bid
-                    </button>
+                      <div className="flex justify-between">
+                        <button
+                          onClick={() => handleClickProjectDetails(project)}
+                          className="bg-primary/80 text-white px-4 py-2 rounded hover:bg-primary transition-colors duration-300"
+                        >
+                          Learn More
+                        </button>
+                        <button
+                          onClick={() => handleOpenBidModal(project)}
+                          className="bg-primary/80 text-white px-4 py-2 rounded hover:bg-primary transition-colors duration-300"
+                        >
+                          Bid
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                ))}
+              </>
+            )}
           </div>
         </div>
       </section>
