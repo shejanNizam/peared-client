@@ -21,10 +21,10 @@ const ForgotPassword = () => {
       if (response?.success) {
         localStorage.setItem("user_token", response?.data?.token);
         SuccessSwal({
-          title: "OTP has been sent to your email!",
-          text: `Check your email in ${values?.email}`,
+          title: "",
+          text: `${response.message} in ${values?.email}`,
         });
-        router.push(`/verify-email`);
+        router.push(`/verify-email?email=${values?.email}`);
       }
     } catch (error) {
       ErrorSwal({

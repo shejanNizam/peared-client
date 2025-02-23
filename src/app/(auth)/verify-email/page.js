@@ -1,19 +1,22 @@
 "use client";
 
-import { SuccessSwal } from "@/components/utils/allSwalFire";
+import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
 import {
   useResendOtpMutation,
   useVerifyForgetOtpMutation,
 } from "@/redux/features/authApi";
-import { Button, Form, Input, message } from "antd";
-import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { Button, Form, Input } from "antd";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 
 const VerifyEmail = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email");
 
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const inputRefs = useRef([]);
 
   const [resendDisabled, setResendDisabled] = useState(false);
   const [resendTimer, setResendTimer] = useState(180);
@@ -21,30 +24,72 @@ const VerifyEmail = () => {
   const [verifyForgetOtp, { isLoading }] = useVerifyForgetOtpMutation();
   const [resendOtp, { isLoading: resendLoading }] = useResendOtpMutation();
 
-  const inputRefs = useRef([]);
+  // Load timer from session storage on component mount
+  useEffect(() => {
+    const storedExpireTime = sessionStorage.getItem("resendExpireTime");
+    if (storedExpireTime) {
+      const timeRemaining = Math.floor(
+        (parseInt(storedExpireTime) - Date.now()) / 1000
+      );
+      if (timeRemaining > 0) {
+        setResendTimer(timeRemaining);
+        setResendDisabled(true);
+      } else {
+        sessionStorage.removeItem("resendExpireTime");
+      }
+    }
 
+    const interval = setInterval(() => {
+      setResendTimer((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          setResendDisabled(false);
+          sessionStorage.removeItem("resendExpireTime");
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Handle OTP input change (supports copy-pasting full OTP)
   const onChangeOtp = (index, value) => {
-    if (/^\d*$/.test(value)) {
+    if (/^\d{0,6}$/.test(value)) {
       const newOtp = [...otp];
-      newOtp[index] = value;
-      setOtp(newOtp);
 
-      if (value && index < 5) {
-        inputRefs.current[index + 1]?.focus();
+      if (value.length === 6) {
+        // If pasting all 6 digits at once
+        setOtp(value.split(""));
+        inputRefs.current[5]?.focus();
+      } else {
+        // Normal input handling
+        newOtp[index] = value;
+        setOtp(newOtp);
+
+        if (value && index < 5) {
+          inputRefs.current[index + 1]?.focus();
+        }
       }
     }
   };
 
+  // Handle backspace key navigation
   const onKeyDownOtp = (index, event) => {
     if (event.key === "Backspace" && !otp[index] && index > 0) {
       inputRefs.current[index - 1]?.focus();
     }
   };
 
+  // Handle OTP verification
   const onFinish = async () => {
     const enteredOtp = otp.join("");
     if (enteredOtp.length < 6) {
-      message.error("Please enter the complete 4-digit OTP.");
+      ErrorSwal({
+        title: "",
+        text: "Please enter the complete 6-digit OTP.",
+      });
       return;
     }
 
@@ -55,52 +100,61 @@ const VerifyEmail = () => {
 
       if (response.success) {
         SuccessSwal({
-          title: "OTP Verified!",
-          text: "Redirecting to reset password.",
+          title: "",
+          text: response?.message || "Something went wrong!",
         });
 
         localStorage.setItem("user_token", response?.data?.token);
         router.push(`/reset-password`);
       } else {
-        message.error(response.message || "Invalid OTP. Please try again.");
+        ErrorSwal({
+          title: "",
+          text: response.message || "Invalid OTP. Please try again.",
+        });
+
+        // message.error();
       }
     } catch (error) {
-      console.error("OTP Verification Error:", error);
-      message.error("Something went wrong. Please try again.");
+      ErrorSwal({
+        title: "",
+        text: error?.message || error.data.message || " Something went wrong! ",
+      });
     }
   };
-  // Resend OTP handler
+
+  // Handle Resend OTP
   const handleResendOtp = async () => {
     if (resendDisabled) return;
     if (!email) {
-      message.error("Email not found. Please go back and re-enter your email.");
+      ErrorSwal({
+        title: "",
+        text: " Email not found. Please go back and re-enter your email! ",
+      });
       return;
     }
 
     try {
-      await resendOtp(email).unwrap();
-      message.success("A new OTP has been sent to your email.");
+      const response = await resendOtp(email).unwrap();
+      SuccessSwal({
+        title: "",
+        text: response?.message || " Something went wrong! ",
+      });
 
+      // Set timer in session storage
+      const expireTime = Date.now() + 180 * 1000;
+      sessionStorage.setItem("resendExpireTime", expireTime.toString());
       setResendDisabled(true);
       setResendTimer(180);
-
-      const interval = setInterval(() => {
-        setResendTimer((prev) => {
-          if (prev === 1) {
-            clearInterval(interval);
-            setResendDisabled(false);
-          }
-          return prev - 1;
-        });
-      }, 1000);
     } catch (error) {
-      console.error("Resend OTP Error:", error?.message);
-      message.error(
-        error?.data?.message || "Failed to resend OTP. Please try again."
-      );
+      ErrorSwal({
+        title: "",
+        text:
+          error?.data?.message || error?.message || " Something went wrong! ",
+      });
     }
   };
 
+  // Handle Go Back
   const handleBack = () => {
     router.back();
   };
@@ -119,7 +173,7 @@ const VerifyEmail = () => {
         <div className="flex flex-col items-center mb-6">
           <h2 className="text-2xl font-semibold mt-4">Verify Your Email</h2>
           <p className="text-center text-gray-600 mt-2">
-            Please enter the 6-digit OTP sent to your email address.
+            Please enter the 6-digit OTP sent to your email.
           </p>
         </div>
 
@@ -130,12 +184,12 @@ const VerifyEmail = () => {
                 <Input
                   type="text"
                   inputMode="numeric"
-                  maxLength={1}
+                  maxLength={6}
                   value={digit}
                   onChange={(e) => onChangeOtp(index, e.target.value)}
                   onKeyDown={(e) => onKeyDownOtp(index, e)}
                   ref={(el) => (inputRefs.current[index] = el)}
-                  className="text-center w-16 h-16 text-2xl border-gray-300 rounded-md focus:border-green-500 focus:ring-green-500"
+                  className="text-center w-14 h-14 text-2xl border-gray-300 rounded-md focus:border-green-500 focus:ring-green-500"
                   aria-label={`OTP Digit ${index + 1}`}
                 />
               </Form.Item>
