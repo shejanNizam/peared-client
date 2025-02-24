@@ -44,8 +44,8 @@ const AddProject = () => {
       return Upload.LIST_IGNORE;
     }
 
-    setImage(file); // Set only one image
-    return false; // Prevent automatic upload
+    setImage(file);
+    return false;
   };
   // console.log("Outside --------------->><<", formData1);
 
@@ -59,7 +59,7 @@ const AddProject = () => {
     });
     // Append image file(s) if available
     if (values.image && values.image.length > 0) {
-      formData.append("image", values.image[0].originFileObj); // Take the first image file
+      formData.append("image", values.image[0].originFileObj);
     }
     setFormData1(formData);
     setIsModalVisible(true);
@@ -72,14 +72,12 @@ const AddProject = () => {
 
   // Handle image upload
   const handleFileChange = ({ file }) => {
-    console.log("Uploaded File:", file);
-
     if (!file.type.startsWith("image/")) {
       message.error("Only image files (JPG, PNG, JPEG) are allowed!");
       return;
     }
 
-    setImage(file); // Store the latest uploaded image
+    setImage(file);
   };
 
   const handlePaymentSuccess = async () => {

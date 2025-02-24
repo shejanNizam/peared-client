@@ -27,7 +27,7 @@ export const feedbackApi = baseApi.injectEndpoints({
     reportProvider: builder.mutation({
       query: (reportData) => {
         return {
-          url: "/provider/report-provider",
+          url: "/report/create-report",
           method: "POST",
           body: reportData,
         };

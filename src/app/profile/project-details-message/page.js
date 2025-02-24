@@ -10,7 +10,6 @@ import {
 } from "@/redux/features/projects/projectApi";
 import { format } from "date-fns";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
@@ -22,7 +21,8 @@ export default function ProjectDetails(props) {
   const { data } = useConfirmProjectQuery(projectId);
   const conversationId = data?.data?.conversationId;
 
-  console.log(data?.data);
+  console.log(data?.data?.currentProjects?.projectId?.userId);
+  console.log(data?.data?.currentProjects?.providerId?._id);
 
   const [projectOk] = useProjectOkByUserMutation();
   const [projectNotOk] = useProjectNotOkByUserMutation();
@@ -75,14 +75,25 @@ export default function ProjectDetails(props) {
     }
   };
 
+  const handleReport = () => {
+    user?.role === "provider"
+      ? router.push(
+          `/report?userId=${data?.data?.currentProjects?.projectId?.userId}`
+        ) // user id
+      : router.push(
+          `/report?userId=${data?.data?.currentProjects?.providerId?._id}`
+        ); // provider id
+  };
+
   return (
     <div className="h-[80vh] w-full flex flex-col bg-gray-100 overflow-auto pb-20">
       <div className="relative flex items-center justify-center flex-shrink-0 py-12 md:p-6 border-b">
-        <Link href={"/report"}>
-          <button className="absolute right-4 bg-red-600 text-white text-xs md:text-sm px-3 md:px-4 py-1 md:py-2 rounded-md shadow-md hover:bg-red-700 transition">
-            Report
-          </button>
-        </Link>
+        <button
+          onClick={handleReport}
+          className="absolute right-4 bg-red-600 text-white text-xs md:text-sm px-3 md:px-4 py-1 md:py-2 rounded-md shadow-md hover:bg-red-700 transition"
+        >
+          Report
+        </button>
       </div>
       <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4 p-2 md:p-6">
         <div className="md:col-span-2 flex flex-col sm:h-[70vh] md:h-full overflow-hidden">
