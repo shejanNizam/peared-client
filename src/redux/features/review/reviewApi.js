@@ -2,6 +2,7 @@ import baseApi from "@/redux/api/baseApi";
 
 export const reviewApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    // user side
     topReviews: builder.query({
       query: (id) => {
         return {
@@ -12,10 +13,20 @@ export const reviewApi = baseApi.injectEndpoints({
       providesTags: ["review"],
     }),
 
+    // provider side
     providerAllReviews: builder.query({
       query: () => {
         return {
           url: "/provider/my-review",
+          method: "GET",
+        };
+      },
+      providesTags: ["review"],
+    }),
+    myReviews: builder.query({
+      query: () => {
+        return {
+          url: "/provider/avarage-reviews",
           method: "GET",
         };
       },
@@ -38,5 +49,6 @@ export const reviewApi = baseApi.injectEndpoints({
 export const {
   useProviderAllReviewsQuery,
   useAddToFavouriteMutation,
+  useMyReviewsQuery,
   useTopReviewsQuery,
 } = reviewApi;

@@ -4,7 +4,7 @@ import { useGetAllMessagesQuery } from "@/redux/features/socket/socketApi";
 import { SendOutlined } from "@ant-design/icons";
 import { Button, Input } from "antd";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { getSocket, initSocket } from "../utils/socket";
 
@@ -13,8 +13,10 @@ export default function Message({ conversationId, userId, providerData }) {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [page, setPage] = useState(1);
-  const [limit] = useState(10);
+  const limit = 10;
   const [pagination, setPagination] = useState(null);
+  const [loadedPages, setLoadedPages] = useState(new Set());
+  const containerRef = useRef(null);
 
   const { data, isLoading } = useGetAllMessagesQuery({
     conversationId,
@@ -22,53 +24,50 @@ export default function Message({ conversationId, userId, providerData }) {
     limit,
   });
 
-  const containerRef = useRef(null);
-
   useEffect(() => {
-    if (data?.data) {
-      const previousScrollHeight = containerRef.current
-        ? containerRef.current.scrollHeight
-        : 0;
-      let loadedMessages = data.data.data.filter(
-        (msg) => msg.conversationId === conversationId
-      );
-      loadedMessages.sort(
-        (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-      );
-      if (page === 1) {
-        setMessages(loadedMessages);
-      } else {
-        setMessages((prev) => [...loadedMessages, ...prev]);
-      }
-      setPagination(data.data.pagination);
-      if (page > 1 && containerRef.current) {
-        setTimeout(() => {
-          const newScrollHeight = containerRef.current.scrollHeight;
-          containerRef.current.scrollTop =
-            newScrollHeight - previousScrollHeight;
-        }, 0);
-      }
+    if (!data?.data) return;
+    if (loadedPages.has(page)) return;
+
+    const previousScrollHeight = containerRef.current?.scrollHeight || 0;
+    const loadedMessages = data.data.data.filter(
+      (msg) => msg.conversationId === conversationId
+    );
+    loadedMessages.sort(
+      (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+    );
+
+    if (page === 1) {
+      setMessages(loadedMessages);
+    } else {
+      setMessages((prev) => [...loadedMessages, ...prev]);
     }
-  }, [data, conversationId, page]);
+    setPagination(data.data.pagination);
+    setLoadedPages((prev) => new Set(prev).add(page));
+
+    if (page > 1 && containerRef.current) {
+      setTimeout(() => {
+        const newScrollHeight = containerRef.current.scrollHeight;
+        containerRef.current.scrollTop = newScrollHeight - previousScrollHeight;
+      }, 0);
+    }
+  }, [data, conversationId, page, loadedPages]);
 
   useEffect(() => {
     const socket = initSocket();
     if (conversationId) {
       socket.emit("joinConversation", { conversationId });
     }
-    socket.on("receiveMessage", (message) => {
+    const handleReceiveMessage = (message) => {
       if (message.conversationId === conversationId) {
         setMessages((prev) => {
-          const alreadyExists = prev.some((m) => m._id === message._id);
-          if (!alreadyExists) {
-            return [...prev, message];
-          }
-          return prev;
+          if (prev.some((m) => m._id === message._id)) return prev;
+          return [...prev, message];
         });
       }
-    });
+    };
+    socket.on("receiveMessage", handleReceiveMessage);
     return () => {
-      socket.off("receiveMessage");
+      socket.off("receiveMessage", handleReceiveMessage);
     };
   }, [conversationId]);
 
@@ -78,14 +77,15 @@ export default function Message({ conversationId, userId, providerData }) {
     }
   }, [messages, page]);
 
-  const handleScroll = (e) => {
-    const target = e.currentTarget;
-    if (target.scrollTop < 100) {
-      if (pagination && page < pagination.totalPage) {
-        setPage((prevPage) => prevPage + 1);
+  const handleScroll = useCallback(
+    (e) => {
+      const { scrollTop } = e.currentTarget;
+      if (scrollTop < 100 && pagination && page < pagination.totalPage) {
+        setPage((prev) => prev + 1);
       }
-    }
-  };
+    },
+    [pagination, page]
+  );
 
   const handleSend = () => {
     if (!newMessage.trim()) return;
@@ -124,7 +124,8 @@ export default function Message({ conversationId, userId, providerData }) {
               {providerData?.data?.currentProjects?.projectId?.userId.slice(
                 0,
                 7
-              ) + "..."}
+              )}
+              ...
             </p>
           </div>
         </div>
@@ -143,21 +144,20 @@ export default function Message({ conversationId, userId, providerData }) {
             </h2>
             <p className="text-gray-500 text-sm sm:text-base">
               Provider ID:{" "}
-              {providerData?.data?.currentProjects?.providerId?._id.slice(
-                0,
-                7
-              ) + "..."}
+              {providerData?.data?.currentProjects?.providerId?._id.slice(0, 7)}
+              ...
             </p>
           </div>
         </div>
       )}
+
       <div
         ref={containerRef}
         onScroll={handleScroll}
         className="flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50"
       >
         {isLoading && page === 1 && <p>Loading messages...</p>}
-        {messages?.map((msg) => {
+        {messages.map((msg) => {
           const isOwnMessage = msg.senderId === userId;
           return (
             <div
@@ -182,6 +182,7 @@ export default function Message({ conversationId, userId, providerData }) {
           );
         })}
       </div>
+
       <div className="border-t p-3 sm:p-4 flex gap-2 flex-shrink-0">
         <Input
           placeholder="Type your message..."

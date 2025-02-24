@@ -10,24 +10,6 @@ export const socketApi = baseApi.injectEndpoints({
       }),
       providesTags: ["socket"],
     }),
-
-    // getAllMessages: builder.query({
-    //   query: (args) => {
-    //     const params = new URLSearchParams();
-    //     if (args) {
-    //       args.forEach((item) => {
-    //         params.append(item.name, item.value);
-    //       });
-    //     }
-
-    //     return {
-    //       url: `/chat/conversation/${conversationId}`,
-    //       method: "GET",
-    //       params,
-    //     };
-    //   },
-    //   providesTags: ["socket"],
-    // }),
   }),
 });
 

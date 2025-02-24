@@ -22,6 +22,8 @@ export default function ProjectDetails(props) {
   const { data } = useConfirmProjectQuery(projectId);
   const conversationId = data?.data?.conversationId;
 
+  console.log(data?.data);
+
   const [projectOk] = useProjectOkByUserMutation();
   const [projectNotOk] = useProjectNotOkByUserMutation();
   const [projectDone] = useProjectDoneByProviderMutation();
@@ -76,9 +78,6 @@ export default function ProjectDetails(props) {
   return (
     <div className="h-[80vh] w-full flex flex-col bg-gray-100 overflow-auto pb-20">
       <div className="relative flex items-center justify-center flex-shrink-0 py-12 md:p-6 border-b">
-        {/* <h1 className="text-2xl md:text-3xl font-bold text-green-600 my-4">
-          Project Details
-        </h1> */}
         <Link href={"/report"}>
           <button className="absolute right-4 bg-red-600 text-white text-xs md:text-sm px-3 md:px-4 py-1 md:py-2 rounded-md shadow-md hover:bg-red-700 transition">
             Report

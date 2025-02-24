@@ -27,7 +27,8 @@ export default function TopReviews({ providerID }) {
                 {/* Avatar Container */}
                 <div className="relative w-12 h-12">
                   <Image
-                    src={`https://magy-abu-sayed.sarv.live/${review?.image}`}
+                    // src={`https://magy-abu-sayed.sarv.live/${review?.image}`}
+                    src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${review?.image}`}
                     alt="User"
                     fill
                     className="rounded-full object-cover"
@@ -52,7 +53,7 @@ export default function TopReviews({ providerID }) {
             </div>
 
             <p className="mt-4 text-gray-700">{review.details}</p>
-            <span className="text-blue-600 cursor-pointer">See More</span>
+            {/* <span className="text-blue-600 cursor-pointer">See More</span> */}
           </Card>
         );
       })}
