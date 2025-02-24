@@ -1,15 +1,32 @@
 "use client";
 
+import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
 import CustomHeading from "@/components/utils/CustomHeading";
+import { useContactUsMutation } from "@/redux/features/feedback/feedbackApi";
 import { Button, Form, Input, message } from "antd";
 import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 export default function Contact() {
+  const { user } = useSelector((state) => state.auth);
+  const [contactUs, { isLoading }] = useContactUsMutation();
+
   const [form] = Form.useForm();
 
-  const onFinish = () => {
-    message.success("Message Sent!");
-    form.resetFields();
+  const onFinish = async (values) => {
+    try {
+      await contactUs(values).unwrap();
+      SuccessSwal({
+        title: "",
+        text: " Sent Message Successfully! ",
+      });
+      form.resetFields();
+    } catch (error) {
+      ErrorSwal({
+        title: "",
+        text: error?.message || error?.data?.message || " Something went wrog ",
+      });
+    }
   };
 
   const onFinishFailed = () => {
@@ -60,19 +77,21 @@ export default function Contact() {
             >
               <Form.Item
                 name="name"
+                initialValue={user?.name}
                 rules={[{ required: true, message: "Please enter your name!" }]}
               >
-                <Input placeholder="Your Name" />
+                <Input placeholder="Your Name" readOnly />
               </Form.Item>
 
               <Form.Item
                 name="email"
+                initialValue={user?.email}
                 rules={[
                   { required: true, message: "Please enter your email!" },
                   { type: "email", message: "Please enter a valid email!" },
                 ]}
               >
-                <Input placeholder="Your Email" />
+                <Input placeholder="Your Email" readOnly />
               </Form.Item>
 
               <Form.Item
@@ -98,6 +117,7 @@ export default function Contact() {
 
               <Form.Item>
                 <Button
+                  loading={isLoading}
                   type="primary"
                   htmlType="submit"
                   className="w-full bg-primary text-white hover:bg-white hover:text-primary"
