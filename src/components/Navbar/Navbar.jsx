@@ -10,7 +10,6 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { TiArrowSortedDown } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
-import profile_image from "../../assets/home/feedback/image4.png";
 import main_logo from "../../assets/main_logo.svg";
 
 const ProfileMenu = ({ handleLogout, closeMenu }) => (
@@ -81,6 +80,7 @@ export default function Navbar() {
         }).then(() => {
           dispatch(logout());
           localStorage.removeItem("user_token");
+          localStorage.removeItem("selectedCategory");
           router.push("/login");
         });
       }
@@ -150,7 +150,11 @@ export default function Navbar() {
                         width={1000}
                         height={1000}
                         className="w-12 h-12 rounded-full border-4 border-primary"
-                        src={profile_image || "/default-profile.png"}
+                        src={
+                          user?.image
+                            ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${user.image}`
+                            : "/images/user_img_default.png"
+                        }
                         alt="profile_image"
                       />
                       <TiArrowSortedDown />
@@ -181,7 +185,11 @@ export default function Navbar() {
                         width={1000}
                         height={1000}
                         className="w-12 h-12 rounded-full border-4 border-primary"
-                        src={profile_image || "/default-profile.png"}
+                        src={
+                          user?.image
+                            ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${user.image}`
+                            : "/images/user_img_default.png"
+                        }
                         alt="profile_image"
                       />
                       <TiArrowSortedDown />
@@ -321,7 +329,11 @@ export default function Navbar() {
                         width={1000}
                         height={1000}
                         className="w-16 h-16 rounded-full border-4 border-primary"
-                        src={profile_image}
+                        src={
+                          user?.image
+                            ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${user.image}`
+                            : "/images/user_img_default.png"
+                        }
                         alt="profile_image"
                       />
                       <TiArrowSortedDown />
@@ -359,7 +371,11 @@ export default function Navbar() {
                         width={1000}
                         height={1000}
                         className="w-16 h-16 rounded-full border-4 border-primary"
-                        src={profile_image}
+                        src={
+                          user?.image
+                            ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${user.image}`
+                            : "/images/user_img_default.png"
+                        }
                         alt="profile_image"
                       />
                       <TiArrowSortedDown />

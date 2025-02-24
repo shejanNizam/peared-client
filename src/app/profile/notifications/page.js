@@ -1,3 +1,6 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoNotificationsOutline } from "react-icons/io5";
 
@@ -80,20 +83,27 @@ const data = [
 ];
 
 export default function Notifications() {
+  const router = useRouter();
+
+  const handleBack = () => {
+    router.back();
+  };
   return (
-    <div className="bg-white h-auto">
-      <div className="sticky top-20 flex justify-start items-center gap-2 bg-primary rounded-t-md h-[80px] text-white text-[32px] font-bold ">
-        <IoIosArrowBack />
+    <div className="bg-white h-auto py-8 md:py-0">
+      <div className="sticky top-20 flex justify-start gap-2 bg-primary rounded-t-md h-20 text-white py-8 pl-8 font-bold ">
+        <button onClick={handleBack}>
+          <IoIosArrowBack />
+        </button>
         <h2>All Notifications</h2>
       </div>
 
       <div className="ml-6">
-        {data.length === 0 ? (
+        {data?.length === 0 ? (
           <div className="text-center text-gray-500 mt-4">
             No notifications available
           </div>
         ) : (
-          data.map((d) => (
+          data?.map((d) => (
             <div
               key={d.id}
               className="flex justify-start items-center gap-4 m-4"
