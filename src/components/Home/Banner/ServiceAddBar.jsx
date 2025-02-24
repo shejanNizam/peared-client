@@ -1,6 +1,7 @@
 "use client";
 
 import { SuccessSwal } from "@/components/utils/allSwalFire";
+import { useAllCategoryQuery } from "@/redux/features/projects/projectApi";
 import { AutoComplete, Button, Form, Input } from "antd";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -8,21 +9,17 @@ import { MdArrowDropDown } from "react-icons/md";
 
 function ServiceAddBar({ user }) {
   const router = useRouter();
-  const [addTerm, setAddTerm] = useState("");
-  const [isFocused, setIsFocused] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const suggestions = [
-    "Residential Cleaning",
-    "Commercial Cleaning",
-    "Painting",
-    "Landscaping",
-    "Carpentry",
-  ];
+  const { data } = useAllCategoryQuery();
+  const suggestions = data?.data || [];
 
-  const handleAdd = (values) => {
-    if (values) {
-      localStorage.setItem("selectedCategory", values.serviceSearch);
-    }
+  const handleAdd = () => {
+    const selectedCategory = suggestions.find(
+      (item) => item.catagory === searchTerm
+    );
+
+    localStorage.setItem("selectedCategory", selectedCategory.catagory);
 
     if (user) {
       router.push(`/add-project`);
@@ -33,13 +30,10 @@ function ServiceAddBar({ user }) {
       });
       router.push(`/login?redirect=/add-project`);
     }
-
-    setAddTerm("");
-    setIsFocused(false);
   };
 
-  const handleBlur = () => {
-    setTimeout(() => setIsFocused(false), 200);
+  const handleSelect = (value) => {
+    setSearchTerm(value);
   };
 
   return (
@@ -53,25 +47,22 @@ function ServiceAddBar({ user }) {
         >
           <Form.Item
             name="serviceSearch"
-            initialValue={addTerm}
             rules={[
               { required: true, message: "Please select a service category!" },
             ]}
             className="w-full sm:w-2/3 lg:w-3/4 xl:w-1/2"
           >
             <AutoComplete
-              options={suggestions.map((suggestion) => ({
-                value: suggestion,
+              options={suggestions?.map((suggestion) => ({
+                value: suggestion.catagory, // Corrected field
               }))}
-              onSelect={(value) => setAddTerm(value)}
-              onSearch={(value) => setAddTerm(value)}
+              onSelect={handleSelect}
+              onSearch={setSearchTerm}
               style={{ width: "100%" }}
             >
               <Input
                 placeholder="What type of services are you looking for?"
-                value={addTerm}
-                onFocus={() => setIsFocused(true)}
-                onBlur={handleBlur}
+                value={searchTerm}
                 style={{ width: "100%" }}
                 className="border border-primary px-4 py-2 focus:outline-none"
                 suffix={<MdArrowDropDown />}

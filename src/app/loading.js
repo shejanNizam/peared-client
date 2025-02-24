@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function Loading() {
   return (
     <>
-      <div className="w-[90%] mx-auto">
+      <div className="w-[90%] mx-auto min-h-screen">
         <Image
           src="https://i.stack.imgur.com/hzk6C.gif"
           width={500}

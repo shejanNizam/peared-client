@@ -154,6 +154,17 @@ export const projectApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["projects"],
     }),
+
+    // category
+    allCategory: builder.query({
+      query: () => {
+        return {
+          url: `/catagory/all-catagory`,
+          method: "GET",
+        };
+      },
+      providesTags: ["projects"],
+    }),
   }),
 });
 
@@ -172,4 +183,5 @@ export const {
   useProjectNotOkByUserMutation,
   useProjectDoneByProviderMutation,
   useBoostProjectMutation,
+  useAllCategoryQuery,
 } = projectApi;

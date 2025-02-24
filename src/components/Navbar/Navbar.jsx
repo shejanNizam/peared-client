@@ -39,6 +39,7 @@ const ProfileMenu = ({ handleLogout, closeMenu }) => (
 export default function Navbar() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  console.log(user);
 
   const [isOpen, setIsOpen] = useState(false);
 

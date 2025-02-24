@@ -1,6 +1,7 @@
 "use client";
 
 import { useJoinAsProviderMutation } from "@/redux/features/authApi";
+import { useAllCategoryQuery } from "@/redux/features/projects/projectApi";
 import { UploadOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -28,6 +29,9 @@ const JoinAsContractor = () => {
   const [paymentUrl, setPaymentUrl] = useState(null);
 
   const [joinProvider, { isLoading }] = useJoinAsProviderMutation();
+
+  const { data } = useAllCategoryQuery();
+  const serviceCategories = data?.data || [];
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -97,14 +101,6 @@ const JoinAsContractor = () => {
   const handleBack = () => {
     router.back();
   };
-
-  const serviceCategories = [
-    { _id: "1", name: "Residential Cleaning" },
-    { _id: "2", name: "Commercial Cleaning" },
-    { _id: "3", name: "Painting" },
-    { _id: "4", name: "Landscaping" },
-    { _id: "5", name: "Carpentry" },
-  ];
 
   return (
     <>
@@ -225,9 +221,9 @@ const JoinAsContractor = () => {
                 placeholder="Select the services you provide"
                 size="large"
               >
-                {serviceCategories.map((service) => (
-                  <Select.Option key={service.id} value={service.name}>
-                    {service.name}
+                {serviceCategories?.map((service) => (
+                  <Select.Option key={service._id} value={service.catagory}>
+                    {service.catagory}
                   </Select.Option>
                 ))}
               </Select>
