@@ -1,96 +1,30 @@
 "use client";
 
+import { useAllNotificationsQuery } from "@/redux/features/notifications/notificationsApi";
+import { Pagination } from "antd";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoNotificationsOutline } from "react-icons/io5";
 
-// Example data (ensure ids are unique)
-const data = [
-  {
-    id: 1,
-    text: "A beautician requested a money withdrawal",
-    timestamp: "Fri, 12:00 pm",
-  },
-  {
-    id: 2,
-    text: "A salon owner has registered now",
-    timestamp: "Fri, 1:30 pm",
-  },
-  { id: 3, text: "A client paid for confirmation", timestamp: "Fri, 2:00 pm" },
-  { id: 4, text: "A user joined the web", timestamp: "Fri, 3:15 pm" },
-  { id: 5, text: "A user joined the website", timestamp: "Fri, 4:00 pm" },
-  {
-    id: 6,
-    text: "A beautician's account was approved",
-    timestamp: "Fri, 5:45 pm",
-  },
-  {
-    id: 7,
-    text: "A salon owner updated their profile",
-    timestamp: "Fri, 6:30 pm",
-  },
-  { id: 8, text: "A client canceled a booking", timestamp: "Fri, 7:00 pm" },
-  {
-    id: 9,
-    text: "A user requested to reset their password",
-    timestamp: "Fri, 8:15 pm",
-  },
-  {
-    id: 10,
-    text: "A new service was added by a beautician",
-    timestamp: "Fri, 9:00 pm",
-  },
-  {
-    id: 11,
-    text: "A new promotional offer was added",
-    timestamp: "Fri, 9:45 pm",
-  },
-  {
-    id: 12,
-    text: "A client confirmed an appointment",
-    timestamp: "Fri, 10:30 pm",
-  },
-  {
-    id: 11,
-    text: "A new promotional offer was added",
-    timestamp: "Fri, 9:45 pm",
-  },
-  {
-    id: 12,
-    text: "A client confirmed an appointment",
-    timestamp: "Fri, 10:30 pm",
-  },
-  {
-    id: 11,
-    text: "A new promotional offer was added",
-    timestamp: "Fri, 9:45 pm",
-  },
-  {
-    id: 12,
-    text: "A client confirmed an appointment",
-    timestamp: "Fri, 10:30 pm",
-  },
-  {
-    id: 11,
-    text: "A new promotional offer was added",
-    timestamp: "Fri, 9:45 pm",
-  },
-  {
-    id: 12,
-    text: "A client confirmed an appointment",
-    timestamp: "Fri, 10:30 pm",
-  },
-];
-
 export default function Notifications() {
   const router = useRouter();
+  const [currentPage, setCurrentPage] = useState(1);
+  const { data, error, isLoading } = useAllNotificationsQuery();
 
   const handleBack = () => {
     router.back();
   };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const paginatedData = data?.data?.notifications || [];
+  const totalData = data?.data?.pagination.totalData || 0;
   return (
-    <div className="bg-white h-auto py-8 md:py-0">
-      <div className="sticky top-20 flex justify-start gap-2 bg-primary rounded-t-md h-20 text-white py-8 pl-8 font-bold ">
+    <div className="bg-white min-h-screen py-8 md:py-0">
+      <div className="sticky top-20 flex justify-start gap-2 bg-primary rounded-t-md h-20 text-white py-8 pl-8 font-bold">
         <button onClick={handleBack}>
           <IoIosArrowBack />
         </button>
@@ -98,24 +32,43 @@ export default function Notifications() {
       </div>
 
       <div className="ml-6">
-        {data?.length === 0 ? (
+        {isLoading ? (
+          <div className="text-center text-gray-500 mt-4">Loading...</div>
+        ) : error ? (
+          <div className="text-center text-red-500 mt-4">
+            Error loading notifications
+          </div>
+        ) : paginatedData?.length === 0 ? (
           <div className="text-center text-gray-500 mt-4">
             No notifications available
           </div>
         ) : (
-          data?.map((d) => (
+          paginatedData?.map((notification) => (
             <div
-              key={d.id}
+              key={notification._id}
               className="flex justify-start items-center gap-4 m-4"
             >
               <IoNotificationsOutline className="bg-[#E8EAEF] w-[40px] h-[40px] rounded-sm text-primary p-2" />
               <div>
-                <p className="text-xl">{d.text}</p>
-                <p className="text-[#989898]">{d.timestamp}</p>
+                <p className="text-xl">{notification.message}</p>
+                <p className="text-[#989898]">
+                  {new Date(notification.createdAt).toLocaleString()}
+                </p>
               </div>
             </div>
           ))
         )}
+      </div>
+
+      {/* Pagination Component */}
+      <div className="flex justify-center mt-4">
+        <Pagination
+          current={currentPage}
+          pageSize={10}
+          total={totalData}
+          onChange={handlePageChange}
+          showSizeChanger={false}
+        />
       </div>
     </div>
   );

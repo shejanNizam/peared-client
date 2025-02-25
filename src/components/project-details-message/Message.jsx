@@ -190,9 +190,15 @@ export default function Message({ conversationId, userId, providerData }) {
         {messages?.map((msg) => {
           const isOwnMessage = msg.senderId === userId;
 
-          const avatarSrc = `${process.env.NEXT_PUBLIC_IMAGE_URL}/${
-            providerData?.data?.userImage || default_img
-          }`;
+          const avatarSrc =
+            user?.role === "provider"
+              ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${
+                  providerData?.data?.userImage || default_img
+                }`
+              : `${process.env.NEXT_PUBLIC_IMAGE_URL}/${
+                  providerData?.data?.currentProjects?.providerId?.image ||
+                  default_img
+                }`;
 
           return (
             <div
@@ -213,13 +219,13 @@ export default function Message({ conversationId, userId, providerData }) {
                 </div>
               )}
               <div
-                className={`rounded-lg p-3 max-w-xs sm:max-w-sm break-words ${
+                className={`rounded-lg px-4 py-2 max-w-xs sm:max-w-sm break-words ${
                   isOwnMessage
                     ? "bg-green-200 text-gray-800"
                     : "bg-white text-gray-800 border border-gray-300"
                 }`}
               >
-                <p className="text-sm sm:text-base">{msg.messageText}</p>
+                <p className=" text-xs md:text-sm ">{msg.messageText}</p>
                 <span className="text-xs text-gray-500 block text-right mt-1">
                   {formatTime(msg.createdAt)}
                 </span>

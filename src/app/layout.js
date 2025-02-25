@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar/Navbar";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 
+import NotificationListener from "@/components/utils/NotificationListener";
 import ThemeProvider from "@/lib/ThemeProvider";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import StoreProvider from "./StoreProvider";
@@ -27,7 +28,10 @@ export default function RootLayout({ children }) {
 
           <AntdRegistry>
             <ThemeProvider>
-              <div className="pt-20">{children}</div>
+              <div className="pt-20">
+                <NotificationListener />
+                {children}
+              </div>
             </ThemeProvider>
           </AntdRegistry>
 
