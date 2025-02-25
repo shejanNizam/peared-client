@@ -20,6 +20,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  console.log("KOI Bar Render HYece");
   return (
     <html lang="en">
       <body className={` ${poppins.className} antialiased bg-white `}>
@@ -28,14 +29,12 @@ export default function RootLayout({ children }) {
 
           <AntdRegistry>
             <ThemeProvider>
-              <div className="pt-20">
-                <NotificationListener />
-                {children}
-              </div>
+              <div className="pt-20">{children}</div>
             </ThemeProvider>
           </AntdRegistry>
 
           <Footer />
+          <NotificationListener />
         </StoreProvider>
       </body>
     </html>
