@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { FaPlus, FaTimes } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
-import default_img from "../../assets/user_img_default.png";
+import default_img from "../../../assets/user_img_default.png";
 
 export default function ProviderProfile() {
   const baseUrl = process.env.NEXT_PUBLIC_IMAGE_URL;
@@ -65,7 +65,7 @@ export default function ProviderProfile() {
 
   const formattedImage = user?.image
     ? user.image.replace(/^public/, "")
-    : default_img;
+    : default_img.src;
 
   const handleBeforeUpload = (file) => {
     const isImage = file.type.startsWith("image/");
@@ -185,12 +185,12 @@ export default function ProviderProfile() {
                 (formattedImage.startsWith("/")
                   ? formattedImage
                   : "/" + formattedImage)
-              : "/default-profile.png")
+              : default_img.src)
           }
           alt="Provider Profile Image"
           className="w-40 h-40 md:w-64 md:h-64 object-cover rounded-full"
-          width={256}
-          height={256}
+          width={240}
+          height={240}
         />
 
         {/* Profile Information */}

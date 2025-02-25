@@ -21,6 +21,8 @@ export default function ProjectDetails(props) {
   const { data } = useConfirmProjectQuery(projectId);
   const conversationId = data?.data?.conversationId;
 
+  console.log(data?.data);
+
   console.log(data?.data?.currentProjects?.projectId?.userId);
   console.log(data?.data?.currentProjects?.providerId?._id);
 
