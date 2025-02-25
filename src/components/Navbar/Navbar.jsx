@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import main_logo from "../../assets/main_logo.svg";
 
+import default_img from "../../assets/user_img_default.png";
+
 const ProfileMenu = ({ handleLogout, closeMenu }) => (
   <Menu>
     <Menu.Item key="1">
@@ -37,8 +39,9 @@ const ProfileMenu = ({ handleLogout, closeMenu }) => (
 
 export default function Navbar() {
   const dispatch = useDispatch();
+
   const { user } = useSelector((state) => state.auth);
-  // console.log(user);
+  console.log(user, "--------user");
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -153,7 +156,7 @@ export default function Navbar() {
                         src={
                           user?.image
                             ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${user.image}`
-                            : "/images/user_img_default.png"
+                            : default_img
                         }
                         alt="profile_image"
                       />
@@ -188,7 +191,7 @@ export default function Navbar() {
                         src={
                           user?.image
                             ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${user.image}`
-                            : "/images/user_img_default.png"
+                            : default_img
                         }
                         alt="profile_image"
                       />
@@ -332,7 +335,7 @@ export default function Navbar() {
                         src={
                           user?.image
                             ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${user.image}`
-                            : "/images/user_img_default.png"
+                            : default_img
                         }
                         alt="profile_image"
                       />
@@ -374,7 +377,7 @@ export default function Navbar() {
                         src={
                           user?.image
                             ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${user.image}`
-                            : "/images/user_img_default.png"
+                            : default_img
                         }
                         alt="profile_image"
                       />

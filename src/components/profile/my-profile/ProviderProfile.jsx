@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import { FaPlus, FaTimes } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
+import default_img from "../../assets/user_img_default.png";
+
 export default function ProviderProfile() {
   const baseUrl = process.env.NEXT_PUBLIC_IMAGE_URL;
   const { user } = useSelector((state) => state.auth);
@@ -63,7 +65,7 @@ export default function ProviderProfile() {
 
   const formattedImage = user?.image
     ? user.image.replace(/^public/, "")
-    : "/default-profile.png";
+    : default_img;
 
   const handleBeforeUpload = (file) => {
     const isImage = file.type.startsWith("image/");

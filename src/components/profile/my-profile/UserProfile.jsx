@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import { FaPlus, FaTimes } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
+import default_img from "../../assets/user_img_default.png";
+
 export default function UserProfile() {
   const baseUrl = process.env.NEXT_PUBLIC_IMAGE_URL;
   const [file, setFile] = useState(null);
@@ -20,6 +22,8 @@ export default function UserProfile() {
 
   const { user } = useSelector((state) => state.auth);
   const [updateUser] = useUpdateUserDataMutation();
+
+  console.log(user, "frm profile----------->");
 
   useEffect(() => {
     if (file) {
@@ -88,7 +92,7 @@ export default function UserProfile() {
 
   const formattedImage = user?.image
     ? user.image.replace(/^public/, "")
-    : "/default-profile.png";
+    : default_img.src;
 
   return (
     <div className="flex flex-col justify-center items-center gap-6">
@@ -112,7 +116,7 @@ export default function UserProfile() {
                 (formattedImage.startsWith("/")
                   ? formattedImage
                   : "/" + formattedImage)
-              : "/default-profile.png")
+              : default_img.src)
           }
           alt="Profile Image"
           className="w-40 h-40 md:w-64 md:h-64 object-cover rounded-full"
