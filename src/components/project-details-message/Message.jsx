@@ -7,6 +7,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { getSocket, initSocket } from "../utils/socket";
 
+import default_img from "../../assets/user_img_default.png";
+
 export default function Message({ conversationId, userId, providerData }) {
   const { user } = useSelector((state) => state.auth) || {};
   const [messages, setMessages] = useState([]);
@@ -61,6 +63,7 @@ export default function Message({ conversationId, userId, providerData }) {
     if (conversationId) {
       socket.emit("joinConversation", { conversationId });
     }
+
     const handleReceiveMessage = (message) => {
       if (message.conversationId === conversationId) {
         setMessages((prev) => {
@@ -181,18 +184,34 @@ export default function Message({ conversationId, userId, providerData }) {
       <div
         ref={containerRef}
         onScroll={handleScroll}
-        style={{ scrollBehavior: "smooth" }}
+        // style={{ scrollBehavior: "smooth" }}
         className="flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50"
       >
         {messages?.map((msg) => {
           const isOwnMessage = msg.senderId === userId;
+
+          const avatarSrc = `${process.env.NEXT_PUBLIC_IMAGE_URL}/${
+            providerData?.data?.userImage || default_img
+          }`;
+
           return (
             <div
               key={msg._id}
-              className={`mb-3 flex ${
+              className={`mb-3 flex items-end ${
                 isOwnMessage ? "justify-end" : "justify-start"
               }`}
             >
+              {!isOwnMessage && (
+                <div className="mr-2">
+                  <Image
+                    src={avatarSrc}
+                    alt="Avatar"
+                    width={32}
+                    height={32}
+                    className="rounded-full object-cover"
+                  />
+                </div>
+              )}
               <div
                 className={`rounded-lg p-3 max-w-xs sm:max-w-sm break-words ${
                   isOwnMessage
