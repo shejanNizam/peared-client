@@ -83,7 +83,6 @@ const AddProject = () => {
   const handlePaymentSuccess = async () => {
     try {
       const response = await addProject(formData1).unwrap();
-      console.log(" --------------->><<<", response);
 
       if (response?.statusCode === 200) {
         setIsModalVisible(false);
@@ -121,14 +120,14 @@ const AddProject = () => {
           {/* Back Button */}
           <button
             onClick={handleBack}
-            className="absolute top-8 left-8 text-gray-600 hover:text-gray-800 focus:outline-none z-30"
+            className="absolute top-4 left-4 text-gray-600 hover:text-gray-800 focus:outline-none z-30"
             aria-label="Go Back"
           >
             <FaArrowLeft size={24} />
           </button>
           {/* Heading and Description */}
           <div className="mb-8">
-            <h2 className="text-3xl font-semibold text-center">
+            <h2 className="text-3xl text-primary font-semibold text-center">
               Add New Project
             </h2>
             <p className="text-center text-gray-600 mt-2">
