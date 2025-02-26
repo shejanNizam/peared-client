@@ -26,11 +26,16 @@ export const projectApi = baseApi.injectEndpoints({
     }),
 
     // my project for users in dashboard
+    // my-projects endpoint with pagination
     myProjects: builder.query({
-      query: () => {
+      query: ({ page = 1, limit = 10 }) => {
         return {
           url: "/project/my-project",
           method: "GET",
+          params: {
+            page,
+            limit,
+          },
         };
       },
       providesTags: ["projects"],

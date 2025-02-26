@@ -5,16 +5,20 @@ import {
   useBoostProjectMutation,
   useMyProjectsQuery,
 } from "@/redux/features/projects/projectApi";
-import { Button } from "antd";
+import { Button, Pagination } from "antd";
 import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function MyProjects() {
   const router = useRouter();
 
-  const { data } = useMyProjectsQuery();
+  const [page, setPage] = useState(1);
+
+  const { data } = useMyProjectsQuery({ page });
+  console.log(data?.data);
 
   const [boostProject] = useBoostProjectMutation();
 
@@ -51,7 +55,7 @@ export default function MyProjects() {
           </p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
-            {data?.data?.map((project) => (
+            {data?.data?.projects?.map((project) => (
               <div
                 key={project._id}
                 className="bg-secondary p-2 md:p-4 rounded-lg overflow-hidden shadow-md flex flex-col hover:shadow-xl transition-shadow duration-300 relative"
@@ -119,6 +123,20 @@ export default function MyProjects() {
             ))}
           </div>
         )}
+      </div>
+
+      {/* pagination */}
+      <div className=" flex justify-center p-4">
+        <Pagination
+          defaultCurrent={1}
+          // position={["bottomCenter"]}
+          showQuickJumper={true}
+          showSizeChanger={false}
+          total={data?.data?.pagination?.totalData || 0}
+          current={page}
+          onChange={(currentPage) => setPage(currentPage)}
+          pageSize={10}
+        />
       </div>
     </>
   );
