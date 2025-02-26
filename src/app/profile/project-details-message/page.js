@@ -22,9 +22,10 @@ export default function ProjectDetails(props) {
   const conversationId = data?.data?.conversationId;
 
   console.log(data?.data);
-
-  console.log(data?.data?.currentProjects?.projectId?.userId);
   console.log(data?.data?.currentProjects?.providerId?._id);
+
+  // console.log(data?.data?.currentProjects?.projectId?.userId);
+  // console.log(data?.data?.currentProjects?.providerId?._id);
 
   const [projectOk] = useProjectOkByUserMutation();
   const [projectNotOk] = useProjectNotOkByUserMutation();
@@ -48,7 +49,7 @@ export default function ProjectDetails(props) {
       text: "Project completed successfully!",
     });
     router.push(
-      `/feedback?providerId=${data?.data?.currentProjects?.providerId}`
+      `/feedback?providerId=${data?.data?.currentProjects?.providerId?._id}`
     );
   };
 
@@ -111,16 +112,16 @@ export default function ProjectDetails(props) {
           </h2>
           <div className="md:flex justify-between items-center gap-8">
             <div>
-              <p className="text-gray-600 text-sm md:text-base mb-1">
-                <span className="font-semibold">Price:</span> ${" "}
+              <p className="text-primary font-bold text-sm md:text-base mb-1">
+                <span className="font-semibold text-black">Price:</span> ${" "}
                 {data?.data?.currentProjects?.price}
               </p>
-              <p className="text-gray-600 text-sm md:text-base mb-1">
-                <span className="font-semibold">Time:</span>{" "}
+              <p className="text-primary font-bold text-sm md:text-base mb-1">
+                <span className="font-semibold text-black">Time:</span>{" "}
                 {data?.data?.currentProjects?.serviceTime} Days
               </p>
-              <p className="text-gray-600 text-sm md:text-base mb-1">
-                <span className="font-semibold">Starting:</span>{" "}
+              <p className="text-primary font-bold text-sm md:text-base mb-1">
+                <span className="font-semibold text-black">Starting:</span>{" "}
                 {formattedStartDate}
               </p>
             </div>
@@ -137,23 +138,23 @@ export default function ProjectDetails(props) {
           </div>
           {user?.role === "provider" ? (
             <>
-              <p className="text-gray-600 text-2xl font-bold mt-2 mb-1">
+              <p className="text-primary font-bold text-2xl mt-2 mb-1">
                 {data?.data?.currentProjects?.projectId?.projectName}
               </p>
-              <p className="text-gray-600 text-sm md:text-base mb-1">
-                <span className="font-semibold">Category:</span>{" "}
+              <p className="text-primary font-bold text-sm md:text-base mb-1">
+                <span className="font-semibold text-black ">Category:</span>{" "}
                 {data?.data?.currentProjects?.projectId?.projectCategory}
               </p>
-              <p className="text-gray-600 text-sm md:text-base mb-1">
-                <span className="font-semibold">City:</span>{" "}
+              <p className="text-primary font-bold text-sm md:text-base mb-1">
+                <span className="font-semibold text-black ">City:</span>{" "}
                 {data?.data?.currentProjects?.projectId?.city}
               </p>
-              <p className="text-gray-600 text-sm md:text-base mb-1">
-                <span className="font-semibold">Post Code:</span>{" "}
+              <p className="text-primary font-bold text-sm md:text-base mb-1">
+                <span className="font-semibold text-black ">Post Code:</span>{" "}
                 {data?.data?.currentProjects?.projectId?.postCode}
               </p>
-              <p className="text-gray-600 text-sm md:text-base mb-1">
-                <span className="font-semibold">Street:</span>{" "}
+              <p className="text-primary font-bold text-sm md:text-base mb-1">
+                <span className="font-semibold text-black ">Street:</span>{" "}
                 {data?.data?.currentProjects?.projectId?.street}
               </p>
             </>

@@ -8,7 +8,7 @@ export default function SingleBidCard({ bid, handleProviderDetails }) {
     <div className="border border-gray-300 rounded-xl p-4 sm:p-6 bg-gradient-to-br from-green-50 to-green-100 shadow-lg w-full max-w-sm sm:max-w-md md:max-w-full mx-auto">
       <div className="text-gray-900 font-semibold text-lg">
         <p>
-          <span className="font-extrabold text-green-700">Provider ID:</span> #
+          <span className="font-extrabold text-black">Provider ID:</span> #
           {bid.providerId.slice(0, 7)}...
         </p>
         <div className="flex items-center mt-2">
@@ -22,30 +22,36 @@ export default function SingleBidCard({ bid, handleProviderDetails }) {
             ({bid.averageRating}/5)
           </span>
         </div>
-        <p className="text-sm text-gray-600">
-          Reviews: <span className="font-medium"> {bid.totalRating} </span>
+        <p className="text-sm font-semibold text-black">
+          Reviews:{" "}
+          <span className="font-bold text-primary"> {bid.totalRating} </span>
         </p>
       </div>
 
       <div className="mt-4 text-gray-900">
-        <p>
-          <span className="font-bold text-green-700">Price:</span>{" "}
-          <span className="text-black">${bid.price}</span>
+        <p className=" font-semibold text-black">
+          Price:
+          <span className=" text-primary font-bold "> $ {bid.price}</span>
         </p>
-        <p>
-          <span className="font-bold text-green-700">Service Time:</span>{" "}
-          {bid.serviceTime} days
+        <p className=" font-semibold text-black">
+          Service Time:
+          <span className=" text-primary font-bold ">
+            {bid.serviceTime} days
+          </span>{" "}
         </p>
-        <p>
-          <span className="font-bold text-green-700">Starting Date:</span>{" "}
-          {format(new Date(bid.startTime), "dd MMM yyyy")}
+        <p className=" font-semibold text-black">
+          Starting Date:
+          <span className=" text-primary font-bold ">
+            {" "}
+            {format(new Date(bid.startTime), "dd MMM yyyy")}
+          </span>{" "}
         </p>
       </div>
 
       <div className="mt-6 flex justify-center">
         <button
           onClick={() => handleProviderDetails(bid?._id)}
-          className="border border-green-500 text-green-700 px-4 py-2 rounded-xl font-medium shadow-md hover:bg-green-200 transition w-full sm:w-auto"
+          className="border border-green-500 text-black px-4 py-2 rounded-xl font-medium shadow-md hover:bg-green-200 transition w-full sm:w-auto"
         >
           See Details
         </button>

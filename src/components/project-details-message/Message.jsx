@@ -139,7 +139,11 @@ export default function Message({ conversationId, userId, providerData }) {
       {user?.role === "provider" ? (
         <div className="flex items-center p-4 sm:p-6 border-b flex-shrink-0">
           <Image
-            src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${providerData?.data?.userImage}`}
+            src={
+              providerData?.data?.userImage
+                ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${providerData?.data?.userImage}`
+                : default_img.src
+            }
             alt="Avatar"
             width={48}
             height={48}
@@ -162,7 +166,11 @@ export default function Message({ conversationId, userId, providerData }) {
       ) : (
         <div className="flex items-center p-4 sm:p-6 border-b flex-shrink-0">
           <Image
-            src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${providerData?.data?.currentProjects?.providerId?.image}`}
+            src={
+              providerData?.data?.currentProjects?.providerId?.image
+                ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${providerData?.data?.currentProjects?.providerId?.image}`
+                : default_img.src
+            }
             alt="Avatar"
             width={48}
             height={48}
@@ -193,11 +201,11 @@ export default function Message({ conversationId, userId, providerData }) {
           const avatarSrc =
             user?.role === "provider"
               ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${
-                  providerData?.data?.userImage || default_img
+                  providerData?.data?.userImage || default_img.src
                 }`
               : `${process.env.NEXT_PUBLIC_IMAGE_URL}/${
                   providerData?.data?.currentProjects?.providerId?.image ||
-                  default_img
+                  default_img.src
                 }`;
 
           return (

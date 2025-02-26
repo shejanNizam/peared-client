@@ -69,23 +69,26 @@ export default function MyProjects() {
                   <h3 className="text-xl font-semibold mb-2">
                     {project.projectCategory}
                   </h3>
-                  <p className="text-gray-500 mb-1">
-                    <span className="font-medium">Price:</span> $
+                  <p className="text-primary font-bold mb-1">
+                    <span className="font-semibold text-black">Price:</span> $
                     {project.priceRange}
                   </p>
-                  <p className="text-gray-500 mb-1">
-                    <span className="font-medium">Post Code:</span>{" "}
+                  <p className="text-primary font-bold mb-1">
+                    <span className="font-semibold text-black">Post Code:</span>{" "}
                     {project.postCode}
                   </p>
-                  <p className="text-gray-500 mb-1">
-                    <span className="font-medium">Street:</span>{" "}
+                  <p className="text-primary font-bold mb-1">
+                    <span className="font-semibold text-black">Street:</span>{" "}
                     {project.street}
                   </p>
-                  <p className="text-gray-500 mb-4">
-                    <span className="font-medium">Time:</span> {project.time}
+                  <p className="text-primary font-bold mb-4">
+                    <span className="font-semibold text-black">Time:</span>{" "}
+                    {project.time}
                   </p>
-                  <p className="text-gray-500 mb-4">
-                    <span className="font-medium">Start Date:</span>{" "}
+                  <p className="text-primary font-bold mb-4">
+                    <span className="font-semibold text-black">
+                      Start Date:
+                    </span>{" "}
                     {/* {project.createdAt} */}
                     {format(new Date(project?.createdAt), "dd MMM yyyy")}
                   </p>

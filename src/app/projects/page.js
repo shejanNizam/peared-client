@@ -18,6 +18,7 @@ import {
 import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 
@@ -59,6 +60,8 @@ export default function Projects() {
   const [isBidModalOpen, setIsBidModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchText, setSearchText] = useState("");
+
+  const router = useRouter();
 
   const { data } = useAllProjectsQuery();
   const [bidProject] = useCreateBidProjectMutation();
@@ -145,7 +148,7 @@ export default function Projects() {
         title: "",
         text: response?.message || response?.data?.message,
       });
-      console.log(response);
+      router.push(`profile/my-bids`);
     } catch (error) {
       ErrorSwal({
         title: "",

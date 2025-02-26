@@ -10,6 +10,8 @@ export default function Feedback(props) {
   const [form] = Form.useForm();
   const [feedback, { isLoading }] = useFeedbackProviderMutation();
 
+  console.log(props);
+
   const onFinish = async (values) => {
     const feedbackData = {
       ...values,

@@ -50,29 +50,32 @@ export default function CurrentProjects() {
                   <h3 className="text-xl font-semibold mb-2">
                     {project.projectId.projectCategory}
                   </h3>
-                  <p className="text-gray-500 mb-1">
-                    <span className="font-medium">Price:</span> ${project.price}
+                  <p className="text-primary font-bold mb-1">
+                    <span className="font-semibold text-black ">Price:</span> $
+                    {project.price}
                   </p>
-                  <p className="text-gray-500 mb-4">
-                    <span className="font-medium"> Date:</span>{" "}
+                  <p className="text-primary font-bold mb-4">
+                    <span className="font-semibold text-black "> Date:</span>{" "}
                     {format(new Date(project?.startTime), "dd MMM yyyy")}
                     {/* {project.startTime} */}
                   </p>
 
-                  <p className="text-gray-500 mb-1">
-                    <span className="font-medium">Street:</span>{" "}
+                  <p className="text-primary font-bold mb-1">
+                    <span className="font-semibold text-black ">Street:</span>{" "}
                     {project.projectId.street}
                   </p>
-                  <p className="text-gray-500 mb-1">
-                    <span className="font-medium">Post Code:</span>{" "}
+                  <p className="text-primary font-bold mb-1">
+                    <span className="font-semibold text-black ">
+                      Post Code:
+                    </span>{" "}
                     {project.projectId.postCode}
                   </p>
 
-                  <p className="text-gray-500 mb-4">
-                    <span className="font-medium">Time:</span>{" "}
+                  <p className="text-primary font-bold mb-4">
+                    <span className="font-semibold text-black ">Time:</span>{" "}
                     {project.serviceTime} Days
                   </p>
-                  <p className="text-gray-500 mb-4">{project.Workdetails}</p>
+                  <p className="text-black mb-4">{project.Workdetails}</p>
 
                   <div className="flex justify-center">
                     <button

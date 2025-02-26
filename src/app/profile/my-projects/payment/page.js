@@ -6,6 +6,7 @@ import {
   useProjectApprovedMutation,
 } from "@/redux/features/projects/projectApi";
 import { Button } from "antd";
+import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 
@@ -18,11 +19,15 @@ export default function Payment(props) {
 
   const [approved, { isLoading }] = useProjectApprovedMutation();
 
+  const formattedStartDate = bid?.startDate
+    ? format(new Date(bid?.startDate), "dd MMM yyyy")
+    : "N/A";
+
   const handlePayment = async (id) => {
     console.log(id);
     try {
-      const response = await approved(id).unwrap();
-      // console.log(response);
+      await approved(id).unwrap();
+
       SuccessSwal({
         title: "",
         text: " Payment Successfull! ",
@@ -35,7 +40,6 @@ export default function Payment(props) {
     } catch (error) {
       console.log(error?.data);
       const statusCode = error?.data?.statusCode;
-      // console.log(statusCode);
 
       if (statusCode === 409) {
         Swal.fire({
@@ -83,20 +87,19 @@ export default function Payment(props) {
         <div className="border-b border-gray-200 pb-4 mb-4">
           <div className="flex justify-between items-center">
             <p className="font-semibold">Project : </p>
-            <p> {bid?.projectType} </p>
+            <p className="text-primary font-bold"> {bid?.projectType} </p>
           </div>
           <div className="flex justify-between items-center mt-2">
             <p className="font-semibold">Starting Date : </p>
-            {/* <p>{format(new Date(bid?.startDate), "dd MMM yyyy")}</p> */}
-            <p>{"56 feb"}</p>
+            <p className="text-primary font-bold">{formattedStartDate}</p>
           </div>
           <div className="flex justify-between items-center mt-2">
             <p className="font-semibold">Service Time :</p>
-            <p> {bid?.serviceTime} days </p>
+            <p className="text-primary font-bold"> {bid?.serviceTime} days </p>
           </div>
           <div className="flex justify-between items-center mt-2">
             <p className="font-semibold">Price : </p>
-            <p>$ {bid?.price} </p>
+            <p className="text-primary font-bold">$ {bid?.price} </p>
           </div>
         </div>
         {/* Pay Now Button */}

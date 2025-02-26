@@ -17,8 +17,6 @@ export default function ProviderDetails(props) {
   const { data } = useMyProjectBitDetailsQuery(bitProjectId);
   const bid = data?.data;
 
-  console.log(data?.data);
-
   const formattedStartDate = bid?.startDate
     ? format(new Date(bid.startDate), "dd MMM yyyy")
     : "N/A";
@@ -54,23 +52,31 @@ export default function ProviderDetails(props) {
               <p className="text-lg font-semibold text-gray-800">
                 Provider ID: #{bid?.providerId?.slice(0, 7)}...
               </p>
-              <p className="text-xl font-bold text-green-700">
+              <p className="text-xl font-bold text-primary">
                 {bid?.projectType}
               </p>
-              <p className="text-lg">
-                <span className="font-semibold">Provider Name: </span>{" "}
-                {bid?.providerName}
+              <p className="text-black font-semibold">
+                Provider Name:{" "}
+                <span className="font-bold text-primary">
+                  {" "}
+                  {bid?.providerName}
+                </span>{" "}
               </p>
-              <p className="text-lg">
-                <span className="font-semibold">Price:</span> ${bid?.price}
+              <p className="text-black font-semibold">
+                Price:{" "}
+                <span className="font-bold text-primary">${bid?.price}</span>
               </p>
-              <p className="text-lg">
-                <span className="font-semibold">Service Time:</span>{" "}
-                {bid?.serviceTime} Days
+              <p className="text-black font-semibold">
+                Service Time:{" "}
+                <span className="font-bold text-primary">
+                  {bid?.serviceTime} Days
+                </span>{" "}
               </p>
-              <p className="text-lg">
-                <span className="font-semibold">Starting Date:</span>{" "}
-                {formattedStartDate}
+              <p className="text-black font-semibold">
+                Starting Date:{" "}
+                <span className="font-bold text-primary">
+                  {formattedStartDate}
+                </span>{" "}
               </p>
             </div>
 

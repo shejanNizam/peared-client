@@ -45,19 +45,24 @@ export default function MyBids() {
                   <h3 className="text-xl font-semibold mb-2">
                     {project?.projectId?.projectCategory}
                   </h3>
-                  <p className="text-gray-500 mb-1">
-                    <span className="font-medium">Post Code:</span>{" "}
+                  <p className="text-primary font-bold mb-1">
+                    <span className="font-semibold text-black">Post Code:</span>{" "}
                     {project.projectId?.postCode}
                   </p>
-                  <p className="text-gray-500 mb-4">
-                    <span className="font-medium">Price:</span> ${project.price}
+                  <p className="text-primary font-bold mb-4">
+                    <span className="font-semibold text-black">Price:</span> $
+                    {project.price}
                   </p>
-                  <p className="text-gray-500 mb-4">
-                    <span className="font-medium">Starting Date:</span>{" "}
+                  <p className="text-primary font-bold mb-4">
+                    <span className="font-semibold text-black">
+                      Starting Date:
+                    </span>{" "}
                     {format(new Date(project?.startTime), "dd MMM yyyy")}
                   </p>
-                  <p className="text-gray-500 mb-4">
-                    <span className="font-medium">Service Time:</span>{" "}
+                  <p className="text-primary font-bold mb-4">
+                    <span className="font-semibold text-black">
+                      Service Time:
+                    </span>{" "}
                     {project.serviceTime} Days
                   </p>
                 </div>
