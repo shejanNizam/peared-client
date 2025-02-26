@@ -1,18 +1,23 @@
 "use client";
 
 import { useAllNotificationsQuery } from "@/redux/features/notifications/notificationsApi";
+import { increaseNotification } from "@/redux/slices/authSlice";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { initSocket } from "./socket";
 import { useNotificationPermission } from "./useNotificationPermission";
 
 export default function NotificationListener() {
   useNotificationPermission();
+  // const notification=useSelector(state=>state.auth)
+  const dispatch = useDispatch();
 
   const { data, isLoading, error } = useAllNotificationsQuery();
 
   useEffect(() => {
     const socket = initSocket();
     const handleSocketNotification = (data) => {
+      dispatch(increaseNotification());
       console.log("Loaaaaaaaaaaaaaaaa", Notification.permission, data);
       if (Notification.permission === "granted") {
         new Notification(data.title, {
@@ -28,7 +33,7 @@ export default function NotificationListener() {
       socket.off("receiveNotification", handleSocketNotification);
       //   socket.disconnect();
     };
-  }, []);
+  }, [dispatch]);
 
   //   useEffect(() => {
   //     if (data && data.data && data.data.notifications) {

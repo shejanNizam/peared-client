@@ -18,7 +18,7 @@ export default function Sidebar({
   toggleSidebarCollapsed,
   onLinkClick,
 }) {
-  const { user } = useSelector((state) => state.auth);
+  const { user, notificationCount } = useSelector((state) => state.auth);
   const pathname = usePathname();
   const firstLinkRef = useRef(null);
 
@@ -30,7 +30,11 @@ export default function Sidebar({
       path: "/profile/my-projects",
     },
     { name: "Wallet", icon: <FaWallet />, path: "/profile/wallet" },
-    { name: "Notifications", icon: <FaBell />, path: "/profile/notifications" },
+    {
+      name: `Notifications ${notificationCount}`,
+      icon: <FaBell />,
+      path: "/profile/notifications",
+    },
   ];
 
   const menuItemsCont = [
