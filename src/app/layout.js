@@ -1,11 +1,11 @@
 import Footer from "@/components/Footer/Footer";
 import Navbar from "@/components/Navbar/Navbar";
-import { Poppins } from "next/font/google";
-import "./globals.css";
-
 import NotificationListener from "@/components/utils/NotificationListener";
+import { SocketProvider } from "@/context/SocketContext";
 import ThemeProvider from "@/lib/ThemeProvider";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { Poppins } from "next/font/google";
+import "./globals.css";
 import StoreProvider from "./StoreProvider";
 
 const poppins = Poppins({
@@ -20,22 +20,21 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  console.log("KOI Bar Render HYece");
   return (
     <html lang="en">
-      <body className={` ${poppins.className} antialiased bg-white `}>
-        <StoreProvider>
-          <Navbar />
-
-          <AntdRegistry>
-            <ThemeProvider>
-              <div className="pt-20">{children}</div>
-            </ThemeProvider>
-          </AntdRegistry>
-
-          <Footer />
-          <NotificationListener />
-        </StoreProvider>
+      <body className={`${poppins.className} antialiased bg-white`}>
+        <SocketProvider>
+          <StoreProvider>
+            <Navbar />
+            <AntdRegistry>
+              <ThemeProvider>
+                <div className="pt-20">{children}</div>
+              </ThemeProvider>
+            </AntdRegistry>
+            <Footer />
+            <NotificationListener />
+          </StoreProvider>
+        </SocketProvider>
       </body>
     </html>
   );

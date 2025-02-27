@@ -1,11 +1,11 @@
 "use client";
 
+import { useSocket } from "@/context/SocketContext";
 import { SendOutlined } from "@ant-design/icons";
 import { Button, Input } from "antd";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { getSocket, initSocket } from "../utils/socket";
 
 import default_img from "../../assets/user_img_default.png";
 
@@ -18,6 +18,8 @@ export default function Message({ conversationId, userId, providerData }) {
   const [pagination, setPagination] = useState(null);
   const [loadedPages, setLoadedPages] = useState(new Set());
   const containerRef = useRef(null);
+
+  const socket = useSocket();
 
   useEffect(() => {
     if (loadedPages.has(page)) return;
@@ -59,36 +61,37 @@ export default function Message({ conversationId, userId, providerData }) {
   }, [conversationId, page, loadedPages]);
 
   useEffect(() => {
-    const socket = initSocket();
-    if (conversationId) {
+    if (socket && conversationId) {
       socket.emit("joinConversation", { conversationId });
-    }
 
-    const handleReceiveMessage = (message) => {
-      if (message.conversationId === conversationId) {
-        setMessages((prev) => {
-          if (prev.some((m) => m._id === message._id)) return prev;
-          return [...prev, message];
-        });
-        if (containerRef.current) {
-          const { scrollTop, clientHeight, scrollHeight } =
-            containerRef.current;
-          if (scrollHeight - scrollTop - clientHeight < 50) {
-            setTimeout(() => {
-              containerRef.current.scrollTo({
-                top: containerRef.current.scrollHeight,
-                behavior: "smooth",
-              });
-            }, 50);
+      const handleReceiveMessage = (message) => {
+        if (message.conversationId === conversationId) {
+          setMessages((prev) => {
+            if (prev.some((m) => m._id === message._id)) return prev;
+            return [...prev, message];
+          });
+          if (containerRef.current) {
+            const { scrollTop, clientHeight, scrollHeight } =
+              containerRef.current;
+            if (scrollHeight - scrollTop - clientHeight < 50) {
+              setTimeout(() => {
+                containerRef.current.scrollTo({
+                  top: containerRef.current.scrollHeight,
+                  behavior: "smooth",
+                });
+              }, 50);
+            }
           }
         }
-      }
-    };
-    socket.on("receiveMessage", handleReceiveMessage);
-    return () => {
-      socket.off("receiveMessage", handleReceiveMessage);
-    };
-  }, [conversationId]);
+      };
+
+      socket.on("receiveMessage", handleReceiveMessage);
+
+      return () => {
+        socket.off("receiveMessage", handleReceiveMessage);
+      };
+    }
+  }, [socket, conversationId]);
 
   useEffect(() => {
     if (page === 1 && containerRef.current && messages.length > 0) {
@@ -111,22 +114,24 @@ export default function Message({ conversationId, userId, providerData }) {
 
   const handleSend = () => {
     if (!newMessage.trim()) return;
-    const socket = getSocket();
-    const outgoingMsg = {
-      conversationId,
-      senderId: userId,
-      messageText: newMessage.trim(),
-    };
-    socket.emit("sendMessage", outgoingMsg);
-    setNewMessage("");
-    setTimeout(() => {
-      if (containerRef.current) {
-        containerRef.current.scrollTo({
-          top: containerRef.current.scrollHeight,
-          behavior: "smooth",
-        });
-      }
-    }, 50);
+
+    if (socket) {
+      const outgoingMsg = {
+        conversationId,
+        senderId: userId,
+        messageText: newMessage.trim(),
+      };
+      socket.emit("sendMessage", outgoingMsg);
+      setNewMessage("");
+      setTimeout(() => {
+        if (containerRef.current) {
+          containerRef.current.scrollTo({
+            top: containerRef.current.scrollHeight,
+            behavior: "smooth",
+          });
+        }
+      }, 50);
+    }
   };
 
   const formatTime = (timestamp) => {
@@ -192,7 +197,6 @@ export default function Message({ conversationId, userId, providerData }) {
       <div
         ref={containerRef}
         onScroll={handleScroll}
-        // style={{ scrollBehavior: "smooth" }}
         className="flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50"
       >
         {messages?.map((msg) => {

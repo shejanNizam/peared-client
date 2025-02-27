@@ -21,12 +21,6 @@ export default function ProjectDetails(props) {
   const { data } = useConfirmProjectQuery(projectId);
   const conversationId = data?.data?.conversationId;
 
-  console.log(data?.data);
-  console.log(data?.data?.currentProjects?._id);
-
-  // console.log(data?.data?.currentProjects?.projectId?.userId);
-  // console.log(data?.data?.currentProjects?.providerId?._id);
-
   const [projectOk] = useProjectOkByUserMutation();
   const [projectNotOk] = useProjectNotOkByUserMutation();
   const [projectDone] = useProjectDoneByProviderMutation();

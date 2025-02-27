@@ -46,7 +46,11 @@ export default function Sidebar({
     },
     { name: "Pending Bids", icon: <FaUser />, path: "/profile/my-bids" },
     { name: "Wallet", icon: <FaWallet />, path: "/profile/wallet" },
-    { name: "Notifications", icon: <FaBell />, path: "/profile/notifications" },
+    {
+      name: `Notifications ${notificationCount}`,
+      icon: <FaBell />,
+      path: "/profile/notifications",
+    },
     { name: "My Review", icon: <FaBell />, path: "/profile/my-review" },
   ];
 
