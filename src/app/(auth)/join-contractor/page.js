@@ -1,5 +1,6 @@
 "use client";
 
+import { ErrorSwal } from "@/components/utils/allSwalFire";
 import { useJoinAsProviderMutation } from "@/redux/features/authApi";
 import { useAllCategoryQuery } from "@/redux/features/projects/projectApi";
 import { UploadOutlined } from "@ant-design/icons";
@@ -74,7 +75,11 @@ const JoinAsContractor = () => {
 
       setIsModalVisible(true);
     } catch (error) {
-      message.error(`${error.message}`);
+      ErrorSwal({
+        title: "",
+        text:
+          error?.message || error?.data?.message || " Something went wrong! ",
+      });
     }
   };
 

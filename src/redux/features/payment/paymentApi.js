@@ -44,6 +44,7 @@ export const balanceApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["payment"],
     }),
   }),
 });

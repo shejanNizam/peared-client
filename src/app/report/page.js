@@ -22,7 +22,9 @@ export default function Report(props) {
   const [pendingData, setPendingData] = useState(null);
   const [reportProvider, { isLoading }] = useReportProviderMutation();
 
-  const { userId } = props.searchParams;
+  const { userId, bidProjectId } = props.searchParams;
+  console.log(userId);
+  console.log(bidProjectId);
 
   const handleBeforeUpload = (file) => {
     const isImage = file.type.startsWith("image/");
@@ -45,6 +47,7 @@ export default function Report(props) {
       formData.append("image", values.image[0].originFileObj);
     }
     formData.append("userId", userId);
+    formData.append("bitProjectId", bidProjectId);
 
     setPendingData(formData);
     setIsModalVisible(true);
@@ -66,6 +69,7 @@ export default function Report(props) {
     try {
       console.log(pendingData);
       const response = await reportProvider(pendingData).unwrap();
+      console.log(response);
 
       console.log(response);
       if (response?.statusCode === 200) {

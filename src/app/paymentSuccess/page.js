@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { useSelector } from "react-redux";
 
 const PaymentSuccess = () => {
+  const { user } = useSelector((state) => state.auth);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4">
       {/* Card Container */}
@@ -37,14 +40,10 @@ const PaymentSuccess = () => {
 
         {/* Action Button */}
         <Link
-          href={`/login`}
+          href={user?.email ? "/" : "/login"}
           className="mt-6 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75"
-          onClick={() => {
-            // Navigate or do something on button click
-            // e.g., window.location.href = '/dashboard';
-          }}
         >
-          Go to Login
+          {user?.email ? "Go to Home" : "Go to Login"}{" "}
         </Link>
       </div>
     </div>

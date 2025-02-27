@@ -22,7 +22,7 @@ export default function ProjectDetails(props) {
   const conversationId = data?.data?.conversationId;
 
   console.log(data?.data);
-  console.log(data?.data?.currentProjects?.providerId?._id);
+  console.log(data?.data?.currentProjects?._id);
 
   // console.log(data?.data?.currentProjects?.projectId?.userId);
   // console.log(data?.data?.currentProjects?.providerId?._id);
@@ -81,10 +81,10 @@ export default function ProjectDetails(props) {
   const handleReport = () => {
     user?.role === "provider"
       ? router.push(
-          `/report?userId=${data?.data?.currentProjects?.projectId?.userId}`
+          `/report?userId=${data?.data?.currentProjects?.projectId?.userId}&bidProjectId=${data?.data?.currentProjects?._id}`
         ) // user id
       : router.push(
-          `/report?userId=${data?.data?.currentProjects?.providerId?._id}`
+          `/report?userId=${data?.data?.currentProjects?.providerId?._id}&bidProjectId=${data?.data?.currentProjects?._id}`
         ); // provider id
   };
 
