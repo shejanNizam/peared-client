@@ -24,6 +24,7 @@ const Login = () => {
         email: values.email,
         password: values.password,
       }).unwrap();
+      console.log(response);
       localStorage.setItem("user_token", response?.data?.token);
 
       dispatch(
@@ -43,7 +44,7 @@ const Login = () => {
       console.log(error);
       ErrorSwal({
         title: "Login failed!",
-        text: `${error?.data?.message}`,
+        text: error?.data?.message || error?.message || "Something went wrong!",
       });
     }
   };

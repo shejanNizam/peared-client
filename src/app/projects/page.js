@@ -37,14 +37,6 @@ const modalVariants = {
   exit: { scale: 0.8, opacity: 0 },
 };
 
-// const categories = [
-//   "Residential Cleaning",
-//   "Commercial Cleaning",
-//   "Painting",
-//   "Landscaping",
-//   "Carpentry",
-// ];
-
 const categories = [
   { _id: "1", name: "Residential Cleaning" },
   { _id: "2", name: "Commercial Cleaning" },
@@ -63,7 +55,20 @@ export default function Projects() {
 
   const router = useRouter();
 
-  const { data } = useAllProjectsQuery();
+  const { data } = useAllProjectsQuery([
+    {
+      name: "",
+      value: "",
+    },
+    {
+      name: "",
+      value: "",
+    },
+    {
+      name: "",
+      value: "",
+    },
+  ]);
   const [bidProject] = useCreateBidProjectMutation();
   console.log(data);
 
@@ -109,7 +114,7 @@ export default function Projects() {
     setIsBidModalOpen(false);
   };
 
-  const filteredProjects = data?.data?.filter((proj) => {
+  const filteredProjects = data?.data?.project?.filter((proj) => {
     if (selectedCategory && proj.projectCategory !== selectedCategory) {
       return false;
     }
