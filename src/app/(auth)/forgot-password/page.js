@@ -28,8 +28,8 @@ const ForgotPassword = () => {
       }
     } catch (error) {
       ErrorSwal({
-        title: error?.data?.message || "Something went wrong!",
-        text: "",
+        title: ``,
+        text: error?.data || error?.data?.message || `Something went wrong!`,
       });
     }
   };
@@ -43,7 +43,7 @@ const ForgotPassword = () => {
       <div className="bg-white shadow-lg rounded-lg w-full max-w-md p-6 relative">
         <button
           onClick={handleBack}
-          className="absolute top-8 left-8 text-gray-500 hover:text-gray-900 focus:outline-none"
+          className="absolute top-4 left-4 text-gray-500 hover:text-gray-900 focus:outline-none"
           aria-label="Go Back"
         >
           <FaArrowLeft size={24} />
@@ -52,8 +52,7 @@ const ForgotPassword = () => {
         <div className="flex flex-col items-center mb-6">
           <h2 className="text-2xl font-semibold mt-4">Forgot Password</h2>
           <p className="text-center text-gray-600 mt-2">
-            Enter your email address below and we’ll send you an OTP to reset
-            your password.
+            Enter your account email to get OTP!
           </p>
         </div>
 
@@ -92,7 +91,7 @@ const ForgotPassword = () => {
 
           <p className="text-center">
             Remembered your password?{" "}
-            <Link href="/login" className="text-primary">
+            <Link href="/login" className="text-primary underline">
               Log In
             </Link>
           </p>

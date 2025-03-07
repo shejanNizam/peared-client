@@ -13,9 +13,11 @@ const authSlice = createSlice({
     setCredentials: (state, action) => {
       state.user = action.payload.user;
     },
+
     logout: (state) => {
       state.user = null;
     },
+
     increaseNotification: (state) => {
       state.notificationCount++;
     },

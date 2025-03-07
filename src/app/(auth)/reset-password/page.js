@@ -1,6 +1,6 @@
 "use client";
 
-import { SuccessSwal } from "@/components/utils/allSwalFire";
+import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
 import { useResetPasswordMutation } from "@/redux/features/authApi";
 import { Button, Form, Input, message } from "antd";
 import Link from "next/link";
@@ -21,9 +21,8 @@ const ResetPassword = () => {
 
     try {
       const token = localStorage.getItem("user_token");
-      console.log(token);
 
-      await resetPassword({
+      const response = await resetPassword({
         token,
         body: {
           password: values.password,
@@ -31,26 +30,27 @@ const ResetPassword = () => {
         },
       }).unwrap();
       SuccessSwal({
-        title: "Password Reset Successful!",
-        text: "You can now log in.",
+        title: ``,
+        text:
+          response?.message ||
+          response?.data?.message ||
+          `Password Reset Successful!`,
       });
       localStorage.removeItem("user_token");
       router.push("/login");
     } catch (error) {
-      console.log(error);
-      message.error("Failed to reset password. Please try again.");
+      ErrorSwal({
+        title: ``,
+        text: error?.message || error?.data?.message || `Something went wrong!`,
+      });
     }
-  };
-
-  const handleBack = () => {
-    router.back();
   };
 
   return (
     <div className="min-h-screen w-full flex flex-col justify-center items-center bg-gray-100 p-4">
       <div className="bg-white shadow-lg rounded-lg w-full max-w-md p-6 relative">
         <button
-          onClick={handleBack}
+          onClick={() => router.back()}
           className="absolute top-4 left-4 text-gray-600 hover:text-gray-800 focus:outline-none z-50"
           aria-label="Go Back"
         >
@@ -128,7 +128,7 @@ const ResetPassword = () => {
 
           <p className="text-center">
             Remembered your password?{" "}
-            <Link href="/login" className="text-blue-500 underline">
+            <Link href="/login" className="text-primary underline">
               Log In
             </Link>
           </p>

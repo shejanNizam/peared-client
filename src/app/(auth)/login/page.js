@@ -19,6 +19,7 @@ const Login = () => {
   const [login, { isLoading }] = useLoginMutation();
 
   const onFinish = async (values) => {
+    console.log(values);
     try {
       const response = await login({
         email: values.email,
@@ -54,7 +55,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col justify-center items-center bg-secondary">
+    <div className="min-h-screen w-full flex flex-col justify-center items-center bg-secondary px-4">
       <div className="bg-white shadow-2xl rounded-2xl w-full max-w-xl p-8 md:p-16 mt-[-200px] relative">
         <button
           onClick={handleBack}
@@ -75,7 +76,7 @@ const Login = () => {
           form={form}
           layout="vertical"
           onFinish={onFinish}
-          className="space-y-2"
+          className="space-y-0"
         >
           <div className="grid grid-cols-1">
             {/* Email Field */}
@@ -110,12 +111,16 @@ const Login = () => {
           </div>
           {/* Remember Me and Forgot Password */}
           <div className="flex justify-between items-center">
-            <Form.Item name="remember" valuePropName="checked" className="mb-0">
-              <Checkbox className="text-green-500">Remember me</Checkbox>
+            <Form.Item name="remember" valuePropName="checked">
+              <Checkbox>
+                <span className="text-black">Remember me</span>
+              </Checkbox>
             </Form.Item>
-            <Link href="/forgot-password" className="text-primary">
-              Forgot password?
-            </Link>
+            <Form.Item>
+              <Link href="/forgot-password" className="text-primary underline">
+                Forget password?
+              </Link>
+            </Form.Item>
           </div>
 
           {/* Submit Button */}
@@ -134,8 +139,7 @@ const Login = () => {
           {/* Navigation Link to Signup Page */}
           <p className="text-center">
             {"Don't have an account?"}
-            <Link href="/signup" className="text-primary">
-              {" "}
+            <Link href="/signup" className="text-primary underline">
               Create Account
             </Link>
           </p>

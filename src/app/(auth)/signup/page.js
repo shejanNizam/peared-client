@@ -24,7 +24,6 @@ const Signup = () => {
         password: values.password,
         confirmPassword: values.confirmPassword,
       }).unwrap();
-      console.log(response);
 
       dispatch(
         setCredentials({
@@ -41,9 +40,7 @@ const Signup = () => {
     } catch (error) {
       ErrorSwal({
         title: "Signup failed!",
-        text:
-          (error.message || error?.data?.message || "Something went wrong.") +
-          " Please try again later.",
+        text: error?.message || error?.data?.message || `Something went wrong!`,
       });
     }
   };
@@ -53,11 +50,11 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col justify-center items-center bg-secondary">
+    <div className="min-h-screen w-full flex flex-col justify-center items-center bg-secondary pt-20 px-4">
       <div className="bg-white shadow-2xl rounded-2xl w-full max-w-xl p-8 md:p-16 mt-[-100px] relative">
         <button
           onClick={handleBack}
-          className="absolute top-8 left-8 text-gray-500 hover:text-gray-900 focus:outline-none"
+          className="absolute top-4 left-4 text-gray-600 hover:text-gray-900 focus:outline-none"
           aria-label="Go Back"
         >
           <FaArrowLeft size={24} />
@@ -76,7 +73,6 @@ const Signup = () => {
           onFinish={onFinish}
           className="space-y-2"
         >
-          {/* User Information Fields */}
           <div className="grid grid-cols-1">
             {/* Name */}
             <Form.Item
@@ -150,7 +146,6 @@ const Signup = () => {
             </Form.Item>
           </div>
 
-          {/* I Agree Checkbox */}
           <Form.Item
             name="agree"
             valuePropName="checked"
@@ -164,13 +159,13 @@ const Signup = () => {
             ]}
           >
             <Checkbox>
-              I have read & agreed to Peared{" "}
+              I agreed{" "}
               <Link href="/terms-of-use">
-                <span className="text-primary">Terms of Use</span>
+                <span className="text-primary underline">Terms</span>
               </Link>{" "}
               and{" "}
               <Link href="/privacy-policy">
-                <span className="text-primary">Privacy Policy</span>
+                <span className="text-primary underline">Privacy Policy</span>
               </Link>
             </Checkbox>
           </Form.Item>
@@ -190,7 +185,7 @@ const Signup = () => {
 
           <p className="text-center">
             Already have an account?{" "}
-            <Link href="/login" className="text-primary">
+            <Link href="/login" className="text-primary underline">
               Log In
             </Link>
           </p>
