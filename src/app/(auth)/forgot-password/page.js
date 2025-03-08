@@ -39,7 +39,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col justify-center items-center bg-gray-100 p-4 ">
+    <div className="py-12 w-full flex flex-col justify-center items-center bg-gray-100 p-4 ">
       <div className="bg-white shadow-lg rounded-lg w-full max-w-md p-6 relative">
         <button
           onClick={handleBack}
@@ -50,7 +50,7 @@ const ForgotPassword = () => {
         </button>
 
         <div className="flex flex-col items-center mb-6">
-          <h2 className="text-2xl font-semibold mt-4">Forgot Password</h2>
+          <h2 className="text-2xl text-primary font-semibold mt-4">Forgot Password</h2>
           <p className="text-center text-gray-600 mt-2">
             Enter your account email to get OTP!
           </p>
@@ -60,7 +60,7 @@ const ForgotPassword = () => {
           form={form}
           layout="vertical"
           onFinish={onFinish}
-          className="space-y-4"
+          className="space-y-0"
         >
           <Form.Item
             label={<span className="text-black font-semibold"> Email </span>}

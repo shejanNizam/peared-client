@@ -59,7 +59,7 @@ const Login = () => {
       <div className="bg-white shadow-2xl rounded-2xl w-full max-w-xl p-8 md:p-16 mt-[-200px] relative">
         <button
           onClick={handleBack}
-          className="absolute top-8 left-8 text-gray-500 hover:text-gray-900 focus:outline-none"
+          className="absolute top-4 left-4 text-gray-500 hover:text-gray-900 focus:outline-none"
           aria-label="Go Back"
         >
           <FaArrowLeft size={24} />

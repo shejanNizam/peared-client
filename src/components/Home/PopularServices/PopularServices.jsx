@@ -38,7 +38,7 @@ export default function PopularServices() {
   return (
     <>
       <div className="container mx-auto py-20">
-        <h2 className="text-3xl lg:text-5xl font-bold text-center text-primary mb-10">
+        <h2 className="text-2xl lg:text-4xl font-bold text-center text-primary mb-10">
           Our Popular Services
         </h2>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-5">

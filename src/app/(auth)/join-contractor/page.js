@@ -109,18 +109,18 @@ const JoinAsContractor = () => {
 
   return (
     <>
-      <div className="min-h-screen w-full flex flex-col justify-center items-center bg-secondary">
+      <div className="min-h-screen w-full flex flex-col justify-center items-center bg-secondary px-4">
         <div className="bg-white shadow-2xl rounded-2xl w-full max-w-xl px-8 md:px-16 py-4 md:py-8 my-20 relative">
           <button
             onClick={handleBack}
-            className="absolute top-8 left-8 text-gray-500 hover:text-gray-900 focus:outline-none"
+            className="absolute top-4 left-4 text-gray-500 hover:text-gray-900 focus:outline-none"
             aria-label="Go Back"
           >
             <FaArrowLeft size={24} />
           </button>
 
-          <div className="flex flex-col items-center">
-            <h2 className="text-2xl md:text-4xl font-semibold text-primary mb-8 border-b-2 border-b-secondary">
+          <div className="flex flex-col items-center mt-6">
+            <h2 className="text-2xl md:text-4xl font-semibold text-primary border-b-2 border-b-secondary">
               Join As Contractor
             </h2>
           </div>
@@ -317,9 +317,9 @@ const JoinAsContractor = () => {
               ]}
             >
               <Checkbox>
-                I have read & agreed to Peared{" "}
+                I agreed {" "}
                 <Link href="/terms-of-use">
-                  <span className="text-primary">Terms of Use</span>
+                  <span className="text-primary">Terms</span>
                 </Link>{" "}
                 and{" "}
                 <Link href="/privacy-policy">

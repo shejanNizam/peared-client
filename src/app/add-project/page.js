@@ -127,7 +127,7 @@ const AddProject = () => {
           </button>
           {/* Heading and Description */}
           <div className="mb-8">
-            <h2 className="text-3xl text-primary font-semibold text-center">
+            <h2 className="text-2xl lg:text-4xl text-primary font-semibold text-center">
               Add New Project
             </h2>
             <p className="text-center text-gray-600 mt-2">
@@ -147,7 +147,7 @@ const AddProject = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Left Side: Location and Image Details */}
               <div>
-                <h3 className="text-xl font-medium mb-4">Location & Image</h3>
+                <h3 className="text-xl text-primary font-medium mb-4">Location & Image</h3>
 
                 {/* Street */}
                 <Form.Item
@@ -291,7 +291,7 @@ const AddProject = () => {
 
               {/* Right Side: Project Details */}
               <div>
-                <h3 className="text-xl font-medium mb-4">Project Details</h3>
+                <h3 className="text-xl text-primary font-medium mb-4">Project Details</h3>
 
                 {/* Add Your Project/Work */}
                 <Form.Item

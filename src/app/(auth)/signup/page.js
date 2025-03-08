@@ -62,7 +62,7 @@ const Signup = () => {
 
         <div className="flex flex-col items-center">
           <h2 className="text-2xl md:text-4xl font-semibold text-primary mb-8 border-b-2 border-b-secondary">
-            Create Your Account
+            Create Account
           </h2>
         </div>
 

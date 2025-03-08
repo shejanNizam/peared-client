@@ -1,6 +1,6 @@
 import Footer from "@/components/Footer/Footer";
 import Navbar from "@/components/Navbar/Navbar";
-import NotificationListener from "@/components/utils/NotificationListener";
+// import NotificationListener from "@/components/utils/NotificationListener";
 import { SocketProvider } from "@/context/SocketContext";
 import ThemeProvider from "@/lib/ThemeProvider";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
               </ThemeProvider>
             </AntdRegistry>
             <Footer />
-            <NotificationListener />
+            {/* <NotificationListener /> */}
           </StoreProvider>
         </SocketProvider>
       </body>

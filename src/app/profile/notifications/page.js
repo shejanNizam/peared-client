@@ -23,7 +23,7 @@ export default function Notifications() {
   const paginatedData = data?.data?.notifications || [];
   const totalData = data?.data?.pagination.totalData || 0;
   return (
-    <div className="bg-white min-h-screen py-8 md:py-0">
+    <div className="bg-white min-h-screen px-4 py-8 md:py-0">
       <div className="sticky top-20 flex justify-start gap-2 bg-primary rounded-t-md h-20 text-white py-8 pl-8 font-bold">
         <button onClick={handleBack}>
           <IoIosArrowBack />

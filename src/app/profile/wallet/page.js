@@ -65,7 +65,7 @@ export default function Wallet() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen px-4">
       <div className="text-primary text-2xl text-center font-bold my-2">
         Wallet
       </div>
