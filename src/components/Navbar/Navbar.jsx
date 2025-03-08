@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaBell, FaTimes } from "react-icons/fa";
 import { TiArrowSortedDown } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
@@ -219,7 +219,32 @@ export default function Navbar() {
             </div>
 
             {/* Mobile Menu Button */}
+            {/* <div className="flex items-center md:hidden">
+              
+
+              <button
+                onClick={toggleMenu}
+                type="button"
+                className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary transition duration-200"
+                aria-controls="mobile-menu"
+                aria-expanded={isOpen}
+                aria-label="Toggle navigation menu"
+              >
+                {isOpen ? (
+                  <FaTimes className="block h-6 w-6" aria-hidden="true" />
+                ) : (
+                  <FaBars className="block h-6 w-6" aria-hidden="true" />
+                )}
+              </button>
+            </div> */}
+
             <div className="flex items-center md:hidden">
+              <Link
+                href="/profile/notifications"
+                className="ml-4 text-primary hover:text-primary/10"
+              >
+                <FaBell size={24} />
+              </Link>
               <button
                 onClick={toggleMenu}
                 type="button"

@@ -280,7 +280,7 @@ export default function ProviderProfile() {
 
       <button
         onClick={() => setIsChangePasswordModalOpen(true)}
-        className="mt-6 bg-primary text-white px-4 py-2 md:px-6 md:py-2.5 rounded hover:bg-secondary-dark transition"
+        className=" mb-20 bg-primary text-white px-4 py-2 md:px-6 md:py-2.5 rounded hover:bg-secondary-dark transition"
       >
         Change Password
       </button>
