@@ -24,7 +24,7 @@ export default function Banner() {
                 ? "Search your expertise in your areas"
                 : "Search for pros in your area"}
             </h1>
-            <p className="text-xl font-semibold mt-12 md:mt-0 mb-4 text-center text-black ">
+            <p className="text-xl font-semibold mt-4 md:mt-0 mb-4 text-center text-black ">
               {user?.role === "provider"
                 ? "Here you can instantly find your Service in your area."
                 : "Here you can instantly find Service Providers in your area."}
