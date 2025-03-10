@@ -32,6 +32,7 @@ export default function ProviderProfile() {
   const [form] = Form.useForm();
   const [updateUser, { isLoading }] = useUpdateUserDataMutation();
 
+  // Set certificate URLs when user data changes
   useEffect(() => {
     if (user && user.certificate && Array.isArray(user.certificate)) {
       if (user.certificate.length > 0) {
@@ -51,21 +52,21 @@ export default function ProviderProfile() {
     }
   }, [user, baseUrl]);
 
+  // Merge file preview logic: if a new file is selected, show it; otherwise, show the user image
   useEffect(() => {
-    if (user?.image) {
-      const formattedImage = user.image.replace(/^public/, "");
+    if (file) {
+      const objectUrl = URL.createObjectURL(file);
+      setPreviewImage(objectUrl);
+      return () => URL.revokeObjectURL(objectUrl);
+    } else if (user?.image) {
+      const formatted = user.image.replace(/^public/, "");
       setPreviewImage(
-        baseUrl +
-          (formattedImage.startsWith("/")
-            ? formattedImage
-            : "/" + formattedImage)
+        baseUrl + (formatted.startsWith("/") ? formatted : "/" + formatted)
       );
+    } else {
+      setPreviewImage(default_img.src);
     }
-  }, [user, baseUrl]);
-
-  const formattedImage = user?.image
-    ? user.image.replace(/^public/, "")
-    : default_img.src;
+  }, [file, user, baseUrl]);
 
   const handleBeforeUpload = (file) => {
     const isImage = file.type.startsWith("image/");
@@ -112,6 +113,7 @@ export default function ProviderProfile() {
       city: user?.city || "",
       postalCode: user?.postalCode || "",
     });
+    // Ensure preview image is set when opening the modal
     if (user?.image && !file) {
       const formatted = user.image.replace(/^public/, "");
       setPreviewImage(
@@ -159,15 +161,18 @@ export default function ProviderProfile() {
     } catch (error) {
       ErrorSwal({
         title: "",
-        text: error?.message || error?.data?.message || "Somethings went wrong",
+        text: error?.message || error?.data?.message || "Something went wrong",
       });
     }
   };
 
+  const formattedImage = user?.image
+    ? user.image.replace(/^public/, "")
+    : default_img.src;
+
   return (
     <div className="flex flex-col justify-center items-center gap-6">
-      <h3 className="text-2xl text-primary font-semibold">Provider Profile</h3>
-
+      {/* Profile Section */}
       <div className="flex flex-col md:flex-row justify-start items-start gap-8 shadow-2xl border border-secondary rounded w-full max-w-4xl p-12 relative">
         <button
           onClick={handleOpenEditModal}
@@ -188,9 +193,9 @@ export default function ProviderProfile() {
               : default_img.src)
           }
           alt="Provider Profile Image"
-          className="w-40 h-40 md:w-64 md:h-64 object-cover rounded-full"
-          width={240}
-          height={240}
+          className="w-32 h-32 md:w-64 md:h-64 object-cover rounded-full"
+          width={1000}
+          height={1000}
         />
 
         {/* Profile Information */}
@@ -231,7 +236,7 @@ export default function ProviderProfile() {
                       href={certificate2Url}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-purple-600 font-semibold "
+                      className="text-purple-600 font-semibold"
                     >
                       View Certificate Two
                     </Link>
@@ -278,9 +283,10 @@ export default function ProviderProfile() {
         </div>
       </div>
 
+      {/* Change Password Button */}
       <button
         onClick={() => setIsChangePasswordModalOpen(true)}
-        className=" mb-20 bg-primary text-white px-4 py-2 md:px-6 md:py-2.5 rounded hover:bg-secondary-dark transition"
+        className="mb-20 bg-primary text-white px-4 py-2 md:px-6 md:py-2.5 rounded hover:bg-secondary-dark transition"
       >
         Change Password
       </button>
@@ -472,13 +478,11 @@ export default function ProviderProfile() {
         </Form>
       </Modal>
 
-      {/* pass chng */}
-
+      {/* Change Password Modal */}
       <ChangePasswordModal
         visible={isChangePasswordModalOpen}
         onClose={() => setIsChangePasswordModalOpen(false)}
       />
-      {/* Change Password Button */}
     </div>
   );
 }

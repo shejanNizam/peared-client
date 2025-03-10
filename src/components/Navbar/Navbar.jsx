@@ -39,7 +39,6 @@ const ProfileMenu = ({ handleLogout, closeMenu }) => (
 
 export default function Navbar() {
   const dispatch = useDispatch();
-
   const { user } = useSelector((state) => state.auth);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -239,6 +238,15 @@ export default function Navbar() {
             </div> */}
 
             <div className="flex items-center md:hidden">
+              {user?.role === "provider" && (
+                <Link
+                  href="/projects"
+                  className="text-black hover:text-primary underline transition duration-200"
+                >
+                  Projects
+                </Link>
+              )}
+
               <Link
                 href="/profile/notifications"
                 className="ml-4 text-primary hover:text-primary/10"

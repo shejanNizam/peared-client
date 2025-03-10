@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FaArrowRight } from "react-icons/fa6";
+import { FaArrowRight, FaArrowTrendUp } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import BANNER_BG_IMAGE from "../../../assets/home/banner_bg_img.png";
 import ServiceAddBar from "./ServiceAddBar";
@@ -19,12 +19,12 @@ export default function Banner() {
       >
         <div className="container flex justify-start lg:items-center h-full p-4 lg:pl-64">
           <div className="w-full lg:w-[800px] border border-primary/30 bg-secondary/50 rounded-lg p-4 lg:p-6">
-            <h1 className="text-2xl lg:text-4xl font-semibold text-primary mt-12 md:mt-0 mb-4 text-center">
+            <h1 className="text-3xl lg:text-4xl font-bold text-primary mt-12 md:mt-0 mb-4 text-center">
               {user?.role === "provider"
                 ? "Search your expertise in your areas"
                 : "Search for pros in your area"}
             </h1>
-            <p className="lg:text-lg mt-12 md:mt-0 mb-4 text-center text-black ">
+            <p className="text-xl font-semibold mt-12 md:mt-0 mb-4 text-center text-black ">
               {user?.role === "provider"
                 ? "Here you can instantly find your Service in your area."
                 : "Here you can instantly find Service Providers in your area."}
@@ -32,10 +32,10 @@ export default function Banner() {
             {/* Search Bar */}
             {/* {user?.role === "user" && } */}
             {user?.role === "provider" ? (
-              <div className="text-center mx-auto my-2 w-1/2">
+              <div className="text-center mx-auto py-6 md:py-2 w-3/4 md:w-1/2">
                 <Link href={`/projects`}>
-                  <span className="text-white bg-primary px-4 py-2 flex justify-center items-center gap-2">
-                    Go to Projects <FaArrowRight />
+                  <span className="rounded-xl text-white text-2xl md:text-lg font-semibold bg-primary px-4 py-6 md:py-2 flex justify-center items-center gap-2">
+                    Go to Projects <FaArrowTrendUp />
                   </span>
                 </Link>
               </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import BottomBar from "@/components/BottomBar/BottomBar";
 import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
 import CustomHeading from "@/components/utils/CustomHeading";
 import {
@@ -441,6 +442,8 @@ export default function Projects() {
           </div>
         </Form>
       </Modal>
+
+      <BottomBar />
     </>
   );
 }

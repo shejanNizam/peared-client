@@ -1,4 +1,10 @@
-import { FaProjectDiagram, FaUser, FaWallet } from "react-icons/fa";
+import {
+  FaCheckCircle,
+  FaProjectDiagram,
+  FaStar,
+  FaUser,
+  FaWallet,
+} from "react-icons/fa";
 import { IoHome } from "react-icons/io5";
 
 import Link from "next/link";
@@ -24,13 +30,21 @@ export default function BottomBar() {
   const bottomBarItemsProvider = [
     { name: "Home", icon: <IoHome size={24} />, path: "/" },
     {
-      name: "Projects",
+      name: "Curr. Projects",
       icon: <FaProjectDiagram size={24} />,
       path: "/profile/current-projects",
     },
-    { name: "Bids", icon: <FaUser size={24} />, path: "/profile/my-bids" },
+    {
+      name: "My Bids",
+      icon: <FaCheckCircle size={24} />,
+      path: "/profile/my-bids",
+    },
     { name: "Wallet", icon: <FaWallet size={24} />, path: "/profile/wallet" },
-    { name: "Review", icon: <FaUser size={24} />, path: "/profile/my-review" },
+    {
+      name: "My Review",
+      icon: <FaStar size={24} />,
+      path: "/profile/my-review",
+    },
     { name: "Profile", icon: <FaUser size={24} />, path: "/profile/user" },
   ];
 

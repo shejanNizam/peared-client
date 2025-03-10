@@ -7,7 +7,9 @@ import {
   FaArrowLeft,
   FaArrowRight,
   FaBell,
+  FaCheckCircle,
   FaProjectDiagram,
+  FaStar,
   FaUser,
   FaWallet,
 } from "react-icons/fa";
@@ -44,11 +46,11 @@ export default function Sidebar({
       icon: <FaProjectDiagram />,
       path: "/profile/current-projects",
     },
-    { name: "Pending Bids", icon: <FaUser />, path: "/profile/my-bids" },
+    { name: "Pending Bids", icon: <FaCheckCircle />, path: "/profile/my-bids" },
     { name: "Wallet", icon: <FaWallet />, path: "/profile/wallet" },
     {
       name: `Notifications`,
-      icon: <FaBell />,
+      icon: <FaStar />,
       path: "/profile/notifications",
     },
     { name: "My Review", icon: <FaBell />, path: "/profile/my-review" },

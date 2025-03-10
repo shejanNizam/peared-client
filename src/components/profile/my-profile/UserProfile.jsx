@@ -23,17 +23,25 @@ export default function UserProfile() {
   const { user } = useSelector((state) => state.auth);
   const [updateUser] = useUpdateUserDataMutation();
 
-  console.log(user, "frm profile----------->");
-
+  // Update preview image when file changes
   useEffect(() => {
     if (file) {
       const objectUrl = URL.createObjectURL(file);
       setPreviewImage(objectUrl);
       return () => URL.revokeObjectURL(objectUrl);
-    } else {
-      setPreviewImage(null);
+    } else if (isEditModalOpen && user) {
+      // When modal opens and no new file selected, show the user image
+      const formattedImage = user.image
+        ? user.image.replace(/^public/, "")
+        : "/default-profile.png";
+      setPreviewImage(
+        baseUrl +
+          (formattedImage.startsWith("/")
+            ? formattedImage
+            : "/" + formattedImage)
+      );
     }
-  }, [file]);
+  }, [file, isEditModalOpen, user, baseUrl]);
 
   const handleBeforeUpload = (file) => {
     const isImage = file.type.startsWith("image/");
@@ -42,7 +50,7 @@ export default function UserProfile() {
       return Upload.LIST_IGNORE;
     }
     setFile(file);
-    return false; // Prevent auto-upload
+    return false;
   };
 
   const handleFileChange = ({ file }) => {
@@ -71,24 +79,10 @@ export default function UserProfile() {
     } catch (error) {
       ErrorSwal({
         title: "",
-        text: error?.message || error?.data?.message || "Somethings went wrong",
+        text: error?.message || error?.data?.message || "Something went wrong",
       });
     }
   };
-
-  useEffect(() => {
-    if (isEditModalOpen && user && !file) {
-      const formattedImage = user.image
-        ? user.image.replace(/^public/, "")
-        : "/default-profile.png";
-      setPreviewImage(
-        baseUrl +
-          (formattedImage.startsWith("/")
-            ? formattedImage
-            : "/" + formattedImage)
-      );
-    }
-  }, [isEditModalOpen, user, file, baseUrl]);
 
   const formattedImage = user?.image
     ? user.image.replace(/^public/, "")
@@ -96,8 +90,6 @@ export default function UserProfile() {
 
   return (
     <div className="flex flex-col justify-center items-center gap-6">
-      <h3 className="text-2xl text-primary font-semibold">My Profile</h3>
-
       {/* Profile Section */}
       <div className="flex flex-col md:flex-row justify-start items-start gap-8 shadow-2xl border border-secondary rounded w-full max-w-4xl h-auto relative p-8 md:p-12">
         <button
@@ -119,9 +111,9 @@ export default function UserProfile() {
               : default_img.src)
           }
           alt="Profile Image"
-          className="w-40 h-40 md:w-64 md:h-64 object-cover rounded-full"
-          width={240}
-          height={240}
+          className="w-32 h-32 md:w-64 md:h-64 object-cover rounded-full"
+          width={1000}
+          height={1000}
         />
 
         {/* Profile Information */}
@@ -134,7 +126,7 @@ export default function UserProfile() {
               <div className="w-full">
                 <label
                   htmlFor="address"
-                  className="block text-black font-semibold "
+                  className="block text-black font-semibold"
                 >
                   Street Address
                 </label>
@@ -150,7 +142,7 @@ export default function UserProfile() {
                 <div className="w-full md:w-1/2">
                   <label
                     htmlFor="city"
-                    className="block text-black font-semibold "
+                    className="block text-black font-semibold"
                   >
                     City
                   </label>
@@ -165,7 +157,7 @@ export default function UserProfile() {
                 <div className="w-full md:w-1/2">
                   <label
                     htmlFor="postalCode"
-                    className="block text-black font-semibold "
+                    className="block text-black font-semibold"
                   >
                     Post Code
                   </label>
@@ -194,10 +186,7 @@ export default function UserProfile() {
       {/* Edit Profile Modal */}
       <Modal
         title={
-          <span className="text-xl font-bold text-primary">
-            {" "}
-            Update Profile{" "}
-          </span>
+          <span className="text-xl font-bold text-primary">Update Profile</span>
         }
         visible={isEditModalOpen}
         onCancel={() => setIsEditModalOpen(false)}
@@ -304,7 +293,7 @@ export default function UserProfile() {
         </Form>
       </Modal>
 
-      {/* Standalone Change Password Modal */}
+      {/* Change Password Modal */}
       <ChangePasswordModal
         visible={isChangePasswordModalOpen}
         onClose={() => setIsChangePasswordModalOpen(false)}

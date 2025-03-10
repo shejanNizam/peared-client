@@ -1,7 +1,7 @@
 import WANT_CONTRACTOR_IMG from "@/assets/home/WantContractor/want_contractor_img.png";
-import CustomButton from "@/components/utils/CustomButton";
 import Image from "next/image";
 import Link from "next/link";
+import { FaArrowTrendUp } from "react-icons/fa6";
 
 export default function WantContractor() {
   return (
@@ -11,9 +11,9 @@ export default function WantContractor() {
        items-center py-4"
       >
         <div className=" md:space-y-12 lg:pl-4">
-          <h3 className="text-xl md:text-4xl lg:text-5xl text-primary font-bold">
+          <h3 className="text-2xl md:text-4xl lg:text-5xl text-primary font-bold">
             {" "}
-            Want to be a Peared contractor?{" "}
+            Want to be a contractor?{" "}
           </h3>
           <p className="text-black">
             Peared allows you to easily find work in your field and only accept
@@ -28,7 +28,10 @@ export default function WantContractor() {
           </p>
           <div>
             <Link href={`/join-contractor`}>
-              <CustomButton>Join as a Contactor</CustomButton>
+              <button className="text-lg text-white font-semibold px-4 py-2 rounded-lg bg-primary flex justify-center items-center gap-2">
+                Join as a Contractor
+                <FaArrowTrendUp />
+              </button>
             </Link>
           </div>
         </div>
