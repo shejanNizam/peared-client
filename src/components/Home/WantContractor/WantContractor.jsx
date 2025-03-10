@@ -10,8 +10,8 @@ export default function WantContractor() {
         className="container w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 lg:gap-0 justify-center
        items-center py-4"
       >
-        <div className=" space-y-12 lg:pl-4">
-          <h3 className="text-3xl md:text-4xl lg:text-5xl text-primary font-bold">
+        <div className=" md:space-y-12 lg:pl-4">
+          <h3 className="text-xl md:text-4xl lg:text-5xl text-primary font-bold">
             {" "}
             Want to be a Peared contractor?{" "}
           </h3>

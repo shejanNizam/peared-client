@@ -12,19 +12,19 @@ export default function Banner() {
   return (
     <>
       <div
-        className="h-auto lg:h-[520px] bg-cover bg-center bg-no-repeat w-full"
+        className="h-[450px] lg:h-[520px] bg-cover bg-center bg-no-repeat w-full"
         style={{
           backgroundImage: `url(${BANNER_BG_IMAGE.src})`,
         }}
       >
         <div className="container flex justify-start lg:items-center h-full p-4 lg:pl-64">
           <div className="w-full lg:w-[800px] border border-primary/30 bg-secondary/50 rounded-lg p-4 lg:p-6">
-            <h1 className="text-2xl lg:text-4xl font-semibold text-primary mb-4 text-center">
+            <h1 className="text-2xl lg:text-4xl font-semibold text-primary mt-12 md:mt-0 mb-4 text-center">
               {user?.role === "provider"
                 ? "Search your expertise in your areas"
                 : "Search for pros in your area"}
             </h1>
-            <p className="lg:text-lg mb-4 text-center text-black">
+            <p className="lg:text-lg mt-12 md:mt-0 mb-4 text-center text-black ">
               {user?.role === "provider"
                 ? "Here you can instantly find your Service in your area."
                 : "Here you can instantly find Service Providers in your area."}
@@ -40,7 +40,7 @@ export default function Banner() {
                 </Link>
               </div>
             ) : (
-              <ServiceAddBar user={user} />
+              <ServiceAddBar />
             )}
           </div>
         </div>

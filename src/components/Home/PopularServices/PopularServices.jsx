@@ -37,7 +37,7 @@ const services = [
 export default function PopularServices() {
   return (
     <>
-      <div className="container mx-auto py-20">
+      <div className="container hidden md:block mx-auto py-20">
         <h2 className="text-2xl lg:text-4xl font-bold text-center text-primary mb-10">
           Our Popular Services
         </h2>

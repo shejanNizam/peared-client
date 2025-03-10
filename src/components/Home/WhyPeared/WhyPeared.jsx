@@ -113,9 +113,9 @@ export default function WhyPeared() {
   };
 
   return (
-    <section className="py-12">
-      <div className="container mx-auto shadow-sm py-20">
-        <div className=" text-center my-12">
+    <section className="hidden md:block md:py-12">
+      <div className="container mx-auto shadow-sm md:py-20">
+        <div className=" text-center mt-4 md:my-12">
           <CustomHeading>Why Choose Us</CustomHeading>
         </div>
 

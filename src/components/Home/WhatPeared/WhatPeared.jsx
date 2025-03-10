@@ -10,7 +10,7 @@ import right_img from "../../../assets/home/whatPeared/whatPeared_right-img.png"
 export default function WhatPeared() {
   return (
     <>
-      <div className="bg-secondary py-20">
+      <div className="hidden md:block bg-secondary py-20">
         <div className="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center items-center ">
           <div>
             <Image src={left_img} alt="left_img" />

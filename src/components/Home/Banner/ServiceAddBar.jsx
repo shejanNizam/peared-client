@@ -6,8 +6,10 @@ import { AutoComplete, Button, Form, Input } from "antd";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { MdArrowDropDown } from "react-icons/md";
+import { useSelector } from "react-redux";
 
-function ServiceAddBar({ user }) {
+function ServiceAddBar() {
+  const { user } = useSelector((state) => state.auth);
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -37,12 +39,12 @@ function ServiceAddBar({ user }) {
   };
 
   return (
-    <div className="flex justify-center mt-6 sm:mt-10">
+    <div className="flex justify-center items-center mt-12 md:mt-8">
       <div className="flex w-full max-w-4xl sm:max-w-5xl lg:max-w-6xl p-4 h-auto">
         {/* Ant Design Form */}
         <Form
           layout="inline"
-          className="flex w-full items-center justify-center flex-wrap gap-4"
+          className="flex w-full items-center justify-center flex-wrap gap-8 md:gap-4"
           onFinish={handleAdd}
         >
           <Form.Item
