@@ -34,7 +34,7 @@ export default function Banner() {
             {user?.role === "provider" ? (
               <div className="text-center mx-auto py-6 md:py-2 w-3/4 md:w-1/2">
                 <Link href={`/projects`}>
-                  <span className="rounded-xl text-white text-2xl md:text-lg font-semibold bg-primary px-4 py-6 md:py-2 flex justify-center items-center gap-2">
+                  <span className="rounded-xl text-white text-2xl md:text-lg font-semibold bg-primary px-4 py-4 md:py-2 flex justify-center items-center gap-2">
                     Go to Projects <FaArrowTrendUp />
                   </span>
                 </Link>
