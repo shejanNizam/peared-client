@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 const Login = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectUrl = searchParams.get("redirect") || "/profile";
+  const redirectUrl = searchParams.get("redirect") || "/profile/user";
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 

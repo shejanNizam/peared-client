@@ -5,6 +5,7 @@ import Link from "next/link"; // Import Link from Next.js
 import { usePathname } from "next/navigation"; // Import usePathname to track current path
 import { useState } from "react";
 import { FaProjectDiagram, FaUser, FaWallet } from "react-icons/fa";
+import { IoHome } from "react-icons/io5";
 import { useSelector } from "react-redux";
 
 export default function ProfileLayout({ children }) {
@@ -35,7 +36,7 @@ export default function ProfileLayout({ children }) {
 
   // Define bottom bar menu items for "provider" and default roles
   const bottomBarItemsProvider = [
-    { name: "Profile", icon: <FaUser size={24} />, path: "/profile" },
+    { name: "Home", icon: <IoHome size={24} />, path: "/" },
     {
       name: "Projects",
       icon: <FaProjectDiagram size={24} />,
@@ -44,16 +45,18 @@ export default function ProfileLayout({ children }) {
     { name: "Bids", icon: <FaUser size={24} />, path: "/profile/my-bids" },
     { name: "Wallet", icon: <FaWallet size={24} />, path: "/profile/wallet" },
     { name: "Review", icon: <FaUser size={24} />, path: "/profile/my-review" },
+    { name: "Profile", icon: <FaUser size={24} />, path: "/profile/user" },
   ];
 
   const bottomBarItemsDefault = [
-    { name: "Profile", icon: <FaUser size={24} />, path: "/profile" },
+    { name: "Home", icon: <IoHome size={24} />, path: "/" },
     {
       name: "My Projects",
       icon: <FaProjectDiagram size={24} />,
       path: "/profile/my-projects",
     },
     { name: "Wallet", icon: <FaWallet size={24} />, path: "/profile/wallet" },
+    { name: "Profile", icon: <FaUser size={24} />, path: "/profile/user" },
   ];
 
   return (

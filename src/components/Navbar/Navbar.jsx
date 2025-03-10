@@ -20,7 +20,7 @@ const ProfileMenu = ({ handleLogout, closeMenu }) => (
       <Link
         className="font-bold text-primary"
         onClick={closeMenu}
-        href="/profile"
+        href="/profile/user"
       >
         My Profile
       </Link>

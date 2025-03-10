@@ -23,7 +23,7 @@ export default function Sidebar({
   const firstLinkRef = useRef(null);
 
   const menuItems = [
-    { name: "My Profile", icon: <FaUser />, path: "/profile" },
+    { name: "My Profile", icon: <FaUser />, path: "/profile/user" },
     {
       name: "My Projects",
       icon: <FaProjectDiagram />,
@@ -38,7 +38,7 @@ export default function Sidebar({
   ];
 
   const menuItemsCont = [
-    { name: "My Profile", icon: <FaUser />, path: "/profile" },
+    { name: "My Profile", icon: <FaUser />, path: "/profile/user" },
     {
       name: "Current Projects",
       icon: <FaProjectDiagram />,
