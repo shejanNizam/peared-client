@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FaArrowRight, FaArrowTrendUp } from "react-icons/fa6";
+import { FaArrowTrendUp } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import BANNER_BG_IMAGE from "../../../assets/home/banner_bg_img.png";
 import ServiceAddBar from "./ServiceAddBar";
@@ -12,7 +12,7 @@ export default function Banner() {
   return (
     <>
       <div
-        className="h-[450px] lg:h-[520px] bg-cover bg-center bg-no-repeat w-full"
+        className="h-auto lg:h-[520px] bg-cover bg-center bg-no-repeat w-full"
         style={{
           backgroundImage: `url(${BANNER_BG_IMAGE.src})`,
         }}
@@ -29,8 +29,6 @@ export default function Banner() {
                 ? "Here you can instantly find your Service in your area."
                 : "Here you can instantly find Service Providers in your area."}
             </p>
-            {/* Search Bar */}
-            {/* {user?.role === "user" && } */}
             {user?.role === "provider" ? (
               <div className="text-center mx-auto py-6 md:py-2 w-3/4 md:w-1/2">
                 <Link href={`/projects`}>
