@@ -22,11 +22,14 @@ import { FaArrowLeft } from "react-icons/fa";
 
 const { Text } = Typography;
 
+const base_url = process.env.NEXT_PUBLIC_API_URL;
+
 const JoinAsContractor = () => {
+  console.log(base_url);
   const router = useRouter();
   const [form] = Form.useForm();
 
-  const [certificate, setCertificates] = useState([]);
+  const [certificates, setCertificates] = useState([]);
   const [paymentUrl, setPaymentUrl] = useState(null);
 
   const [joinProvider, { isLoading }] = useJoinAsProviderMutation();
@@ -53,19 +56,19 @@ const JoinAsContractor = () => {
   };
 
   const onFinish = async (values) => {
-    if (!certificate || certificate.length === 0) {
+    if (!certificates || certificates.length === 0) {
       message.error("Please upload at least one certificate.");
       return;
     }
 
-    const data = { ...values, certificate: certificate };
+    const data = { ...values, certificates: certificates };
     const formData = new FormData();
     for (const key in data) {
       if (Object.prototype.hasOwnProperty.call(data, key)) {
         formData.append(key, data[key]);
       }
     }
-    certificate.forEach((file, index) => {
+    certificates.forEach((file, index) => {
       formData.append(`certificate`, file.originFileObj);
     });
 
@@ -317,7 +320,7 @@ const JoinAsContractor = () => {
               ]}
             >
               <Checkbox>
-                I agreed {" "}
+                I agreed{" "}
                 <Link href="/terms-of-use">
                   <span className="text-primary">Terms</span>
                 </Link>{" "}
