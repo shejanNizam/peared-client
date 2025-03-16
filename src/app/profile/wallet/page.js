@@ -98,7 +98,7 @@ export default function Wallet() {
                 onClick={openAddBalanceModal}
                 loading={addBalanceLoading}
               >
-                Add Some Balance
+                Add Balance
               </Button>
             </>
           )}

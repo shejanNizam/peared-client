@@ -2,8 +2,11 @@ import WANT_CONTRACTOR_IMG from "@/assets/home/WantContractor/want_contractor_im
 import Image from "next/image";
 import Link from "next/link";
 import { FaArrowTrendUp } from "react-icons/fa6";
+import { useSelector } from "react-redux";
 
 export default function WantContractor() {
+  const { user } = useSelector((state) => state.auth);
+
   return (
     <>
       <div
@@ -15,7 +18,7 @@ export default function WantContractor() {
             {" "}
             Want to be a contractor?{" "}
           </h3>
-          <p className="text-black">
+          <p className="hidden md:block text-black">
             Peared allows you to easily find work in your field and only accept
             jobs that you want, for a mutually agreed upon price. 
             <br />
@@ -26,16 +29,27 @@ export default function WantContractor() {
                See More....
             </Link>
           </p>
-          <div>
+          <div className=" mt-8 ">
             <Link href={`/join-contractor`}>
-              <button className="text-lg text-white font-semibold px-4 py-2 rounded-lg bg-primary flex justify-center items-center gap-2">
-                Join as a Contractor
+              <button className="w-full sm:w-auto text-lg text-white font-semibold px-4 py-2 rounded-lg bg-primary flex justify-center items-center gap-2">
+                Join as Contractor
                 <FaArrowTrendUp />
               </button>
             </Link>
           </div>
+          {!user && (
+            <div className="block md:hidden">
+              <p className="text-center mt-4"> OR </p>
+              <Link href={`/login`}>
+                <button className="w-full sm:w-auto text-lg text-white font-semibold px-4 py-2 rounded-lg bg-primary flex justify-center items-center gap-2">
+                  Login as User
+                  <FaArrowTrendUp />
+                </button>
+              </Link>
+            </div>
+          )}
         </div>
-        <div className="lg:pl-40">
+        <div className="hidden md:block lg:pl-40">
           <Image src={WANT_CONTRACTOR_IMG} alt="WANT_CONTRACTOR_IMG" />
         </div>
       </div>
