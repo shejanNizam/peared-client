@@ -4,6 +4,8 @@ import { io } from "socket.io-client";
 
 const SocketContext = createContext(null);
 
+const URL = process.env.NEXT_PUBLIC_IMAGE_URL;
+
 export const useSocket = () => {
   return useContext(SocketContext);
 };
@@ -13,7 +15,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("user_token");
-    const newSocket = io("https://magy-abu-sayed.sarv.live", {
+    const newSocket = io(URL, {
       transports: ["websocket"],
       query: { token: token },
     });
