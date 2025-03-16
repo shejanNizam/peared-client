@@ -27,7 +27,6 @@ export default function TopReviews({ providerID }) {
                 {/* Avatar Container */}
                 <div className="relative w-12 h-12">
                   <Image
-                    // src={`https://magy-abu-sayed.sarv.live/${review?.image}`}
                     src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${review?.image}`}
                     alt="User"
                     fill

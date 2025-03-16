@@ -14,7 +14,7 @@ import default_img from "../../../assets/user_img_default.png";
 export default function UserProfile() {
   const baseUrl = process.env.NEXT_PUBLIC_IMAGE_URL;
   const [file, setFile] = useState(null);
-  const [previewImage, setPreviewImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState("");
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
     useState(false);
@@ -30,10 +30,10 @@ export default function UserProfile() {
       setPreviewImage(objectUrl);
       return () => URL.revokeObjectURL(objectUrl);
     } else if (isEditModalOpen && user) {
-      // When modal opens and no new file selected, show the user image
+      // When modal opens and no new file selected, show the user image or default image
       const formattedImage = user.image
         ? user.image.replace(/^public/, "")
-        : "/default-profile.png";
+        : default_img.src;
       setPreviewImage(
         baseUrl +
           (formattedImage.startsWith("/")
@@ -232,7 +232,7 @@ export default function UserProfile() {
                   beforeUpload={handleBeforeUpload}
                   onChange={handleFileChange}
                   showUploadList={false}
-                  className="absolute top-8 right-8"
+                  className="absolute top-0 right-0"
                 >
                   <div
                     className="p-2 bg-white rounded-full shadow cursor-pointer"
