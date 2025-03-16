@@ -14,7 +14,7 @@ export default function WantContractor() {
        items-center py-4"
       >
         <div className=" md:space-y-12 lg:pl-4">
-          <h3 className="text-2xl md:text-4xl lg:text-5xl text-primary font-bold">
+          <h3 className="text-xl md:text-4xl lg:text-5xl text-primary font-bold">
             {" "}
             Want to be a contractor?{" "}
           </h3>
