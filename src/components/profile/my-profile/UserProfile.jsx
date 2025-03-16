@@ -23,14 +23,12 @@ export default function UserProfile() {
   const { user } = useSelector((state) => state.auth);
   const [updateUser] = useUpdateUserDataMutation();
 
-  // Update preview image when file changes
   useEffect(() => {
     if (file) {
       const objectUrl = URL.createObjectURL(file);
       setPreviewImage(objectUrl);
       return () => URL.revokeObjectURL(objectUrl);
     } else if (isEditModalOpen && user) {
-      // When modal opens and no new file selected, show the user image or default image
       const formattedImage = user.image
         ? user.image.replace(/^public/, "")
         : default_img.src;
