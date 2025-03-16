@@ -29,7 +29,7 @@ export default function WantContractor() {
                See More....
             </Link>
           </p>
-          <div className=" mt-8 ">
+          <div className=" mt-4 ">
             <Link href={`/join-contractor`}>
               <button className="w-full sm:w-auto text-lg text-white font-semibold px-4 py-2 rounded-lg bg-primary flex justify-center items-center gap-2">
                 Join as Contractor
