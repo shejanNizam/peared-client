@@ -24,7 +24,8 @@ export default function Contact() {
     } catch (error) {
       ErrorSwal({
         title: "",
-        text: error?.message || error?.data?.message || " Something went wrog ",
+        text:
+          error?.message || error?.data?.message || " Something went wrong ",
       });
     }
   };
@@ -34,7 +35,7 @@ export default function Contact() {
   };
 
   return (
-    <section className="py-4 md:py-20">
+    <section className="py-4 md:py-20 overflow-y-scroll no-scrollbar">
       <div className="container mx-auto md:px-4">
         <div className="text-center mb-4">
           <CustomHeading> Contact Us </CustomHeading>
