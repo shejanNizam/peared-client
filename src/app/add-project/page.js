@@ -147,7 +147,9 @@ const AddProject = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Left Side: Location and Image Details */}
               <div>
-                <h3 className="text-xl text-primary font-medium mb-4">Location & Image</h3>
+                <h3 className="text-xl text-primary font-medium mb-4">
+                  Location & Image
+                </h3>
 
                 {/* Street */}
                 <Form.Item
@@ -182,7 +184,7 @@ const AddProject = () => {
                   rules={[
                     { required: true, message: "Please enter the post code." },
                     {
-                      pattern: /^\d{4}(-\d{3})?$/,
+                      pattern: /^\d{5}(-\d{4})?$/,
                       message: "Please enter a valid post code.",
                     },
                   ]}
@@ -291,7 +293,9 @@ const AddProject = () => {
 
               {/* Right Side: Project Details */}
               <div>
-                <h3 className="text-xl text-primary font-medium mb-4">Project Details</h3>
+                <h3 className="text-xl text-primary font-medium mb-4">
+                  Project Details
+                </h3>
 
                 {/* Add Your Project/Work */}
                 <Form.Item
