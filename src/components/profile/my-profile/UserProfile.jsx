@@ -275,8 +275,8 @@ export default function UserProfile() {
             rules={[
               { required: true, message: "Please enter your postal code" },
               {
-                pattern: /^\d{1,4}$/,
-                message: "Postal code must be up to 4 digits",
+                pattern: /^\d{5}$/,
+                message: "Postal code must be up to 5 digits",
               },
             ]}
           >
