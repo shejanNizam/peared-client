@@ -56,7 +56,7 @@ export default function Navbar() {
 
   const navigation = [
     { name: "Home", href: "/" },
-    { name: "Contact", href: "/contact" },
+    // { name: "Contact", href: "/contact" },
   ];
 
   const isActive = (href) =>
@@ -135,6 +135,14 @@ export default function Navbar() {
                   >
                     Join as Contractor
                   </Link>
+                  {user && (
+                    <Link
+                      href="/profile/notifications"
+                      className="ml-4 text-primary hover:text-primary/90"
+                    >
+                      <FaBell size={24} />
+                    </Link>
+                  )}
                   <Dropdown
                     overlay={
                       <ProfileMenu
@@ -170,6 +178,14 @@ export default function Navbar() {
                   >
                     Projects
                   </Link>
+                  {user && (
+                    <Link
+                      href="/profile/notifications"
+                      className="ml-4 text-primary hover:text-primary/90"
+                    >
+                      <FaBell size={24} />
+                    </Link>
+                  )}
                   <Dropdown
                     overlay={
                       <ProfileMenu
@@ -247,12 +263,14 @@ export default function Navbar() {
                 </Link>
               )}
 
-              <Link
-                href="/profile/notifications"
-                className="ml-4 text-primary hover:text-primary/10"
-              >
-                <FaBell size={24} />
-              </Link>
+              {user && (
+                <Link
+                  href="/profile/notifications"
+                  className="ml-4 text-primary hover:text-primary/90"
+                >
+                  <FaBell size={24} />
+                </Link>
+              )}
               <button
                 onClick={toggleMenu}
                 type="button"
