@@ -16,7 +16,7 @@ const { Title, Text } = Typography;
 
 export default function Wallet() {
   const { user } = useSelector((state) => state.auth);
-  console.log(user);
+  // console.log(user);
 
   const [isAddBalanceModalOpen, setIsAddBalanceModalOpen] = useState(false);
   const [addBalanceForm] = Form.useForm();
@@ -40,7 +40,7 @@ export default function Wallet() {
 
     try {
       const response = await addBalance({ amount: balanceAmount }).unwrap();
-      console.log(response);
+      // console.log(response);
       if (response?.success) {
         window.location.href = response?.data;
       }
