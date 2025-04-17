@@ -3,6 +3,7 @@
 import { SuccessSwal } from "@/components/utils/allSwalFire";
 import {
   useBoostProjectMutation,
+  useEditProjectMutation,
   useMyProjectsQuery,
 } from "@/redux/features/projects/projectApi";
 import { Button, Pagination } from "antd";
@@ -18,12 +19,19 @@ export default function MyProjects() {
   const [page, setPage] = useState(1);
 
   const { data } = useMyProjectsQuery({ page });
-  console.log(data?.data);
+  console.log(data?.data?.projects);
+
+  const [editProject, { isLoading: isEditLoading }] = useEditProjectMutation();
 
   const [boostProject] = useBoostProjectMutation();
 
   const handleOpenProject = (project) => {
     router.push(`/profile/my-projects/bid-lists?projectId=${project._id}`);
+  };
+
+  const handleEditProject = (project) => {
+    console.log(project?._id);
+    router.push(`/profile/my-projects/${project._id}`);
   };
 
   const handleGoToMessage = (project) => {
@@ -97,7 +105,7 @@ export default function MyProjects() {
                     {format(new Date(project?.createdAt), "dd MMM yyyy")}
                   </p>
 
-                  <div className="flex justify-center">
+                  <div className="flex justify-around ">
                     <Button
                       type="primary"
                       onClick={
@@ -114,9 +122,19 @@ export default function MyProjects() {
                       project?.payment === false
                         ? "Boost"
                         : project?.isApprove
-                        ? " Message "
-                        : " Open "}
+                        ? "Message"
+                        : "Open"}
                     </Button>
+
+                    {project?.isApprove === false && (
+                      <Button
+                        type="primary"
+                        className="bg-primary/80 text-white px-4 py-2 rounded hover:bg-primary transition-colors duration-300"
+                        onClick={() => handleEditProject(project)}
+                      >
+                        Edit Project
+                      </Button>
+                    )}
                   </div>
                 </div>
               </div>

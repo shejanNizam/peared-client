@@ -14,6 +14,19 @@ export const projectApi = baseApi.injectEndpoints({
       invalidatesTags: ["projects"],
     }),
 
+    // edit project for users
+    editProject: builder.mutation({
+      query: ({ id, data }) => {
+        console.log(id, data);
+        return {
+          url: `/project/update-project/${id}`,
+          method: "POST",
+          body: data,
+        };
+      },
+      invalidatesTags: ["projects"],
+    }),
+
     // all projects for providers
     allProjects: builder.query({
       query: () => {
@@ -25,7 +38,6 @@ export const projectApi = baseApi.injectEndpoints({
       providesTags: ["projects"],
     }),
 
-    // my project for users in dashboard
     // my-projects endpoint with pagination
     myProjects: builder.query({
       query: ({ page = 1, limit = 10 }) => {
@@ -36,6 +48,17 @@ export const projectApi = baseApi.injectEndpoints({
             page,
             limit,
           },
+        };
+      },
+      providesTags: ["projects"],
+    }),
+
+    // get single project by id
+    mySingleProjectById: builder.query({
+      query: (id) => {
+        return {
+          url: `/project/single-project/${id}`,
+          method: "GET",
         };
       },
       providesTags: ["projects"],
@@ -175,8 +198,10 @@ export const projectApi = baseApi.injectEndpoints({
 
 export const {
   useAddProjectMutation,
+  useEditProjectMutation,
   useAllProjectsQuery,
   useMyProjectsQuery,
+  useMySingleProjectByIdQuery,
   useMyProjectBitsQuery,
   useMyProjectBitDetailsQuery,
   useProjectApprovedMutation,
