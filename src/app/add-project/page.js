@@ -2,7 +2,16 @@
 
 import { SuccessSwal } from "@/components/utils/allSwalFire";
 import { useAddProjectMutation } from "@/redux/features/projects/projectApi";
-import { Button, Form, Input, message, Modal, Select, Upload } from "antd";
+import {
+  Button,
+  Checkbox,
+  Form,
+  Input,
+  message,
+  Modal,
+  Select,
+  Upload,
+} from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -51,6 +60,7 @@ const AddProject = () => {
 
   // Handle form submission
   const onFinish = async (values) => {
+    console.log(values);
     const formData = new FormData();
     Object.keys(values).forEach((key) => {
       if (key !== "image") {
@@ -185,7 +195,7 @@ const AddProject = () => {
                     { required: true, message: "Please enter the post code." },
                     {
                       pattern: /^\d{5}(-\d{4})?$/,
-                      message: "Please enter a valid post code.",
+                      message: "Please enter a valid 5 digit post code.",
                     },
                   ]}
                 >
@@ -258,6 +268,42 @@ const AddProject = () => {
 
                 {/* Who can see this project */}
                 <Form.Item
+                  name="oshaCertificate"
+                  valuePropName="checked"
+                  // rules={[
+                  //   {
+                  //     validator: (_, value) =>
+                  //       value
+                  //         ? Promise.resolve()
+                  //         : Promise.reject(
+                  //             new Error(
+                  //               "You must checked the background certificate"
+                  //             )
+                  //           ),
+                  //   },
+                  // ]}
+                >
+                  <Checkbox>Show Osha Certificate holder </Checkbox>
+                </Form.Item>
+                <Form.Item
+                  name="backgroundCertificate"
+                  valuePropName="checked"
+                  // rules={[
+                  //   {
+                  //     validator: (_, value) =>
+                  //       value
+                  //         ? Promise.resolve()
+                  //         : Promise.reject(
+                  //             new Error(
+                  //               "You must checked the background certificate"
+                  //             )
+                  //           ),
+                  //   },
+                  // ]}
+                >
+                  <Checkbox>Show Background Certificate holder </Checkbox>
+                </Form.Item>
+                {/* <Form.Item
                   label={
                     <span className="text-black font-semibold">
                       Who can see this project?
@@ -271,13 +317,13 @@ const AddProject = () => {
                     },
                   ]}
                 >
-                  <Select placeholder="Select price range">
+                  <Select mode="multiple" placeholder="Select price range">
                     <Option value="osha">Who has Osha certificate. </Option>
                     <Option value="background">
                       Who has Background certificate.
                     </Option>
                   </Select>
-                </Form.Item>
+                </Form.Item> */}
 
                 {/* Image Upload */}
                 <Form.Item
@@ -413,14 +459,9 @@ const AddProject = () => {
 
           {/* Illustration */}
           <div className="mb-6">
-            <Image
-              src={payment_img} // Replace with the correct path to your image
-              alt="payment_img"
-              className="mx-auto"
-            />
+            <Image src={payment_img} alt="payment_img" className="mx-auto" />
           </div>
 
-          {/* Pay Now Button */}
           <Button
             type="primary"
             loading={isLoading}

@@ -5,7 +5,16 @@ import {
   useEditProjectMutation,
   useMySingleProjectByIdQuery,
 } from "@/redux/features/projects/projectApi";
-import { Button, Form, Input, Select, Spin, Upload, message } from "antd";
+import {
+  Button,
+  Checkbox,
+  Form,
+  Input,
+  Select,
+  Spin,
+  Upload,
+  message,
+} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
@@ -24,7 +33,7 @@ export default function EditProject() {
 
   const { data, isLoading: isProjectLoading } = useMySingleProjectByIdQuery(id);
   const projectData = data?.data;
-  console.log(projectData);
+  // console.log(projectData);
 
   const [editProject, { isLoading: isEditLoading }] = useEditProjectMutation();
 
@@ -39,7 +48,8 @@ export default function EditProject() {
         locationType: projectData.locationType,
         time: projectData.time,
         priceRange: projectData.priceRange,
-        showProject: projectData.showProject,
+        oshaCertificate: projectData.oshaCertificate,
+        backgroundCertificate: projectData.backgroundCertificate,
         workDetails: projectData.workDetails,
       });
       if (projectData.image) {
@@ -235,6 +245,43 @@ export default function EditProject() {
               </Form.Item>
 
               <Form.Item
+                name="oshaCertificate"
+                valuePropName="checked"
+                // rules={[
+                //   {
+                //     validator: (_, value) =>
+                //       value
+                //         ? Promise.resolve()
+                //         : Promise.reject(
+                //             new Error(
+                //               "You must checked the background certificate"
+                //             )
+                //           ),
+                //   },
+                // ]}
+              >
+                <Checkbox>Show Osha Certificate holder </Checkbox>
+              </Form.Item>
+              <Form.Item
+                name="backgroundCertificate"
+                valuePropName="checked"
+                // rules={[
+                //   {
+                //     validator: (_, value) =>
+                //       value
+                //         ? Promise.resolve()
+                //         : Promise.reject(
+                //             new Error(
+                //               "You must checked the background certificate"
+                //             )
+                //           ),
+                //   },
+                // ]}
+              >
+                <Checkbox>Show Background Certificate holder </Checkbox>
+              </Form.Item>
+
+              {/* <Form.Item
                 label={
                   <span className="text-black font-semibold">
                     Who can see this project?
@@ -248,13 +295,13 @@ export default function EditProject() {
                   },
                 ]}
               >
-                <Select placeholder="Select one option">
+                <Select mode="multiple" placeholder="Select one option">
                   <Option value="osha">Who has Osha certificate. </Option>
                   <Option value="background">
                     Who has Background certificate.
                   </Option>
                 </Select>
-              </Form.Item>
+              </Form.Item> */}
 
               <Form.Item
                 label={
