@@ -22,9 +22,13 @@ export default function ProviderProfile() {
 
   const [certificate1File, setCertificate1File] = useState(null);
   const [certificate2File, setCertificate2File] = useState(null);
+  const [oshaCertFile, setOshaCertFile] = useState(null);
+  const [backgroundCertFile, setBackgroundCertFile] = useState(null);
 
   const [certificate1Url, setCertificate1Url] = useState(null);
   const [certificate2Url, setCertificate2Url] = useState(null);
+  const [oshaCertUrl, setOshaCertUrl] = useState(null);
+  const [backgroundCertUrl, setBackgroundCertUrl] = useState(null);
 
   const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
     useState(false);
@@ -49,6 +53,20 @@ export default function ProviderProfile() {
             : baseUrl + user.certificate[1]
         );
       }
+    }
+    if (user && user.oshaCertificat) {
+      setOshaCertUrl(
+        user.oshaCertificat.startsWith("http")
+          ? user.oshaCertificat
+          : baseUrl + user.oshaCertificat
+      );
+    }
+    if (user && user.backgroundCertificat) {
+      setBackgroundCertUrl(
+        user.backgroundCertificat.startsWith("http")
+          ? user.backgroundCertificat
+          : baseUrl + user.backgroundCertificat
+      );
     }
   }, [user, baseUrl]);
 
@@ -104,6 +122,24 @@ export default function ProviderProfile() {
     return false;
   };
 
+  const handleBeforeUploadOshaCert = (file) => {
+    if (file.type !== "application/pdf") {
+      message.error("Only PDF files are allowed for OSHA Certificate!");
+      return Upload.LIST_IGNORE;
+    }
+    setOshaCertFile(file);
+    return false;
+  };
+
+  const handleBeforeUploadBackgroundCert = (file) => {
+    if (file.type !== "application/pdf") {
+      message.error("Only PDF files are allowed for Background Certificate!");
+      return Upload.LIST_IGNORE;
+    }
+    setBackgroundCertFile(file);
+    return false;
+  };
+
   const handleOpenEditModal = () => {
     setIsEditModalOpen(true);
     form.setFieldsValue({
@@ -127,6 +163,8 @@ export default function ProviderProfile() {
     setFile(null);
     setCertificate1File(null);
     setCertificate2File(null);
+    setOshaCertFile(null);
+    setBackgroundCertFile(null);
     form.resetFields();
   };
 
@@ -149,6 +187,12 @@ export default function ProviderProfile() {
     }
     if (certificate2File) {
       formData.append("certificate", certificate2File);
+    }
+    if (oshaCertFile) {
+      formData.append("oshaCertificat", oshaCertFile);
+    }
+    if (backgroundCertFile) {
+      formData.append("backgroundCertificat", backgroundCertFile);
     }
 
     try {
@@ -183,15 +227,7 @@ export default function ProviderProfile() {
 
         {/* Profile Image */}
         <Image
-          src={
-            previewImage ||
-            (user?.image
-              ? baseUrl +
-                (formattedImage.startsWith("/")
-                  ? formattedImage
-                  : "/" + formattedImage)
-              : default_img.src)
-          }
+          src={previewImage || default_img.src}
           alt="Provider Profile Image"
           className="w-32 h-32 md:w-64 md:h-64 object-cover rounded-full"
           width={1000}
@@ -215,36 +251,81 @@ export default function ProviderProfile() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed"
                 />
               </div>
-              <div className="md:flex justify-start items-center gap-8">
-                <div>
-                  {certificate1Url ? (
-                    <Link
-                      href={certificate1Url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-purple-600 font-semibold mb-2"
-                    >
-                      View Certificate One
-                    </Link>
-                  ) : (
-                    <p className="text-gray-500">No certificate uploaded</p>
-                  )}
+              {/* Certificates Upload */}
+              <div className="">
+                {/* Display OSHA and Background Certificates beside each other */}
+                <div className="flex gap-4">
+                  <div className="w-full">
+                    {oshaCertUrl ? (
+                      <Link
+                        href={oshaCertUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-purple-600 font-semibold mb-2"
+                      >
+                        View OSHA Certificate
+                      </Link>
+                    ) : (
+                      <p className="text-gray-500">
+                        No OSHA certificate uploaded
+                      </p>
+                    )}
+                  </div>
+                  <div className="w-full">
+                    {backgroundCertUrl ? (
+                      <Link
+                        href={backgroundCertUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-purple-600 font-semibold"
+                      >
+                        View Background Certificate
+                      </Link>
+                    ) : (
+                      <p className="text-gray-500">
+                        No Background certificate uploaded
+                      </p>
+                    )}
+                  </div>
                 </div>
-                <div>
-                  {certificate2Url ? (
-                    <Link
-                      href={certificate2Url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-purple-600 font-semibold"
-                    >
-                      View Certificate Two
-                    </Link>
-                  ) : (
-                    <p className="text-gray-500">No certificate uploaded</p>
-                  )}
+
+                {/* Display Certificate 1 and Certificate 2 below the previous ones */}
+                <div className="flex gap-4 mt-4">
+                  <div className="w-full">
+                    {certificate1Url ? (
+                      <Link
+                        href={certificate1Url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-purple-600 font-semibold"
+                      >
+                        View Certificate One
+                      </Link>
+                    ) : (
+                      <p className="text-gray-500">
+                        No Certificate One uploaded
+                      </p>
+                    )}
+                  </div>
+                  <div className="w-full">
+                    {certificate2Url ? (
+                      <Link
+                        href={certificate2Url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-purple-600 font-semibold"
+                      >
+                        View Certificate Two
+                      </Link>
+                    ) : (
+                      <p className="text-gray-500">
+                        No Certificate Two uploaded
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
+
               <div>
                 <label className="block text-black font-semibold">
                   Street Address
@@ -283,19 +364,9 @@ export default function ProviderProfile() {
         </div>
       </div>
 
-      {/* Change Password Button */}
-      <button
-        onClick={() => setIsChangePasswordModalOpen(true)}
-        className="mb-20 bg-primary text-white px-4 py-2 md:px-6 md:py-2.5 rounded hover:bg-secondary-dark transition"
-      >
-        Change Password
-      </button>
-
       {/* Edit Profile Modal */}
       <Modal
-        title={
-          <span className="text-xl font-bold text-primary">Update Profile</span>
-        }
+        title="Update Profile"
         visible={isEditModalOpen}
         onCancel={handleCloseModal}
         footer={null}
@@ -383,50 +454,70 @@ export default function ProviderProfile() {
             </Select>
           </Form.Item>
 
-          {/* Certificates side by side */}
-          <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
-            <Form.Item name="certificate1">
+          {/* Certificates Upload */}
+          <div className="grid grid-cols-2 gap-4">
+            <Form.Item label="Upload OSHA Certificate" name="oshaCertificat">
+              <Upload
+                maxCount={1}
+                accept="application/pdf"
+                beforeUpload={handleBeforeUploadOshaCert}
+                fileList={
+                  oshaCertFile ? [{ uid: "-1", name: oshaCertFile.name }] : []
+                }
+                onRemove={() => setOshaCertFile(null)}
+              >
+                <Button icon={<FaPlus />}>OSHA Certificate</Button>
+              </Upload>
+            </Form.Item>
+            <Form.Item
+              label="Upload Background Certificate"
+              name="backgroundCertificat"
+            >
+              <Upload
+                maxCount={1}
+                accept="application/pdf"
+                beforeUpload={handleBeforeUploadBackgroundCert}
+                fileList={
+                  backgroundCertFile
+                    ? [{ uid: "-2", name: backgroundCertFile.name }]
+                    : []
+                }
+                onRemove={() => setBackgroundCertFile(null)}
+              >
+                <Button icon={<FaPlus />}>Background Certificate</Button>
+              </Upload>
+            </Form.Item>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <Form.Item label="Upload Certificate One" name="certificate1">
               <Upload
                 maxCount={1}
                 accept="application/pdf"
                 beforeUpload={handleBeforeUploadCertificate1}
-                showUploadList={!!certificate1File}
                 fileList={
                   certificate1File
-                    ? [
-                        {
-                          uid: "-1",
-                          name: certificate1File.name,
-                          status: "done",
-                        },
-                      ]
+                    ? [{ uid: "-3", name: certificate1File.name }]
                     : []
                 }
                 onRemove={() => setCertificate1File(null)}
               >
-                <Button icon={<FaPlus />}>Certificate 1</Button>
+                <Button icon={<FaPlus />}>Certificate One</Button>
               </Upload>
             </Form.Item>
-            <Form.Item name="certificate2">
+            <Form.Item label="Upload Certificate Two" name="certificate2">
               <Upload
                 maxCount={1}
                 accept="application/pdf"
                 beforeUpload={handleBeforeUploadCertificate2}
-                showUploadList={!!certificate2File}
                 fileList={
                   certificate2File
-                    ? [
-                        {
-                          uid: "-2",
-                          name: certificate2File.name,
-                          status: "done",
-                        },
-                      ]
+                    ? [{ uid: "-4", name: certificate2File.name }]
                     : []
                 }
                 onRemove={() => setCertificate2File(null)}
               >
-                <Button icon={<FaPlus />}>Certificate 2</Button>
+                <Button icon={<FaPlus />}>Certificate Two</Button>
               </Upload>
             </Form.Item>
           </div>
@@ -464,7 +555,7 @@ export default function ProviderProfile() {
             </Form.Item>
           </div>
 
-          {/* Save Changes Button */}
+          {/* Other Form Items */}
           <Form.Item>
             <Button
               type="primary"
