@@ -71,7 +71,7 @@ export default function Projects() {
     },
   ]);
   const [bidProject] = useCreateBidProjectMutation();
-  console.log(data);
+  console.log(data.data.project);
 
   useEffect(() => {
     if (isModalOpen || isBidModalOpen) {
