@@ -256,6 +256,29 @@ const AddProject = () => {
                   </Select>
                 </Form.Item>
 
+                {/* Who can see this project */}
+                <Form.Item
+                  label={
+                    <span className="text-black font-semibold">
+                      Who can see this project?
+                    </span>
+                  }
+                  name="showProject"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please select the option.",
+                    },
+                  ]}
+                >
+                  <Select placeholder="Select price range">
+                    <Option value="osha">Who has Osha certificate. </Option>
+                    <Option value="background">
+                      Who has Background certificate.
+                    </Option>
+                  </Select>
+                </Form.Item>
+
                 {/* Image Upload */}
                 <Form.Item
                   label={

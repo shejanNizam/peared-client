@@ -24,7 +24,7 @@ export default function EditProject() {
 
   const { data, isLoading: isProjectLoading } = useMySingleProjectByIdQuery(id);
   const projectData = data?.data;
-  // console.log(projectData);
+  console.log(projectData);
 
   const [editProject, { isLoading: isEditLoading }] = useEditProjectMutation();
 
@@ -39,6 +39,7 @@ export default function EditProject() {
         locationType: projectData.locationType,
         time: projectData.time,
         priceRange: projectData.priceRange,
+        showProject: projectData.showProject,
         workDetails: projectData.workDetails,
       });
       if (projectData.image) {
@@ -63,7 +64,6 @@ export default function EditProject() {
   const onFinish = async (values) => {
     const formData = new FormData();
 
-    // Append all form values except image
     Object.keys(values).forEach((key) => {
       if (key !== "image") {
         formData.append(key, values[key]);
@@ -74,7 +74,6 @@ export default function EditProject() {
     if (fileList.length > 0 && fileList[0].originFileObj) {
       formData.append("image", fileList[0].originFileObj);
     } else if (imageUrl) {
-      // If no new image was uploaded but there's an existing image URL
       formData.append("image", imageUrl);
     }
 
@@ -232,6 +231,28 @@ export default function EditProject() {
                   <Option value="1001-5000">1,001 - 5,000</Option>
                   <Option value="5001-10000">5,001 - 10,000</Option>
                   <Option value="10001+">10,001+</Option>
+                </Select>
+              </Form.Item>
+
+              <Form.Item
+                label={
+                  <span className="text-black font-semibold">
+                    Who can see this project?
+                  </span>
+                }
+                name="showProject"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please select the option.",
+                  },
+                ]}
+              >
+                <Select placeholder="Select one option">
+                  <Option value="osha">Who has Osha certificate. </Option>
+                  <Option value="background">
+                    Who has Background certificate.
+                  </Option>
                 </Select>
               </Form.Item>
 
