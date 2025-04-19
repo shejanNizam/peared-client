@@ -7,8 +7,10 @@ import {
   useAllProjectsQuery,
   useCreateBidProjectMutation,
 } from "@/redux/features/projects/projectApi";
+import { UploadOutlined } from "@ant-design/icons";
 import {
   Button,
+  Checkbox,
   DatePicker,
   Form,
   Input,
@@ -16,6 +18,8 @@ import {
   message,
   Modal,
   Select,
+  Typography,
+  Upload,
 } from "antd";
 import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
@@ -24,6 +28,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 
+const { Text } = Typography;
 const { Option } = Select;
 const { Search, TextArea } = Input;
 
@@ -57,6 +62,8 @@ export default function Projects() {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [paymentUrl, setPaymentUrl] = useState(null);
+
+  const [certificates, setCertificates] = useState([]);
 
   const router = useRouter();
 
@@ -155,20 +162,61 @@ export default function Projects() {
     setSearchText("");
   };
 
+  const handleBeforeUpload = (file) => {
+    if (file.type !== "application/pdf") {
+      message.error("Only PDF files are allowed!");
+      return Upload.LIST_IGNORE;
+    }
+
+    let newFileList = [...certificates, file];
+    if (newFileList.length > 10) {
+      message.error("You can only upload a maximum of 10 PDF files.");
+      return Upload.LIST_IGNORE;
+    }
+    setCertificates(newFileList);
+
+    return true;
+  };
+
+  const handleFileChange = ({ fileList }) => {
+    console.log("Updated File List:", fileList);
+
+    if (fileList.length > 10) {
+      message.error("You can only upload a maximum of 2 PDF files.");
+      fileList = fileList.slice(0, 10);
+    }
+
+    setCertificates(fileList);
+  };
+
   const onFinish = async (values) => {
     const projectId = selectedProject?._id;
-    const allModalData = {
-      ...values,
-      projectId,
-    };
-    // console.log(allModalData);
+    if (!certificates || certificates.length === 0) {
+      message.error("Please upload at least one certificate.");
+      return;
+    }
+
+    const data = { ...values, certificates: certificates, projectId };
+    const formData = new FormData();
+    for (const key in data) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        formData.append(key, data[key]);
+      }
+    }
+    certificates.forEach((file, index) => {
+      formData.append(`certificate`, file.originFileObj);
+    });
+
     try {
-      const response = await bidProject(allModalData).unwrap();
+      const response = await bidProject(formData).unwrap();
 
       if (response?.data?._id) {
         SuccessSwal({
           title: "",
-          text: response?.message || response?.data?.message,
+          text:
+            response?.message ||
+            response?.data?.message ||
+            `Bid created successfully!`,
         });
         router.push(`profile/my-bids`);
       } else {
@@ -180,7 +228,7 @@ export default function Projects() {
     } catch (error) {
       ErrorSwal({
         title: "",
-        text: error?.message || error?.data?.message,
+        text: error?.message || error?.data?.message || `Something went wrong!`,
       });
     }
 
@@ -455,11 +503,67 @@ export default function Projects() {
                 placeholder="Write something about your work process"
               />
             </Form.Item>
+
+            {/* Document Upload Field */}
+            <Form.Item
+              label={
+                <span className="text-black font-semibold">
+                  Upload Document (PDF)
+                </span>
+              }
+              required
+              name="certificate"
+              valuePropName="fileList"
+              getValueFromEvent={({ fileList }) => fileList}
+            >
+              <Upload
+                accept="application/pdf"
+                maxCount={10}
+                showUploadList
+                className="w-full"
+                beforeUpload={handleBeforeUpload}
+                onChange={handleFileChange}
+              >
+                <Button
+                  htmlType="button"
+                  icon={<UploadOutlined />}
+                  size="large"
+                  block
+                >
+                  Upload Document (PDF)
+                </Button>
+              </Upload>
+              <Text type="secondary" className="mt-2 block">
+                Upload your certificates or documents related to the project.
+              </Text>
+            </Form.Item>
+            {/* ------ */}
+            {/*  */}
+            <Form.Item
+              name="estimatedServiceTime"
+              valuePropName="checked"
+              // rules={[
+              //   {
+              //     validator: (_, value) =>
+              //       value
+              //         ? Promise.resolve()
+              //         : Promise.reject(
+              //             new Error("You must agree to the terms")
+              //           ),
+              //   },
+              // ]}
+            >
+              <Checkbox className="text-base font-medium">
+                estimated service time{" "}
+              </Checkbox>
+            </Form.Item>
+
+            {/*  */}
           </div>
           <div className="text-center flex justify-center gap-8">
             <Button onClick={handleCloseBidModal}>Back</Button>
             <Button type="primary" htmlType="submit">
-              Send
+              Bid this project
             </Button>
           </div>
         </Form>
