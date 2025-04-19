@@ -30,14 +30,20 @@ export default function BottomBar() {
   const bottomBarItemsProvider = [
     { name: "Home", icon: <IoHome size={24} />, path: "/" },
     {
-      name: "Curr. Projects",
+      // name: "Curr. Projects",
+      name: "Projects",
       icon: <FaProjectDiagram size={24} />,
       path: "/profile/current-projects",
     },
     {
-      name: "My Bids",
+      name: "Bids",
       icon: <FaCheckCircle size={24} />,
       path: "/profile/my-bids",
+    },
+    {
+      name: "Acc. Setup",
+      icon: <FaStar size={24} />,
+      path: "/profile/account-setup",
     },
     { name: "Wallet", icon: <FaWallet size={24} />, path: "/profile/wallet" },
     {
