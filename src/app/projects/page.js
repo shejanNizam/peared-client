@@ -191,12 +191,19 @@ export default function Projects() {
 
   const onFinish = async (values) => {
     const projectId = selectedProject?._id;
-    if (!certificates || certificates.length === 0) {
-      message.error("Please upload at least one certificate.");
-      return;
-    }
+    // if (!certificates || certificates.length === 0) {
+    //   message.error("Please upload at least one certificate.");
+    //   return;
+    // }
 
-    const data = { ...values, certificates: certificates, projectId };
+    const estimatedServiceTime = values.estimatedServiceTime || false;
+
+    const data = {
+      ...values,
+      certificates: certificates,
+      projectId,
+      estimatedServiceTime,
+    };
     const formData = new FormData();
     for (const key in data) {
       if (Object.prototype.hasOwnProperty.call(data, key)) {
