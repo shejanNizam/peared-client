@@ -47,13 +47,18 @@ export default function Sidebar({
       path: "/profile/current-projects",
     },
     { name: "Pending Bids", icon: <FaCheckCircle />, path: "/profile/my-bids" },
+    {
+      name: "Account Setup",
+      icon: <FaStar />,
+      path: "/profile/account-setup",
+    },
     { name: "Wallet", icon: <FaWallet />, path: "/profile/wallet" },
     {
       name: `Notifications`,
-      icon: <FaStar />,
+      icon: <FaBell />,
       path: "/profile/notifications",
     },
-    { name: "My Review", icon: <FaBell />, path: "/profile/my-review" },
+    { name: "My Review", icon: <FaStar />, path: "/profile/my-review" },
   ];
 
   return (

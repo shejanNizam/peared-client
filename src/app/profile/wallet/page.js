@@ -2,6 +2,7 @@
 
 import RecentWalletHistory from "@/components/profile/wallet/RecentWalletHistory";
 import WalletBalance from "@/components/profile/wallet/WalletBalance";
+import { ErrorSwal } from "@/components/utils/allSwalFire";
 import {
   useAddBalanceMutation,
   useMyWalletQuery,
@@ -45,7 +46,10 @@ export default function Wallet() {
         window.location.href = response?.data;
       }
     } catch (error) {
-      console.log(error);
+      ErrorSwal({
+        tiitle: "",
+        text: error?.data?.message || error?.message || "Something went wrong",
+      });
     }
   };
   const handleWithdrawBalanceFinish = async (values) => {
@@ -55,12 +59,15 @@ export default function Wallet() {
       const response = await withdrawBanalce({
         amount: balanceAmount,
       }).unwrap();
-      console.log(response);
+      // console.log(response);
       if (response?.success) {
         window.location.href = response?.data?.url;
       }
     } catch (error) {
-      console.log(error);
+      ErrorSwal({
+        tiitle: "",
+        text: error?.data?.message || error?.message || "Something went wrong",
+      });
     }
   };
 
