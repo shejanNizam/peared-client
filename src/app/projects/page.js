@@ -13,6 +13,7 @@ import {
   Form,
   Input,
   InputNumber,
+  message,
   Modal,
   Select,
 } from "antd";
@@ -54,6 +55,9 @@ export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchText, setSearchText] = useState("");
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [paymentUrl, setPaymentUrl] = useState(null);
+
   const router = useRouter();
 
   const { data } = useAllProjectsQuery([
@@ -71,7 +75,7 @@ export default function Projects() {
     },
   ]);
   const [bidProject] = useCreateBidProjectMutation();
-  console.log(data.data.project);
+  // console.log(data.data.project);
 
   useEffect(() => {
     if (isModalOpen || isBidModalOpen) {
@@ -111,8 +115,18 @@ export default function Projects() {
     setIsBidModalOpen(true);
   };
 
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   const handleCloseBidModal = () => {
     setIsBidModalOpen(false);
+  };
+
+  const handlePayNow = () => {
+    message.success("Payment successful! Redirecting...");
+    window.location.href = paymentUrl;
+    // router.push("/login");
   };
 
   const filteredProjects = data?.data?.project?.filter((proj) => {
@@ -150,11 +164,19 @@ export default function Projects() {
     // console.log(allModalData);
     try {
       const response = await bidProject(allModalData).unwrap();
-      SuccessSwal({
-        title: "",
-        text: response?.message || response?.data?.message,
-      });
-      router.push(`profile/my-bids`);
+
+      if (response?.data?._id) {
+        SuccessSwal({
+          title: "",
+          text: response?.message || response?.data?.message,
+        });
+        router.push(`profile/my-bids`);
+      } else {
+        setPaymentUrl(response?.data);
+
+        setIsModalVisible(true);
+        // console.log("payment");
+      }
     } catch (error) {
       ErrorSwal({
         title: "",
@@ -441,6 +463,40 @@ export default function Projects() {
             </Button>
           </div>
         </Form>
+      </Modal>
+
+      {/* Payment Modal */}
+      <Modal
+        open={isModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+        closable
+        centered
+      >
+        {/* Modal content matching your design */}
+        <div className="text-center p-4">
+          <h2 className="text-2xl font-bold mb-2 text-green-700">Pay Now</h2>
+          <p className="mb-6">
+            Doing some activity you must pay $30 for the first time.{" "}
+          </p>
+
+          {/* Big price text */}
+          <div className="text-4xl font-bold text-gray-700 mb-4">$30</div>
+
+          {/* Optionally place an image or icon here */}
+          {/* <img src="/some-money-illustration.png" alt="Payment" className="mx-auto mb-6" /> */}
+
+          {/* Payment button */}
+          <Button
+            type="primary"
+            size="large"
+            className="bg-green-500 hover:bg-green-600 border-none"
+            onClick={handlePayNow}
+            block
+          >
+            Pay Now
+          </Button>
+        </div>
       </Modal>
 
       <BottomBar />
