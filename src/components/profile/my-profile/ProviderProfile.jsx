@@ -210,10 +210,6 @@ export default function ProviderProfile() {
     }
   };
 
-  const formattedImage = user?.image
-    ? user.image.replace(/^public/, "")
-    : default_img.src;
-
   return (
     <div className="flex flex-col justify-center items-center gap-6">
       {/* Profile Section */}

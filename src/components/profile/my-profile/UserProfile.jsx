@@ -13,14 +13,15 @@ import default_img from "../../../assets/user_img_default.png";
 
 export default function UserProfile() {
   const baseUrl = process.env.NEXT_PUBLIC_IMAGE_URL;
+  const { user } = useSelector((state) => state.auth);
+
   const [file, setFile] = useState(null);
-  const [previewImage, setPreviewImage] = useState("");
+  const [previewImage, setPreviewImage] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
     useState(false);
   const [form] = Form.useForm();
 
-  const { user } = useSelector((state) => state.auth);
   const [updateUser] = useUpdateUserDataMutation();
 
   useEffect(() => {
@@ -28,18 +29,15 @@ export default function UserProfile() {
       const objectUrl = URL.createObjectURL(file);
       setPreviewImage(objectUrl);
       return () => URL.revokeObjectURL(objectUrl);
-    } else if (isEditModalOpen && user) {
-      const formattedImage = user.image
-        ? user.image.replace(/^public/, "")
-        : default_img.src;
+    } else if (user?.image) {
+      const formatted = user.image.replace(/^public/, "");
       setPreviewImage(
-        baseUrl +
-          (formattedImage.startsWith("/")
-            ? formattedImage
-            : "/" + formattedImage)
+        baseUrl + (formatted.startsWith("/") ? formatted : "/" + formatted)
       );
+    } else {
+      setPreviewImage(default_img.src);
     }
-  }, [file, isEditModalOpen, user, baseUrl]);
+  }, [file, user, baseUrl]);
 
   const handleBeforeUpload = (file) => {
     const isImage = file.type.startsWith("image/");
@@ -61,11 +59,15 @@ export default function UserProfile() {
 
   const handleEditFormSubmit = async (values) => {
     const formData = new FormData();
-    const updatedValues = { ...values, image: file };
+    const updatedValues = { ...values, image: file || user?.image }; // Use the existing image if no new image is uploaded.
 
     Object.keys(updatedValues).forEach((key) => {
       formData.append(key, updatedValues[key]);
     });
+
+    if (file) {
+      formData.append("image", file); // Append the new image if it's uploaded
+    }
 
     try {
       await updateUser(formData).unwrap();
@@ -82,16 +84,30 @@ export default function UserProfile() {
     }
   };
 
-  const formattedImage = user?.image
-    ? user.image.replace(/^public/, "")
-    : default_img.src;
+  const handleOpenEditModal = () => {
+    setIsEditModalOpen(true);
+    form.setFieldsValue({
+      name: user?.name || "",
+      service: user?.service || [],
+      address: user?.address || "",
+      city: user?.city || "",
+      postalCode: user?.postalCode || "",
+    });
+    // Ensure preview image is set when opening the modal
+    if (user?.image && !file) {
+      const formatted = user.image.replace(/^public/, "");
+      setPreviewImage(
+        baseUrl + (formatted.startsWith("/") ? formatted : "/" + formatted)
+      );
+    }
+  };
 
   return (
     <div className="flex flex-col justify-center items-center gap-6">
       {/* Profile Section */}
       <div className="flex flex-col md:flex-row justify-start items-start gap-8 shadow-2xl border border-secondary rounded w-full max-w-4xl h-auto relative p-8 md:p-12">
         <button
-          onClick={() => setIsEditModalOpen(true)}
+          onClick={handleOpenEditModal}
           className="absolute top-4 right-4 bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark transition"
         >
           Update
@@ -99,16 +115,8 @@ export default function UserProfile() {
 
         {/* Profile Image */}
         <Image
-          src={
-            previewImage ||
-            (user?.image
-              ? baseUrl +
-                (formattedImage.startsWith("/")
-                  ? formattedImage
-                  : "/" + formattedImage)
-              : default_img.src)
-          }
-          alt="Profile Image"
+          src={previewImage || default_img.src}
+          alt="Provider Profile Image"
           className="w-32 h-32 md:w-64 md:h-64 object-cover rounded-full"
           width={1000}
           height={1000}
@@ -223,6 +231,7 @@ export default function UserProfile() {
                 ) : (
                   <div className="w-24 h-24 bg-gray-200 rounded-full" />
                 )}
+
                 <Upload
                   name="image"
                   maxCount={1}
