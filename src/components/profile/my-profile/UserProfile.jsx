@@ -25,16 +25,19 @@ export default function UserProfile() {
   const [updateUser] = useUpdateUserDataMutation();
 
   useEffect(() => {
+    // Check if the user has an image or if a new image is uploaded
     if (file) {
       const objectUrl = URL.createObjectURL(file);
       setPreviewImage(objectUrl);
       return () => URL.revokeObjectURL(objectUrl);
     } else if (user?.image) {
+      // Use the image from the API response, considering the base URL
       const formatted = user.image.replace(/^public/, "");
       setPreviewImage(
         baseUrl + (formatted.startsWith("/") ? formatted : "/" + formatted)
       );
     } else {
+      // Default image if no profile image exists
       setPreviewImage(default_img.src);
     }
   }, [file, user, baseUrl]);
