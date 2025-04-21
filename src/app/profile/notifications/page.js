@@ -3,25 +3,38 @@
 import { useAllNotificationsQuery } from "@/redux/features/notifications/notificationsApi";
 import { Pagination } from "antd";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoNotificationsOutline } from "react-icons/io5";
 
 export default function Notifications() {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
-  const { data, error, isLoading } = useAllNotificationsQuery();
+
+  // Pass currentPage to the query to fetch correct data
+  const { data, error, isLoading } = useAllNotificationsQuery({
+    page: currentPage,
+  });
 
   const handleBack = () => {
     router.back();
   };
 
   const handlePageChange = (page) => {
-    setCurrentPage(page);
+    setCurrentPage(page); // Update the page number when the user changes the page
   };
 
   const paginatedData = data?.data?.notifications || [];
-  const totalData = data?.data?.pagination.totalData || 0;
+  const totalData = data?.data?.pagination?.totalData || 0;
+  const totalPage = data?.data?.pagination?.totalPage || 0;
+
+  useEffect(() => {
+    // Update the pagination if the currentPage exceeds total pages
+    if (currentPage > totalPage) {
+      setCurrentPage(totalPage); // Prevent going to a non-existent page
+    }
+  }, [currentPage, totalPage]);
+
   return (
     <div className="bg-white min-h-screen px-4 py-8 md:py-0">
       <div className="sticky top-20 flex justify-start gap-2 bg-primary rounded-t-md h-20 text-white py-8 pl-8 font-bold">
@@ -68,6 +81,7 @@ export default function Notifications() {
           total={totalData}
           onChange={handlePageChange}
           showSizeChanger={false}
+          showQuickJumper
         />
       </div>
     </div>
