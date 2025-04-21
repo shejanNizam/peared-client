@@ -250,7 +250,7 @@ export default function ProviderProfile() {
               {/* Certificates Upload */}
               <div className="">
                 {/* Display OSHA and Background Certificates beside each other */}
-                <div className="flex gap-4">
+                <div className="flex flex-col lg:flex-row gap-4">
                   <div className="w-full">
                     {oshaCertUrl ? (
                       <Link
@@ -286,7 +286,7 @@ export default function ProviderProfile() {
                 </div>
 
                 {/* Display Certificate 1 and Certificate 2 below the previous ones */}
-                <div className="flex gap-4 mt-4">
+                <div className="flex flex-col lg:flex-row gap-4 mt-4">
                   <div className="w-full">
                     {certificate1Url ? (
                       <Link

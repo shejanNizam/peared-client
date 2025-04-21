@@ -25,7 +25,7 @@ export default function AccountSetup() {
     },
     {
       title: "Set Up a Payout Account",
-      condition: userData?.accountId === true, // Check if accountId is set
+      condition: userData?.accountId, // Check if accountId is set
     },
   ];
 
