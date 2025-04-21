@@ -259,10 +259,13 @@ const AddProject = () => {
                   ]}
                 >
                   <Select placeholder="Select price range">
-                    <Option value="0-1000">0 - 1,000</Option>
-                    <Option value="1001-5000">1,001 - 5,000</Option>
-                    <Option value="5001-10000">5,001 - 10,000</Option>
-                    <Option value="10001+">10,001+</Option>
+                    <Option value="0-100">0 - 500</Option>
+                    <Option value="0-100">501 - 1,000</Option>
+                    <Option value="0-1000">1,001 - 1,500</Option>
+                    <Option value="1001-5000">1,501 - 2,000</Option>
+                    <Option value="5001-10000">2,001 - 2,500</Option>
+                    <Option value="10001+">25,01 - 3,000</Option>
+                    <Option value="10001+">3,000+</Option>
                   </Select>
                 </Form.Item>
 
