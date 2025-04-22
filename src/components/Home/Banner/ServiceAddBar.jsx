@@ -22,16 +22,17 @@ function ServiceAddBar() {
     );
 
     localStorage.setItem("selectedCategory", selectedCategory.catagory);
+    router.push(`/add-project`);
 
-    if (user) {
-      router.push(`/add-project`);
-    } else {
-      SuccessSwal({
-        title: "",
-        text: " Please login first! ",
-      });
-      router.push(`/login?redirect=/add-project`);
-    }
+    // if (user) {
+    //   router.push(`/add-project`);
+    // } else {
+    //   SuccessSwal({
+    //     title: "",
+    //     text: " Please login first! ",
+    //   });
+    //   router.push(`/login?redirect=/add-project`);
+    // }
   };
 
   const handleSelect = (value) => {
