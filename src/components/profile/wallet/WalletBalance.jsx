@@ -16,10 +16,12 @@ export default function WalletBalance({ balance }) {
           </p>
           <h2 className="text-2xl font-bold text-gray-800">
             ${" "}
-            {balance?.toLocaleString(undefined, {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
+            {balance
+              ? balance?.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })
+              : "N/A"}
           </h2>
         </div>
       </div>

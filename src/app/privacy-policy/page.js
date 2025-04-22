@@ -19,9 +19,9 @@ export default function PrivacyPolicy() {
   return (
     <>
       <div className=" text-center bg-white shadow-xl min-h-screen p-4 md:p-12 m-4 md:mx-64 md:my-12 ">
-        <h3 className=" text-2xl md:text-4xl font-bold text-primary mb-12">
+        <div className="text-primary text-2xl text-center font-bold my-2">
           Privacy Policy
-        </h3>
+        </div>
         <div>
           {/* Render the HTML content from the API */}
           {data?.data[0]?.description && (

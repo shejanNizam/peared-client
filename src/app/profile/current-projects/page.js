@@ -1,6 +1,7 @@
 "use client";
 
 import { useCurrentProjectsQuery } from "@/redux/features/projects/projectApi";
+import { Pagination } from "antd"; // Import Pagination from antd
 import { format } from "date-fns";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -8,15 +9,21 @@ import { useRouter } from "next/navigation";
 export default function CurrentProjects() {
   const router = useRouter();
 
-  const { data } = useCurrentProjectsQuery();
-  const myProject = data?.data;
-  console.log(myProject);
+  // Destructure the pagination data and currentProjects from the response
+  const { data, isLoading } = useCurrentProjectsQuery();
+  const myProject = data?.data?.currentProjects || [];
+  const pagination = data?.data?.pagination || {}; // Extract pagination info
 
   const handleOpenProject = (project) => {
-    // console.log(project);
     router.push(
       `/profile/project-details-message?projectId=${project?.projectId?._id}`
     );
+  };
+
+  const handlePageChange = (page) => {
+    // This will handle the page change; you'd need to pass the page to your query or API call
+    // For example, you might use `useCurrentProjectsQuery({ page })` if it accepts page as a parameter.
+    console.log("Page changed to: ", page);
   };
 
   return (
@@ -27,8 +34,7 @@ export default function CurrentProjects() {
       <div>
         {myProject?.length === 0 ? (
           <p className="text-red-500 min-h-screen w-full text-center text-xl font-semibold my-20">
-            {" "}
-            After approve you can see your current project.
+            After approval, you can see your current project.
           </p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
@@ -39,8 +45,7 @@ export default function CurrentProjects() {
               >
                 <div className="relative w-full h-48 mb-4 rounded-t-lg overflow-hidden">
                   <Image
-                    // src={project.image}
-                    src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${project?.projectId?.image}`}
+                    src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${project?.projectId?.image}`}
                     alt={project.title}
                     fill
                     className="rounded-t-lg object-cover"
@@ -57,7 +62,6 @@ export default function CurrentProjects() {
                   <p className="text-primary font-bold mb-4">
                     <span className="font-semibold text-black "> Date:</span>{" "}
                     {format(new Date(project?.startTime), "dd MMM yyyy")}
-                    {/* {project.startTime} */}
                   </p>
 
                   <p className="text-primary font-bold mb-1">
@@ -88,6 +92,20 @@ export default function CurrentProjects() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {/* Pagination */}
+        {pagination.totalData > 0 && (
+          <div className="flex justify-center mt-8">
+            <Pagination
+              current={pagination.currentPage}
+              pageSize={9} // Number of projects per page (based on totalData)
+              total={pagination.totalData}
+              onChange={handlePageChange}
+              showSizeChanger={false}
+              showQuickJumper
+            />
           </div>
         )}
       </div>

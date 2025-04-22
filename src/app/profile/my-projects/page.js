@@ -3,7 +3,6 @@
 import { SuccessSwal } from "@/components/utils/allSwalFire";
 import {
   useBoostProjectMutation,
-  useEditProjectMutation,
   useMyProjectsQuery,
 } from "@/redux/features/projects/projectApi";
 import { Button, Pagination } from "antd";
@@ -21,7 +20,7 @@ export default function MyProjects() {
   const { data } = useMyProjectsQuery({ page });
   console.log(data?.data?.projects);
 
-  const [editProject, { isLoading: isEditLoading }] = useEditProjectMutation();
+  // const [editProject, { isLoading: isEditLoading }] = useEditProjectMutation();
 
   const [boostProject] = useBoostProjectMutation();
 

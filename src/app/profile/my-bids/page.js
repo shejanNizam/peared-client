@@ -1,14 +1,22 @@
 "use client";
 
 import { usePendingBidsQuery } from "@/redux/features/projects/projectApi";
+import { Pagination } from "antd"; // Import Pagination from antd
 import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function MyBids() {
-  const { data } = usePendingBidsQuery();
-  const myProject = data?.data;
-  console.log(myProject);
+  const { data, isLoading } = usePendingBidsQuery();
+  const myProject = data?.data?.pendingsBits || [];
+  const pagination = data?.data?.pagination || {}; // Extract pagination info
+
+  // Handle page change
+  const handlePageChange = (page) => {
+    // This will handle the page change; you'd need to pass the page to your query or API call
+    // For example, you might use `usePendingBidsQuery({ page })` if it accepts page as a parameter.
+    console.log("Page changed to: ", page);
+  };
 
   return (
     <>
@@ -18,7 +26,6 @@ export default function MyBids() {
       {myProject?.length === 0 ? (
         <>
           <p className="text-red-500 min-h-screen w-full text-center text-xl font-semibold my-20">
-            {" "}
             No bid projects found{" "}
             <Link href={"/projects"}>
               <span className="text-purple-500 underline"> bid project </span>
@@ -70,6 +77,20 @@ export default function MyBids() {
             ))}
           </div>
         </>
+      )}
+
+      {/* Pagination */}
+      {pagination.totalData > 0 && (
+        <div className="flex justify-center mt-8">
+          <Pagination
+            current={pagination.currentPage}
+            pageSize={3} // Number of projects per page (based on totalData)
+            total={pagination.totalData}
+            onChange={handlePageChange}
+            showSizeChanger={false}
+            showQuickJumper
+          />
+        </div>
       )}
     </>
   );

@@ -7,6 +7,7 @@ import {
   useProviderAllReviewsQuery,
 } from "@/redux/features/review/reviewApi";
 import { Checkbox, Rate } from "antd";
+import { format } from "date-fns";
 import { FaStar } from "react-icons/fa";
 
 export default function MyReview() {
@@ -122,7 +123,9 @@ export default function MyReview() {
                       className="text-yellow-500"
                     />
                     <span className="text-gray-500 text-sm">
-                      {review?.createdAt}
+                      {/* {review?.createdAt} */}
+
+                      {format(new Date(review?.createdAt), "dd MMM yyyy")}
                     </span>
                   </div>
                   <p className="text-gray-700 leading-relaxed">

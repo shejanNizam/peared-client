@@ -59,7 +59,7 @@ export default function Wallet() {
       const response = await withdrawBanalce({
         amount: balanceAmount,
       }).unwrap();
-      // console.log(response);
+      console.log(response);
       if (response?.success) {
         window.location.href = response?.data?.url;
       }
