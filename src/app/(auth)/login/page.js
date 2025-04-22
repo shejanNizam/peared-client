@@ -19,13 +19,11 @@ const Login = () => {
   const [login, { isLoading }] = useLoginMutation();
 
   const onFinish = async (values) => {
-    console.log(values);
     try {
       const response = await login({
         email: values.email,
         password: values.password,
       }).unwrap();
-      console.log(response);
       localStorage.setItem("user_token", response?.data?.token);
 
       dispatch(
@@ -113,11 +111,14 @@ const Login = () => {
           <div className="flex justify-between items-center">
             <Form.Item name="remember" valuePropName="checked">
               <Checkbox>
-                <span className="text-black">Remember me</span>
+                <span className="text-black font-bold">Remember me</span>
               </Checkbox>
             </Form.Item>
             <Form.Item>
-              <Link href="/forgot-password" className="text-primary underline">
+              <Link
+                href="/forgot-password"
+                className="text-primary font-bold underline"
+              >
                 Forget password?
               </Link>
             </Form.Item>
@@ -137,9 +138,9 @@ const Login = () => {
           </Form.Item>
 
           {/* Navigation Link to Signup Page */}
-          <p className="text-center">
-            {"Don't have an account?"}
-            <Link href="/signup" className="text-primary underline">
+          <p className="text-center pt-4">
+            {"Don't have an account?"}{" "}
+            <Link href="/signup" className="text-primary font-bold underline">
               Create Account
             </Link>
           </p>

@@ -29,12 +29,14 @@ export const mainTheme = {
     },
     Form: {
       labelColor: "#000000",
+      labelFontSize: "1rem",
+      labelFontWeight: 500,
     },
     Input: {
       colorBorder: "#5E9A2D",
       colorTextPlaceholder: "#666666",
       borderRadius: 4,
-      height: 40,
+      height: 60,
     },
     DatePicker: {
       colorBorder: "#5E9A2D",
@@ -54,7 +56,7 @@ export const mainTheme = {
     Select: {
       colorBorder: "#5E9A2D",
       borderRadius: 8,
-      height: 56,
+      height: 60,
       colorTextPlaceholder: "#666666",
     },
     Modal: {

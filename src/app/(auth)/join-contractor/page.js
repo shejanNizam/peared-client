@@ -318,11 +318,13 @@ const JoinAsContractor = () => {
             <Checkbox>
               I agree to the{" "}
               <Link href="/terms-of-use">
-                <span className="text-primary">Terms</span>
+                <span className="text-primary font-bold underline">Terms</span>
               </Link>{" "}
               and{" "}
               <Link href="/privacy-policy">
-                <span className="text-primary">Privacy Policy</span>
+                <span className="text-primary font-bold underline">
+                  Privacy Policy
+                </span>
               </Link>
             </Checkbox>
           </Form.Item>
@@ -342,8 +344,8 @@ const JoinAsContractor = () => {
 
           <p className="text-center">
             Already have an account?{" "}
-            <Link href="/login" className="text-primary">
-              Log In
+            <Link href="/login" className="text-primary font-bold underline">
+              Login
             </Link>
           </p>
         </Form>
