@@ -161,7 +161,7 @@ export default function Navbar() {
                         className="w-12 h-12 rounded-full border-4 border-primary"
                         src={
                           user?.image
-                            ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${user.image}`
+                            ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${user?.image}`
                             : default_img
                         }
                         alt="profile_image"
@@ -204,7 +204,7 @@ export default function Navbar() {
                         className="w-12 h-12 rounded-full border-4 border-primary"
                         src={
                           user?.image
-                            ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${user.image}`
+                            ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${user.image}`
                             : default_img
                         }
                         alt="profile_image"
@@ -384,7 +384,7 @@ export default function Navbar() {
                         className="w-16 h-16 rounded-full border-4 border-primary"
                         src={
                           user?.image
-                            ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${user.image}`
+                            ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${user.image}`
                             : default_img
                         }
                         alt="profile_image"
@@ -426,7 +426,7 @@ export default function Navbar() {
                         className="w-16 h-16 rounded-full border-4 border-primary"
                         src={
                           user?.image
-                            ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${user.image}`
+                            ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${user.image}`
                             : default_img
                         }
                         alt="profile_image"
