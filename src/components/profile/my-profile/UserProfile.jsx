@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import default_img from "../../../assets/user_img_default.png";
 
 export default function UserProfile() {
-  const baseUrl = process.env.NEXT_PUBLIC_IMAGE_URL;
+  const baseImageUrl = process.env.NEXT_PUBLIC_IMAGE_URL;
   const { user } = useSelector((state) => state.auth);
 
   const [file, setFile] = useState(null);
@@ -32,15 +32,13 @@ export default function UserProfile() {
       return () => URL.revokeObjectURL(objectUrl);
     } else if (user?.image) {
       // Use the image from the API response, considering the base URL
-      const formatted = user.image.replace(/^public/, "");
-      setPreviewImage(
-        baseUrl + (formatted.startsWith("/") ? formatted : "/" + formatted)
-      );
+
+      setPreviewImage(baseImageUrl + user?.image);
     } else {
       // Default image if no profile image exists
       setPreviewImage(default_img.src);
     }
-  }, [file, user, baseUrl]);
+  }, [file, user, baseImageUrl]);
 
   const handleBeforeUpload = (file) => {
     const isImage = file.type.startsWith("image/");
@@ -98,10 +96,7 @@ export default function UserProfile() {
     });
     // Ensure preview image is set when opening the modal
     if (user?.image && !file) {
-      const formatted = user.image.replace(/^public/, "");
-      setPreviewImage(
-        baseUrl + (formatted.startsWith("/") ? formatted : "/" + formatted)
-      );
+      setPreviewImage(baseImageUrl + user?.image);
     }
   };
 

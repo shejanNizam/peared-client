@@ -77,10 +77,8 @@ export default function ProviderProfile() {
       setPreviewImage(objectUrl);
       return () => URL.revokeObjectURL(objectUrl);
     } else if (user?.image) {
-      const formatted = user.image.replace(/^public/, "");
-      setPreviewImage(
-        baseUrl + (formatted.startsWith("/") ? formatted : "/" + formatted)
-      );
+      // const formatted = user.image.replace(/^public/, "");
+      setPreviewImage(baseUrl + user?.image);
     } else {
       setPreviewImage(default_img.src);
     }
@@ -151,10 +149,8 @@ export default function ProviderProfile() {
     });
     // Ensure preview image is set when opening the modal
     if (user?.image && !file) {
-      const formatted = user.image.replace(/^public/, "");
-      setPreviewImage(
-        baseUrl + (formatted.startsWith("/") ? formatted : "/" + formatted)
-      );
+      // const formatted = user.image.replace(/^public/, "");
+      setPreviewImage(baseUrl + user?.image);
     }
   };
 
