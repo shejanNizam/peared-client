@@ -12,9 +12,10 @@ import { useDispatch } from "react-redux";
 const Login = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectUrl = searchParams.get("redirect") || "/profile/user";
   const dispatch = useDispatch();
   const [form] = Form.useForm();
+
+  const redirectPath = searchParams.get("from") || "/";
 
   const [login, { isLoading }] = useLoginMutation();
 
@@ -25,6 +26,9 @@ const Login = () => {
         password: values.password,
       }).unwrap();
       localStorage.setItem("user_token", response?.data?.token);
+      document.cookie = `authToken=${response?.data?.token}; path=/; max-age=${
+        60 * 60 * 24 * 7
+      }`;
 
       dispatch(
         setCredentials({
@@ -38,7 +42,7 @@ const Login = () => {
         text: "Welcome to Peared!",
       });
 
-      router.push(redirectUrl);
+      router.push(redirectPath);
     } catch (error) {
       console.log(error);
       ErrorSwal({
