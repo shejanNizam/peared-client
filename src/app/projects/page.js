@@ -17,6 +17,7 @@ import {
   InputNumber,
   message,
   Modal,
+  Pagination,
   Select,
   Typography,
   Upload,
@@ -65,6 +66,8 @@ export default function Projects() {
 
   const [certificates, setCertificates] = useState([]);
 
+  const [currentPage, setCurrentPage] = useState(1);
+
   const router = useRouter();
 
   const { data } = useAllProjectsQuery([
@@ -81,6 +84,8 @@ export default function Projects() {
       value: "",
     },
   ]);
+
+  console.log(data?.data);
   const [bidProject] = useCreateBidProjectMutation();
   // console.log(data.data.project);
 
@@ -105,6 +110,10 @@ export default function Projects() {
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page); // Set the current page
+  };
 
   const handleClickProjectDetails = (project) => {
     setSelectedProject(project);
@@ -136,18 +145,18 @@ export default function Projects() {
     // router.push("/login");
   };
 
-  const filteredProjects = data?.data?.project?.filter((proj) => {
-    if (selectedCategory && proj.projectCategory !== selectedCategory) {
-      return false;
-    }
-    if (
-      searchText &&
-      !proj.projectName.toLowerCase().includes(searchText.toLowerCase())
-    ) {
-      return false;
-    }
-    return true;
-  });
+  // const filteredProjects = data?.data?.project?.filter((proj) => {
+  //   if (selectedCategory && proj.projectCategory !== selectedCategory) {
+  //     return false;
+  //   }
+  //   if (
+  //     searchText &&
+  //     !proj.projectName.toLowerCase().includes(searchText.toLowerCase())
+  //   ) {
+  //     return false;
+  //   }
+  //   return true;
+  // });
 
   const handleSelectCategory = (value) => {
     setSelectedCategory(value);
@@ -274,14 +283,14 @@ export default function Projects() {
             <Button onClick={handleClearFilters}>Clear All</Button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects?.length === 0 ? (
+            {data?.data?.project?.length === 0 ? (
               <p className="text-red-500 min-h-screen text-center text-2xl font-semibold">
                 {" "}
                 No project found!
               </p>
             ) : (
               <>
-                {filteredProjects?.map((project) => (
+                {data?.data?.project?.map((project) => (
                   <div
                     key={project._id}
                     className="bg-secondary p-4 rounded-lg overflow-hidden shadow-md flex flex-col hover:shadow-xl transition-shadow duration-300"
@@ -609,6 +618,18 @@ export default function Projects() {
           </Button>
         </div>
       </Modal>
+
+      {/* Pagination */}
+      <div className="flex justify-center mt-8">
+        <Pagination
+          current={currentPage}
+          pageSize={10} // Based on totalData from your response
+          total={data?.data?.pagination?.totalData}
+          onChange={handlePageChange}
+          showSizeChanger={false}
+          showQuickJumper
+        />
+      </div>
 
       <BottomBar />
     </>
