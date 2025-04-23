@@ -1,5 +1,6 @@
 import { useRecentPaymentHistoryQuery } from "@/redux/features/payment/paymentApi";
 import { List, Pagination, Spin, Tag, Typography } from "antd";
+
 import { format } from "date-fns";
 import { useState } from "react";
 
@@ -9,6 +10,7 @@ export default function RecentWalletHistory() {
   const [page, setPage] = useState(1);
 
   const { data, isLoading } = useRecentPaymentHistoryQuery({ page });
+
   const historyData = data?.data?.paymentHistory || [];
 
   const [currentPage, setCurrentPage] = useState(1); // State to keep track of the current page

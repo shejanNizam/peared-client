@@ -12,6 +12,7 @@ export default function Notifications() {
   const [page, setPage] = useState(1);
 
   // Pass currentPage to the query to fetch correct data
+
   const { data, isLoading } = useAllNotificationsQuery({
     page,
   });
