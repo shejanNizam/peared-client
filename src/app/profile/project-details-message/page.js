@@ -84,7 +84,7 @@ export default function ProjectDetails(props) {
 
   return (
     <div className="h-[80vh] w-full flex flex-col bg-gray-100 overflow-auto pb-20">
-      <div className="relative flex items-center justify-center flex-shrink-0 py-12 md:p-6 border-b">
+      <div className="relative flex items-center justify-center flex-shrink-0 py-4  md:py-8 md:p-6 border-b">
         <button
           onClick={handleReport}
           className="absolute right-4 bg-red-600 text-white text-xs md:text-sm px-3 md:px-4 py-1 md:py-2 rounded-md shadow-md hover:bg-red-700 transition"
@@ -121,7 +121,7 @@ export default function ProjectDetails(props) {
             </div>
             <div className="relative w-[80%] md:w-[50%] h-32 md:h-32 lg:h-32 mb-6">
               <Image
-                src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${data?.data?.currentProjects?.projectId?.image}`}
+                src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${data?.data?.currentProjects?.projectId?.image}`}
                 alt="project_img"
                 layout="fill"
                 objectFit="cover"

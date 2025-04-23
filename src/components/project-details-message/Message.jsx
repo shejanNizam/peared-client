@@ -146,13 +146,14 @@ export default function Message({ conversationId, userId, providerData }) {
           <Image
             src={
               providerData?.data?.userImage
-                ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${providerData?.data?.userImage}`
+                ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${providerData?.data?.userImage}`
                 : default_img.src
             }
             alt="Avatar"
-            width={48}
-            height={48}
-            className="rounded-full object-cover"
+            width={100}
+            height={100}
+            objectFit="cover"
+            className="rounded-full h-16 w-16 object-cover"
           />
           <div className="ml-3">
             <h2 className="text-lg sm:text-xl font-bold leading-none">
@@ -177,9 +178,10 @@ export default function Message({ conversationId, userId, providerData }) {
                 : default_img.src
             }
             alt="Avatar"
-            width={48}
-            height={48}
-            className="rounded-full object-cover"
+            width={100}
+            height={100}
+            objectFit="cover"
+            className="rounded-full h-16 w-16 object-cover"
           />
           <div className="ml-3">
             <h2 className="text-lg sm:text-xl font-bold leading-none">
@@ -224,9 +226,10 @@ export default function Message({ conversationId, userId, providerData }) {
                   <Image
                     src={avatarSrc}
                     alt="Avatar"
-                    width={32}
-                    height={32}
-                    className="rounded-full object-cover"
+                    width={100}
+                    height={100}
+                    objectFit="cover"
+                    className="rounded-full h-8 w-8 object-cover"
                   />
                 </div>
               )}
