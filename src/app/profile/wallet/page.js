@@ -2,7 +2,7 @@
 
 import RecentWalletHistory from "@/components/profile/wallet/RecentWalletHistory";
 import WalletBalance from "@/components/profile/wallet/WalletBalance";
-import { ErrorSwal } from "@/components/utils/allSwalFire";
+import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
 import {
   useAddBalanceMutation,
   useMyWalletQuery,
@@ -61,7 +61,16 @@ export default function Wallet() {
       }).unwrap();
       console.log(response);
       if (response?.success) {
-        window.location.href = response?.data?.url;
+        if (response?.data?.url) {
+          window.location.href = response?.data?.url;
+        } else {
+          setIsAddBalanceModalOpen(false);
+          SuccessSwal({
+            title: "",
+            text: " Withdraw request send successfully to Admin!",
+          });
+          // console.log("first");
+        }
       }
     } catch (error) {
       ErrorSwal({
