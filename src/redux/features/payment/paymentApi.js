@@ -38,10 +38,14 @@ export const balanceApi = baseApi.injectEndpoints({
 
     //  recent payment history
     recentPaymentHistory: builder.query({
-      query: () => {
+      query: ({ page = 1, limit = 5 }) => {
         return {
           url: "payment/my-payment-history",
           method: "GET",
+          params: {
+            page,
+            limit,
+          },
         };
       },
       providesTags: ["payment"],

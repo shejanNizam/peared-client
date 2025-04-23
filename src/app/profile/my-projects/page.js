@@ -18,7 +18,7 @@ export default function MyProjects() {
   const [page, setPage] = useState(1);
 
   const { data } = useMyProjectsQuery({ page });
-  console.log(data?.data?.projects);
+  // console.log(data?.data?.projects);
 
   // const [editProject, { isLoading: isEditLoading }] = useEditProjectMutation();
 

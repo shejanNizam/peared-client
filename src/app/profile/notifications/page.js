@@ -9,35 +9,29 @@ import { IoNotificationsOutline } from "react-icons/io5";
 
 export default function Notifications() {
   const router = useRouter();
-  const [currentPage, setCurrentPage] = useState(1);
+  const [page, setPage] = useState(1);
 
   // Pass currentPage to the query to fetch correct data
   const { data, error, isLoading } = useAllNotificationsQuery({
-    page: currentPage,
+    page,
   });
 
   const handleBack = () => {
     router.back();
   };
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page); // Update the page number when the user changes the page
-  };
-
   const paginatedData = data?.data?.notifications || [];
-  const totalData = data?.data?.pagination?.totalData || 0;
   const totalPage = data?.data?.pagination?.totalPage || 0;
 
   useEffect(() => {
-    // Update the pagination if the currentPage exceeds total pages
-    if (currentPage > totalPage) {
-      setCurrentPage(totalPage); // Prevent going to a non-existent page
+    if (page > totalPage) {
+      setPage(totalPage);
     }
-  }, [currentPage, totalPage]);
+  }, [page, totalPage]);
 
   return (
     <div className="bg-white min-h-screen px-4 py-8 md:py-0">
-      <div className="sticky top-20 flex justify-start gap-2 bg-primary rounded-t-md h-20 text-white py-8 pl-8 font-bold">
+      <div className="z-50 sticky top-20 flex justify-start gap-2 bg-primary rounded-t-md h-20 text-white py-8 pl-8 font-bold">
         <button onClick={handleBack}>
           <IoIosArrowBack />
         </button>
@@ -73,15 +67,17 @@ export default function Notifications() {
         )}
       </div>
 
-      {/* Pagination Component */}
-      <div className="flex justify-center mt-4">
+      {/* pagination */}
+      <div className=" flex justify-center p-4">
         <Pagination
-          current={currentPage}
-          pageSize={10}
-          total={totalData}
-          onChange={handlePageChange}
+          defaultCurrent={1}
+          position={["bottomCenter"]}
+          showQuickJumper={true}
           showSizeChanger={false}
-          showQuickJumper
+          total={data?.data?.pagination?.totalData || 0}
+          current={page}
+          onChange={(currentPage) => setPage(currentPage)}
+          pageSize={10}
         />
       </div>
     </div>
