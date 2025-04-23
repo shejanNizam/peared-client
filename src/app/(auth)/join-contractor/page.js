@@ -231,7 +231,7 @@ const JoinAsContractor = () => {
               beforeUpload={handleBeforeUpload}
             >
               <Button icon={<UploadOutlined />} size="large" block>
-                Upload Osha certificate (PDF)
+                Osha certificate (PDF)
               </Button>
             </Upload>
             <Text type="secondary" className="mt-2 block">
@@ -249,7 +249,7 @@ const JoinAsContractor = () => {
             // ]}
             label={
               <span className="text-black font-semibold">
-                Upload Background Certificate (PDF)
+                Upload BG Certificate (PDF)
               </span>
             }
             name="backgroundCertificat"
@@ -267,7 +267,7 @@ const JoinAsContractor = () => {
               beforeUpload={handleBeforeUpload}
             >
               <Button icon={<UploadOutlined />} size="large" block>
-                Upload Background certificate (PDF)
+                Background certificate (PDF)
               </Button>
             </Upload>
             <Text type="secondary" className="mt-2 block">
@@ -294,7 +294,7 @@ const JoinAsContractor = () => {
               beforeUpload={handleBeforeUpload}
             >
               <Button icon={<UploadOutlined />} size="large" block>
-                Upload Other Documents (PDF)
+                Others Documents (PDF)
               </Button>
             </Upload>
             <Text type="secondary" className="mt-2 block">
@@ -316,11 +316,11 @@ const JoinAsContractor = () => {
             ]}
           >
             <Checkbox>
-              I agree to the{" "}
+              I agree{" "}
               <Link href="/terms-of-use">
                 <span className="text-primary font-bold underline">Terms</span>
               </Link>{" "}
-              and{" "}
+              &{" "}
               <Link href="/privacy-policy">
                 <span className="text-primary font-bold underline">
                   Privacy Policy
