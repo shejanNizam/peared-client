@@ -402,6 +402,13 @@ export default function Navbar() {
                   >
                     Projects
                   </Link>
+                  <Link
+                    href="/profile/account-setup"
+                    onClick={closeMenu}
+                    className="block px-6 py-3 mt-2 text-black hover:text-primary transition duration-200"
+                  >
+                    Acc. Setup
+                  </Link>
                   <Dropdown
                     overlay={
                       <ProfileMenu

@@ -9,6 +9,9 @@ export default function ProfileHomePage() {
 
   return (
     <div className="px-4">
+      <h3 className="text-2xl font-semibold text-center text-primary mb-6 pt-2">
+        My Profile
+      </h3>
       {user?.role === "provider" ? (
         <>
           <ProviderProfile />

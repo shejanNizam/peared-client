@@ -40,18 +40,18 @@ export default function BottomBar() {
       icon: <FaCheckCircle size={24} />,
       path: "/profile/my-bids",
     },
-    {
-      name: "Acc. Setup",
-      icon: <FaStar size={24} />,
-      path: "/profile/account-setup",
-    },
+    // {
+    //   name: "Acc. Setup",
+    //   icon: <FaStar size={24} />,
+    //   path: "/profile/account-setup",
+    // },
     { name: "Wallet", icon: <FaWallet size={24} />, path: "/profile/wallet" },
     {
       name: "My Review",
       icon: <FaStar size={24} />,
       path: "/profile/my-review",
     },
-    { name: "Profile", icon: <FaUser size={24} />, path: "/profile/user" },
+    // { name: "Profile", icon: <FaUser size={24} />, path: "/profile/user" },
   ];
 
   const bottomBarItemsDefault = [

@@ -140,61 +140,70 @@ export default function Message({ conversationId, userId, providerData }) {
   };
 
   return (
-    <div className="flex flex-col h-[70vh] bg-white rounded-lg shadow-md w-full max-w-4xl mx-auto pb-8">
-      {user?.role === "provider" ? (
-        <div className="flex items-center p-4 sm:p-6 border-b flex-shrink-0">
-          <Image
-            src={
-              providerData?.data?.userImage
-                ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${providerData?.data?.userImage}`
-                : default_img.src
-            }
-            alt="Avatar"
-            width={100}
-            height={100}
-            objectFit="cover"
-            className="rounded-full h-16 w-16 object-cover"
-          />
-          <div className="ml-3">
-            <h2 className="text-lg sm:text-xl font-bold leading-none">
-              {providerData?.data?.userName}
-            </h2>
-            <p className="text-gray-500 text-sm sm:text-base">
-              User ID:{" "}
-              {providerData?.data?.currentProjects?.projectId?.userId.slice(
-                0,
-                7
-              )}
-              ...
-            </p>
+    <div className="flex flex-col h-[80vh] md:h-[70vh] bg-white rounded-lg shadow-md w-full max-w-4xl mx-auto pb-8">
+      <div className="flex justify-between items-center mx-2">
+        {user?.role === "provider" ? (
+          <div className="flex items-center p-4 sm:p-6 border-b flex-shrink-0">
+            <Image
+              src={
+                providerData?.data?.userImage
+                  ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${providerData?.data?.userImage}`
+                  : default_img.src
+              }
+              alt="Avatar"
+              width={100}
+              height={100}
+              objectFit="cover"
+              className="rounded-full h-16 w-16 object-cover"
+            />
+            <div className="ml-3">
+              <h2 className="text-lg sm:text-xl font-bold leading-none">
+                {providerData?.data?.userName}
+              </h2>
+              <p className="text-gray-500 text-sm sm:text-base">
+                User ID:{" "}
+                {providerData?.data?.currentProjects?.projectId?.userId.slice(
+                  0,
+                  7
+                )}
+                ...
+              </p>
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className="flex items-center p-4 sm:p-6 border-b flex-shrink-0">
-          <Image
-            src={
-              providerData?.data?.currentProjects?.providerId?.image
-                ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${providerData?.data?.currentProjects?.providerId?.image}`
-                : default_img.src
-            }
-            alt="Avatar"
-            width={100}
-            height={100}
-            objectFit="cover"
-            className="rounded-full h-16 w-16 object-cover"
-          />
-          <div className="ml-3">
-            <h2 className="text-lg sm:text-xl font-bold leading-none">
-              {providerData?.data?.currentProjects?.providerId?.name}
-            </h2>
-            <p className="text-gray-500 text-sm sm:text-base">
-              Provider ID:{" "}
-              {providerData?.data?.currentProjects?.providerId?._id.slice(0, 7)}
-              ...
-            </p>
+        ) : (
+          <div className="flex items-center p-4 sm:p-6 border-b flex-shrink-0">
+            <Image
+              src={
+                providerData?.data?.currentProjects?.providerId?.image
+                  ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${providerData?.data?.currentProjects?.providerId?.image}`
+                  : default_img.src
+              }
+              alt="Avatar"
+              width={100}
+              height={100}
+              objectFit="cover"
+              className="rounded-full h-16 w-16 object-cover"
+            />
+            <div className="ml-3">
+              <h2 className="text-lg sm:text-xl font-bold leading-none">
+                {providerData?.data?.currentProjects?.providerId?.name}
+              </h2>
+              <p className="text-gray-500 text-sm sm:text-base">
+                Provider ID:{" "}
+                {providerData?.data?.currentProjects?.providerId?._id.slice(
+                  0,
+                  7
+                )}
+                ...
+              </p>
+            </div>
           </div>
+        )}
+        <div>
+          <div className=" block md:hidden">Report</div>
+          <div className=" block md:hidden">Report</div>
         </div>
-      )}
+      </div>
 
       <div
         ref={containerRef}

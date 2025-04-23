@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
                 <div className="pt-20">{children}</div>
               </ThemeProvider>
             </AntdRegistry>
-            <Footer />
+            {/* <Footer /> */}
             {/* <NotificationListener /> */}
           </StoreProvider>
         </SocketProvider>

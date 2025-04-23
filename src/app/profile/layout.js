@@ -57,10 +57,11 @@ export default function ProfileLayout({ children }) {
 
       {/* Main Content */}
       <div
-        className={`flex-1 bg-gray-100 transition-all duration-200 
+        className={`flex-1 transition-all duration-200 
           ${isSidebarCollapsed ? "md:ml-16" : "md:ml-64"}`}
       >
-        <main className="mt-4 mb-20">{children}</main>
+        {/* <main className="mt-4 mb-20">{children}</main> */}
+        <main className="">{children}</main>
       </div>
       <BottomBar />
     </div>

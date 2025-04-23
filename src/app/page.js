@@ -1,5 +1,6 @@
 "use client";
 import BottomBar from "@/components/BottomBar/BottomBar";
+import Footer from "@/components/Footer/Footer";
 import Banner from "@/components/Home/Banner/Banner";
 import Feedback from "@/components/Home/Feedback/Feedback";
 import PopularServices from "@/components/Home/PopularServices/PopularServices";
@@ -19,6 +20,7 @@ export default function Home() {
       <WhyPeared />
       <Feedback />
       <WantContractor />
+      <Footer />
       {user && <BottomBar />}
     </>
   );

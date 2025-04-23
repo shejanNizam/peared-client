@@ -39,7 +39,9 @@ export default function AccountSetup() {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h3 className="text-2xl font-semibold text-center mb-6">Account Setup</h3>
+      <h3 className="text-2xl font-semibold text-center text-primary mb-6">
+        Account Setup
+      </h3>
       <div className="space-y-4">
         {steps.map((step, index) => (
           <div

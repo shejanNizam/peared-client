@@ -39,7 +39,7 @@ export default function Notifications() {
   }
 
   return (
-    <div className="bg-white min-h-screen px-4 py-8 md:py-0">
+    <div className="bg-white min-h-screen md:px-4 md:py-8">
       <div className="z-50 sticky top-20 flex justify-start gap-2 bg-primary rounded-t-md h-20 text-white py-8 pl-8 font-bold">
         <button onClick={handleBack}>
           <IoIosArrowBack />
@@ -47,9 +47,9 @@ export default function Notifications() {
         <h2>All Notifications</h2>
       </div>
 
-      <div className="ml-6">
+      <div className="md:ml-6">
         {paginatedData?.length === 0 ? (
-          <div className="text-center text-gray-500 mt-4">
+          <div className="text-center text-red-500 mt-4">
             No notifications available
           </div>
         ) : (
@@ -58,10 +58,10 @@ export default function Notifications() {
               key={notification._id}
               className="flex justify-start items-center gap-4 m-4"
             >
-              <IoNotificationsOutline className="bg-[#E8EAEF] w-[40px] h-[40px] rounded-sm text-primary p-2" />
+              <IoNotificationsOutline className="bg-[#E8EAEF] w-8 h-8 rounded-sm text-primary p-2" />
               <div>
-                <p className="text-xl">{notification.message}</p>
-                <p className="text-[#989898]">
+                <p className="text-sm md:text-lg">{notification.message}</p>
+                <p className="text-[#989898] text-xs md:text-lg">
                   {new Date(notification.createdAt).toLocaleString()}
                 </p>
               </div>
@@ -71,7 +71,7 @@ export default function Notifications() {
       </div>
 
       {/* pagination */}
-      <div className=" flex justify-center p-4">
+      <div className=" flex justify-center pt-4 pb-20 md:p-4">
         <Pagination
           defaultCurrent={1}
           position={["bottomCenter"]}

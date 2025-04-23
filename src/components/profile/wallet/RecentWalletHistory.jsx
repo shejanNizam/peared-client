@@ -65,7 +65,7 @@ export default function RecentWalletHistory() {
       </div>
 
       {/* pagination */}
-      <div className=" flex justify-center p-4">
+      <div className=" flex justify-center pt-4 pb-20 md:py-4">
         <Pagination
           defaultCurrent={1}
           position={["bottomCenter"]}
