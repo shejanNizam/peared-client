@@ -1,7 +1,7 @@
 "use client";
 
 import { useAllNotificationsQuery } from "@/redux/features/notifications/notificationsApi";
-import { Pagination } from "antd";
+import { Pagination, Spin } from "antd";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
@@ -12,7 +12,7 @@ export default function Notifications() {
   const [page, setPage] = useState(1);
 
   // Pass currentPage to the query to fetch correct data
-  const { data, error, isLoading } = useAllNotificationsQuery({
+  const { data, isLoading } = useAllNotificationsQuery({
     page,
   });
 
@@ -29,6 +29,14 @@ export default function Notifications() {
     }
   }, [page, totalPage]);
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center w-full min-h-screen">
+        <Spin size="large" />
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white min-h-screen px-4 py-8 md:py-0">
       <div className="z-50 sticky top-20 flex justify-start gap-2 bg-primary rounded-t-md h-20 text-white py-8 pl-8 font-bold">
@@ -39,13 +47,7 @@ export default function Notifications() {
       </div>
 
       <div className="ml-6">
-        {isLoading ? (
-          <div className="text-center text-gray-500 mt-4">Loading...</div>
-        ) : error ? (
-          <div className="text-center text-red-500 mt-4">
-            Error loading notifications
-          </div>
-        ) : paginatedData?.length === 0 ? (
+        {paginatedData?.length === 0 ? (
           <div className="text-center text-gray-500 mt-4">
             No notifications available
           </div>

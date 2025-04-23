@@ -1,5 +1,5 @@
 import { useRecentPaymentHistoryQuery } from "@/redux/features/payment/paymentApi";
-import { List, Pagination, Tag, Typography } from "antd";
+import { List, Pagination, Spin, Tag, Typography } from "antd";
 import { format } from "date-fns";
 import { useState } from "react";
 
@@ -8,7 +8,7 @@ const { Title, Text } = Typography;
 export default function RecentWalletHistory() {
   const [page, setPage] = useState(1);
 
-  const { data } = useRecentPaymentHistoryQuery({ page });
+  const { data, isLoading } = useRecentPaymentHistoryQuery({ page });
   const historyData = data?.data?.paymentHistory || [];
 
   const [currentPage, setCurrentPage] = useState(1); // State to keep track of the current page
@@ -27,12 +27,21 @@ export default function RecentWalletHistory() {
       };
     });
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center w-full min-h-screen">
+        <Spin size="large" />
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="bg-white rounded-xl shadow-lg p-8 w-full sm:w-96 mx-auto">
         <Title level={4} className="text-gray-800 mb-6">
           Recent History
         </Title>
+
         <List
           itemLayout="horizontal"
           dataSource={formattedTransactions}

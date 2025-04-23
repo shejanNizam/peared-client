@@ -1,15 +1,17 @@
 "use client";
 
 import { usePendingBidsQuery } from "@/redux/features/projects/projectApi";
-import { Pagination } from "antd"; // Import Pagination from antd
+import { Pagination, Spin } from "antd"; // Import Pagination from antd
 import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function MyBids() {
-  const { data, isLoading } = usePendingBidsQuery();
+  const [page, setPage] = useState(1);
+
+  const { data, isLoading } = usePendingBidsQuery({ page });
   const myProject = data?.data?.pendingsBits || [];
-  const pagination = data?.data?.pagination || {}; // Extract pagination info
 
   // Handle page change
   const handlePageChange = (page) => {
@@ -17,6 +19,14 @@ export default function MyBids() {
     // For example, you might use `usePendingBidsQuery({ page })` if it accepts page as a parameter.
     console.log("Page changed to: ", page);
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center w-full min-h-screen">
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -79,19 +89,19 @@ export default function MyBids() {
         </>
       )}
 
-      {/* Pagination */}
-      {pagination.totalData > 0 && (
-        <div className="flex justify-center mt-8">
-          <Pagination
-            current={pagination.currentPage}
-            pageSize={3} // Number of projects per page (based on totalData)
-            total={pagination.totalData}
-            onChange={handlePageChange}
-            showSizeChanger={false}
-            showQuickJumper
-          />
-        </div>
-      )}
+      {/* pagination */}
+      <div className=" flex justify-center p-4">
+        <Pagination
+          defaultCurrent={1}
+          position={["bottomCenter"]}
+          showQuickJumper={true}
+          showSizeChanger={false}
+          total={data?.data?.pagination?.totalData || 0}
+          current={page}
+          onChange={(currentPage) => setPage(currentPage)}
+          pageSize={10}
+        />
+      </div>
     </>
   );
 }

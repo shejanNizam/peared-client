@@ -19,6 +19,7 @@ import {
   Modal,
   Pagination,
   Select,
+  Spin,
   Typography,
   Upload,
 } from "antd";
@@ -63,29 +64,19 @@ export default function Projects() {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [paymentUrl, setPaymentUrl] = useState(null);
-
   const [certificates, setCertificates] = useState([]);
-
-  const [currentPage, setCurrentPage] = useState(1);
+  const [page, setPage] = useState(1);
 
   const router = useRouter();
 
-  const { data } = useAllProjectsQuery([
-    {
-      name: "",
-      value: "",
-    },
-    {
-      name: "",
-      value: "",
-    },
-    {
-      name: "",
-      value: "",
-    },
-  ]);
+  const { data, isLoading } = useAllProjectsQuery({
+    page,
+    searchTerm: searchText,
+  });
 
-  console.log(data?.data);
+  console.log(data?.data?.project);
+
+  // console.log(data?.data);
   const [bidProject] = useCreateBidProjectMutation();
   // console.log(data.data.project);
 
@@ -163,6 +154,7 @@ export default function Projects() {
   };
 
   const handleSearch = (value) => {
+    console.log(value);
     setSearchText(value);
   };
 
@@ -251,6 +243,14 @@ export default function Projects() {
     setIsBidModalOpen(false);
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center w-full min-h-screen">
+        <Spin size="large" />
+      </div>
+    );
+  }
+
   return (
     <>
       <section className="py-12 bg-white">
@@ -259,7 +259,7 @@ export default function Projects() {
             <CustomHeading>Projects List </CustomHeading>
           </div>
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
-            <Select
+            {/* <Select
               placeholder="Select Category"
               style={{ width: 200 }}
               value={selectedCategory || undefined}
@@ -271,7 +271,8 @@ export default function Projects() {
                   {cat.name}
                 </Option>
               ))}
-            </Select>
+            </Select> */}
+
             <Search
               placeholder="Search by project name"
               allowClear
@@ -284,7 +285,7 @@ export default function Projects() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {data?.data?.project?.length === 0 ? (
-              <p className="text-red-500 min-h-screen text-center text-2xl font-semibold">
+              <p className="text-red-500 min-h-screen text-center text-2xl font-semibold w-full mx-auto">
                 {" "}
                 No project found!
               </p>
@@ -619,15 +620,16 @@ export default function Projects() {
         </div>
       </Modal>
 
-      {/* Pagination */}
-      <div className="flex justify-center mt-8">
+      <div className=" flex justify-center p-4">
         <Pagination
-          current={currentPage}
-          pageSize={10} // Based on totalData from your response
-          total={data?.data?.pagination?.totalData}
-          onChange={handlePageChange}
+          defaultCurrent={1}
+          position={["bottomCenter"]}
+          showQuickJumper={true}
           showSizeChanger={false}
-          showQuickJumper
+          total={data?.data?.pagination?.totalData || 0}
+          current={page}
+          onChange={(currentPage) => setPage(currentPage)}
+          pageSize={10}
         />
       </div>
 

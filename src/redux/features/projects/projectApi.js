@@ -29,10 +29,15 @@ export const projectApi = baseApi.injectEndpoints({
 
     // all projects for providers
     allProjects: builder.query({
-      query: () => {
+      query: ({ page = 1, limit = 10, searchTerm }) => {
         return {
           url: "/project/my-all-project",
           method: "GET",
+          params: {
+            page,
+            limit,
+            searchTerm,
+          },
         };
       },
       providesTags: ["projects"],
@@ -121,20 +126,28 @@ export const projectApi = baseApi.injectEndpoints({
     }),
     //  current provider project
     currentProjects: builder.query({
-      query: () => {
+      query: ({ page = 1, limit = 10 }) => {
         return {
           url: `/bit/current-projects`,
           method: "GET",
+          params: {
+            page,
+            limit,
+          },
         };
       },
       providesTags: ["projects"],
     }),
     //  pending bids project
     pendingBids: builder.query({
-      query: () => {
+      query: ({ page = 1, limit = 10 }) => {
         return {
           url: `/bit/pendings-bits`,
           method: "GET",
+          params: {
+            page,
+            limit,
+          },
         };
       },
       providesTags: ["projects"],

@@ -9,7 +9,15 @@ import {
   useWithdrawBalanceMutation,
 } from "@/redux/features/payment/paymentApi";
 import { PlusOutlined } from "@ant-design/icons";
-import { Button, Form, InputNumber, Modal, Space, Typography } from "antd";
+import {
+  Button,
+  Form,
+  InputNumber,
+  Modal,
+  Space,
+  Spin,
+  Typography,
+} from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -27,7 +35,7 @@ export default function Wallet() {
   const [withdrawBanalce, { isLoading: withdrawBalanceLoading }] =
     useWithdrawBalanceMutation();
 
-  const { data } = useMyWalletQuery();
+  const { data, isLoading } = useMyWalletQuery();
   const balance = data?.data?.amount;
 
   const openAddBalanceModal = () => setIsAddBalanceModalOpen(true);
@@ -79,6 +87,14 @@ export default function Wallet() {
       });
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center w-full min-h-screen">
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen px-4">

@@ -1,18 +1,19 @@
 "use client";
 
 import { useCurrentProjectsQuery } from "@/redux/features/projects/projectApi";
-import { Pagination } from "antd"; // Import Pagination from antd
+import { Pagination, Spin } from "antd"; // Import Pagination from antd
 import { format } from "date-fns";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function CurrentProjects() {
   const router = useRouter();
+  const [page, setPage] = useState(1);
 
   // Destructure the pagination data and currentProjects from the response
-  const { data, isLoading } = useCurrentProjectsQuery();
+  const { data, isLoading } = useCurrentProjectsQuery({ page });
   const myProject = data?.data?.currentProjects || [];
-  const pagination = data?.data?.pagination || {}; // Extract pagination info
 
   const handleOpenProject = (project) => {
     router.push(
@@ -20,12 +21,13 @@ export default function CurrentProjects() {
     );
   };
 
-  const handlePageChange = (page) => {
-    // This will handle the page change; you'd need to pass the page to your query or API call
-    // For example, you might use `useCurrentProjectsQuery({ page })` if it accepts page as a parameter.
-    console.log("Page changed to: ", page);
-  };
-
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center w-full min-h-screen">
+        <Spin size="large" />
+      </div>
+    );
+  }
   return (
     <>
       <div className="text-primary text-2xl text-center font-bold my-2">
@@ -94,20 +96,19 @@ export default function CurrentProjects() {
             ))}
           </div>
         )}
-
-        {/* Pagination */}
-        {pagination.totalData > 0 && (
-          <div className="flex justify-center mt-8">
-            <Pagination
-              current={pagination.currentPage}
-              pageSize={9} // Number of projects per page (based on totalData)
-              total={pagination.totalData}
-              onChange={handlePageChange}
-              showSizeChanger={false}
-              showQuickJumper
-            />
-          </div>
-        )}
+        {/* pagination */}
+        <div className=" flex justify-center p-4">
+          <Pagination
+            defaultCurrent={1}
+            position={["bottomCenter"]}
+            showQuickJumper={true}
+            showSizeChanger={false}
+            total={data?.data?.pagination?.totalData || 0}
+            current={page}
+            onChange={(currentPage) => setPage(currentPage)}
+            pageSize={10}
+          />
+        </div>
       </div>
     </>
   );

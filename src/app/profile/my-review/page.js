@@ -6,16 +6,16 @@ import {
   useMyReviewsQuery,
   useProviderAllReviewsQuery,
 } from "@/redux/features/review/reviewApi";
-import { Checkbox, Rate } from "antd";
+import { Checkbox, Rate, Spin } from "antd";
 import { format } from "date-fns";
 import { FaStar } from "react-icons/fa";
 
 export default function MyReview() {
-  const { data: myReviews } = useMyReviewsQuery();
+  const { data: myReviews, isLoading } = useMyReviewsQuery();
   const { data } = useProviderAllReviewsQuery();
   const allReviews = data?.data?.data;
 
-  console.log(allReviews);
+  // console.log(allReviews);
 
   const [addFav] = useAddToFavouriteMutation();
 
@@ -41,6 +41,14 @@ export default function MyReview() {
       });
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center w-full min-h-screen">
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   return (
     <>

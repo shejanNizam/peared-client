@@ -5,7 +5,7 @@ import {
   useBoostProjectMutation,
   useMyProjectsQuery,
 } from "@/redux/features/projects/projectApi";
-import { Button, Pagination } from "antd";
+import { Button, Pagination, Spin } from "antd";
 import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,10 +17,8 @@ export default function MyProjects() {
 
   const [page, setPage] = useState(1);
 
-  const { data } = useMyProjectsQuery({ page });
+  const { data, isLoading } = useMyProjectsQuery({ page });
   // console.log(data?.data?.projects);
-
-  // const [editProject, { isLoading: isEditLoading }] = useEditProjectMutation();
 
   const [boostProject] = useBoostProjectMutation();
 
@@ -44,6 +42,14 @@ export default function MyProjects() {
       text: response?.message,
     });
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center w-full min-h-screen">
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   return (
     <>
