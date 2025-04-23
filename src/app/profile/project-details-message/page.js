@@ -95,12 +95,20 @@ export default function ProjectDetails(props) {
       <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4 p-2 md:p-6">
         <div className="md:col-span-2 flex flex-col sm:h-[70vh] md:h-full overflow-hidden">
           <Message
+            data={data}
+            handleProjectOk={handleProjectOk}
+            handleProjectNotOk={handleProjectNotOk}
+            handleProjectDone={handleProjectDone}
+            handleReport={handleReport}
             conversationId={conversationId}
             userId={user?._id}
             providerData={data}
           />
         </div>
-        {/* ioghghghghghghghghghghghgh */}
+        {/* divider */}
+        {/* divider */}
+        {/* divider */}
+        {/* divider */}
         <div className="hidden md:block">
           <div className=" md:col-span-1 bg-white rounded-lg shadow-lg p-4 md:p-6 flex flex-col h-full overflow-auto">
             <h2 className="text-lg md:text-xl text-primary font-bold mb-4">

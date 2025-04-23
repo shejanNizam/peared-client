@@ -9,7 +9,16 @@ import { useSelector } from "react-redux";
 
 import default_img from "../../assets/user_img_default.png";
 
-export default function Message({ conversationId, userId, providerData }) {
+export default function Message({
+  conversationId,
+  userId,
+  providerData,
+  handleReport,
+  data,
+  handleProjectOk,
+  handleProjectNotOk,
+  handleProjectDone,
+}) {
   const { user } = useSelector((state) => state.auth) || {};
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
@@ -143,7 +152,7 @@ export default function Message({ conversationId, userId, providerData }) {
     <div className="flex flex-col h-[80vh] md:h-[70vh] bg-white rounded-lg shadow-md w-full max-w-4xl mx-auto pb-8">
       <div className="flex justify-between items-center mx-2">
         {user?.role === "provider" ? (
-          <div className="flex items-center p-4 sm:p-6 border-b flex-shrink-0">
+          <div className="flex items-center p-2 border-b flex-shrink-0">
             <Image
               src={
                 providerData?.data?.userImage
@@ -156,22 +165,28 @@ export default function Message({ conversationId, userId, providerData }) {
               objectFit="cover"
               className="rounded-full h-16 w-16 object-cover"
             />
-            <div className="ml-3">
+            <div className="ml-2">
               <h2 className="text-lg sm:text-xl font-bold leading-none">
                 {providerData?.data?.userName}
               </h2>
-              <p className="text-gray-500 text-sm sm:text-base">
+              {/* <p className="text-gray-500 text-sm sm:text-base">
                 User ID:{" "}
                 {providerData?.data?.currentProjects?.projectId?.userId.slice(
                   0,
                   7
                 )}
                 ...
-              </p>
+              </p> */}
+              <button
+                onClick={handleReport}
+                className="block md:hidden bg-red-600 text-white text-xs md:text-sm px-3 md:px-4 py-1 md:py-2 rounded-md shadow-md hover:bg-red-700 transition"
+              >
+                Report
+              </button>
             </div>
           </div>
         ) : (
-          <div className="flex items-center p-4 sm:p-6 border-b flex-shrink-0">
+          <div className="flex items-center p-2 border-b flex-shrink-0">
             <Image
               src={
                 providerData?.data?.currentProjects?.providerId?.image
@@ -184,24 +199,87 @@ export default function Message({ conversationId, userId, providerData }) {
               objectFit="cover"
               className="rounded-full h-16 w-16 object-cover"
             />
-            <div className="ml-3">
+            <div className="ml-2">
               <h2 className="text-lg sm:text-xl font-bold leading-none">
                 {providerData?.data?.currentProjects?.providerId?.name}
               </h2>
-              <p className="text-gray-500 text-sm sm:text-base">
+              {/* <p className="text-gray-500 text-sm sm:text-base">
                 Provider ID:{" "}
                 {providerData?.data?.currentProjects?.providerId?._id.slice(
                   0,
                   7
                 )}
                 ...
-              </p>
+              </p> */}
+              <button
+                onClick={handleReport}
+                className="block md:hidden bg-red-600 text-white text-xs md:text-sm px-3 md:px-4 py-1 md:py-2 rounded-md shadow-md hover:bg-red-700 transition"
+              >
+                Report
+              </button>
             </div>
           </div>
         )}
         <div>
-          <div className=" block md:hidden">Report</div>
-          <div className=" block md:hidden">Report</div>
+          {/* <button
+            onClick={handleReport}
+            className="block md:hidden bg-red-600 text-white text-xs md:text-sm px-3 md:px-4 py-1 md:py-2 rounded-md shadow-md hover:bg-red-700 transition"
+          >
+            Report
+          </button> */}
+          {/* <div className=" block md:hidden">Report</div> */}
+          <div className=" block md:hidden bg-gray-50 rounded-lg flex-1">
+            {user?.role === "user" ? (
+              <div className="relative">
+                {data?.data?.currentProjects?.isComplete !== "complete" && (
+                  <div className="w-full h-full rounded-lg absolute bg-gray-500/50"></div>
+                )}
+                <div className="p-2">
+                  {/* <h3 className="font-semibold text-center mb-2 text-sm md:text-base">
+                    Did you get services Done?
+                  </h3> */}
+                  {/* <p className="text-xs md:text-sm text-center mb-2">
+                    {data?.data?.currentProjects?.isComplete !== "complete"
+                      ? "After completing this project you can access these buttons."
+                      : ""}
+                  </p> */}
+                  <div className=" flex justify-center items-center gap-4">
+                    <button
+                      onClick={handleProjectNotOk}
+                      className="border border-red-500 text-red-700 text-xs md:text-sm px-3 md:px-5 py-1 md:py-2 rounded-xl font-medium shadow-md hover:bg-red-200 transition"
+                    >
+                      No
+                    </button>
+                    <button
+                      onClick={handleProjectOk}
+                      className="bg-green-600 text-white text-xs md:text-sm px-3 md:px-5 py-1 md:py-2 rounded-xl font-medium shadow-md hover:bg-green-700 transition"
+                    >
+                      Yes
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="p-2 md:p-4">
+                {/* <h3 className="font-semibold text-center mb-2 text-sm md:text-base">
+                  Is your work done?
+                </h3>
+                <p className="text-xs md:text-sm text-center mb-2">
+                  {
+                    "If you click this button, we'll send your client a work done request. If they approve, you get your payment."
+                  }
+                </p> */}
+                <div className="mt-4 flex justify-center items-center">
+                  <button
+                    onClick={handleProjectDone}
+                    className="bg-green-600 text-white text-xs md:text-sm px-3 md:px-5 py-1 md:py-2 rounded-xl font-medium shadow-md hover:bg-green-700 transition"
+                  >
+                    Done
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
