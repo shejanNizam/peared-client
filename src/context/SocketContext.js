@@ -15,9 +15,18 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("user_token");
+    console.log(token);
     const newSocket = io(URL, {
       transports: ["websocket"],
-      query: { token: token },
+      auth: token,
+      query: { token },
+      extraHeaders: {
+        token,
+      },
+      // query: { token: token },
+      // token: token,
+      // extraHeaders: {
+      // },
     });
     setSocket(newSocket);
 

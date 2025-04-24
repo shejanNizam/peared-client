@@ -40,7 +40,7 @@ export default function Notifications() {
 
   return (
     <div className="bg-white min-h-screen md:px-4 md:py-8">
-      <div className="z-50 sticky top-20 flex justify-start gap-2 bg-primary rounded-t-md h-20 text-white py-8 pl-8 font-bold">
+      <div className="z-40 sticky top-20 flex justify-start gap-2 bg-primary rounded-t-md h-20 text-white py-8 pl-8 font-bold">
         <button onClick={handleBack}>
           <IoIosArrowBack />
         </button>

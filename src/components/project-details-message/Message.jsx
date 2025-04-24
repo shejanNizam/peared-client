@@ -320,17 +320,23 @@ export default function Message({
                   />
                 </div>
               )}
-              <div
-                className={`rounded-lg px-4 py-2 max-w-xs sm:max-w-sm break-words ${
-                  isOwnMessage
-                    ? "bg-green-200 text-gray-800"
-                    : "bg-white text-gray-800 border border-gray-300"
-                }`}
-              >
-                <p className=" text-xs md:text-sm ">{msg.messageText}</p>
-                <span className="text-xs text-gray-500 block text-right mt-1">
+              <div className="flex flex-col">
+                <div
+                  className={` px-2 py-1 max-w-xs sm:max-w-sm break-words ${
+                    isOwnMessage
+                      ? "bg-[#568C29] text-white rounded-t-lg rounded-bl-lg"
+                      : "bg-white text-black border border-gray-300 rounded-t-lg rounded-br-lg"
+                  }`}
+                >
+                  <p className=" text-xs md:text-sm ">{msg.messageText}</p>
+                </div>
+                <p
+                  className={`text-xs text-gray-500 block mt-1 ${
+                    isOwnMessage ? "text-right" : "text-left"
+                  }`}
+                >
                   {formatTime(msg.createdAt)}
-                </span>
+                </p>
               </div>
             </div>
           );
