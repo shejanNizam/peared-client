@@ -209,7 +209,7 @@ export default function ProviderProfile() {
   return (
     <div className="flex flex-col justify-center items-center gap-6">
       {/* Profile Section */}
-      <div className="flex flex-col md:flex-row justify-start items-start gap-8 shadow-2xl border border-secondary rounded w-full max-w-4xl p-12 relative">
+      <div className="flex flex-col md:flex-row justify-start items-start gap-8 shadow-2xl border border-secondary rounded w-full max-w-4xl p-12 relative ">
         <button
           onClick={handleOpenEditModal}
           className="absolute top-4 right-4 bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark transition"
@@ -597,12 +597,21 @@ export default function ProviderProfile() {
           </Form.Item>
         </Form>
       </Modal>
+      {/* Change Password Button */}
+      <button
+        onClick={() => setIsChangePasswordModalOpen(true)}
+        className=" bg-primary text-white px-4 py-2 md:px-6 md:py-2.5 rounded hover:bg-secondary-dark transition"
+      >
+        Change Password
+      </button>
 
       {/* Change Password Modal */}
-      <ChangePasswordModal
-        visible={isChangePasswordModalOpen}
-        onClose={() => setIsChangePasswordModalOpen(false)}
-      />
+      <div className="mb-20">
+        <ChangePasswordModal
+          visible={isChangePasswordModalOpen}
+          onClose={() => setIsChangePasswordModalOpen(false)}
+        />
+      </div>
     </div>
   );
 }
