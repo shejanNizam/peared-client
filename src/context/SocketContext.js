@@ -18,14 +18,10 @@ export const SocketProvider = ({ children }) => {
     console.log(token);
     const newSocket = io(URL, {
       transports: ["websocket"],
-      auth: token,
+      // auth: token,
       query: { token },
-      extraHeaders: {
-        token,
-      },
-      // query: { token: token },
-      // token: token,
       // extraHeaders: {
+      //   token,
       // },
     });
     setSocket(newSocket);
