@@ -149,7 +149,7 @@ export default function Message({
   };
 
   return (
-    <div className="flex flex-col h-[80vh] md:h-[70vh] bg-white rounded-lg shadow-md w-full max-w-4xl mx-auto pb-8">
+    <div className="flex flex-col h-[80vh] md:h-[70vh] bg-secondary rounded-lg shadow-md w-full max-w-4xl mx-auto pb-8">
       <div className="flex justify-between items-center mx-2">
         {user?.role === "provider" ? (
           <div className="flex items-center p-2 border-b flex-shrink-0">
@@ -166,17 +166,13 @@ export default function Message({
               className="rounded-full h-16 w-16 object-cover"
             />
             <div className="ml-2">
-              <h2 className="text-lg sm:text-xl font-bold leading-none">
-                {providerData?.data?.userName}
-              </h2>
-              {/* <p className="text-gray-500 text-sm sm:text-base">
-                User ID:{" "}
-                {providerData?.data?.currentProjects?.projectId?.userId.slice(
-                  0,
-                  7
-                )}
-                ...
-              </p> */}
+              <div className="flex items-center gap-1">
+                <h2 className="text-lg sm:text-xl font-bold leading-none">
+                  {providerData?.data?.userName}
+                </h2>
+                <p className="rounded-full w-1 h-1 p-1 bg-green-600 mt-2"> </p>
+              </div>
+
               <button
                 onClick={handleReport}
                 className="block md:hidden bg-red-600 text-white text-xs md:text-sm px-3 md:px-4 py-1 md:py-2 rounded-md shadow-md hover:bg-red-700 transition"
@@ -200,17 +196,13 @@ export default function Message({
               className="rounded-full h-16 w-16 object-cover"
             />
             <div className="ml-2">
-              <h2 className="text-lg sm:text-xl font-bold leading-none">
-                {providerData?.data?.currentProjects?.providerId?.name}
-              </h2>
-              {/* <p className="text-gray-500 text-sm sm:text-base">
-                Provider ID:{" "}
-                {providerData?.data?.currentProjects?.providerId?._id.slice(
-                  0,
-                  7
-                )}
-                ...
-              </p> */}
+              <div className="flex items-center gap-1">
+                <h2 className="text-lg sm:text-xl font-bold leading-none">
+                  {providerData?.data?.currentProjects?.providerId?.name}
+                </h2>
+                <p className="rounded-full w-1 h-1 p-1 bg-green-600 mt-2"> </p>
+              </div>
+
               <button
                 onClick={handleReport}
                 className="block md:hidden bg-red-600 text-white text-xs md:text-sm px-3 md:px-4 py-1 md:py-2 rounded-md shadow-md hover:bg-red-700 transition"
@@ -343,8 +335,11 @@ export default function Message({
         })}
       </div>
 
-      <div className="border-t p-3 sm:p-4 flex gap-2 flex-shrink-0">
+      <div className="border-t p-2 md:p-4 flex items-end gap-2 flex-shrink-0">
         <Input
+          style={{
+            height: "50px",
+          }}
           placeholder="Type your message..."
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
@@ -353,7 +348,7 @@ export default function Message({
         />
         <Button
           type="primary"
-          className="p-3 sm:p-4"
+          className="p-4 sm:p-4"
           icon={<SendOutlined />}
           onClick={handleSend}
         >

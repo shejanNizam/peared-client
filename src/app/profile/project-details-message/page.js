@@ -92,7 +92,7 @@ export default function ProjectDetails(props) {
           Report
         </button>
       </div>
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4 p-2 md:p-6">
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4 md:p-6">
         <div className="md:col-span-2 flex flex-col sm:h-[70vh] md:h-full overflow-hidden">
           <Message
             data={data}
