@@ -211,6 +211,7 @@ const JoinAsContractor = () => {
             //     message: "Please upload Osha certificate.",
             //   },
             // ]}
+            className="w-full [&_.ant-upload]:w-full"
             label={
               <span className="text-black font-semibold">
                 Upload Osha Certificate (PDF)
@@ -221,6 +222,7 @@ const JoinAsContractor = () => {
             getValueFromEvent={({ fileList }) => fileList}
           >
             <Upload
+              className="w-full"
               accept="application/pdf"
               maxCount={1}
               showUploadList
@@ -230,7 +232,12 @@ const JoinAsContractor = () => {
               )}
               beforeUpload={handleBeforeUpload}
             >
-              <Button icon={<UploadOutlined />} size="large" block>
+              <Button
+                className="w-full flex justify-center items-center"
+                icon={<UploadOutlined />}
+                size="large"
+                block
+              >
                 Osha certificate (PDF)
               </Button>
             </Upload>
@@ -247,6 +254,7 @@ const JoinAsContractor = () => {
             //     message: "Please upload Background certificate.",
             //   },
             // ]}
+            className="w-full [&_.ant-upload]:w-full"
             label={
               <span className="text-black font-semibold">
                 Upload BG Certificate (PDF)
@@ -257,6 +265,7 @@ const JoinAsContractor = () => {
             getValueFromEvent={({ fileList }) => fileList}
           >
             <Upload
+              className="w-full"
               accept="application/pdf"
               maxCount={1}
               showUploadList
@@ -266,7 +275,12 @@ const JoinAsContractor = () => {
               )}
               beforeUpload={handleBeforeUpload}
             >
-              <Button icon={<UploadOutlined />} size="large" block>
+              <Button
+                className="w-full flex justify-center items-center"
+                icon={<UploadOutlined />}
+                size="large"
+                block
+              >
                 Background certificate (PDF)
               </Button>
             </Upload>
@@ -282,18 +296,25 @@ const JoinAsContractor = () => {
                 Upload Other Documents (PDF)
               </span>
             }
+            className="w-full [&_.ant-upload]:w-full"
             name="certificate"
             valuePropName="fileList"
             getValueFromEvent={({ fileList }) => fileList}
           >
             <Upload
+              className="w-full"
               accept="application/pdf"
               maxCount={2}
               showUploadList
               onChange={handleFileChange("certificates", setCertificates)}
               beforeUpload={handleBeforeUpload}
             >
-              <Button icon={<UploadOutlined />} size="large" block>
+              <Button
+                className="w-full flex justify-center items-center"
+                icon={<UploadOutlined />}
+                size="large"
+                block
+              >
                 Others Documents (PDF)
               </Button>
             </Upload>

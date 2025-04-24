@@ -94,7 +94,7 @@ export default function MyBids() {
       </div>
 
       {/* pagination */}
-      <div className=" flex justify-center py-20">
+      <div className=" flex justify-center pb-20 md:p-4">
         <Pagination
           defaultCurrent={1}
           position={["bottomCenter"]}

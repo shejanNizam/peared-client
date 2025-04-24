@@ -620,7 +620,7 @@ export default function Projects() {
         </div>
       </Modal>
 
-      <div className=" flex justify-center p-4">
+      <div className=" flex justify-center pb-20 md:p-4">
         <Pagination
           defaultCurrent={1}
           position={["bottomCenter"]}

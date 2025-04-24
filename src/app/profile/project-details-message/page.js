@@ -18,7 +18,7 @@ export default function ProjectDetails(props) {
   const router = useRouter();
   const { projectId } = props.searchParams;
 
-  const { data } = useConfirmProjectQuery(projectId);
+  const { data, isLoading } = useConfirmProjectQuery(projectId);
   const conversationId = data?.data?.conversationId;
 
   const [projectOk] = useProjectOkByUserMutation();

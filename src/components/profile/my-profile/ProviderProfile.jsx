@@ -447,9 +447,14 @@ export default function ProviderProfile() {
           </Form.Item>
 
           {/* Certificates Upload */}
-          <div className="grid grid-cols-2 gap-4">
-            <Form.Item label="Upload OSHA Certificate" name="oshaCertificat">
+          <div className="grid md:grid-cols-2 gap-4">
+            <Form.Item
+              className="w-full [&_.ant-upload]:w-full"
+              label="Upload OSHA Certificate"
+              name="oshaCertificat"
+            >
               <Upload
+                className="w-full"
                 maxCount={1}
                 accept="application/pdf"
                 beforeUpload={handleBeforeUploadOshaCert}
@@ -458,14 +463,21 @@ export default function ProviderProfile() {
                 }
                 onRemove={() => setOshaCertFile(null)}
               >
-                <Button icon={<FaPlus />}>OSHA Certificate</Button>
+                <Button
+                  className="w-full flex justify-center items-center"
+                  icon={<FaPlus />}
+                >
+                  OSHA Certificate
+                </Button>
               </Upload>
             </Form.Item>
             <Form.Item
-              label="Upload Background Certificate"
+              className="w-full [&_.ant-upload]:w-full"
+              label="Upload BG Certificate"
               name="backgroundCertificat"
             >
               <Upload
+                className="w-full"
                 maxCount={1}
                 accept="application/pdf"
                 beforeUpload={handleBeforeUploadBackgroundCert}
@@ -476,14 +488,24 @@ export default function ProviderProfile() {
                 }
                 onRemove={() => setBackgroundCertFile(null)}
               >
-                <Button icon={<FaPlus />}>Background Certificate</Button>
+                <Button
+                  className="w-full flex justify-center items-center"
+                  icon={<FaPlus />}
+                >
+                  Background Certificate
+                </Button>
               </Upload>
             </Form.Item>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <Form.Item label="Upload Certificate One" name="certificate1">
+          <div className="grid md:grid-cols-2 gap-4 ">
+            <Form.Item
+              className="w-full [&_.ant-upload]:w-full"
+              label="Upload Certificate One"
+              name="certificate1"
+            >
               <Upload
+                className="w-full"
                 maxCount={1}
                 accept="application/pdf"
                 beforeUpload={handleBeforeUploadCertificate1}
@@ -494,11 +516,21 @@ export default function ProviderProfile() {
                 }
                 onRemove={() => setCertificate1File(null)}
               >
-                <Button icon={<FaPlus />}>Certificate One</Button>
+                <Button
+                  className="w-full flex justify-center items-center"
+                  icon={<FaPlus />}
+                >
+                  Certificate One
+                </Button>
               </Upload>
             </Form.Item>
-            <Form.Item label="Upload Certificate Two" name="certificate2">
+            <Form.Item
+              className="w-full [&_.ant-upload]:w-full"
+              label="Upload Certificate Two"
+              name="certificate2"
+            >
               <Upload
+                className="w-full"
                 maxCount={1}
                 accept="application/pdf"
                 beforeUpload={handleBeforeUploadCertificate2}
@@ -509,7 +541,12 @@ export default function ProviderProfile() {
                 }
                 onRemove={() => setCertificate2File(null)}
               >
-                <Button icon={<FaPlus />}>Certificate Two</Button>
+                <Button
+                  className="w-full flex justify-center items-center"
+                  icon={<FaPlus />}
+                >
+                  Certificate Two
+                </Button>
               </Upload>
             </Form.Item>
           </div>

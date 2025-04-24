@@ -55,9 +55,9 @@ export default function MyReview() {
       <div className="text-primary text-2xl text-center font-bold my-2">
         My Review
       </div>
-      <div className="max-w-4xl mx-auto p-4 sm:p-8 overflow-x-hidden">
+      <div className="max-w-4xl mx-auto p-4  overflow-x-hidden">
         {/* Ratings Section */}
-        <div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-8 my-6">
+        <div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left md:gap-8 md:my-6">
           {/* Average Rating */}
           <div className="w-full md:w-1/2">
             <div className="flex items-center justify-center md:justify-start gap-2">
@@ -98,7 +98,7 @@ export default function MyReview() {
         </div>
 
         {/* Reviews Section */}
-        <div className="mt-8">
+        <div className="mt-8 mb-20">
           <h3 className="text-primary text-2xl  font-bold my-2">
             {" "}
             My All Reviews
@@ -121,22 +121,20 @@ export default function MyReview() {
                   }
                 />
                 <div className="w-full">
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center sm:space-x-2 mb-2">
+                  <div className="flex flex-col  items-start mb-2">
                     <span className="font-bold text-gray-900">
                       {review?.userId?.name}
+                    </span>
+                    <span className="text-gray-500 text-xs pb-2">
+                      {format(new Date(review?.createdAt), "dd MMM yyyy")}
                     </span>
                     <Rate
                       disabled
                       defaultValue={review?.rating}
                       className="text-yellow-500"
                     />
-                    <span className="text-gray-500 text-sm">
-                      {/* {review?.createdAt} */}
-
-                      {format(new Date(review?.createdAt), "dd MMM yyyy")}
-                    </span>
                   </div>
-                  <p className="text-gray-700 leading-relaxed">
+                  <p className="text-gray-700 leading-relaxed text-sm">
                     {review?.details}
                   </p>
                 </div>
