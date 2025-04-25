@@ -38,7 +38,11 @@ const Footer = () => (
             </p>
 
             <div className="flex gap-4">
-              <Link href="https://facebook.com" className="hover:text-primary">
+              <Link
+                target="_blank"
+                href="https://www.facebook.com/profile.php?id=61570090035122"
+                className="hover:text-primary"
+              >
                 <FaFacebook size={32} />
               </Link>
               <Link
@@ -124,13 +128,15 @@ const Footer = () => (
                 {/* Address with Google Maps Link */}
                 <div className="">
                   <a
-                    href="https://www.google.com/maps/search/?api=1&query=1234+Street+Name,City,State"
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                      "103 S Spring St. Bellefonte, PA 16870"
+                    )}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center mb-2 justify-center md:justify-start text-sm hover:text-primary transition"
                   >
                     <FaMapMarkerAlt className="mr-2" />
-                    1234 Street Name, City, State
+                    103 S Spring St. Bellefonte, PA 16870
                   </a>
                 </div>
 
@@ -141,12 +147,12 @@ const Footer = () => (
                     className="flex items-center mb-2 justify-center md:justify-start text-sm hover:text-primary transition"
                   >
                     <FaEnvelope className="mr-2" />
-                    info@mycompany.com
+                    info@peardup.com
                   </a>
                 </div>
 
                 {/* Phone Number with tel Link */}
-                <div className="">
+                {/* <div className="">
                   <a
                     href="tel:1234567890"
                     className="flex items-center justify-center md:justify-start text-sm hover:text-primary transition"
@@ -154,7 +160,7 @@ const Footer = () => (
                     <FaPhoneAlt className="mr-2" />
                     (123) 456-7890
                   </a>
-                </div>
+                </div> */}
               </ul>
             </div>
           </div>
@@ -165,7 +171,7 @@ const Footer = () => (
 
         {/* copyright part */}
         <div className="text-center text-sm">
-          &copy; {new Date().getFullYear()} MyCompany. All rights reserved.
+          &copy; {new Date().getFullYear()} Peared Inc. All rights reserved.
         </div>
       </div>
     </div>

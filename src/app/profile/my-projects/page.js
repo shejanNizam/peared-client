@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { FaArrowLeft } from "react-icons/fa";
 
 export default function MyProjects() {
   const router = useRouter();
@@ -53,10 +54,19 @@ export default function MyProjects() {
 
   return (
     <>
-      <div className="text-primary text-2xl text-center font-bold my-2">
-        My Projects
-      </div>
       <div>
+        <div className="flex justify-start items-center gap-4 ml-4 mt-2">
+          <button
+            onClick={() => router.back()}
+            className=" text-gray-600 hover:text-gray-900 focus:outline-none"
+            aria-label="Go Back"
+          >
+            <FaArrowLeft size={24} />
+          </button>
+          <div className="text-primary text-2xl text-center font-bold">
+            My Projects
+          </div>
+        </div>
         {data?.data?.length === 0 ? (
           <p className="text-red-500 min-h-screen w-full text-center text-xl font-semibold my-20">
             {" "}

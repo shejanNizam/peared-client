@@ -2,7 +2,6 @@
 
 import BottomBar from "@/components/BottomBar/BottomBar";
 import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
-import CustomHeading from "@/components/utils/CustomHeading";
 import {
   useAllProjectsQuery,
   useCreateBidProjectMutation,
@@ -158,10 +157,10 @@ export default function Projects() {
     setSearchText(value);
   };
 
-  const handleClearFilters = () => {
-    setSelectedCategory("");
-    setSearchText("");
-  };
+  // const handleClearFilters = () => {
+  //   setSelectedCategory("");
+  //   setSearchText("");
+  // };
 
   const handleBeforeUpload = (file) => {
     if (file.type !== "application/pdf") {
@@ -253,12 +252,16 @@ export default function Projects() {
 
   return (
     <>
-      <section className="py-12 bg-white">
+      <section className=" bg-white">
+        <div className="text-primary text-2xl text-center font-bold mt-2">
+          Projects List
+        </div>
         <div className="container mx-auto px-4">
-          <div className="mb-8 text-center">
+          {/* <div className="mb-8 text-center">
             <CustomHeading>Projects List </CustomHeading>
-          </div>
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
+          </div> */}
+
+          <div className="flex items-center justify-center gap-4 my-8">
             {/* <Select
               placeholder="Select Category"
               style={{ width: 200 }}
@@ -281,7 +284,7 @@ export default function Projects() {
               onChange={(e) => setSearchText(e.target.value)}
               style={{ width: 300 }}
             />
-            <Button onClick={handleClearFilters}>Clear All</Button>
+            {/* <Button onClick={handleClearFilters}>Clear All</Button> */}
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {data?.data?.project?.length === 0 ? (
@@ -620,7 +623,7 @@ export default function Projects() {
         </div>
       </Modal>
 
-      <div className=" flex justify-center pb-20 md:p-4">
+      <div className=" flex justify-center pt-4 pb-20 md:p-4">
         <Pagination
           defaultCurrent={1}
           position={["bottomCenter"]}

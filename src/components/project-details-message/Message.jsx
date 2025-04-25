@@ -7,6 +7,8 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
+import { useRouter } from "next/navigation";
+import { FaArrowLeft } from "react-icons/fa";
 import default_img from "../../assets/user_img_default.png";
 
 export default function Message({
@@ -27,6 +29,8 @@ export default function Message({
   const [pagination, setPagination] = useState(null);
   const [loadedPages, setLoadedPages] = useState(new Set());
   const containerRef = useRef(null);
+
+  const router = useRouter();
 
   const socket = useSocket();
 
@@ -152,7 +156,14 @@ export default function Message({
     <div className="flex flex-col h-[80vh] md:h-[70vh] bg-secondary rounded-lg shadow-md w-full max-w-4xl mx-auto pb-8">
       <div className="flex justify-between items-center mx-2">
         {user?.role === "provider" ? (
-          <div className="flex items-center p-2 border-b flex-shrink-0">
+          <div className=" flex items-center py-2 border-b flex-shrink-0">
+            <button
+              onClick={() => router.back()}
+              className=" text-gray-600 hover:text-gray-900 focus:outline-none"
+              aria-label="Go Back"
+            >
+              <FaArrowLeft size={20} />
+            </button>
             <Image
               src={
                 providerData?.data?.userImage
@@ -160,10 +171,10 @@ export default function Message({
                   : default_img.src
               }
               alt="Avatar"
-              width={100}
-              height={100}
+              width={1000}
+              height={1000}
               objectFit="cover"
-              className="rounded-full h-16 w-16 object-cover"
+              className="rounded-full h-12 w-12 object-cover"
             />
             <div className="ml-2">
               <div className="flex items-center gap-1">
@@ -182,7 +193,14 @@ export default function Message({
             </div>
           </div>
         ) : (
-          <div className="flex items-center p-2 border-b flex-shrink-0">
+          <div className="flex items-center py-2 border-b flex-shrink-0">
+            <button
+              onClick={() => router.back()}
+              className=" text-gray-600 hover:text-gray-900 focus:outline-none"
+              aria-label="Go Back"
+            >
+              <FaArrowLeft size={20} />
+            </button>
             <Image
               src={
                 providerData?.data?.currentProjects?.providerId?.image
@@ -193,7 +211,7 @@ export default function Message({
               width={100}
               height={100}
               objectFit="cover"
-              className="rounded-full h-16 w-16 object-cover"
+              className="rounded-full h-12 w-12 object-cover"
             />
             <div className="ml-2">
               <div className="flex items-center gap-1">

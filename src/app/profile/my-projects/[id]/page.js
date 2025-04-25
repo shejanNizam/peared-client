@@ -127,7 +127,7 @@ export default function EditProject() {
   }
 
   return (
-    <div className="min-h-screen w-full flex flex-col justify-center items-center bg-secondary p-4">
+    <div className="min-h-screen w-full flex flex-col justify-center items-center bg-secondary p-4 mb-20">
       <div className="bg-white shadow-lg rounded-lg w-full max-w-4xl p-8 relative">
         <button
           onClick={handleBack}
@@ -141,9 +141,9 @@ export default function EditProject() {
           <h2 className="text-2xl lg:text-4xl text-primary font-semibold text-center">
             Edit Project
           </h2>
-          <p className="text-center text-gray-600 mt-2">
+          {/* <p className="text-center text-gray-600 mt-2">
             Modify the details below to update your project.
-          </p>
+          </p> */}
         </div>
 
         <Form
@@ -152,7 +152,7 @@ export default function EditProject() {
           onFinish={onFinish}
           className="space-y-6"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <h3 className="text-xl text-primary font-medium mb-4">
                 Location & Image
