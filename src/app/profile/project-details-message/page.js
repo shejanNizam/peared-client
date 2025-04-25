@@ -103,6 +103,7 @@ export default function ProjectDetails(props) {
             conversationId={conversationId}
             userId={user?._id}
             providerData={data}
+            providerId={data?.data?.currentProjects?.providerId?._id}
           />
         </div>
         {/* divider */}

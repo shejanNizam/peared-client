@@ -20,6 +20,7 @@ export default function Message({
   handleProjectOk,
   handleProjectNotOk,
   handleProjectDone,
+  providerId,
 }) {
   const { user } = useSelector((state) => state.auth) || {};
   const [messages, setMessages] = useState([]);
@@ -28,11 +29,27 @@ export default function Message({
   const limit = 10;
   const [pagination, setPagination] = useState(null);
   const [loadedPages, setLoadedPages] = useState(new Set());
+  const [isActive, setIsActive] = useState(false);
   const containerRef = useRef(null);
 
   const router = useRouter();
 
   const socket = useSocket();
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("active-inactive", (data) => {
+        console.log("Ami Active ");
+        if (!data) {
+          return;
+        }
+        if (providerId === data?._id) {
+          console.log("BAr Bar---");
+          setIsActive(data.isActive);
+        }
+      });
+    }
+  }, [socket, providerId]);
 
   useEffect(() => {
     if (loadedPages.has(page)) return;
@@ -75,8 +92,9 @@ export default function Message({
 
   useEffect(() => {
     if (socket && conversationId) {
+      console.log("Conversation Joined");
       socket.emit("joinConversation", { conversationId });
-
+      console.log("Conversation Joined2");
       const handleReceiveMessage = (message) => {
         if (message.conversationId === conversationId) {
           setMessages((prev) => {
@@ -181,7 +199,12 @@ export default function Message({
                 <h2 className="text-lg sm:text-xl font-bold leading-none">
                   {providerData?.data?.userName}
                 </h2>
-                <p className="rounded-full w-1 h-1 p-1 bg-green-600 mt-2"> </p>
+                {/* show  this green icon conditionally */}
+                {isActive && (
+                  <p className="rounded-full w-1 h-1 p-1 bg-green-600 mt-2">
+                    {" "}
+                  </p>
+                )}
               </div>
 
               <button
@@ -218,7 +241,11 @@ export default function Message({
                 <h2 className="text-lg sm:text-xl font-bold leading-none">
                   {providerData?.data?.currentProjects?.providerId?.name}
                 </h2>
-                <p className="rounded-full w-1 h-1 p-1 bg-green-600 mt-2"> </p>
+                {isActive && (
+                  <p className="rounded-full w-1 h-1 p-1 bg-green-600 mt-2">
+                    {" "}
+                  </p>
+                )}
               </div>
 
               <button
