@@ -14,7 +14,7 @@ import main_logo from "../../assets/main_logo.svg";
 
 import default_img from "../../assets/user_img_default.png";
 
-const ProfileMenu = ({ handleLogout, closeMenu }) => (
+const ProfileMenu = ({ handleDeleteAccount, handleLogout, closeMenu }) => (
   <Menu>
     <Menu.Item key="1">
       <Link
@@ -32,6 +32,15 @@ const ProfileMenu = ({ handleLogout, closeMenu }) => (
         onClick={handleLogout}
       >
         Logout
+      </div>
+    </Menu.Item>
+    <Menu.Item key="3">
+      <div
+        className="font-bold text-red-600"
+        type="text"
+        onClick={handleDeleteAccount}
+      >
+        Delete Account
       </div>
     </Menu.Item>
   </Menu>
@@ -58,6 +67,12 @@ export default function Navbar() {
     { name: "Home", href: "/" },
     // { name: "Contact", href: "/contact" },
   ];
+  const navigationSm = [
+    { name: "Home", href: "/" },
+    { name: "About", href: "/about-us" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
+    { name: "Terms of Use", href: "/terms-of-use" },
+  ];
 
   const isActive = (href) =>
     pathname === href || pathname.startsWith(`${href}/`);
@@ -83,6 +98,36 @@ export default function Navbar() {
           localStorage.removeItem("user_token");
           localStorage.removeItem("selectedCategory");
           router.push("/login");
+        });
+      }
+    });
+  };
+
+  const handleDeleteAccount = () => {
+    console.log("delete account clicked");
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to delete your account? This action cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Dispatch delete account action here
+        // dispatch(deleteAccount());
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your account has been deleted.",
+          icon: "success",
+          confirmButtonColor: "#3085d6",
+        }).then(() => {
+          // dispatch(logout());
+          // localStorage.removeItem("user_token");
+          // localStorage.removeItem("selectedCategory");
+          // router.push("/login");
+          console.log("account deleted clicked");
         });
       }
     });
@@ -149,6 +194,7 @@ export default function Navbar() {
                         closeMenu={closeMenu}
                         router={router}
                         handleLogout={handleLogout}
+                        handleDeleteAccount={handleDeleteAccount}
                       />
                     }
                     trigger={["click"]}
@@ -192,6 +238,7 @@ export default function Navbar() {
                         closeMenu={closeMenu}
                         router={router}
                         handleLogout={handleLogout}
+                        handleDeleteAccount={handleDeleteAccount}
                       />
                     }
                     trigger={["click"]}
@@ -332,118 +379,120 @@ export default function Navbar() {
 
             {/* Navigation Links */}
             <nav className="mt-4">
-              {navigation.map((item) => (
-                <Link
-                  href={item.href}
-                  key={item.name}
-                  onClick={closeMenu}
-                  className={`flex items-center px-6 py-3 mt-2 ${
-                    isActive(item.href)
-                      ? "text-primary underline font-semibold"
-                      : "text-gray-700 hover:text-gray-900"
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              ))}
+              <>
+                {navigationSm.map((item) => (
+                  <Link
+                    href={item.href}
+                    key={item.name}
+                    onClick={closeMenu}
+                    className={`flex items-center px-6 py-3 mt-2 ${
+                      isActive(item.href)
+                        ? "text-primary underline font-semibold"
+                        : "text-gray-700 hover:text-gray-900"
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
 
-              {/* Divider */}
-              <hr className="my-4 border-gray-300" />
+                {/* Divider */}
+                <hr className="my-4 border-gray-300" />
 
-              {/* Action Links */}
-              {user?.role === "user" ? (
-                <>
-                  <Link
-                    href="/join-contractor"
-                    onClick={closeMenu}
-                    className="block px-6 py-3 mt-2 text-black underline hover:text-primary transition duration-200"
-                  >
-                    Join as Contractor
-                  </Link>
-                  <Dropdown
-                    overlay={
-                      <ProfileMenu
-                        closeMenu={closeMenu}
-                        router={router}
-                        handleLogout={handleLogout}
-                      />
-                    }
-                    trigger={["click"]}
-                    placement="bottomRight"
-                  >
-                    <div
-                      className={`flex justify-start items-center gap-2 px-4 py-2 mt-2 cursor-pointer ${
-                        pathname === "/profile/my-profile"
-                          ? "text-primary underline font-semibold"
-                          : "text-gray-700 hover:text-gray-900"
-                      }`}
+                {/* Action Links */}
+                {user?.role === "user" ? (
+                  <>
+                    <Link
+                      href="/join-contractor"
+                      onClick={closeMenu}
+                      className="block px-6 py-3 mt-2 text-black underline hover:text-primary transition duration-200"
                     >
-                      <Image
-                        width={1000}
-                        height={1000}
-                        className="w-16 h-16 rounded-full border-4 border-primary"
-                        src={
-                          user?.image
-                            ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${user.image}`
-                            : default_img
-                        }
-                        alt="profile_image"
-                      />
-                      <TiArrowSortedDown />
-                    </div>
-                  </Dropdown>
-                </>
-              ) : user?.role === "provider" ? (
-                <>
-                  <Link
-                    href="/projects"
-                    onClick={closeMenu}
-                    className="block px-6 py-3 mt-2 text-black hover:text-primary transition duration-200"
-                  >
-                    Projects
-                  </Link>
-                  <Link
-                    href="/profile/account-setup"
-                    onClick={closeMenu}
-                    className="block px-6 py-3 mt-2 text-black hover:text-primary transition duration-200"
-                  >
-                    Acc. Setup
-                  </Link>
-                  <Dropdown
-                    overlay={
-                      <ProfileMenu
-                        closeMenu={closeMenu}
-                        router={router}
-                        handleLogout={handleLogout}
-                      />
-                    }
-                    trigger={["click"]}
-                    placement="bottomRight"
-                  >
-                    <div
-                      className={`flex justify-start items-center gap-2 px-4 py-2 mt-2 cursor-pointer ${
-                        pathname === "/profile/my-profile"
-                          ? "text-primary underline font-semibold"
-                          : "text-gray-700 hover:text-gray-900"
-                      }`}
+                      Join as Contractor
+                    </Link>
+                    <Dropdown
+                      overlay={
+                        <ProfileMenu
+                          closeMenu={closeMenu}
+                          router={router}
+                          handleLogout={handleLogout}
+                          handleDeleteAccount={handleDeleteAccount}
+                        />
+                      }
+                      trigger={["click"]}
+                      placement="bottomRight"
                     >
-                      <Image
-                        width={1000}
-                        height={1000}
-                        className="w-16 h-16 rounded-full border-4 border-primary"
-                        src={
-                          user?.image
-                            ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${user.image}`
-                            : default_img
-                        }
-                        alt="profile_image"
-                      />
-                      <TiArrowSortedDown />
-                    </div>
-                  </Dropdown>
-                </>
-              ) : (
-                <>
+                      <div
+                        className={`flex justify-start items-center gap-2 px-4 py-2 mt-2 cursor-pointer ${
+                          pathname === "/profile/my-profile"
+                            ? "text-primary underline font-semibold"
+                            : "text-gray-700 hover:text-gray-900"
+                        }`}
+                      >
+                        <Image
+                          width={1000}
+                          height={1000}
+                          className="w-16 h-16 rounded-full border-4 border-primary"
+                          src={
+                            user?.image
+                              ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${user.image}`
+                              : default_img
+                          }
+                          alt="profile_image"
+                        />
+                        <TiArrowSortedDown />
+                      </div>
+                    </Dropdown>
+                  </>
+                ) : user?.role === "provider" ? (
+                  <>
+                    <Link
+                      href="/projects"
+                      onClick={closeMenu}
+                      className="block px-6 py-3 mt-2 text-black hover:text-primary transition duration-200"
+                    >
+                      Projects
+                    </Link>
+                    <Link
+                      href="/profile/account-setup"
+                      onClick={closeMenu}
+                      className="block px-6 py-3 mt-2 text-black hover:text-primary transition duration-200"
+                    >
+                      Acc. Setup
+                    </Link>
+                    <Dropdown
+                      overlay={
+                        <ProfileMenu
+                          closeMenu={closeMenu}
+                          router={router}
+                          handleLogout={handleLogout}
+                          handleDeleteAccount={handleDeleteAccount}
+                        />
+                      }
+                      trigger={["click"]}
+                      placement="bottomRight"
+                    >
+                      <div
+                        className={`flex justify-start items-center gap-2 px-4 py-2 mt-2 cursor-pointer ${
+                          pathname === "/profile/my-profile"
+                            ? "text-primary underline font-semibold"
+                            : "text-gray-700 hover:text-gray-900"
+                        }`}
+                      >
+                        <Image
+                          width={1000}
+                          height={1000}
+                          className="w-16 h-16 rounded-full border-4 border-primary"
+                          src={
+                            user?.image
+                              ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${user.image}`
+                              : default_img
+                          }
+                          alt="profile_image"
+                        />
+                        <TiArrowSortedDown />
+                      </div>
+                    </Dropdown>
+                  </>
+                ) : (
                   <>
                     <Link
                       href="/join-contractor"
@@ -460,8 +509,8 @@ export default function Navbar() {
                       Login
                     </Link>
                   </>
-                </>
-              )}
+                )}
+              </>
             </nav>
           </div>
         </div>
