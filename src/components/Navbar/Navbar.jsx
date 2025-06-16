@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import main_logo from "../../assets/main_logo.svg";
 
+import { useDeleteAccountMutation } from "@/redux/features/authApi";
 import default_img from "../../assets/user_img_default.png";
 
 const ProfileMenu = ({ handleDeleteAccount, handleLogout, closeMenu }) => (
@@ -49,6 +50,8 @@ const ProfileMenu = ({ handleDeleteAccount, handleLogout, closeMenu }) => (
 export default function Navbar() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+
+  const [deleteAccount] = useDeleteAccountMutation();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -103,8 +106,7 @@ export default function Navbar() {
     });
   };
 
-  const handleDeleteAccount = () => {
-    console.log("delete account clicked");
+  const handleDeleteAccount = async () => {
     Swal.fire({
       title: "Are you sure?",
       text: "Do you want to delete your account? This action cannot be undone.",
@@ -113,22 +115,32 @@ export default function Navbar() {
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        // Dispatch delete account action here
-        // dispatch(deleteAccount());
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your account has been deleted.",
-          icon: "success",
-          confirmButtonColor: "#3085d6",
-        }).then(() => {
-          // dispatch(logout());
-          // localStorage.removeItem("user_token");
-          // localStorage.removeItem("selectedCategory");
-          // router.push("/login");
-          console.log("account deleted clicked");
-        });
+        try {
+          const response = await deleteAccount().unwrap();
+
+          Swal.fire({
+            title: "Deleted!",
+            text: response?.message || "Your account has been deleted.",
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+          }).then(() => {
+            // Clear user data and redirect
+            dispatch(logout());
+            localStorage.removeItem("user_token");
+            localStorage.removeItem("selectedCategory");
+            router.push("/signup");
+          });
+        } catch (error) {
+          console.error("Failed to delete account:", error);
+          Swal.fire({
+            title: "Error!",
+            text: error.data?.message || "Failed to delete account",
+            icon: "error",
+            confirmButtonColor: "#3085d6",
+          });
+        }
       }
     });
   };
