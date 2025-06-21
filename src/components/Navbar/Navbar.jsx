@@ -72,9 +72,9 @@ export default function Navbar() {
   ];
   const navigationSm = [
     { name: "Home", href: "/" },
-    { name: "About", href: "/about-us" },
+    { name: "About Us", href: "/about-us" },
     { name: "Privacy Policy", href: "/privacy-policy" },
-    { name: "Terms of Use", href: "/terms-of-use" },
+    { name: "Terms & Conditions", href: "/terms-of-use" },
   ];
 
   const isActive = (href) =>
