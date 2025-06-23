@@ -1,14 +1,14 @@
 "use client";
 
-import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
+import { Checkbox, Rate, Spin } from "antd";
+import { format } from "date-fns";
+import { FaStar } from "react-icons/fa";
+import { ErrorSwal, SuccessSwal } from "../../../components/utils/allSwalFire";
 import {
   useAddToFavouriteMutation,
   useMyReviewsQuery,
   useProviderAllReviewsQuery,
-} from "@/redux/features/review/reviewApi";
-import { Checkbox, Rate, Spin } from "antd";
-import { format } from "date-fns";
-import { FaStar } from "react-icons/fa";
+} from "../../../redux/features/review/reviewApi";
 
 export default function MyReview() {
   const { data: myReviews, isLoading } = useMyReviewsQuery();
@@ -34,7 +34,6 @@ export default function MyReview() {
         text: response?.message,
       });
     } catch (error) {
-      console.error(error);
       ErrorSwal({
         title: "",
         text: error?.data?.message || error?.message,

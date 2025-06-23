@@ -1,6 +1,5 @@
 "use client";
 
-import { logout } from "@/redux/slices/authSlice";
 import { Dropdown, Menu } from "antd";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,8 +11,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import main_logo from "../../assets/main_logo.svg";
 
-import { useDeleteAccountMutation } from "@/redux/features/authApi";
 import default_img from "../../assets/user_img_default.png";
+import { useDeleteAccountMutation } from "../../redux/features/authApi";
+import { logout } from "../../redux/slices/authSlice";
 
 const ProfileMenu = ({ handleDeleteAccount, handleLogout, closeMenu }) => (
   <Menu>

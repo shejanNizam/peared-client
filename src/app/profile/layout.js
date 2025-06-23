@@ -1,8 +1,8 @@
 "use client";
 
-import BottomBar from "@/components/BottomBar/BottomBar";
-import Sidebar from "@/components/userDashboard/Sidebar";
 import { useState } from "react";
+import BottomBar from "../../components/BottomBar/BottomBar";
+import Sidebar from "../../components/userDashboard/Sidebar";
 
 export default function ProfileLayout({ children }) {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);

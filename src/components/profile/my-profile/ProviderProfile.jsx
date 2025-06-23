@@ -1,8 +1,5 @@
 "use client";
 
-import ChangePasswordModal from "@/components/modals/ChangePasswordModal";
-import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
-import { useUpdateUserDataMutation } from "@/redux/features/userApi";
 import { Button, Form, Input, message, Modal, Select, Upload } from "antd";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,6 +8,9 @@ import { FaPlus, FaTimes } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
 import default_img from "../../../assets/user_img_default.png";
+import { useUpdateUserDataMutation } from "../../../redux/features/userApi";
+import ChangePasswordModal from "../../modals/ChangePasswordModal";
+import { ErrorSwal, SuccessSwal } from "../../utils/allSwalFire";
 
 export default function ProviderProfile() {
   const baseUrl = process.env.NEXT_PUBLIC_IMAGE_URL;

@@ -1,6 +1,5 @@
 "use client";
 
-import CustomHeading from "@/components/utils/CustomHeading";
 import Image from "next/image";
 import { useState } from "react";
 import {
@@ -15,6 +14,7 @@ import image2 from "../../../assets/home/feedback/image2.png";
 import image3 from "../../../assets/home/feedback/image3.png";
 import image4 from "../../../assets/home/feedback/image4.png";
 import quotation_img from "../../../assets/home/feedback/quotation_img.png";
+import CustomHeading from "../../utils/CustomHeading";
 
 const Feedback = () => {
   const Feedback = [

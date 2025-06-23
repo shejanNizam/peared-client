@@ -1,9 +1,9 @@
 "use client";
 
-import { useTopReviewsQuery } from "@/redux/features/review/reviewApi";
 import { Card, Rate } from "antd";
 import dayjs from "dayjs";
 import Image from "next/image";
+import { useTopReviewsQuery } from "../../redux/features/review/reviewApi";
 
 export default function TopReviews({ providerID }) {
   const { data } = useTopReviewsQuery(providerID);

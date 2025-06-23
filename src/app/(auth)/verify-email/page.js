@@ -1,14 +1,14 @@
 "use client";
 
-import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
-import {
-  useResendOtpMutation,
-  useVerifyForgetOtpMutation,
-} from "@/redux/features/authApi";
 import { Button, Form, Input } from "antd";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
+import { ErrorSwal, SuccessSwal } from "../../../components/utils/allSwalFire";
+import {
+  useResendOtpMutation,
+  useVerifyForgetOtpMutation,
+} from "../../../redux/features/authApi";
 
 const VerifyEmail = () => {
   const router = useRouter();
@@ -171,7 +171,9 @@ const VerifyEmail = () => {
         </button>
 
         <div className="flex flex-col items-center mb-6">
-          <h2 className="text-2xl text-primary font-semibold mt-4">Verify Your Email</h2>
+          <h2 className="text-2xl text-primary font-semibold mt-4">
+            Verify Your Email
+          </h2>
           <p className="text-center text-gray-600 mt-2">
             Please enter the 6-digit OTP sent to your email.
           </p>

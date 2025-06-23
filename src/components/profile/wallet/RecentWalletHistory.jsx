@@ -1,8 +1,8 @@
-import { useRecentPaymentHistoryQuery } from "@/redux/features/payment/paymentApi";
 import { List, Pagination, Spin, Tag, Typography } from "antd";
 
 import { format } from "date-fns";
 import { useState } from "react";
+import { useRecentPaymentHistoryQuery } from "../../../redux/features/payment/paymentApi";
 
 const { Title, Text } = Typography;
 

@@ -7,10 +7,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 
-import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
-import { useReportProviderMutation } from "@/redux/features/feedback/feedbackApi";
 import Swal from "sweetalert2";
 import report_img from "../../assets/payment/report_img.png";
+import { ErrorSwal, SuccessSwal } from "../../components/utils/allSwalFire";
+import { useReportProviderMutation } from "../../redux/features/feedback/feedbackApi";
 
 const { TextArea } = Input;
 

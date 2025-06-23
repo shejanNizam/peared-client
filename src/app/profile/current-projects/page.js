@@ -1,11 +1,11 @@
 "use client";
 
-import { useCurrentProjectsQuery } from "@/redux/features/projects/projectApi";
 import { Pagination, Spin } from "antd"; // Import Pagination from antd
 import { format } from "date-fns";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useCurrentProjectsQuery } from "../../../redux/features/projects/projectApi";
 
 export default function CurrentProjects() {
   const router = useRouter();

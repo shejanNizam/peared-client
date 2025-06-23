@@ -1,4 +1,3 @@
-import CustomButton from "@/components/utils/CustomButton";
 import Image from "next/image";
 import Link from "next/link";
 import right_img1 from "../../../assets/home/whatPeared/right_img1.png";
@@ -6,6 +5,7 @@ import right_img2 from "../../../assets/home/whatPeared/right_img2.png";
 import right_img3 from "../../../assets/home/whatPeared/right_img3.png";
 import left_img from "../../../assets/home/whatPeared/whatPeared_left_img.png";
 import right_img from "../../../assets/home/whatPeared/whatPeared_right-img.png";
+import CustomButton from "../../utils/CustomButton";
 
 export default function WhatPeared() {
   return (

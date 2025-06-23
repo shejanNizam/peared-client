@@ -1,13 +1,13 @@
 "use client";
 
-import TopReviews from "@/components/reviews/TopReviews";
-import { SuccessSwal } from "@/components/utils/allSwalFire";
-import { useMyProjectBitDetailsQuery } from "@/redux/features/projects/projectApi";
 import { Button, Modal, Rate } from "antd";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaStar } from "react-icons/fa";
+import TopReviews from "../../../../components/reviews/TopReviews";
+import { SuccessSwal } from "../../../../components/utils/allSwalFire";
+import { useMyProjectBitDetailsQuery } from "../../../../redux/features/projects/projectApi";
 
 export default function ProviderDetails(props) {
   const { bitProjectId } = props.searchParams;

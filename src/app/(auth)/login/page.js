@@ -1,13 +1,13 @@
 "use client";
 
-import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
-import { useLoginMutation } from "@/redux/features/authApi";
-import { setCredentials } from "@/redux/slices/authSlice";
 import { Button, Checkbox, Form, Input } from "antd";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa";
 import { useDispatch } from "react-redux";
+import { ErrorSwal, SuccessSwal } from "../../../components/utils/allSwalFire";
+import { useLoginMutation } from "../../../redux/features/authApi";
+import { setCredentials } from "../../../redux/slices/authSlice";
 
 const Login = () => {
   const router = useRouter();

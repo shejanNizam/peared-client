@@ -1,7 +1,5 @@
 "use client";
 
-import { SuccessSwal } from "@/components/utils/allSwalFire";
-import { useAddProjectMutation } from "@/redux/features/projects/projectApi";
 import {
   Button,
   Checkbox,
@@ -18,6 +16,8 @@ import { useEffect, useState } from "react";
 import { FaArrowLeft, FaUpload } from "react-icons/fa";
 import Swal from "sweetalert2";
 import payment_img from "../../assets/payment/payment_img.png";
+import { SuccessSwal } from "../../components/utils/allSwalFire";
+import { useAddProjectMutation } from "../../redux/features/projects/projectApi";
 
 const { Option } = Select;
 const { TextArea } = Input;

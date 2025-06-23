@@ -1,9 +1,9 @@
 "use client";
 
-import { useChangePasswordMutation } from "@/redux/features/authApi";
 import { Button, Form, Input, Modal } from "antd";
 import Link from "next/link";
 import { FaTimes } from "react-icons/fa";
+import { useChangePasswordMutation } from "../../redux/features/authApi";
 import { ErrorSwal, SuccessSwal } from "../utils/allSwalFire";
 
 export default function ChangePasswordModal({ visible, onClose }) {

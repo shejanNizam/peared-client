@@ -1,4 +1,4 @@
-import baseApi from "@/redux/api/baseApi";
+import baseApi from "../../api/baseApi";
 
 export const balanceApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

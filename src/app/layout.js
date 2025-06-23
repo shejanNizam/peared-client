@@ -1,8 +1,8 @@
-import Navbar from "@/components/Navbar/Navbar";
-import { SocketProvider } from "@/context/SocketContext";
-import ThemeProvider from "@/lib/ThemeProvider";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { Poppins } from "next/font/google";
+import Navbar from "../components/Navbar/Navbar";
+import { SocketProvider } from "../context/SocketContext";
+import ThemeProvider from "../lib/ThemeProvider";
 import "./globals.css";
 import StoreProvider from "./StoreProvider";
 

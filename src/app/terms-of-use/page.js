@@ -1,7 +1,7 @@
 "use client";
 
-import { useGetTermsAndConditionsQuery } from "@/redux/features/settings/settingsApi";
 import { Spin } from "antd";
+import { useGetTermsAndConditionsQuery } from "../../redux/features/settings/settingsApi";
 
 export default function TermsOfUse() {
   const { data, isLoading } = useGetTermsAndConditionsQuery();

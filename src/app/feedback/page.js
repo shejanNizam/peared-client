@@ -1,8 +1,9 @@
 "use client";
-import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
-import { useFeedbackProviderMutation } from "@/redux/features/feedback/feedbackApi";
+
 import { Button, Form, Input, Rate } from "antd";
 import { useRouter } from "next/navigation";
+import { ErrorSwal, SuccessSwal } from "../../components/utils/allSwalFire";
+import { useFeedbackProviderMutation } from "../../redux/features/feedback/feedbackApi";
 
 export default function Feedback(props) {
   const router = useRouter();
@@ -19,7 +20,6 @@ export default function Feedback(props) {
     };
     try {
       const response = await feedback(feedbackData).unwrap();
-      console.log(response);
       SuccessSwal({
         title: "",
         text: response?.message,
@@ -27,7 +27,6 @@ export default function Feedback(props) {
       form.resetFields();
       router.push(`/`);
     } catch (error) {
-      console.log(error);
       ErrorSwal({
         title: "",
         text:

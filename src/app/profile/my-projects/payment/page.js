@@ -1,14 +1,14 @@
 "use client";
 
-import { SuccessSwal } from "@/components/utils/allSwalFire";
-import {
-  useMyProjectBitDetailsQuery,
-  useProjectApprovedMutation,
-} from "@/redux/features/projects/projectApi";
 import { Button } from "antd";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
+import { SuccessSwal } from "../../../../components/utils/allSwalFire";
+import {
+  useMyProjectBitDetailsQuery,
+  useProjectApprovedMutation,
+} from "../../../../redux/features/projects/projectApi";
 
 export default function Payment(props) {
   const { approvdProjectId } = props.searchParams;

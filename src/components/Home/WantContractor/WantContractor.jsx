@@ -1,8 +1,8 @@
-import WANT_CONTRACTOR_IMG from "@/assets/home/WantContractor/want_contractor_img.png";
 import Image from "next/image";
 import Link from "next/link";
 import { FaArrowTrendUp } from "react-icons/fa6";
 import { useSelector } from "react-redux";
+import WANT_CONTRACTOR_IMG from "../../../assets/home/WantContractor/want_contractor_img.png";
 
 export default function WantContractor() {
   const { user } = useSelector((state) => state.auth);

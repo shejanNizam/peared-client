@@ -1,9 +1,9 @@
 "use client";
 
-import { useSocket } from "@/context/SocketContext";
-import { increaseNotification } from "@/redux/slices/authSlice";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useSocket } from "../../context/SocketContext";
+import { increaseNotification } from "../../redux/slices/authSlice";
 import { useNotificationPermission } from "./useNotificationPermission";
 
 export default function NotificationListener() {

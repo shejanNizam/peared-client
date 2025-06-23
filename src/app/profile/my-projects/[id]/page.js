@@ -1,10 +1,5 @@
 "use client";
 
-import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
-import {
-  useEditProjectMutation,
-  useMySingleProjectByIdQuery,
-} from "@/redux/features/projects/projectApi";
 import {
   Button,
   Checkbox,
@@ -20,6 +15,14 @@ import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaArrowLeft, FaUpload } from "react-icons/fa";
+import {
+  ErrorSwal,
+  SuccessSwal,
+} from "../../../../components/utils/allSwalFire";
+import {
+  useEditProjectMutation,
+  useMySingleProjectByIdQuery,
+} from "../../../../redux/features/projects/projectApi";
 
 const { Option } = Select;
 

@@ -1,11 +1,11 @@
 "use client";
 
-import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
-import CustomHeading from "@/components/utils/CustomHeading";
-import { useContactUsMutation } from "@/redux/features/feedback/feedbackApi";
 import { Button, Form, Input, message } from "antd";
 import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { ErrorSwal, SuccessSwal } from "../../components/utils/allSwalFire";
+import CustomHeading from "../../components/utils/CustomHeading";
+import { useContactUsMutation } from "../../redux/features/feedback/feedbackApi";
 
 export default function Contact() {
   const { user } = useSelector((state) => state.auth);

@@ -1,11 +1,11 @@
 "use client";
 
-import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
-import { useForgotPasswordMutation } from "@/redux/features/authApi";
 import { Button, Form, Input } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa";
+import { ErrorSwal, SuccessSwal } from "../../../components/utils/allSwalFire";
+import { useForgotPasswordMutation } from "../../../redux/features/authApi";
 
 const ForgotPassword = () => {
   const router = useRouter();
@@ -50,7 +50,9 @@ const ForgotPassword = () => {
         </button>
 
         <div className="flex flex-col items-center mb-6">
-          <h2 className="text-2xl text-primary font-semibold mt-4">Forgot Password</h2>
+          <h2 className="text-2xl text-primary font-semibold mt-4">
+            Forgot Password
+          </h2>
           <p className="text-center text-gray-600 mt-2">
             Enter your account email to get OTP!
           </p>

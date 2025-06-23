@@ -11,7 +11,6 @@ import image5 from "../../../assets/home/whyPeared/image5.png";
 import image6 from "../../../assets/home/whyPeared/image6.png";
 import image7 from "../../../assets/home/whyPeared/image7.png";
 
-import CustomHeading from "@/components/utils/CustomHeading";
 import {
   FaCalendarCheck,
   FaCheckCircle,
@@ -21,6 +20,7 @@ import {
   FaServicestack,
   FaThumbsUp,
 } from "react-icons/fa";
+import CustomHeading from "../../utils/CustomHeading";
 
 const optionsData = [
   {

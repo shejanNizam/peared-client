@@ -1,10 +1,5 @@
 "use client";
 
-import { SuccessSwal } from "@/components/utils/allSwalFire";
-import {
-  useBoostProjectMutation,
-  useMyProjectsQuery,
-} from "@/redux/features/projects/projectApi";
 import { Button, Pagination, Spin } from "antd";
 import { format } from "date-fns";
 import Image from "next/image";
@@ -12,6 +7,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
+import { SuccessSwal } from "../../../components/utils/allSwalFire";
+import {
+  useBoostProjectMutation,
+  useMyProjectsQuery,
+} from "../../../redux/features/projects/projectApi";
 
 export default function MyProjects() {
   const router = useRouter();

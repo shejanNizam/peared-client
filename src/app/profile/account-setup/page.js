@@ -1,9 +1,9 @@
 "use client";
 
-import { useGetUserDataQuery } from "@/redux/features/userApi";
 import { Button, Divider, Spin } from "antd";
-import Link from "next/link"; // Import Link from Next.js
-import { FaCheck, FaTimes } from "react-icons/fa"; // Import React Icons for tick and cross
+import Link from "next/link";
+import { FaCheck, FaTimes } from "react-icons/fa";
+import { useGetUserDataQuery } from "../../../redux/features/userApi";
 
 export default function AccountSetup() {
   const { data, isLoading } = useGetUserDataQuery();

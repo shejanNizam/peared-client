@@ -1,12 +1,11 @@
 "use client";
 
-import { SuccessSwal } from "@/components/utils/allSwalFire";
-import { useAllCategoryQuery } from "@/redux/features/projects/projectApi";
 import { AutoComplete, Button, Form, Input } from "antd";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { MdArrowDropDown } from "react-icons/md";
 import { useSelector } from "react-redux";
+import { useAllCategoryQuery } from "../../../redux/features/projects/projectApi";
 
 function ServiceAddBar() {
   const { user } = useSelector((state) => state.auth);

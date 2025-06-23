@@ -1,7 +1,7 @@
 "use client";
 
-import { useMyProjectBitsQuery } from "@/redux/features/projects/projectApi";
 import { useRouter } from "next/navigation";
+import { useMyProjectBitsQuery } from "../../../../redux/features/projects/projectApi";
 import SingleBidCard from "./SingleBidCard";
 
 export default function BidList(props) {

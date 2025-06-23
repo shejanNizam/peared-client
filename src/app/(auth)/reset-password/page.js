@@ -1,11 +1,11 @@
 "use client";
 
-import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
-import { useResetPasswordMutation } from "@/redux/features/authApi";
 import { Button, Form, Input, message } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa";
+import { ErrorSwal, SuccessSwal } from "../../../components/utils/allSwalFire";
+import { useResetPasswordMutation } from "../../../redux/features/authApi";
 
 const ResetPassword = () => {
   const router = useRouter();
@@ -58,7 +58,9 @@ const ResetPassword = () => {
         </button>
 
         <div className="flex flex-col items-center mb-6">
-          <h2 className="text-2xl text-primary font-semibold mt-4">Reset Password</h2>
+          <h2 className="text-2xl text-primary font-semibold mt-4">
+            Reset Password
+          </h2>
           <p className="text-center text-gray-600 mt-2">
             Please enter your new password!
           </p>

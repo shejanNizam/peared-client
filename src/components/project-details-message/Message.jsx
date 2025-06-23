@@ -1,6 +1,5 @@
 "use client";
 
-import { useSocket } from "@/context/SocketContext";
 import { SendOutlined } from "@ant-design/icons";
 import { Button, Input } from "antd";
 import Image from "next/image";
@@ -10,6 +9,7 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa";
 import default_img from "../../assets/user_img_default.png";
+import { useSocket } from "../../context/SocketContext";
 
 export default function Message({
   conversationId,

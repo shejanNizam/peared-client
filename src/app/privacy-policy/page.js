@@ -1,7 +1,7 @@
 "use client";
 
-import { useGetPrivacyPolicyQuery } from "@/redux/features/settings/settingsApi";
 import { Spin } from "antd";
+import { useGetPrivacyPolicyQuery } from "../../redux/features/settings/settingsApi";
 
 export default function PrivacyPolicy() {
   const { data, isLoading } = useGetPrivacyPolicyQuery();

@@ -1,7 +1,7 @@
 "use client";
 
-import { useGetAboutUsQuery } from "@/redux/features/settings/settingsApi";
 import { Spin } from "antd";
+import { useGetAboutUsQuery } from "../../redux/features/settings/settingsApi";
 
 export default function AboutUs() {
   const { data, isLoading } = useGetAboutUsQuery();

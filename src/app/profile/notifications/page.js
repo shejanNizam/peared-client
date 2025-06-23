@@ -1,11 +1,11 @@
 "use client";
 
-import { useAllNotificationsQuery } from "@/redux/features/notifications/notificationsApi";
 import { Pagination, Spin } from "antd";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoNotificationsOutline } from "react-icons/io5";
+import { useAllNotificationsQuery } from "../../../redux/features/notifications/notificationsApi";
 
 export default function Notifications() {
   const router = useRouter();

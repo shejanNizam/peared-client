@@ -1,13 +1,5 @@
 "use client";
 
-import RecentWalletHistory from "@/components/profile/wallet/RecentWalletHistory";
-import WalletBalance from "@/components/profile/wallet/WalletBalance";
-import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
-import {
-  useAddBalanceMutation,
-  useMyWalletQuery,
-  useWithdrawBalanceMutation,
-} from "@/redux/features/payment/paymentApi";
 import { PlusOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -20,6 +12,14 @@ import {
 } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import RecentWalletHistory from "../../../components/profile/wallet/RecentWalletHistory";
+import WalletBalance from "../../../components/profile/wallet/WalletBalance";
+import { ErrorSwal, SuccessSwal } from "../../../components/utils/allSwalFire";
+import {
+  useAddBalanceMutation,
+  useMyWalletQuery,
+  useWithdrawBalanceMutation,
+} from "../../../redux/features/payment/paymentApi";
 
 const { Title, Text } = Typography;
 

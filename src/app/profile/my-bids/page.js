@@ -1,11 +1,11 @@
 "use client";
 
-import { usePendingBidsQuery } from "@/redux/features/projects/projectApi";
-import { Pagination, Spin } from "antd"; // Import Pagination from antd
+import { Pagination, Spin } from "antd";
 import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { usePendingBidsQuery } from "../../../redux/features/projects/projectApi";
 
 export default function MyBids() {
   const [page, setPage] = useState(1);

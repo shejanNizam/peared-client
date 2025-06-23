@@ -1,17 +1,17 @@
 "use client";
 
-import Message from "@/components/project-details-message/Message";
-import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
+import { format } from "date-fns";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import Message from "../../../components/project-details-message/Message";
+import { ErrorSwal, SuccessSwal } from "../../../components/utils/allSwalFire";
 import {
   useConfirmProjectQuery,
   useProjectDoneByProviderMutation,
   useProjectNotOkByUserMutation,
   useProjectOkByUserMutation,
-} from "@/redux/features/projects/projectApi";
-import { format } from "date-fns";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
+} from "../../../redux/features/projects/projectApi";
 
 export default function ProjectDetails(props) {
   const { user } = useSelector((state) => state.auth) || {};

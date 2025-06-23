@@ -1,11 +1,5 @@
 "use client";
 
-import BottomBar from "@/components/BottomBar/BottomBar";
-import { ErrorSwal, SuccessSwal } from "@/components/utils/allSwalFire";
-import {
-  useAllProjectsQuery,
-  useCreateBidProjectMutation,
-} from "@/redux/features/projects/projectApi";
 import { UploadOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -28,6 +22,12 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
+import BottomBar from "../../components/BottomBar/BottomBar";
+import { ErrorSwal, SuccessSwal } from "../../components/utils/allSwalFire";
+import {
+  useAllProjectsQuery,
+  useCreateBidProjectMutation,
+} from "../../redux/features/projects/projectApi";
 
 const { Text } = Typography;
 const { Option } = Select;
