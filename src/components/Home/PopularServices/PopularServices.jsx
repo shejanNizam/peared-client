@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import SERVICE1 from "../../../assets/home/services/service_1.png";
 import SERVICE2 from "../../../assets/home/services/service_2.png";
 import SERVICE3 from "../../../assets/home/services/service_3.png";
@@ -43,14 +42,21 @@ export default function PopularServices() {
         </h2>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-5">
           {services.map((service) => (
-            <Link
-              href={`/`}
+            // <Link
+            //   href={`/`}
+            //   key={service._id}
+            //   className="flex flex-col justify-center items-center gap-8 shadow-xl p-8 rounded-lg bg-secondary/50"
+            // >
+            //   <Image src={service.logo} alt="logo" width={100} height={100} />
+            //   <p className="text-sm">{service.name}</p>
+            // </Link>
+            <div
               key={service._id}
-              className="flex flex-col justify-center items-center gap-8 shadow-xl p-8 rounded-lg bg-secondary/50"
+              className="p-8 flex flex-col justify-center items-center gap-8 bg-secondary rounded-lg border shadow-sm"
             >
-              <Image src={service.logo} alt="logo" width={100} height={100} />
-              <p className="text-sm">{service.name}</p>
-            </Link>
+              <Image src={service?.logo} alt="logo" width={80} height={80} />
+              <p className="text-md italic">{service?.name}</p>
+            </div>
           ))}
         </div>
       </div>

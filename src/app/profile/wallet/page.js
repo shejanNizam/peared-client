@@ -49,7 +49,7 @@ export default function Wallet() {
 
     try {
       const response = await addBalance({ amount: balanceAmount }).unwrap();
-      // console.log(response);
+      console.log(response);
       if (response?.success) {
         window.location.href = response?.data;
       }
@@ -67,7 +67,7 @@ export default function Wallet() {
       const response = await withdrawBanalce({
         amount: balanceAmount,
       }).unwrap();
-      console.log(response);
+      // console.log(response);
       if (response?.success) {
         if (response?.data?.url) {
           window.location.href = response?.data?.url;
@@ -145,9 +145,9 @@ export default function Wallet() {
       {/* Add Balance Modal */}
       <Modal
         title="Add Balance"
-        visible={isAddBalanceModalOpen}
+        open={isAddBalanceModalOpen}
         onCancel={closeAddBalanceModal}
-        footer={null} // We'll handle buttons within the form
+        footer={null}
         destroyOnClose
       >
         <Form
