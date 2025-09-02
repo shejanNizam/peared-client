@@ -23,11 +23,17 @@ export default function AboutUs() {
         </div>
         <div>
           {/* Render the HTML content from the API */}
-          {data?.data[0]?.description && (
-            <div
-              className="p-6 rounded-lg shadow-md mb-8 prose max-w-none"
-              dangerouslySetInnerHTML={{ __html: data?.data[0]?.description }}
-            />
+          {data?.data[0]?.description ? (
+            <>
+              <div
+                className="p-6 rounded-lg shadow-sm mb-8 prose max-w-none"
+                dangerouslySetInnerHTML={{ __html: data?.data[0]?.description }}
+              />
+            </>
+          ) : (
+            <>
+              <h3 className="mt-12">About us not yet!!</h3>
+            </>
           )}
         </div>
       </div>
