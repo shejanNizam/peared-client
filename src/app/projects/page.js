@@ -468,7 +468,7 @@ export default function Projects() {
         open={isBidModalOpen}
         onCancel={handleCloseBidModal}
         footer={null}
-        destroyOnClose
+        destroyOnHidden
         title={
           <h2 className="text-xl font-bold text-primary">Bid this project</h2>
         }
@@ -531,7 +531,7 @@ export default function Projects() {
                   Upload Document (PDF)
                 </span>
               }
-              required
+              // required
               name="certificate"
               valuePropName="fileList"
               getValueFromEvent={({ fileList }) => fileList}
