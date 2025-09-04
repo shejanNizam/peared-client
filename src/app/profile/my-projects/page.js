@@ -67,8 +67,8 @@ export default function MyProjects() {
             My Projects
           </div>
         </div>
-        {data?.data?.length === 0 ? (
-          <p className="text-red-500 min-h-screen w-full text-center text-xl font-semibold my-20">
+        {data?.data?.projects?.length === 0 ? (
+          <p className=" min-h-screen w-full text-center text-xl font-semibold my-20">
             {" "}
             Please add your{" "}
             <Link href={"/"}>
