@@ -6,6 +6,7 @@ import { useState } from "react";
 import { MdArrowDropDown } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { useAllCategoryQuery } from "../../../redux/features/projects/projectApi";
+import { SuccessSwal } from "../../utils/allSwalFire";
 
 function ServiceAddBar() {
   const { user } = useSelector((state) => state.auth);
@@ -21,17 +22,16 @@ function ServiceAddBar() {
     );
 
     localStorage.setItem("selectedCategory", selectedCategory.catagory);
-    router.push(`/add-project`);
 
-    // if (user) {
-    //   router.push(`/add-project`);
-    // } else {
-    //   SuccessSwal({
-    //     title: "",
-    //     text: " Please login first! ",
-    //   });
-    //   router.push(`/login?redirect=/add-project`);
-    // }
+    if (user) {
+      router.push(`/add-project`);
+    } else {
+      SuccessSwal({
+        title: "",
+        text: " Please login first! ",
+      });
+      router.push(`/login?redirect=/add-project`);
+    }
   };
 
   const handleSelect = (value) => {
@@ -41,7 +41,6 @@ function ServiceAddBar() {
   return (
     <div className="flex justify-center items-center mt-4 md:mt-8">
       <div className="flex w-full max-w-4xl sm:max-w-5xl lg:max-w-6xl p-4 h-auto">
-        {/* Ant Design Form */}
         <Form
           layout="inline"
           className="flex w-full items-center justify-center flex-wrap gap-8 md:gap-4"
@@ -56,7 +55,7 @@ function ServiceAddBar() {
           >
             <AutoComplete
               options={suggestions?.map((suggestion) => ({
-                value: suggestion.catagory, // Corrected field
+                value: suggestion.catagory,
               }))}
               onSelect={handleSelect}
               onSearch={setSearchTerm}

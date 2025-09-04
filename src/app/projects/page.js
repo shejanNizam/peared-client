@@ -45,13 +45,13 @@ const modalVariants = {
   exit: { scale: 0.8, opacity: 0 },
 };
 
-const categories = [
-  { _id: "1", name: "Residential Cleaning" },
-  { _id: "2", name: "Commercial Cleaning" },
-  { _id: "3", name: "Painting" },
-  { _id: "4", name: "Landscaping" },
-  { _id: "5", name: "Carpentry" },
-];
+// const categories = [
+//   { _id: "1", name: "Residential Cleaning" },
+//   { _id: "2", name: "Commercial Cleaning" },
+//   { _id: "3", name: "Painting" },
+//   { _id: "4", name: "Landscaping" },
+//   { _id: "5", name: "Carpentry" },
+// ];
 
 export default function Projects() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -102,7 +102,7 @@ export default function Projects() {
   }, []);
 
   const handlePageChange = (page) => {
-    setCurrentPage(page); // Set the current page
+    setCurrentPage(page);
   };
 
   const handleClickProjectDetails = (project) => {

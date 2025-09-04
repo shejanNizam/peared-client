@@ -11,7 +11,6 @@ import WhatPeared from "../components/Home/WhatPeared/WhatPeared";
 import WhyPeared from "../components/Home/WhyPeared/WhyPeared";
 
 export default function Home() {
-  // const { user } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.auth);
   return (
     <>
