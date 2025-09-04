@@ -95,6 +95,7 @@ const JoinAsContractor = () => {
           response?.data?.message ||
           "Successfully joined as a contractor!",
       });
+      router.push("/login");
     } catch (error) {
       ErrorSwal({
         title: "",
