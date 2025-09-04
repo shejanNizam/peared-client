@@ -47,11 +47,9 @@ export default function Notifications() {
         <h2>All Notifications</h2>
       </div>
 
-      <div className="md:ml-6">
+      <div className="md:ml-6 min-h-screen">
         {paginatedData?.length === 0 ? (
-          <div className="text-center text-red-500 mt-4">
-            No notifications available
-          </div>
+          <div className="text-center mt-20">No notifications available</div>
         ) : (
           paginatedData?.map((notification) => (
             <div

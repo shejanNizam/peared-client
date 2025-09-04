@@ -35,7 +35,7 @@ export default function CurrentProjects() {
       </div>
       <div className="py-8">
         {myProject?.length === 0 ? (
-          <p className="text-red-500 min-h-screen w-full text-center text-xl font-semibold my-20">
+          <p className="min-h-screen w-full text-center text-xl font-semibold my-20">
             After approval, you can see your current project.
           </p>
         ) : (

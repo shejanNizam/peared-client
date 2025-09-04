@@ -13,10 +13,7 @@ export default function MyBids() {
   const { data, isLoading } = usePendingBidsQuery({ page });
   const myProject = data?.data?.pendingsBits || [];
 
-  // Handle page change
   const handlePageChange = (page) => {
-    // This will handle the page change; you'd need to pass the page to your query or API call
-    // For example, you might use `usePendingBidsQuery({ page })` if it accepts page as a parameter.
     console.log("Page changed to: ", page);
   };
 
@@ -36,7 +33,7 @@ export default function MyBids() {
       <div className=" py-8 ">
         {myProject?.length === 0 ? (
           <>
-            <p className="text-red-500 min-h-screen w-full text-center text-xl font-semibold my-20">
+            <p className="min-h-screen w-full text-center text-xl font-semibold my-20">
               No bid projects found{" "}
               <Link href={"/projects"}>
                 <span className="text-purple-500 underline"> bid project </span>
