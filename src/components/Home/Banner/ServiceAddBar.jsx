@@ -20,7 +20,6 @@ function ServiceAddBar() {
     const selectedCategory = suggestions.find(
       (item) => item.catagory === searchTerm
     );
-
     localStorage.setItem("selectedCategory", selectedCategory.catagory);
 
     if (user) {
