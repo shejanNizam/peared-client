@@ -105,7 +105,7 @@ const AddProject = () => {
     } catch (error) {
       const statusCode = error?.data?.statusCode;
       console.log(statusCode);
-      if (statusCode === 402) {
+      if (statusCode === 402 || statusCode === 510) {
         Swal.fire({
           text:
             error?.message || error?.data?.message || "something went wrong",

@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
+import { MdOutlineVerified } from "react-icons/md";
 import { SuccessSwal } from "../../../components/utils/allSwalFire";
 import {
   useBoostProjectMutation,
@@ -121,25 +122,31 @@ export default function MyProjects() {
                   </p>
 
                   <div className="flex justify-around ">
-                    <Button
-                      type="primary"
-                      onClick={
-                        project?.isApprove === false &&
+                    {project?.isComplete === true ? (
+                      <span className="text-sm text-primary font-semibold flex items-center gap-1">
+                        Completed <MdOutlineVerified />
+                      </span>
+                    ) : (
+                      <Button
+                        type="primary"
+                        onClick={
+                          project?.isApprove === false &&
+                          project?.payment === false
+                            ? () => handleBoostProject(project._id)
+                            : project?.isApprove
+                            ? () => handleGoToMessage(project)
+                            : () => handleOpenProject(project)
+                        }
+                        className="bg-primary/80 text-white px-4 py-2 rounded hover:bg-primary transition-colors duration-300"
+                      >
+                        {project?.isApprove === false &&
                         project?.payment === false
-                          ? () => handleBoostProject(project._id)
+                          ? "Boost"
                           : project?.isApprove
-                          ? () => handleGoToMessage(project)
-                          : () => handleOpenProject(project)
-                      }
-                      className="bg-primary/80 text-white px-4 py-2 rounded hover:bg-primary transition-colors duration-300"
-                    >
-                      {project?.isApprove === false &&
-                      project?.payment === false
-                        ? "Boost"
-                        : project?.isApprove
-                        ? "Message"
-                        : "Open"}
-                    </Button>
+                          ? "Message"
+                          : "Open"}
+                      </Button>
+                    )}
 
                     {project?.isApprove === false && (
                       <Button
