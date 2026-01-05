@@ -1,9 +1,8 @@
 "use client";
 
-import { AutoComplete, Button, Form, Input } from "antd";
+import { AutoComplete, Button, Form, Input, Select } from "antd";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { MdArrowDropDown } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { useAllCategoryQuery } from "../../../redux/features/projects/projectApi";
 import { SuccessSwal } from "../../utils/allSwalFire";
@@ -42,7 +41,7 @@ function ServiceAddBar() {
       <div className="flex w-full max-w-4xl sm:max-w-5xl lg:max-w-6xl p-4 h-auto">
         <Form
           layout="inline"
-          className="flex w-full items-center justify-center flex-wrap gap-8 md:gap-4"
+          className="flex w-full justify-center flex-wrap gap-6 md:gap-2"
           onFinish={handleAdd}
         >
           <Form.Item
@@ -52,7 +51,7 @@ function ServiceAddBar() {
             ]}
             className="w-full sm:w-2/3 lg:w-3/4 xl:w-1/2"
           >
-            <AutoComplete
+            {/* <AutoComplete
               options={suggestions?.map((suggestion) => ({
                 value: suggestion.catagory,
               }))}
@@ -67,14 +66,25 @@ function ServiceAddBar() {
                 className="border border-primary px-4 py-2 focus:outline-none"
                 suffix={<MdArrowDropDown />}
               />
-            </AutoComplete>
+            </AutoComplete> */}
+            <Select
+              onSelect={handleSelect}
+              showSearch={false}
+              placeholder="Select a person"
+              options={suggestions?.map((suggestion) => ({
+                value: suggestion.catagory,
+                label: suggestion.catagory,
+              }))}
+              style={{ width: "100%" }}
+              size="large"
+            />
           </Form.Item>
-
           {/* Add Button */}
           <Form.Item className="w-full sm:w-auto sm:ml-4 mt-4 sm:mt-0">
             <Button
               type="primary"
               htmlType="submit"
+              size="large"
               className="bg-primary text-white hover:bg-white hover:text-primary hover:border hover:border-primary transition duration-300 w-full sm:w-auto"
             >
               Add
