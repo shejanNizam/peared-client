@@ -70,7 +70,7 @@ function ServiceAddBar() {
             <Select
               onSelect={handleSelect}
               showSearch={false}
-              placeholder="Select a person"
+              placeholder="What type of services are you looking for?"
               options={suggestions?.map((suggestion) => ({
                 value: suggestion.catagory,
                 label: suggestion.catagory,
