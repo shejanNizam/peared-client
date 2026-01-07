@@ -182,7 +182,12 @@ export default function Navbar() {
                   </Link>
                 ))}
               </div>
-
+              <Link
+                href="/projects"
+                className="text-black hover:text-primary underline transition duration-200"
+              >
+                Projects
+              </Link>
               {/* Action Buttons */}
               {user?.role === "user" ? (
                 <>
@@ -230,12 +235,6 @@ export default function Navbar() {
                 </>
               ) : user?.role === "provider" ? (
                 <>
-                  <Link
-                    href="/projects"
-                    className="text-black hover:text-primary underline transition duration-200"
-                  >
-                    Projects
-                  </Link>
                   {user && (
                     <Link
                       href="/profile/notifications"

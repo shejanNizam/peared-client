@@ -28,6 +28,7 @@ import {
   useAllProjectsQuery,
   useCreateBidProjectMutation,
 } from "../../redux/features/projects/projectApi";
+import { useSelector } from "react-redux";
 
 const { Text } = Typography;
 const { Option } = Select;
@@ -54,6 +55,7 @@ const modalVariants = {
 // ];
 
 export default function Projects() {
+  const { user } = useSelector((state) => state.auth);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
@@ -346,12 +348,14 @@ export default function Projects() {
                         >
                           Learn More
                         </button>
-                        <button
-                          onClick={() => handleOpenBidModal(project)}
-                          className="bg-primary/80 text-white px-4 py-2 rounded hover:bg-primary transition-colors duration-300"
-                        >
-                          Bid
-                        </button>
+                        {user?.role === "provider" && (
+                          <button
+                            onClick={() => handleOpenBidModal(project)}
+                            className="bg-primary/80 text-white px-4 py-2 rounded hover:bg-primary transition-colors duration-300"
+                          >
+                            Bid
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>
