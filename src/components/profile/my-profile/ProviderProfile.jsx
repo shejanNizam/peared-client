@@ -405,6 +405,7 @@ export default function ProviderProfile() {
                   beforeUpload={handleBeforeUpload}
                   onChange={handleFileChange}
                   showUploadList={false}
+                  accept="image/*"
                   className="absolute top-8 right-8"
                 >
                   <div

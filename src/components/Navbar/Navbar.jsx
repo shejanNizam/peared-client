@@ -72,6 +72,7 @@ export default function Navbar() {
   ];
   const navigationSm = [
     { name: "Home", href: "/" },
+    { name: "Projects", href: "/projects" },
     { name: "About Us", href: "/about-us" },
     { name: "Privacy Policy", href: "/privacy-policy" },
     { name: "Terms & Conditions", href: "/terms-of-use" },

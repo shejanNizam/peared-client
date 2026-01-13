@@ -237,6 +237,7 @@ export default function UserProfile() {
                   beforeUpload={handleBeforeUpload}
                   onChange={handleFileChange}
                   showUploadList={false}
+                  accept="image/*"
                   className="absolute top-0 right-0"
                 >
                   <div
