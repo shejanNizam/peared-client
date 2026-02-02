@@ -22,13 +22,13 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
+import { useSelector } from "react-redux";
 import BottomBar from "../../components/BottomBar/BottomBar";
 import { ErrorSwal, SuccessSwal } from "../../components/utils/allSwalFire";
 import {
   useAllProjectsQuery,
   useCreateBidProjectMutation,
 } from "../../redux/features/projects/projectApi";
-import { useSelector } from "react-redux";
 
 const { Text } = Typography;
 const { Option } = Select;
@@ -218,6 +218,7 @@ export default function Projects() {
 
     try {
       const response = await bidProject(formData).unwrap();
+      console.log(response);
 
       if (response?.data?._id) {
         SuccessSwal({
